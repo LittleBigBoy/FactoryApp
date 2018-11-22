@@ -122,7 +122,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.iv_car:
-                finish();
+                startActivity(new Intent(mActivity,ShoppingCartActivity.class));
                 break;
         }
     }

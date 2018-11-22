@@ -199,7 +199,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/car_top" />
+                android:src="@drawable/service_kf" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -221,7 +221,7 @@
                 android:id="@+id/col_img"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/car_top" />
+                android:src="@drawable/star_select_selector" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -232,7 +232,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/shopping_car_ll"
+            android:id="@+id/shopping_cart_ll"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

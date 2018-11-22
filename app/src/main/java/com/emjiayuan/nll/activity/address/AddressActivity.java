@@ -59,6 +59,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
     RecyclerView mRv;
     private List<Address> mAddressList=new ArrayList<>();
     private AddressAdapter mAddressAdapter;
+    private boolean flag;
 
     @Override
     protected int setLayoutId() {
@@ -67,6 +68,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initData() {
+        flag = getIntent().getBooleanExtra("flag", false);
         EventBus.getDefault().register(this);
         mTvTitle.setText("地址管理");
         mTvTitle.setVisibility(View.VISIBLE);
@@ -93,6 +95,20 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                     case R.id.delete_ll:
                         delete(mAddressList.get(position).getId());
                         break;
+                }
+            }
+        });
+        mAddressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (!MyUtils.isFastClick()){
+                    return;
+                }
+                if (flag) {
+                    Intent intent = new Intent();
+                    intent.putExtra("address", mAddressList.get(position));
+                    setResult(100, intent);
+                    finish();
                 }
             }
         });

@@ -1,5 +1,7 @@
 package com.emjiayuan.nll.fragment;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +11,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.emjiayuan.nll.Global;
 import com.emjiayuan.nll.R;
+import com.emjiayuan.nll.activity.OrderDetailActivity;
 import com.emjiayuan.nll.adapter.OrderAdapter;
 import com.emjiayuan.nll.adapter.SoupOrderAdapter;
 import com.emjiayuan.nll.base.BaseLazyFragment;
@@ -16,6 +19,7 @@ import com.emjiayuan.nll.model.Order;
 import com.emjiayuan.nll.model.SoupOrder;
 import com.emjiayuan.nll.utils.MyOkHttp;
 import com.emjiayuan.nll.utils.MyUtils;
+import com.emjiayuan.nll.widget.RecyclerViewDivider;
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -96,16 +100,16 @@ public class ViewPagerFragment extends BaseLazyFragment {
         if ("0".equals(mParam2)){
             mOrderAdapter = new OrderAdapter(R.layout.order_item, mOrderArrayList);
             mOrderAdapter.setEmptyView(getEmptyView());
-            mOrderAdapter.openLoadAnimation();
-            mOrderAdapter.isFirstOnly(false);
-            mOrderAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+//            mOrderAdapter.openLoadAnimation();
+//            mOrderAdapter.isFirstOnly(false);
+//            mOrderAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
             mRvOrder.setAdapter(mOrderAdapter);
             mOrderAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                                    Intent intent = new Intent(mActivity, OrderDetailActivity.class);
-//                                    intent.putExtra("collegeid", mOrderArrayList.get(position).getId());
-//                                    startActivity(intent);
+                    Intent intent = new Intent(mActivity, OrderDetailActivity.class);
+                    intent.putExtra("orderid", mOrderArrayList.get(position).getId());
+                    startActivity(intent);
                 }
             });
             getOrderList();
@@ -113,6 +117,8 @@ public class ViewPagerFragment extends BaseLazyFragment {
                 @Override
                 public void onRefresh(RefreshLayout refreshLayout) {
                     pageindex = 1;
+                    mOrderArrayList.clear();
+                    mRefreshLayout.setNoMoreData(false);
                     getOrderList();
                 }
             });
@@ -126,9 +132,9 @@ public class ViewPagerFragment extends BaseLazyFragment {
         }else{
             mSoupOrderAdapter = new SoupOrderAdapter(R.layout.order_item, mSoupOrderArrayList);
             mSoupOrderAdapter.setEmptyView(getEmptyView());
-            mSoupOrderAdapter.openLoadAnimation();
-            mSoupOrderAdapter.isFirstOnly(false);
-            mSoupOrderAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+//            mSoupOrderAdapter.openLoadAnimation();
+//            mSoupOrderAdapter.isFirstOnly(false);
+//            mSoupOrderAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
             mRvOrder.setAdapter(mSoupOrderAdapter);
             mSoupOrderAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                 @Override
@@ -154,6 +160,8 @@ public class ViewPagerFragment extends BaseLazyFragment {
                 @Override
                 public void onRefresh(RefreshLayout refreshLayout) {
                     pageindex = 1;
+                    mSoupOrderArrayList.clear();
+                    mRefreshLayout.setNoMoreData(false);
                     getSoupOrder();
                 }
             });
@@ -171,7 +179,7 @@ public class ViewPagerFragment extends BaseLazyFragment {
     @Override
     protected void initView() {
         mRvOrder.setLayoutManager(new LinearLayoutManager(mActivity));
-//        mRvCollege.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL, 2, Color.parseColor("#E6E6E6")));
+        mRvOrder.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL, 20, Color.parseColor("#EEEEEE")));
     }
 
     @Override
@@ -193,7 +201,7 @@ public class ViewPagerFragment extends BaseLazyFragment {
         formBody.add("isProduct", "1");
         formBody.add("type", "0");
         formBody.add("pageindex", Integer.toString(pageindex));
-        formBody.add("pagesize", "40");
+        formBody.add("pagesize", "1");
         Log.d("------参数------", formBody.build().toString());
 //new call
         Call call = MyOkHttp.GetCall("order.getOrderList", formBody);
@@ -269,13 +277,14 @@ public class ViewPagerFragment extends BaseLazyFragment {
                         if ("200".equals(code)) {
 //                            stateLayout.changeState(StateFrameLayout.SUCCESS);
                             JSONArray dataArray = new JSONArray(data);
-                            mOrderArrayList = new ArrayList<>();
                             for (int i = 0; i < dataArray.length(); i++) {
                                 mOrderArrayList.add(gson.fromJson(dataArray.getJSONObject(i).toString(), Order.class));
                             }
                             mOrderAdapter.setNewData(mOrderArrayList);
                         } else {
-
+                            if (pageindex!=1){
+                                mRefreshLayout.setNoMoreData(true);
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -299,7 +308,9 @@ public class ViewPagerFragment extends BaseLazyFragment {
                             }
                             mSoupOrderAdapter.setNewData(mSoupOrderArrayList);
                         } else {
-
+                            if (pageindex!=1){
+                                mRefreshLayout.setNoMoreData(true);
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

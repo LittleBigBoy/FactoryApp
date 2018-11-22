@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fffbe5"
     android:orientation="vertical">
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -45,6 +46,18 @@
             android:layout_height="30dp"
             android:layout_marginRight="20dp"
             android:layout_gravity="right"
+            android:visibility="gone"
             android:src="@drawable/car_top"/>
     </androidx.appcompat.widget.Toolbar>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/shopping_cart_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/car_top"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="@dimen/dp_10"
+        app:fabSize="normal"
+        app:elevation="5dp"
+        app:backgroundTint="@color/yellow"
+        app:rippleColor="@color/red"/>
 </FrameLayout>

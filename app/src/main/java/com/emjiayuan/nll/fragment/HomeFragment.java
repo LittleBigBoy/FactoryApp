@@ -8,8 +8,10 @@ import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.emjiayuan.nll.Global;
 import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.activity.CourseDetailActivity;
 import com.emjiayuan.nll.activity.NewsDetailActivity;
@@ -164,6 +166,7 @@ public class HomeFragment extends BaseLazyFragment {
     }
 
 
+    private TextView mHomeText;
     Handler myHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -195,6 +198,8 @@ public class HomeFragment extends BaseLazyFragment {
                             mNewsAdapter = new NewsAdapter(R.layout.news_item, mNewsArrayList);
                             View top=LayoutInflater.from(mActivity).inflate(R.layout.home_top,null);
                             rvTop=top.findViewById(R.id.rv_top);
+                            mHomeText =top.findViewById(R.id.home_text);
+                            mHomeText.setText("尊贵的"+Global.mUserInfo.getTruename() +"您好！\n恭喜您成为伊穆家园第"+mRanknum+"位会员!");
                             mCourseAdapter.addHeaderView(top);
                             mCourseAdapter.openLoadAnimation();
                             mCourseAdapter.isFirstOnly(false);

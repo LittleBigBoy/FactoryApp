@@ -180,6 +180,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if ("200".equals(code)) {
                             JSONObject jsonObject1=new JSONObject(data);
                             mUserInfo = gson.fromJson(jsonObject1.getJSONObject("info").toString(),UserInfo.class);
+                            Global.mUserInfo=mUserInfo;
                             /*status 状态 -1=禁用 0=默认 1=待审核(已提交资料) 2=不通过(资料不正确) 3=待支付(通过审核) 10=正常(已支付)*/
                             if ("0".equals(Global.loginResult.getStatus())){
                                 if (null==mUserInfo.getTruename()){

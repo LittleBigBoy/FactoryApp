@@ -3,7 +3,7 @@ package com.emjiayuan.nll.model;
 import java.io.Serializable;
 import java.util.List;
 
-public class OrderComfirm implements Serializable {
+public class OrderConfirm implements Serializable {
 
 
     /**

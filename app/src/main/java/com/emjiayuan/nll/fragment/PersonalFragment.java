@@ -7,14 +7,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.emjiayuan.nll.Global;
 import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.activity.EnterpriseActivity;
 import com.emjiayuan.nll.activity.HelpActivity;
 import com.emjiayuan.nll.activity.HezuoActivity;
+import com.emjiayuan.nll.activity.LogisticsActivity;
 import com.emjiayuan.nll.activity.OrderNormalActivity;
+import com.emjiayuan.nll.activity.SettingActivity;
 import com.emjiayuan.nll.activity.SpitActivity;
 import com.emjiayuan.nll.activity.address.AddressActivity;
 import com.emjiayuan.nll.base.BaseLazyFragment;
+import com.qiyukf.unicorn.api.ConsultSource;
+import com.qiyukf.unicorn.api.Unicorn;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
 
@@ -139,7 +146,9 @@ public class PersonalFragment extends BaseLazyFragment implements View.OnClickLi
     @Override
     protected void initView() {
         refreshLayout.setEnableLoadMore(false);
-
+        Glide.with(mActivity).load(Global.mUserInfo.getHeadimg()).apply(RequestOptions.circleCropTransform().placeholder(R.drawable.default_tx).error(R.drawable.default_tx)).into(mProfileImage);
+        mNickname.setText(Global.mUserInfo.getTruename());
+        mNickname.setTextColor(getResources().getColor(R.color.gray_one));
     }
 
     @Override
@@ -225,13 +234,28 @@ public class PersonalFragment extends BaseLazyFragment implements View.OnClickLi
                 startActivity(intent);
                 break;
             case R.id.wlcx_ll:
-                startActivity(new Intent(mActivity,EnterpriseActivity.class));
+                startActivity(new Intent(mActivity,LogisticsActivity.class));
                 break;
             case R.id.address_ll:
                 startActivity(new Intent(mActivity,AddressActivity.class));
                 break;
             case R.id.service_ll:
-                startActivity(new Intent(mActivity,EnterpriseActivity.class));
+                String title = "伊穆家园客服";
+                /**
+                 * 设置访客来源，标识访客是从哪个页面发起咨询的，用于客服了解用户是从什么页面进入。
+                 * 三个参数分别为：来源页面的url，来源页面标题，来源页面额外信息（保留字段，暂时无用）。
+                 * 设置来源后，在客服会话界面的"用户资料"栏的页面项，可以看到这里设置的值。
+                 */
+                ConsultSource source = new ConsultSource("app", "app", "custom information string");
+                /**
+                 * 请注意： 调用该接口前，应先检查Unicorn.isServiceAvailable()，
+                 * 如果返回为false，该接口不会有任何动作
+                 *
+                 * @param context 上下文
+                 * @param title   聊天窗口的标题
+                 * @param source  咨询的发起来源，包括发起咨询的url，title，描述信息等
+                 */
+                Unicorn.openServiceActivity(mActivity, title, source);
                 break;
             case R.id.spit_ll:
                 startActivity(new Intent(mActivity,SpitActivity.class));
@@ -252,7 +276,7 @@ public class PersonalFragment extends BaseLazyFragment implements View.OnClickLi
                 startActivity(new Intent(mActivity,EnterpriseActivity.class));
                 break;
             case R.id.setting_ll:
-                startActivity(new Intent(mActivity,EnterpriseActivity.class));
+                startActivity(new Intent(mActivity,SettingActivity.class));
                 break;
         }
     }

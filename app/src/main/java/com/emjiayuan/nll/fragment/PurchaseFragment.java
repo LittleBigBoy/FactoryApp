@@ -12,12 +12,14 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.activity.ProductActivity;
+import com.emjiayuan.nll.activity.ShoppingCartActivity;
 import com.emjiayuan.nll.adapter.CategoryAdapter;
 import com.emjiayuan.nll.base.BaseLazyFragment;
 import com.emjiayuan.nll.model.Category;
 import com.emjiayuan.nll.utils.GlideImageLoader;
 import com.emjiayuan.nll.utils.MyOkHttp;
 import com.emjiayuan.nll.utils.MyUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -42,7 +44,7 @@ import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.Response;
 
-public class PurchaseFragment extends BaseLazyFragment {
+public class PurchaseFragment extends BaseLazyFragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -55,6 +57,8 @@ public class PurchaseFragment extends BaseLazyFragment {
     RecyclerView mRvCategory;
     @BindView(R.id.iv_car)
     ImageView mIvCar;
+    @BindView(R.id.shopping_cart_fab)
+    FloatingActionButton mShoppingCartFab;
 
     private String mParam1;
     private String mParam2;
@@ -66,7 +70,7 @@ public class PurchaseFragment extends BaseLazyFragment {
             "http://qiniu.emjiayuan.com/upload_file/ems/2018100911071275167",
             "http://qiniu.emjiayuan.com/upload_file/ems/2018071817991346559",
     };
-    
+
     private List<Category> categoryList = new ArrayList<>();
 
     public PurchaseFragment() {
@@ -124,7 +128,8 @@ public class PurchaseFragment extends BaseLazyFragment {
 
     @Override
     protected void setListener() {
-
+        mIvCar.setOnClickListener(this);
+        mShoppingCartFab.setOnClickListener(this);
     }
 
     public void reqCategory() {
@@ -197,8 +202,8 @@ public class PurchaseFragment extends BaseLazyFragment {
                             categoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                    Intent intent=new Intent(mActivity, ProductActivity.class);
-                                    intent.putExtra("categoryid",categoryList.get(position).getId());
+                                    Intent intent = new Intent(mActivity, ProductActivity.class);
+                                    intent.putExtra("categoryid", categoryList.get(position).getId());
                                     startActivity(intent);
                                 }
                             });
@@ -225,5 +230,17 @@ public class PurchaseFragment extends BaseLazyFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_car:
+                startActivity(new Intent(mActivity, ShoppingCartActivity.class));
+                break;
+            case R.id.shopping_cart_fab:
+                startActivity(new Intent(mActivity, ShoppingCartActivity.class));
+                break;
+        }
     }
 }

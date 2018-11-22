@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="#EEEEEE"
     android:descendantFocusability="blocksDescendants"
     android:padding="10dp"
     android:orientation="horizontal">
@@ -14,6 +14,7 @@
         android:layout_marginRight="10dp"
         android:layout_gravity="center"
         android:background="@color/white"
+        android:scaleType="fitXY"
         android:src="@drawable/product" />
 
     <LinearLayout

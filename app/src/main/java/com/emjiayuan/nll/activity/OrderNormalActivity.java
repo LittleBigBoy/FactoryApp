@@ -61,15 +61,15 @@ public class OrderNormalActivity extends BaseActivity implements View.OnClickLis
         mTvTitle.setText(order_type);
         mTvTitle.setVisibility(View.VISIBLE);
         if ("普通订单".equals(order_type)){
-            mViewPagerFragmentList.add(ViewPagerFragment.newInstance("","0"));
-            mViewPagerFragmentList.add(ViewPagerFragment.newInstance("0","0"));
             mViewPagerFragmentList.add(ViewPagerFragment.newInstance("1","0"));
             mViewPagerFragmentList.add(ViewPagerFragment.newInstance("2","0"));
+            mViewPagerFragmentList.add(ViewPagerFragment.newInstance("3","0"));
+            mViewPagerFragmentList.add(ViewPagerFragment.newInstance("","0"));
         }else{
-            mViewPagerFragmentList.add(ViewPagerFragment.newInstance("","1"));
-            mViewPagerFragmentList.add(ViewPagerFragment.newInstance("0","1"));
             mViewPagerFragmentList.add(ViewPagerFragment.newInstance("1","1"));
             mViewPagerFragmentList.add(ViewPagerFragment.newInstance("2","1"));
+            mViewPagerFragmentList.add(ViewPagerFragment.newInstance("3","1"));
+            mViewPagerFragmentList.add(ViewPagerFragment.newInstance("","1"));
         }
         mMyPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mVpTabPager.setAdapter(mMyPagerAdapter);
