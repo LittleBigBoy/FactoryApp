@@ -1,0 +1,63 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.emjiayuan.nll"
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+repositories {
+    maven { url 'http://repo1.maven.org/maven2' }
+}
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation 'com.squareup.okio:okio:1.5.0'
+    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    //注解
+    implementation 'com.jakewharton:butterknife:9.0.0-rc1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
+    //侧滑返回
+    //上拉加载下拉刷新
+    //1.0.5 当1.1.0出现问题可以回退到1.0.5.1
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-15'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-15'
+    //没有使用特殊Header，可以不加这行
+    //如果使用了特殊的Header
+    implementation 'com.google.android.material:material:1.1.0-alpha01'
+    //万能适配器
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.43-alpha1'
+    //评分控件
+    implementation 'com.hedgehog.ratingbar:app:1.1.2'
+    implementation 'com.github.dongjunkun:DropDownMenu:1.0.4'
+    implementation 'me.iwf.photopicker:PhotoPicker:0.9.12@aar'
+
+    //图片裁切
+    implementation 'com.yalantis:ucrop:1.4.1'
+    //省市区选择器
+    implementation 'com.github.addappcn:android-pickers:1.0.3'
+    implementation 'com.alibaba:fastjson:1.1.56.android'
+    //标签
+    implementation 'com.github.donkingliang:LabelsView:1.4.1'
+    implementation project(':SwipeBackLayout')
+    implementation project(':ImmersionBar')
+}

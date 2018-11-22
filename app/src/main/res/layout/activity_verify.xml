@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/verify"
+        android:layout_width="200dp"
+        android:layout_height="200dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="正在通过审核\n请耐心等待... ..."
+        android:textColor="@color/red"
+        android:textSize="24sp"
+        android:padding="20dp"
+        android:gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="您的认证信息已成功提交！我们正在加紧进行审核，审核结果将会以短信或者电话的方式通知您，如您有任何疑问拨打咨询热线400-8123-337"
+        android:textColor="@color/gray_two"
+        android:textSize="14sp"
+        android:padding="40dp"
+        android:gravity="center"/>
+</LinearLayout>
