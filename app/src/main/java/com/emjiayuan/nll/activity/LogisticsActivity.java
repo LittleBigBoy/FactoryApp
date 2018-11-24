@@ -150,7 +150,10 @@ public class LogisticsActivity extends BaseActivity implements View.OnClickListe
                             });
                             mRvLogistics.setAdapter(adapter);
                         } else {
-
+                            adapter = new LogisticsAdapter(R.layout.logistics_item, LogisticsList);
+                            mRvLogistics.setLayoutManager(new LinearLayoutManager(mActivity));
+                            adapter.setEmptyView(getEmptyView());
+                            mRvLogistics.setAdapter(adapter);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

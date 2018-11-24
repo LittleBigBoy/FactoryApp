@@ -6,6 +6,7 @@ public class Constants {
     public static final String API_KEY = "yimujiayuan20140605xibeimenghanj";
     public static final int WALLETPAY = 100;
     public static final int ALIPAY = 200;
+    public static final int ALIPAY_RESULT = 201;
     public static final int WXPAY = 300;
 
     public static class ShowMsgActivity {

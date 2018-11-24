@@ -1,7 +1,5 @@
 package com.emjiayuan.nll.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -21,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -281,35 +278,6 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
 
     }
 
-    public void Walletpayrequest() {
-        FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
-        formBody.add("paytype", "COMMON");//传递键值对参数
-        formBody.add("orderid", orderid);//传递键值对参数
-        formBody.add("userid", Global.loginResult.getId());
-//new call
-        Call call = MyOkHttp.GetCall("pay.wallet", formBody);
-//请求加入调度
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("------------", e.toString());
-//                myHandler.sendEmptyMessage(1);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-                String result = response.body().string();
-                MyUtils.e("------余额支付------", result);
-                Message message = new Message();
-                message.what = 5;
-                Bundle bundle = new Bundle();
-                bundle.putString("result", result);
-                message.setData(bundle);
-                myHandler.sendMessage(message);
-            }
-        });
-    }
 
     public void alipayrequest() {
         FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
@@ -331,7 +299,7 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
                 String result = response.body().string();
                 MyUtils.e("------支付宝支付------", result);
                 Message message = new Message();
-                message.what = 2;
+                message.what = Constants.ALIPAY;
                 Bundle bundle = new Bundle();
                 bundle.putString("result", result);
                 message.setData(bundle);
@@ -360,7 +328,7 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
                 String result = response.body().string();
                 MyUtils.e("------微信支付------", result);
                 Message message = new Message();
-                message.what = 4;
+                message.what = Constants.WXPAY;
                 Bundle bundle = new Bundle();
                 bundle.putString("result", result);
                 message.setData(bundle);
@@ -417,7 +385,7 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
                         e.printStackTrace();
                     }
                     break;
-                case 2://支付宝支付
+                case Constants.ALIPAY://支付宝支付
                     try {
                         JSONObject jsonObject = new JSONObject(result);
                         String code = jsonObject.getString("code");
@@ -434,7 +402,7 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
                         e.printStackTrace();
                     }
                     break;
-                case 3://支付宝结果
+                case Constants.ALIPAY_RESULT://支付宝结果
                     @SuppressWarnings("unchecked")
                     PayResult payResult = new PayResult((Map<String, String>) msg.obj);
                     /**
@@ -455,10 +423,13 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         MyUtils.showToast(mActivity, "支付失败");
                         mPopupWindow.dismiss();
+                        Intent intent = new Intent(mActivity, OrderDetailActivity.class);
+                        intent.putExtra("orderid", orderid);
+                        startActivity(intent);
                         finish();
                     }
                     break;
-                case 4:
+                case Constants.WXPAY:
                     try {
                         JSONObject jsonObject = new JSONObject(result);
                         String code = jsonObject.getString("code");
@@ -475,27 +446,7 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
                         e.printStackTrace();
                     }
                     break;
-                case 5:
-                    try {
-                        JSONObject jsonObject = new JSONObject(result);
-                        String code = jsonObject.getString("code");
-                        String message = jsonObject.getString("message");
-                        String data = jsonObject.getString("data");
-                        Gson gson = new Gson();
-                        if ("200".equals(code)) {
-                            MyUtils.showToast(mActivity, message);
-                            Intent intent = new Intent(mActivity, SuccessActivity.class);
-                            intent.putExtra("orderid", orderid);
-                            intent.putExtra("product", orderConfirm.getProducts().get(0));
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            MyUtils.showToast(mActivity, message);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    break;
+
                 case 6:
                     try {
                         JSONObject jsonObject = new JSONObject(result);
@@ -623,37 +574,9 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
                 if (alipay_check.isChecked() == true) {
                     alipayrequest();
                 } else if (weixin_check.isChecked() == true) {
-//                    Toast.makeText(mActivity, "微信支付",
-//                            Toast.LENGTH_LONG).show();
-
                     WXpayrequest();
-                } else if (yepay_check.isChecked() == true) {
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                    builder.setIcon(android.R.drawable.ic_dialog_info);
-                    builder.setTitle("温馨提示");
-                    builder.setMessage("余额支付" + total + "元，确定要继续吗");
-                    builder.setCancelable(true);
-
-                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Walletpayrequest();
-                        }
-                    });
-                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            /*
-                             *  在这里实现你自己的逻辑
-                             */
-                        }
-                    });
-                    builder.create().show();
-
                 } else {
-                    Toast.makeText(mActivity, "请选择支付方式",
-                            Toast.LENGTH_LONG).show();
+                    MyUtils.showToast(mActivity, "请选择支付方式");
                 }
             }
         });
@@ -697,7 +620,7 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
                 PayTask alipay = new PayTask(OrderConfirmActivity.this);
                 Map<String, String> result = alipay.payV2(orderInfo, true);
                 Message msg = new Message();
-                msg.what = 3;
+                msg.what = Constants.ALIPAY_RESULT;
                 msg.obj = result;
                 myHandler.sendMessage(msg);
             }
@@ -781,34 +704,20 @@ public class OrderConfirmActivity extends BaseActivity implements View.OnClickLi
         BaseResp resp = event.getResp();
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             if (resp.errCode == 0) {   // 0 成功  展示成功页面
-				/*AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setTitle("微信支付结果");
-				builder.setMessage("支付订单成功！");
-				builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-
-						finish();
-					}
-				});
-				builder.show();*/
                 Intent intent = new Intent(mActivity, SuccessActivity.class);
                 intent.putExtra("orderid", orderid);
                 intent.putExtra("product", orderConfirm.getProducts().get(0));
                 startActivity(intent);
                 finish();
             } else if (resp.errCode == -1) {  // -1 错误  可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。
-                Toast.makeText(mActivity, "支付出错", Toast.LENGTH_SHORT)
-                        .show();
+                MyUtils.showToast(mActivity, "支付出错");
                 mPopupWindow.dismiss();
                 Intent intent = new Intent(mActivity, OrderDetailActivity.class);
                 intent.putExtra("orderid", orderid);
                 startActivity(intent);
                 finish();
             } else if (resp.errCode == -2) {  // -2 用户取消    无需处理。发生场景：用户不支付了，点击取消，返回APP。
-                Toast.makeText(mActivity, "取消支付", Toast.LENGTH_SHORT)
-                        .show();
+                MyUtils.showToast(mActivity, "取消支付");
                 mPopupWindow.dismiss();
                 Intent intent = new Intent(mActivity, OrderDetailActivity.class);
                 intent.putExtra("orderid", orderid);

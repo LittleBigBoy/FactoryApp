@@ -215,7 +215,8 @@ public class SpUtils {
      * @return
      */
 //    public static <T> List<T> getDataList(String tag) {
-    public static List<Product> getDataList(String tag) {
+    public static List<Product> getDataList(Context context,String tag) {
+        SharedPreferences sp = getSp(context);
         List<Product> datalist=new ArrayList<>();
         String strJson = sp.getString(tag, null);
         if (null == strJson) {

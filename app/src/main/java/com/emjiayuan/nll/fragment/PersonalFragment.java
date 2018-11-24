@@ -2,6 +2,9 @@ package com.emjiayuan.nll.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,24 +14,42 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.emjiayuan.nll.Global;
 import com.emjiayuan.nll.R;
+import com.emjiayuan.nll.activity.CollectionActivity;
 import com.emjiayuan.nll.activity.EnterpriseActivity;
 import com.emjiayuan.nll.activity.HelpActivity;
 import com.emjiayuan.nll.activity.HezuoActivity;
+import com.emjiayuan.nll.activity.HistoryActivity;
 import com.emjiayuan.nll.activity.LogisticsActivity;
 import com.emjiayuan.nll.activity.OrderNormalActivity;
 import com.emjiayuan.nll.activity.SettingActivity;
 import com.emjiayuan.nll.activity.SpitActivity;
 import com.emjiayuan.nll.activity.address.AddressActivity;
 import com.emjiayuan.nll.base.BaseLazyFragment;
+import com.emjiayuan.nll.event.UpdateEvent;
+import com.emjiayuan.nll.model.LoginResult;
+import com.emjiayuan.nll.model.UserInfo;
+import com.emjiayuan.nll.utils.MyOkHttp;
+import com.emjiayuan.nll.utils.MyUtils;
+import com.google.gson.Gson;
 import com.qiyukf.unicorn.api.ConsultSource;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
+import java.io.IOException;
+
+import androidx.annotation.NonNull;
 import butterknife.BindView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Response;
 
 public class PersonalFragment extends BaseLazyFragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
@@ -146,11 +167,78 @@ public class PersonalFragment extends BaseLazyFragment implements View.OnClickLi
     @Override
     protected void initView() {
         refreshLayout.setEnableLoadMore(false);
-        Glide.with(mActivity).load(Global.mUserInfo.getHeadimg()).apply(RequestOptions.circleCropTransform().placeholder(R.drawable.default_tx).error(R.drawable.default_tx)).into(mProfileImage);
-        mNickname.setText(Global.mUserInfo.getTruename());
+        getUserInfo();
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                getUserInfo();
+            }
+        });
+    }
+
+    public void setData(){
+        Glide.with(mActivity).load(mUser.getHeadimg()).apply(RequestOptions.circleCropTransform().placeholder(R.drawable.default_tx).error(R.drawable.default_tx)).into(mProfileImage);
+        mNickname.setText(mUser.getTruename());
         mNickname.setTextColor(getResources().getColor(R.color.gray_one));
     }
 
+    public void getUserInfo() {
+        FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
+        formBody.add("userid", Global.loginResult.getId());
+
+//new call
+        Call call = MyOkHttp.GetCall("User.getUserInfo", formBody);
+//请求加入调度
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("------------", e.toString());
+//                        myHandler.sendEmptyMessage(1);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                MyUtils.e("------获取用户信息------", result);
+                Message message = new Message();
+                message.what = 0;
+                Bundle bundle = new Bundle();
+                bundle.putString("result", result);
+                message.setData(bundle);
+                myHandler.sendMessage(message);
+            }
+        });
+    }
+    private UserInfo mUser;
+    Handler myHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Bundle bundle = msg.getData();
+            String result = bundle.getString("result");
+            switch (msg.what) {
+                case 0:
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        String code = jsonObject.getString("code");
+                        String message = jsonObject.getString("message");
+                        String data = jsonObject.getString("data");
+                        Gson gson = new Gson();
+                        if ("200".equals(code)) {
+                            mUser = gson.fromJson(data, LoginResult.class).getInfo();
+                            setData();
+                        } else {
+                            MyUtils.showToast(mActivity, message);
+                        }
+                        refreshLayout.finishRefresh();
+                    } catch (Exception e) {
+                        refreshLayout.finishRefresh();
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+        }
+    };
     @Override
     protected void setListener() {
         mNormalDfkLl.setOnClickListener(this);
@@ -173,12 +261,6 @@ public class PersonalFragment extends BaseLazyFragment implements View.OnClickLi
         mCollectionLl.setOnClickListener(this);
         mQyjsLl.setOnClickListener(this);
         mSettingLl.setOnClickListener(this);
-    }
-
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(String name) {
-
     }
 
     @Override
@@ -206,7 +288,7 @@ public class PersonalFragment extends BaseLazyFragment implements View.OnClickLi
             case R.id.normal_all_ll:
                 intent=new Intent(mActivity,OrderNormalActivity.class);
                 intent.putExtra("order_type","普通订单");
-                intent.putExtra("curTab",3);
+                intent.putExtra("curTab",4);
                 startActivity(intent);
                 break;
             case R.id.soup_dfk_ll:
@@ -267,10 +349,10 @@ public class PersonalFragment extends BaseLazyFragment implements View.OnClickLi
                 startActivity(new Intent(mActivity,HezuoActivity.class));
                 break;
             case R.id.record_ll:
-                startActivity(new Intent(mActivity,EnterpriseActivity.class));
+                startActivity(new Intent(mActivity,HistoryActivity.class));
                 break;
             case R.id.collection_ll:
-                startActivity(new Intent(mActivity,EnterpriseActivity.class));
+                startActivity(new Intent(mActivity,CollectionActivity.class));
                 break;
             case R.id.qyjs_ll:
                 startActivity(new Intent(mActivity,EnterpriseActivity.class));
@@ -279,5 +361,9 @@ public class PersonalFragment extends BaseLazyFragment implements View.OnClickLi
                 startActivity(new Intent(mActivity,SettingActivity.class));
                 break;
         }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(UpdateEvent event) {
+        getUserInfo();
     }
 }

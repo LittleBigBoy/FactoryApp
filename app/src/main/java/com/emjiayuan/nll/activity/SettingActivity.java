@@ -28,7 +28,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.emjiayuan.nll.Global;
 import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.base.BaseActivity;
-import com.emjiayuan.nll.model.User;
+import com.emjiayuan.nll.event.UpdateEvent;
+import com.emjiayuan.nll.model.LoginResult;
+import com.emjiayuan.nll.model.UserInfo;
 import com.emjiayuan.nll.utils.DownLoadManager;
 import com.emjiayuan.nll.utils.MyOkHttp;
 import com.emjiayuan.nll.utils.MyUtils;
@@ -36,6 +38,7 @@ import com.emjiayuan.nll.utils.SpUtils;
 import com.google.gson.Gson;
 import com.yalantis.ucrop.UCrop;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -133,7 +136,7 @@ public class SettingActivity extends BaseActivity {
         formBody.add("userid", Global.loginResult.getId());
 
 //new call
-        Call call = MyOkHttp.GetCall("user.userHome", formBody);
+        Call call = MyOkHttp.GetCall("User.getUserInfo", formBody);
 //请求加入调度
         call.enqueue(new Callback() {
             @Override
@@ -162,10 +165,6 @@ public class SettingActivity extends BaseActivity {
         if (imagepath != null) {
             formBody.add("headimg", imagepath);
         }
-        if (nicknames != null) {
-            formBody.add("nickname", nicknames);
-        }
-
 //new call
         Call call = MyOkHttp.GetCall("user.editUserInfo", formBody);
 //请求加入调度
@@ -218,13 +217,12 @@ public class SettingActivity extends BaseActivity {
     }
 
     public void setData() {
-        Glide.with(mActivity).load(user.getHeadimg()).apply(RequestOptions.circleCropTransform().placeholder(R.drawable.default_tx).error(R.drawable.default_tx)).into(mTx);
-        mUsername.setText(user.getUsername());
-        mNickname.setText(user.getNickname());
+        Glide.with(mActivity).load(mUser.getHeadimg()).apply(RequestOptions.circleCropTransform().placeholder(R.drawable.default_tx).error(R.drawable.default_tx)).into(mTx);
+        mUsername.setText(mUser.getPhone());
         mVersion.setText(MyUtils.getAppVersionName(mActivity));
     }
 
-    private User user;
+    private UserInfo mUser;
     Handler myHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -241,8 +239,7 @@ public class SettingActivity extends BaseActivity {
                         String data = jsonObject.getString("data");
                         Gson gson = new Gson();
                         if ("200".equals(code)) {
-                            user = gson.fromJson(data, User.class);
-//                            Global.loginResult = gson.fromJson(data, LoginResult.class);
+                            mUser = gson.fromJson(data, LoginResult.class).getInfo();
                             setData();
                         } else {
                             MyUtils.showToast(mActivity, message);
@@ -262,7 +259,6 @@ public class SettingActivity extends BaseActivity {
                             JSONObject jsonObject1 = new JSONObject(data);
                             imagepath = jsonObject1.getString("imgurl");
                             editUserInfo();
-//                            MyUtils.showToast(mActivity, message);
                         } else {
                             MyUtils.showToast(mActivity, message);
                         }
@@ -280,6 +276,7 @@ public class SettingActivity extends BaseActivity {
                         if ("200".equals(code)) {
                             MyUtils.showToast(mActivity, message);
                             user();
+                            EventBus.getDefault().post(new UpdateEvent(""));
                         } else {
                             MyUtils.showToast(mActivity, message);
                         }
@@ -422,8 +419,9 @@ public class SettingActivity extends BaseActivity {
                 }
                 Global.loginResult = null;
                 SpUtils.putObject(mActivity, "loginResult", Global.loginResult);
-                startActivity(new Intent(mActivity, LoginActivity.class));
-                finish();
+                Intent intent=new Intent(mActivity, LoginActivity.class);
+                intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TASK|intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 //登出
                 Toast.makeText(mActivity, "退出成功！", Toast.LENGTH_SHORT).show();
             }
@@ -451,7 +449,7 @@ public class SettingActivity extends BaseActivity {
                 }
                 View vw = LayoutInflater.from(mActivity).inflate(R.layout.edit_layout, null);
                 final EditText et = vw.findViewById(R.id.et);
-                et.setText(user.getNickname());
+                et.setText(mUser.getNickname());
                 et.setSelection(et.getText().length());
                 new AlertDialog.Builder(mActivity).setTitle("修改昵称")
                         .setView(vw)

@@ -24,10 +24,10 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:background="#F2F2F2"
-        android:padding="5dp">
+        android:padding="10dp">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:src="@drawable/ymtt"/>
     </LinearLayout>
 
@@ -53,10 +53,10 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:background="#F2F2F2"
-        android:padding="5dp">
+        android:padding="10dp">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:src="@drawable/cptj"/>
     </LinearLayout>
 

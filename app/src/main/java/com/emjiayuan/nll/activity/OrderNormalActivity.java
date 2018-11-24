@@ -64,6 +64,7 @@ public class OrderNormalActivity extends BaseActivity implements View.OnClickLis
             mViewPagerFragmentList.add(ViewPagerFragment.newInstance("1","0"));
             mViewPagerFragmentList.add(ViewPagerFragment.newInstance("2","0"));
             mViewPagerFragmentList.add(ViewPagerFragment.newInstance("3","0"));
+            mViewPagerFragmentList.add(ViewPagerFragment.newInstance("4","0"));
             mViewPagerFragmentList.add(ViewPagerFragment.newInstance("","0"));
         }else{
             mViewPagerFragmentList.add(ViewPagerFragment.newInstance("1","1"));
@@ -115,12 +116,19 @@ public class OrderNormalActivity extends BaseActivity implements View.OnClickLis
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
         // 定义Tab标题
-        private String[] tabTitles = new String[]{
-                "待付款", "待发货", "待收货", "全部"
-        };
+        private String[] tabTitles;
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
+            if ("普通订单".equals(order_type)){
+                tabTitles = new String[]{
+                        "待付款", "待发货", "待收货", "待评价","全部"
+                };
+            }else{
+                tabTitles = new String[]{
+                        "待付款", "待发货", "待收货","全部"
+                };
+            }
         }
 
         @Override

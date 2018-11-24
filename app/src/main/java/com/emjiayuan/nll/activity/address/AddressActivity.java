@@ -75,43 +75,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         mTvSave.setVisibility(View.VISIBLE);
         mTvSave.setText("添加地址");
 
-        mAddressAdapter = new AddressAdapter(R.layout.address_item,mAddressList);
-        mRv.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRv.addItemDecoration(new RecyclerViewDivider(mActivity,LinearLayoutManager.HORIZONTAL,20,Color.parseColor("#EEEEEE")));
-        mAddressAdapter.setEmptyView(getEmptyView());
-        mRv.setAdapter(mAddressAdapter);
-        mAddressAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
-                    case R.id.default_ll:
-                        setDefault(mAddressList.get(position).getId());
-                        break;
-                    case R.id.edit_ll:
-                        Intent intent=new Intent(mActivity,ModifyAddressActivity.class);
-                        intent.putExtra("address",mAddressList.get(position));
-                        startActivity(intent);
-                        break;
-                    case R.id.delete_ll:
-                        delete(mAddressList.get(position).getId());
-                        break;
-                }
-            }
-        });
-        mAddressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (!MyUtils.isFastClick()){
-                    return;
-                }
-                if (flag) {
-                    Intent intent = new Intent();
-                    intent.putExtra("address", mAddressList.get(position));
-                    setResult(100, intent);
-                    finish();
-                }
-            }
-        });
+
         request();
     }
 
@@ -257,11 +221,49 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 mAddressList.add(gson.fromJson(jsonArray.getJSONObject(i).toString(), Address.class));
                             }
-                            mAddressAdapter.setNewData(mAddressList);
+                            mAddressAdapter = new AddressAdapter(R.layout.address_item,mAddressList);
+                            mRv.setLayoutManager(new LinearLayoutManager(mActivity));
+                            mRv.addItemDecoration(new RecyclerViewDivider(mActivity,LinearLayoutManager.HORIZONTAL,20,Color.parseColor("#EEEEEE")));
+                            mAddressAdapter.setEmptyView(getEmptyView());
+                            mRv.setAdapter(mAddressAdapter);
+                            mAddressAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                                @Override
+                                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                    switch (view.getId()){
+                                        case R.id.default_ll:
+                                            setDefault(mAddressList.get(position).getId());
+                                            break;
+                                        case R.id.edit_ll:
+                                            Intent intent=new Intent(mActivity,ModifyAddressActivity.class);
+                                            intent.putExtra("address",mAddressList.get(position));
+                                            startActivity(intent);
+                                            break;
+                                        case R.id.delete_ll:
+                                            delete(mAddressList.get(position).getId());
+                                            break;
+                                    }
+                                }
+                            });
+                            mAddressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    if (!MyUtils.isFastClick()){
+                                        return;
+                                    }
+                                    if (flag) {
+                                        Intent intent = new Intent();
+                                        intent.putExtra("address", mAddressList.get(position));
+                                        setResult(100, intent);
+                                        finish();
+                                    }
+                                }
+                            });
                         }else{
-                            mAddressList=new ArrayList<>();
-                            mAddressAdapter.setNewData(mAddressList);
-//                            MyUtils.showToast(mActivity,message);
+                            mAddressAdapter = new AddressAdapter(R.layout.address_item,new ArrayList<Address>());
+                            mRv.setLayoutManager(new LinearLayoutManager(mActivity));
+                            mRv.addItemDecoration(new RecyclerViewDivider(mActivity,LinearLayoutManager.HORIZONTAL,20,Color.parseColor("#EEEEEE")));
+                            mAddressAdapter.setEmptyView(getEmptyView());
+                            mRv.setAdapter(mAddressAdapter);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

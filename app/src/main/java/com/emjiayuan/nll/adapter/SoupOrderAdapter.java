@@ -29,6 +29,30 @@ public class SoupOrderAdapter extends BaseQuickAdapter<SoupOrder,BaseViewHolder>
         rv_goods_in.setAdapter(new SoupInAdapter(R.layout.soup_item_in,item.getProduct_list()));
         helper.setVisible(R.id.up_down,true);
         helper.addOnClickListener(R.id.up_down);
+        switch (item.getStatus()){
+            /*0.已取消1.待付款2.待发货3.待收货*/
+            case "0":
+                helper.setVisible(R.id.btn1,false);
+                helper.setVisible(R.id.btn2,false);
+                break;
+            case "1":
+                helper.setText(R.id.btn1,"取消订单");
+                helper.setText(R.id.btn2,"去付款");
+                helper.setVisible(R.id.btn1,true);
+                helper.setVisible(R.id.btn2,true);
+                break;
+            case "2":
+                helper.setText(R.id.btn2,"提醒发货");
+                helper.setVisible(R.id.btn1,false);
+                helper.setVisible(R.id.btn2,true);
+                break;
+            case "3":
+                helper.setText(R.id.btn1,"查看物流");
+                helper.setText(R.id.btn2,"确认收货");
+                helper.setVisible(R.id.btn1,true);
+                helper.setVisible(R.id.btn2,true);
+                break;
+        }
         helper.addOnClickListener(R.id.btn1);
         helper.addOnClickListener(R.id.btn2);
     }

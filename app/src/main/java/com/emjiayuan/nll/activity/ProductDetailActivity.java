@@ -23,12 +23,17 @@ import com.bumptech.glide.Glide;
 import com.donkingliang.labels.LabelsView;
 import com.emjiayuan.nll.Global;
 import com.emjiayuan.nll.R;
+import com.emjiayuan.nll.adapter.CommentAdapter;
 import com.emjiayuan.nll.base.BaseActivity;
+import com.emjiayuan.nll.event.UpdateEvent;
+import com.emjiayuan.nll.model.Comment;
 import com.emjiayuan.nll.model.OrderConfirm;
 import com.emjiayuan.nll.model.Product;
 import com.emjiayuan.nll.utils.GlideImageLoader;
 import com.emjiayuan.nll.utils.MyOkHttp;
 import com.emjiayuan.nll.utils.MyUtils;
+import com.emjiayuan.nll.utils.SpUtils;
+import com.emjiayuan.nll.widget.MyListView;
 import com.google.gson.Gson;
 import com.qiyukf.unicorn.api.ConsultSource;
 import com.qiyukf.unicorn.api.Unicorn;
@@ -37,6 +42,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -102,6 +109,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     TextView mAdd;
     @BindView(R.id.buy)
     TextView mBuy;
+    @BindView(R.id.tv_save)
+    TextView mTvSave;
+    @BindView(R.id.lv_pl)
+    MyListView mLvPl;
     private String productid;
     private Product mProduct;
     private int num;
@@ -116,7 +127,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     protected void initData() {
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("商品详情");
-        productid=getIntent().getStringExtra("productid");
+        productid = getIntent().getStringExtra("productid");
         getProductDetail();
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -139,6 +150,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         mShoppingCarLl.setOnClickListener(this);
         mAdd.setOnClickListener(this);
         mBuy.setOnClickListener(this);
+        mDetailLl.setOnClickListener(this);
+        mPlLl.setOnClickListener(this);
     }
 
 
@@ -179,7 +192,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 }
                 break;
             case R.id.shopping_cart_ll:
-                startActivity(new Intent(mActivity,ShoppingCartActivity.class));
+                startActivity(new Intent(mActivity, ShoppingCartActivity.class));
                 break;
             case R.id.add:
                 showPopWindow(0);
@@ -187,8 +200,26 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.buy:
                 showPopWindow(1);
                 break;
+            case R.id.detail_ll:
+                mTvDetail.setTextColor(getResources().getColor(R.color.red));
+                mTvPl.setTextColor(getResources().getColor(R.color.gray_two));
+                mTvDetail.setBackgroundResource(R.drawable.detail_line);
+                mTvPl.setBackgroundResource(R.drawable.detail_line_uncheck);
+                mLvPl.setVisibility(View.GONE);
+                mWebview.setVisibility(View.VISIBLE);
+                break;
+            case R.id.pl_ll:
+                mTvDetail.setTextColor(getResources().getColor(R.color.gray_two));
+                mTvPl.setTextColor(getResources().getColor(R.color.red));
+                mTvDetail.setBackgroundResource(R.drawable.detail_line_uncheck);
+                mTvPl.setBackgroundResource(R.drawable.detail_line);
+                mWebview.setVisibility(View.GONE);
+                mLvPl.setVisibility(View.VISIBLE);
+                getComment();
+                break;
         }
     }
+
     public void addCar(String num) {
         FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
         formBody.add("userid", Global.loginResult.getId());
@@ -219,6 +250,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             }
         });
     }
+
     public void collection(String method) {
         FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
         formBody.add("userid", Global.loginResult.getId());
@@ -248,6 +280,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             }
         });
     }
+
     public void confirmOrder() {
         FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
         formBody.add("userid", Global.loginResult.getId());
@@ -276,6 +309,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             }
         });
     }
+
     public void getProductDetail() {
         FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
         formBody.add("productid", productid);
@@ -308,7 +342,38 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         });
     }
 
-    private OrderConfirm orderComfirm;
+    public void getComment() {
+        FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
+        formBody.add("productid", productid);
+        formBody.add("pageindex", "1");
+        formBody.add("pagesize", "100");
+        Log.d("------参数------", formBody.build().toString());
+//new call
+        Call call = MyOkHttp.GetCall("product.getProductCommentList", formBody);
+//请求加入调度
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("------------", e.toString());
+//                        myHandler.sendEmptyMessage(1);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                MyUtils.e("------获取评论结果------", result);
+                Message message = new Message();
+                message.what = 4;
+                Bundle bundle = new Bundle();
+                bundle.putString("result", result);
+                message.setData(bundle);
+                myHandler.sendMessage(message);
+            }
+        });
+    }
+
+    private OrderConfirm orderConfirm;
+    private ArrayList<Comment> commentArrayList;
     Handler myHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -324,7 +389,21 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                         String data = jsonObject.getString("data");
                         Gson gson = new Gson();
                         if ("200".equals(code)) {
-                            mProduct = gson.fromJson(data,Product.class);
+                            mProduct = gson.fromJson(data, Product.class);
+                            Global.historylist = SpUtils.getDataList(mActivity, "history");
+                            if (Global.historylist == null) {
+                                Global.historylist = new ArrayList<>();
+                            }
+                            if (Global.historylist.size() == 20) {
+                                Global.historylist.remove(19);
+                            }
+                            for (int i = 0; i < Global.historylist.size(); i++) {
+                                if (mProduct.getName().equals(Global.historylist.get(i).getName())) {
+                                    Global.historylist.remove(i);
+                                }
+                            }
+                            Global.historylist.add(0, mProduct);
+                            SpUtils.setDataList("history", Global.historylist);
                             setData();
                         } else {
 
@@ -361,9 +440,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                         Gson gson = new Gson();
                         if ("200".equals(code)) {
                             JSONObject jsonObject1 = new JSONObject(data);
-                            orderComfirm = gson.fromJson(jsonObject1.toString(), OrderConfirm.class);
+                            orderConfirm = gson.fromJson(jsonObject1.toString(), OrderConfirm.class);
                             Intent intent = new Intent(mActivity, OrderConfirmActivity.class);
-                            intent.putExtra("orderComfirm", orderComfirm);
+                            intent.putExtra("orderConfirm", orderConfirm);
                             startActivity(intent);
                             popupWindow.dismiss();
                         } else {
@@ -387,6 +466,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                             } else {
                                 mColImg.setSelected(true);
                             }
+                            EventBus.getDefault().post(new UpdateEvent(""));
                         } else {
                             MyUtils.showToast(mActivity, message);
                             if (mColImg.isSelected()) {
@@ -399,32 +479,59 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                         e.printStackTrace();
                     }
                     break;
+                case 4://评论
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        String code = jsonObject.getString("code");
+                        String message = jsonObject.getString("message");
+                        String data = jsonObject.getString("data");
+                        Gson gson = new Gson();
+                        if ("200".equals(code)) {
+                            JSONArray jsonArray = new JSONArray(data);
+                            commentArrayList=new ArrayList<>();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                commentArrayList.add(gson.fromJson(jsonArray.getJSONObject(i).toString(), Comment.class));
+                            }
+                            CommentAdapter adapter = new CommentAdapter(mActivity, commentArrayList);
+                            mLvPl.setAdapter(adapter);
+                        } else {
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
             }
         }
     };
 
     public void setData() {
         mName.setText(mProduct.getName());
-        mPrice.setText("￥"+mProduct.getPrice());
-        mOldPrice.setText("￥"+mProduct.getPreprice());
+        mPrice.setText("￥" + mProduct.getPrice());
+        mOldPrice.setText("￥" + mProduct.getPreprice());
         mOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         mOldPrice.getPaint().setAntiAlias(true);
-        mKc.setText("库存："+mProduct.getTotalnum());
-        mYs.setText("已售："+mProduct.getSellnum());
-        mCd.setText("产地："+mProduct.getSource());
+        mKc.setText("库存：" + mProduct.getTotalnum());
+        mYs.setText("已售：" + mProduct.getSellnum());
+        mCd.setText("产地：" + mProduct.getSource());
         mBanner.setImageLoader(new GlideImageLoader());
         ArrayList<String> imagelist = new ArrayList();
-        if (!"".equals(mProduct.getImages())){
+        if (!"".equals(mProduct.getImages())) {
             imagelist.add(mProduct.getImages());
         }
-        if (!"".equals(mProduct.getImages2())){
+        if (!"".equals(mProduct.getImages2())) {
             imagelist.add(mProduct.getImages2());
         }
-        if (!"".equals(mProduct.getImages3())){
+        if (!"".equals(mProduct.getImages3())) {
             imagelist.add(mProduct.getImages3());
         }
-        if (!"".equals(mProduct.getImages4())){
+        if (!"".equals(mProduct.getImages4())) {
             imagelist.add(mProduct.getImages4());
+        }
+        if ("1".equals(mProduct.getIscollection())) {
+            mColImg.setSelected(true);
+        } else {
+            mColImg.setSelected(false);
         }
         mBanner.setImages(imagelist);
         mBanner.start();
@@ -447,6 +554,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.setWebChromeClient(new WebChromeClient());
     }
+
     public void showPopWindow(int type) {
         View view = LayoutInflater.from(mActivity).inflate(R.layout.choose_num, null);
         final ImageView imageView = view.findViewById(R.id.icon);

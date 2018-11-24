@@ -28,7 +28,37 @@ public class OrderAdapter extends BaseQuickAdapter<Order,BaseViewHolder> {
         RecyclerView rv_product=helper.getView(R.id.rv_product);
         rv_product.setLayoutManager(new LinearLayoutManager(mContext));
         rv_product.setAdapter(new OrderProductAdapter(R.layout.order_item_in,item.getProduct_list()));
+        switch (item.getOrdertype()){
+            /*0.已取消1.待付款2.待发货3.待收货4.待评价*/
+            case "0":
+                helper.setGone(R.id.btn1,false);
+                helper.setGone(R.id.btn2,false);
+                break;
+            case "1":
+                helper.setText(R.id.btn1,"取消订单");
+                helper.setText(R.id.btn2,"去付款");
+                helper.setVisible(R.id.btn1,true);
+                helper.setVisible(R.id.btn2,true);
+                break;
+            case "2":
+                helper.setText(R.id.btn2,"提醒发货");
+                helper.setVisible(R.id.btn1,false);
+                helper.setVisible(R.id.btn2,true);
+                break;
+            case "3":
+                helper.setText(R.id.btn1,"查看物流");
+                helper.setText(R.id.btn2,"确认收货");
+                helper.setVisible(R.id.btn1,true);
+                helper.setVisible(R.id.btn2,true);
+                break;
+            case "4":
+                helper.setText(R.id.btn2,"去评价");
+                helper.setVisible(R.id.btn1,false);
+                helper.setVisible(R.id.btn2,true);
+                break;
+        }
         helper.addOnClickListener(R.id.btn1);
         helper.addOnClickListener(R.id.btn2);
     }
+
 }

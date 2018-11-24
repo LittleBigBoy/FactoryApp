@@ -1,5 +1,8 @@
 package com.emjiayuan.nll.adapter;
 
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.emjiayuan.nll.R;
@@ -13,10 +16,9 @@ public class PrivilegeAdapter extends BaseQuickAdapter<Privilege,BaseViewHolder>
     }
     @Override
     protected void convert(BaseViewHolder helper, Privilege item) {
-        helper.setImageResource(R.id.icon, item.getIcon());
-        helper.setText(R.id.tv_lable, item.getLable());
+        helper.setText(R.id.tv_lable, item.getTitle());
         helper.setText(R.id.tv_content, item.getContent());
         // 加载网络图片
-//        Glide.with(mContext).load(item.getUserAvatar()).crossFade().into((ImageView) helper.getView(R.id.iv));
+        Glide.with(mContext).load(item.getImages()).into((ImageView) helper.getView(R.id.icon));
     }
 }

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.emjiayuan.nll.Global;
 import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.adapter.ProductAdapter;
 import com.emjiayuan.nll.base.BaseActivity;
@@ -20,6 +21,7 @@ import com.emjiayuan.nll.utils.GlideImageLoader;
 import com.emjiayuan.nll.utils.MyOkHttp;
 import com.emjiayuan.nll.utils.MyUtils;
 import com.emjiayuan.nll.widget.RecyclerViewDivider;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -60,6 +62,8 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
     ImageView mIvCar;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.shopping_cart_fab)
+    FloatingActionButton mShoppingCartFab;
 
     private Banner bannerTop;
     private String[] images = new String[]{
@@ -69,8 +73,8 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
             "http://qiniu.emjiayuan.com/upload_file/ems/2018100911071275167",
             "http://qiniu.emjiayuan.com/upload_file/ems/2018071817991346559",
     };
-    private String categoryid="";
-    private int pageindex=1;
+    private String categoryid = "";
+    private int pageindex = 1;
     private List<Product> mProductList;
 
     @Override
@@ -80,12 +84,12 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initData() {
-        categoryid=getIntent().getStringExtra("categoryid");
+        categoryid = getIntent().getStringExtra("categoryid");
         getProductList(pageindex);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                pageindex=1;
+                pageindex = 1;
                 getProductList(pageindex);
             }
         });
@@ -106,7 +110,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
-        mIvCar.setOnClickListener(this);
+        mShoppingCartFab.setOnClickListener(this);
     }
 
 
@@ -121,10 +125,40 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
             case R.id.icon_back:
                 finish();
                 break;
-            case R.id.iv_car:
-                startActivity(new Intent(mActivity,ShoppingCartActivity.class));
+            case R.id.shopping_cart_fab:
+                startActivity(new Intent(mActivity, ShoppingCartActivity.class));
                 break;
         }
+    }
+    public void addCar(String id) {
+        FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
+        formBody.add("userid", Global.loginResult.getId());
+        formBody.add("productid", id);
+        formBody.add("option", "0");
+        formBody.add("num", "1");
+        Log.d("------参数------", formBody.build().toString());
+//new call
+        Call call = MyOkHttp.GetCall("cart.addOrUpdateCart", formBody);
+//请求加入调度
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("------------", e.toString());
+//                        myHandler.sendEmptyMessage(1);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                MyUtils.e("------加入购物车结果------", result);
+                Message message = new Message();
+                message.what = 1;
+                Bundle bundle = new Bundle();
+                bundle.putString("result", result);
+                message.setData(bundle);
+                myHandler.sendMessage(message);
+            }
+        });
     }
 
     public void getProductList(int pageindex) {
@@ -157,6 +191,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
+
     Handler myHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -176,7 +211,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                             JSONArray dataArray = new JSONArray(data);
                             mProductList = new ArrayList<>();
                             for (int i = 0; i < dataArray.length(); i++) {
-                                mProductList.add(gson.fromJson(dataArray.getJSONObject(i).toString(),Product.class));
+                                mProductList.add(gson.fromJson(dataArray.getJSONObject(i).toString(), Product.class));
                             }
                             ProductAdapter productAdapter = new ProductAdapter(R.layout.product_item, mProductList);
                             View top = LayoutInflater.from(mActivity).inflate(R.layout.banner_top_product, null);
@@ -191,15 +226,15 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                             productAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                    Intent intent=new Intent(mActivity, ProductDetailActivity.class);
-                                    intent.putExtra("productid",mProductList.get(position).getId());
+                                    Intent intent = new Intent(mActivity, ProductDetailActivity.class);
+                                    intent.putExtra("productid", mProductList.get(position).getId());
                                     startActivity(intent);
                                 }
                             });
                             productAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                                 @Override
                                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                                    MyUtils.showToast(mActivity,"onItemChildClick() called with: adapter = [" + adapter + "], view = [" + view + "], position = [" + position + "]");
+                                    addCar(mProductList.get(position).getId());
                                 }
                             });
 
@@ -217,6 +252,22 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                         e.printStackTrace();
                     }
                     refreshLayout.finishRefresh();
+                    break;
+                case 1:
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        String code = jsonObject.getString("code");
+                        String message = jsonObject.getString("message");
+                        String data = jsonObject.getString("data");
+                        Gson gson = new Gson();
+                        if ("200".equals(code)) {
+                            MyUtils.showToast(mActivity, "已加入购物车！");
+                        } else {
+                            MyUtils.showToast(mActivity, message);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
             }
         }

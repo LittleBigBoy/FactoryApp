@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,7 +121,7 @@ public class HomeFragment extends BaseLazyFragment {
     protected void initView() {
 
         rvHome.setLayoutManager(new LinearLayoutManager(mActivity));
-        rvHome.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL, 2, Color.parseColor("#E6E6E6")));
+        rvHome.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL, 2, Color.parseColor("#F2F2F2")));
         refreshLayout.setEnableLoadMore(false);
     }
 
@@ -199,7 +202,18 @@ public class HomeFragment extends BaseLazyFragment {
                             View top=LayoutInflater.from(mActivity).inflate(R.layout.home_top,null);
                             rvTop=top.findViewById(R.id.rv_top);
                             mHomeText =top.findViewById(R.id.home_text);
-                            mHomeText.setText("尊贵的"+Global.mUserInfo.getTruename() +"您好！\n恭喜您成为伊穆家园第"+mRanknum+"位会员!");
+//                            mHomeText.setText(Html.fromHtml("尊贵的<span style='color:#33A900; font-size:200'>"+Global.loginResult.getInfo().getTruename()+"<span/>您好！\n恭喜您成为伊穆家园第<span style='color:#33A900; font-size:20; font_weight:bold'>"+mRanknum+"<span/>位会员！"));
+                            SpannableString styledText = new SpannableString("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！\n恭喜您成为伊穆家园第"+mRanknum+"位会员！");
+
+                            styledText.setSpan(new TextAppearanceSpan(mActivity, R.style.style0), 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            styledText.setSpan(new TextAppearanceSpan(mActivity, R.style.style1), 3, ("尊贵的"+Global.loginResult.getInfo().getTruename()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            styledText.setSpan(new TextAppearanceSpan(mActivity, R.style.style0), ("尊贵的"+Global.loginResult.getInfo().getTruename()).length(), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            styledText.setSpan(new TextAppearanceSpan(mActivity, R.style.style2), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！").length(), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！\n恭喜您成为伊穆家园第").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            styledText.setSpan(new TextAppearanceSpan(mActivity, R.style.style3), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！\n恭喜您成为伊穆家园第").length(), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！\n恭喜您成为伊穆家园第"+mRanknum).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            styledText.setSpan(new TextAppearanceSpan(mActivity, R.style.style2), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！\n恭喜您成为伊穆家园第"+mRanknum).length(), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！\n恭喜您成为伊穆家园第"+mRanknum+"位会员！").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                            mHomeText.setText(styledText, TextView.BufferType.SPANNABLE);
+
                             mCourseAdapter.addHeaderView(top);
                             mCourseAdapter.openLoadAnimation();
                             mCourseAdapter.isFirstOnly(false);

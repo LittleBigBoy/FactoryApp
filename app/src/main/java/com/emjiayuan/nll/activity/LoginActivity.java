@@ -80,6 +80,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mIconBack.setVisibility(View.INVISIBLE);
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("账号登录");
+        Global.loginResult=SpUtils.getObject(mActivity,"loginResult");
+        if (Global.loginResult!=null){
+            startActivity(new Intent(mActivity,MainActivity.class));
+            finish();
+        }
     }
 
     @Override
@@ -162,26 +167,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if ("200".equals(code)) {
                             Global.loginResult = new Gson().fromJson(data, LoginResult.class);
                             SpUtils.putObject(mActivity, "loginResult", Global.loginResult);
-                            getUserInfo();
-                        } else {
-                            MyUtils.showToast(mActivity, message);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case 1:
-                    try {
-                        JSONObject jsonObject = new JSONObject(result);
-                        String code = jsonObject.getString("code");
-                        String message = jsonObject.getString("message");
-                        String data = jsonObject.getString("data");
-                        Gson gson = new Gson();
-                        if ("200".equals(code)) {
-                            JSONObject jsonObject1=new JSONObject(data);
-                            mUserInfo = gson.fromJson(jsonObject1.getJSONObject("info").toString(),UserInfo.class);
-                            Global.mUserInfo=mUserInfo;
                             /*status 状态 -1=禁用 0=默认 1=待审核(已提交资料) 2=不通过(资料不正确) 3=待支付(通过审核) 10=正常(已支付)*/
+                            mUserInfo=Global.loginResult.getInfo();
                             if ("0".equals(Global.loginResult.getStatus())){
                                 if (null==mUserInfo.getTruename()){
                                     startActivity(new Intent(mActivity,PersonalInfoActivity.class));
@@ -202,8 +189,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 startActivity(new Intent(mActivity,VipActivity.class));
                             }
                             if ("10".equals(Global.loginResult.getStatus())){
-                                startActivity(new Intent(mActivity,MainActivity.class));
+                                startActivity(new Intent(mActivity,VipActivity.class));
+//                                startActivity(new Intent(mActivity,MainActivity.class));
                             }
+                            finish();
                         } else {
                             MyUtils.showToast(mActivity, message);
                         }
