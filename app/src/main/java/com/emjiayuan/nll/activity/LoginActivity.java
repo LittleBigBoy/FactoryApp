@@ -82,8 +82,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mTvTitle.setText("账号登录");
         Global.loginResult=SpUtils.getObject(mActivity,"loginResult");
         if (Global.loginResult!=null){
-            startActivity(new Intent(mActivity,MainActivity.class));
-            finish();
+            /*status 状态 -1=禁用 0=默认 1=待审核(已提交资料) 2=不通过(资料不正确) 3=待支付(通过审核) 10=正常(已支付)*/
+            if ("10".equals(Global.loginResult.getStatus())){
+//                startActivity(new Intent(mActivity,VipActivity.class));
+                                startActivity(new Intent(mActivity,MainActivity.class));
+                finish();
+            }
         }
     }
 
@@ -170,11 +174,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             /*status 状态 -1=禁用 0=默认 1=待审核(已提交资料) 2=不通过(资料不正确) 3=待支付(通过审核) 10=正常(已支付)*/
                             mUserInfo=Global.loginResult.getInfo();
                             if ("0".equals(Global.loginResult.getStatus())){
-                                if (null==mUserInfo.getTruename()){
+                                if (null==mUserInfo){
                                     startActivity(new Intent(mActivity,PersonalInfoActivity.class));
-                                }
-                                if (null==mUserInfo.getShop_name()){
-                                    startActivity(new Intent(mActivity,ShopInfoActivity.class));
+                                }else{
+                                    if (null==mUserInfo.getTruename()){
+                                        startActivity(new Intent(mActivity,PersonalInfoActivity.class));
+                                    }
+                                    if (null==mUserInfo.getShop_name()){
+                                        startActivity(new Intent(mActivity,ShopInfoActivity.class));
+                                    }
                                 }
                             }
                             if ("1".equals(Global.loginResult.getStatus())){
@@ -189,8 +197,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 startActivity(new Intent(mActivity,VipActivity.class));
                             }
                             if ("10".equals(Global.loginResult.getStatus())){
-                                startActivity(new Intent(mActivity,VipActivity.class));
-//                                startActivity(new Intent(mActivity,MainActivity.class));
+//                                startActivity(new Intent(mActivity,VipActivity.class));
+                                startActivity(new Intent(mActivity,MainActivity.class));
                             }
                             finish();
                         } else {

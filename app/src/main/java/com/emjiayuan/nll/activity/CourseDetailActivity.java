@@ -124,7 +124,7 @@ public class CourseDetailActivity extends BaseActivity {
                                     "\n" +
                                     "\t<title>detail</title>\n" +
                                     "\n" +
-                                    "\t<style>body{border:0;padding:0;margin:0;}img{border:0;display:block;vertical-align: middle;padding:0;margin:0;}p{border:0;padding:0;margin:0;}div{border:0;padding:0;margin:0;}</style>\n" +
+                                    "\t<style>*{padding:0;margin:0;}img{width:100%;padding:0;margin:0;}</style>\n" +
                                     "</head>"
                                     + "<body>"
                                     + dataJson.getString("content") + "</body>" + "</html>";

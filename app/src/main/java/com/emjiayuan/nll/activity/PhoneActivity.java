@@ -186,7 +186,6 @@ public class PhoneActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.no_yzm:
                 AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                builder.setIcon(android.R.drawable.ic_dialog_info);
                 builder.setTitle("温馨提示");
                 builder.setMessage("是否拨打客服电话4008123337？");
                 builder.setCancelable(true);

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.emjiayuan.nll.Global;
 import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.base.BaseActivity;
 import com.emjiayuan.nll.utils.MyOkHttp;
@@ -85,8 +86,8 @@ public class SpitActivity extends BaseActivity {
 
     public void request() {
         FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
-//        formBody.add("userid", Global.loginResult.getId());//传递键值对参数
-        formBody.add("userid", "10000");//传递键值对参数
+        formBody.add("userid", Global.loginResult.getId());//传递键值对参数
+//        formBody.add("userid", "10000");//传递键值对参数
         formBody.add("content", content);//传递键值对参数
 
 //new call

@@ -141,7 +141,7 @@ public class HomeFragment extends BaseLazyFragment {
         }*/
         FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
         Log.d("------参数------", formBody.build().toString());
-        formBody.add("userid","10000");
+        formBody.add("userid",Global.loginResult.getId());
 //new call
         Call call = MyOkHttp.GetCall("public.appHome", formBody);
 //        Call call = MyOkHttp.GetCall("public.getAddress", formBody);

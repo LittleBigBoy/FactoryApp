@@ -74,8 +74,7 @@ public class HelpActivity extends BaseActivity {
     protected void setListener() {
         mIconBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (!MyUtils.isFastClick()) {
+            public void onClick(View view) {                if (!MyUtils.isFastClick()) {
                     return;
                 }
                 finish();

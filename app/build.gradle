@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
 repositories {
     maven { url 'http://repo1.maven.org/maven2' }
@@ -62,7 +66,8 @@ dependencies {
     // 最新版本可参考 Download 徽章后对应的数值
     //网易七鱼客服
     implementation 'com.qiyukf.unicorn:unicorn:+'
-
+//七牛
+    implementation 'com.qiniu:qiniu-android-sdk:7.3.7'
 //    //信鸽jar
 //    implementation 'com.tencent.xinge:xinge:3.2.3-release'
 //

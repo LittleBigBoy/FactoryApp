@@ -1,6 +1,9 @@
 package com.emjiayuan.nll.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -88,10 +91,29 @@ public class ForgetPwdActivity extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.no_yzm:
-//                Intent view = new Intent();
-//                view.setAction(Intent.ACTION_VIEW);
-//                view.setData(Uri.parse());
-//                startActivity(view);
+                AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                builder.setTitle("温馨提示");
+                builder.setMessage("是否拨打客服电话4008123337？");
+                builder.setCancelable(true);
+
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        Uri data = Uri.parse("tel:" + "4008123337");
+                        intent.setData(data);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        /*
+                         *  在这里实现你自己的逻辑
+                         */
+                    }
+                });
+                builder.create().show();
                 break;
             case R.id.reset:
                 mUserName = mEtUsername.getText().toString().trim();

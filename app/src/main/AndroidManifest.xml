@@ -38,13 +38,14 @@
 
         </provider>
 
-        <activity android:name="com.emjiayuan.nll.activity.LoginActivity">
+        <activity android:name="com.emjiayuan.nll.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.emjiayuan.nll.activity.LoginActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.base.BaseActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.activity.AddActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.activity.PhoneActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
@@ -76,6 +77,8 @@
         <activity android:name="com.emjiayuan.nll.activity.CgpwdActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.activity.JudgeActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.activity.VipAgreementActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.nll.activity.SearchActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.nll.activity.CourseSearchActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.activity.address.AddAddressActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.activity.address.AddressActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.activity.address.ModifyAddressActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>

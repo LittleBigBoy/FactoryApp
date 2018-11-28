@@ -37,12 +37,40 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import androidx.annotation.RequiresApi;
 
 public class MyUtils {
+    /**
+     * 随机命名
+     * @return
+     */
+    public static String getRandomFileName() {
+
+
+        SimpleDateFormat simpleDateFormat;
+
+
+        simpleDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+
+
+        Date date = new Date();
+
+
+        String str = simpleDateFormat.format(date);
+
+
+        Random random = new Random();
+
+
+        int rannum = (int) (random.nextDouble() * (99999 - 10000 + 1)) + 10000;// 获取5位随机数
+
+
+        return str + rannum;// 当前时间
+    }
     /**
      * Get a file path from a Uri. This will get the the path for Storage Access
      * Framework Documents, as well as the _data field for the MediaStore and

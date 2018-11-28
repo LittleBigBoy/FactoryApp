@@ -7,12 +7,13 @@ import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.activity.CourseDetailActivity;
+import com.emjiayuan.nll.activity.CourseSearchActivity;
 import com.emjiayuan.nll.adapter.CourseAdapter;
 import com.emjiayuan.nll.base.BaseLazyFragment;
 import com.emjiayuan.nll.model.Course;
@@ -43,7 +44,7 @@ import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.Response;
 
-public class CourseFragment extends BaseLazyFragment {
+public class CourseFragment extends BaseLazyFragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -55,7 +56,7 @@ public class CourseFragment extends BaseLazyFragment {
     @BindView(R.id.rv_college)
     RecyclerView mRvCollege;
     @BindView(R.id.et_search)
-    EditText mEtSearch;
+    TextView mEtSearch;
     @BindView(R.id.iv_car)
     ImageView mIvCar;
 
@@ -70,7 +71,7 @@ public class CourseFragment extends BaseLazyFragment {
             "http://qiniu.emjiayuan.com/upload_file/ems/2018071817991346559",
     };
 
-    private ArrayList<Course> mCourseArrayList;
+    private ArrayList<Course> mCourseArrayList=new ArrayList<>();
     private CourseAdapter mCourseAdapter;
     private int pageindex=1;
 
@@ -112,12 +113,37 @@ public class CourseFragment extends BaseLazyFragment {
 
     @Override
     protected void initData() {
+        mCourseAdapter = new CourseAdapter(R.layout.course_item, mCourseArrayList);
+        View top = LayoutInflater.from(mActivity).inflate(R.layout.banner_top_college, null);
+        bannerTop = top.findViewById(R.id.banner_top);
+        mCourseAdapter.addHeaderView(top);
+        mCourseAdapter.openLoadAnimation();
+        mCourseAdapter.isFirstOnly(false);
+        mCourseAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        mRvCollege.setAdapter(mCourseAdapter);
+        mCourseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent=new Intent(mActivity, CourseDetailActivity.class);
+                intent.putExtra("collegeid", mCourseArrayList.get(position).getId());
+                startActivity(intent);
+            }
+        });
 
+        bannerTop.setImageLoader(new GlideImageLoader());
+        ArrayList<String> imagelist = new ArrayList();
+        for (int i = 0; i < images.length; i++) {
+            imagelist.add(images[i]);
+        }
+        bannerTop.setImages(imagelist);
+        bannerTop.start();
         getCollegeList(pageindex);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 pageindex=1;
+                mCourseArrayList.clear();
+                refreshLayout.setNoMoreData(false);
                 getCollegeList(pageindex);
             }
         });
@@ -144,7 +170,7 @@ public class CourseFragment extends BaseLazyFragment {
 
     @Override
     protected void setListener() {
-
+        mEtSearch.setOnClickListener(this);
     }
 
 
@@ -164,7 +190,7 @@ public class CourseFragment extends BaseLazyFragment {
 
         FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
         formBody.add("pageindex", Integer.toString(pageindex));//传递键值对参数
-        formBody.add("pagesize", "40");//传递键值对参数
+        formBody.add("pagesize", "10");//传递键值对参数
         Log.d("------参数------", formBody.build().toString());
 //new call
         Call call = MyOkHttp.GetCall("College.getCollegeList", formBody);
@@ -210,43 +236,33 @@ public class CourseFragment extends BaseLazyFragment {
                         if ("200".equals(code)) {
 //                            stateLayout.changeState(StateFrameLayout.SUCCESS);
                             JSONArray dataArray = new JSONArray(data);
-                            mCourseArrayList = new ArrayList<>();
+//                            mCourseArrayList = new ArrayList<>();
                             for (int i = 0; i < dataArray.length(); i++) {
                                 mCourseArrayList.add(gson.fromJson(dataArray.getJSONObject(i).toString(), Course.class));
                             }
-                            mCourseAdapter = new CourseAdapter(R.layout.course_item, mCourseArrayList);
-                            View top = LayoutInflater.from(mActivity).inflate(R.layout.banner_top_college, null);
-                            bannerTop = top.findViewById(R.id.banner_top);
-                            mCourseAdapter.addHeaderView(top);
-                            mCourseAdapter.openLoadAnimation();
-                            mCourseAdapter.isFirstOnly(false);
-                            mCourseAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-                            mRvCollege.setAdapter(mCourseAdapter);
-                            mCourseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                    Intent intent=new Intent(mActivity, CourseDetailActivity.class);
-                                    intent.putExtra("collegeid", mCourseArrayList.get(position).getId());
-                                    startActivity(intent);
-                                }
-                            });
+                            mCourseAdapter.setNewData(mCourseArrayList);
 
-                            bannerTop.setImageLoader(new GlideImageLoader());
-                            ArrayList<String> imagelist = new ArrayList();
-                            for (int i = 0; i < images.length; i++) {
-                                imagelist.add(images[i]);
-                            }
-                            bannerTop.setImages(imagelist);
-                            bannerTop.start();
                         } else {
-
+                            if (pageindex!=1){
+                                refreshLayout.setNoMoreData(true);
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     refreshLayout.finishRefresh();
+                    refreshLayout.finishLoadMore();
                     break;
             }
         }
     };
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.et_search:
+                startActivity(new Intent(mActivity,CourseSearchActivity.class));
+                break;
+        }
+    }
 }

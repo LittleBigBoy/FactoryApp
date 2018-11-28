@@ -13,7 +13,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -34,12 +33,18 @@ import com.emjiayuan.nll.model.UserInfo;
 import com.emjiayuan.nll.utils.MyOkHttp;
 import com.emjiayuan.nll.utils.MyUtils;
 import com.google.gson.Gson;
+import com.qiniu.android.common.FixedZone;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.Configuration;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UpProgressHandler;
+import com.qiniu.android.storage.UploadManager;
+import com.qiniu.android.storage.UploadOptions;
 import com.yalantis.ucrop.UCrop;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -99,6 +104,7 @@ public class PersonalInfoActivity extends BaseActivity implements View.OnClickLi
     private String idcardback="";
 
     private UserInfo mUserInfo;
+    private String token;
 
 
     @Override
@@ -121,6 +127,7 @@ public class PersonalInfoActivity extends BaseActivity implements View.OnClickLi
             mDelete1.setVisibility(View.VISIBLE);
             mDelete2.setVisibility(View.VISIBLE);
         }
+        getQnToken();
     }
 
     @Override
@@ -422,6 +429,36 @@ public class PersonalInfoActivity extends BaseActivity implements View.OnClickLi
         }
         return true;
     }
+    /**
+     * 七牛token
+     */
+    public void getQnToken() {
+        FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
+//new call
+        Call call = MyOkHttp.GetCall("system.getQnToken", formBody);
+//请求加入调度
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("------------", e.toString());
+//                myHandler.sendEmptyMessage(1);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String result = response.body().string();
+                MyUtils.e("------七牛token------", result);
+                Message message = new Message();
+                message.what = 0;
+                Bundle bundle = new Bundle();
+                bundle.putString("result", result);
+                message.setData(bundle);
+                myHandler.sendMessage(message);
+            }
+        });
+    }
+
     public void addOrUpdateUserInfo(){
         FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
         formBody.add("userid", Global.loginResult.getId());//传递键值对参数
@@ -430,7 +467,7 @@ public class PersonalInfoActivity extends BaseActivity implements View.OnClickLi
         formBody.add("phone", mPhone);//传递键值对参数
         formBody.add("idcardjust", idcardjust);//传递键值对参数
         formBody.add("idcardback", idcardback);//传递键值对参数
-        formBody.add("status", "1");//传递键值对参数
+//        formBody.add("status", "1");//传递键值对参数
 //new call
         Call call = MyOkHttp.GetCall("User.addOrUpdateUserInfo", formBody);
 //请求加入调度
@@ -454,6 +491,7 @@ public class PersonalInfoActivity extends BaseActivity implements View.OnClickLi
             }
         });
     }
+
     public void uploadImgFor64(String imageString, final int what) {
         FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
         formBody.add("imagedata", imageString);
@@ -497,41 +535,7 @@ public class PersonalInfoActivity extends BaseActivity implements View.OnClickLi
                         Gson gson = new Gson();
                         if ("200".equals(code)) {
                             JSONObject jsonObject1 = new JSONObject(data);
-                            headimg = jsonObject1.getString("imgurl");
-                        } else {
-                            MyUtils.showToast(mActivity, message);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case 1:
-                    try {
-                        JSONObject jsonObject = new JSONObject(result);
-                        String code = jsonObject.getString("code");
-                        String message = jsonObject.getString("message");
-                        String data = jsonObject.getString("data");
-                        Gson gson = new Gson();
-                        if ("200".equals(code)) {
-                            JSONObject jsonObject1 = new JSONObject(data);
-                            idcardjust = jsonObject1.getString("imgurl");
-                        } else {
-                            MyUtils.showToast(mActivity, message);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case 2:
-                    try {
-                        JSONObject jsonObject = new JSONObject(result);
-                        String code = jsonObject.getString("code");
-                        String message = jsonObject.getString("message");
-                        String data = jsonObject.getString("data");
-                        Gson gson = new Gson();
-                        if ("200".equals(code)) {
-                            JSONObject jsonObject1 = new JSONObject(data);
-                            idcardback = jsonObject1.getString("imgurl");
+                            token = jsonObject1.getString("token");
                         } else {
                             MyUtils.showToast(mActivity, message);
                         }
@@ -564,17 +568,74 @@ public class PersonalInfoActivity extends BaseActivity implements View.OnClickLi
 
         }
     };
-    public void uploadimg(String filePath,int what){
-        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-        if (bitmap == null) {
-            return;
+    /*public void uploadimg(String filePath,int what){
+
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+            if (bitmap == null) {
+                return;
+            }
+            //第一步:将Bitmap压缩至字节数组输出流ByteArrayOutputStream
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream);
+            //第二步:利用Base64将字节数组输出流中的数据转换成字符串String
+            byte[] byteArray = byteArrayOutputStream.toByteArray();
+            String imageString = new String(Base64.encodeToString(byteArray, Base64.DEFAULT));
+            uploadImgFor64("data:image/png;base64," + imageString,what);
+        } catch (Exception e) {
+            e.printStackTrace();
+       } finally {
         }
-        //第一步:将Bitmap压缩至字节数组输出流ByteArrayOutputStream
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
-        //第二步:利用Base64将字节数组输出流中的数据转换成字符串String
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        String imageString = new String(Base64.encodeToString(byteArray, Base64.DEFAULT));
-        uploadImgFor64("data:image/png;base64," + imageString,what);
+    }*/
+
+    public void uploadimg(String filepath, final int what){
+        Configuration config = new Configuration.Builder()
+                .chunkSize(512 * 1024)        // 分片上传时，每片的大小。 默认256K
+                .putThreshhold(1024 * 1024)   // 启用分片上传阀值。默认512K
+                .connectTimeout(10)           // 链接超时。默认10秒
+                .useHttps(true)               // 是否使用https上传域名
+                .responseTimeout(60)          // 服务器响应超时。默认60秒
+//                .recorder(recorder)           // recorder分片上传时，已上传片记录器。默认null
+//                .recorder(recorder, keyGen)   // keyGen 分片上传时，生成标识符，用于片记录器区分是那个文件的上传记录
+                .zone(FixedZone.zone0)        // 设置区域，指定不同区域的上传域名、备用域名、备用IP。
+                .build();
+
+// 重用uploadManager。一般地，只需要创建一个uploadManager对象
+//        data = <File对象、或 文件路径、或 字节数组>
+//        String key = <指定七牛服务上的文件名，或 null>;
+//        String token = <从服务端SDK获取>;
+        UploadManager uploadManager = new UploadManager(config);
+                uploadManager.put(filepath, "upload_file/app/"+MyUtils.getRandomFileName(), token, new UpCompletionHandler() {
+                            @Override
+                            public void complete(String key, ResponseInfo info, JSONObject res) {
+                                //res包含hash、key等信息，具体字段取决于上传策略的设置
+                                if(info.isOK()) {
+                                    switch (what){
+                                        case 0:
+                                            headimg="http://qiniu.emjiayuan.com/"+key;
+                                            break;
+                                        case 1:
+                                            idcardjust="http://qiniu.emjiayuan.com/"+key;
+                                            break;
+                                        case 2:
+                                            idcardback="http://qiniu.emjiayuan.com/"+key;
+                                            break;
+                                    }
+                                } else {
+                                    MyUtils.showToast(mActivity,"图片上传失败！");
+                                    Log.i("qiniu", "Upload Fail");
+                                    //如果失败，这里可以把info信息上报自己的服务器，便于后面分析上传错误原因
+                                }
+                                Log.i("qiniu", key + ",\r\n " + info + ",\r\n " + res);
+                            }
+                        },
+                        new UploadOptions(null, null, false,
+                                new UpProgressHandler(){
+                                    public void progress(String key, double percent){
+                                        MyUtils.e("上传进度啊", key + ": " + percent);
+//                                        pd.setProgress((int) (percent*100));
+                                    }
+                                }, null));
     }
+
 }

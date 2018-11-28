@@ -75,7 +75,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
     };
     private String categoryid = "";
     private int pageindex = 1;
-    private List<Product> mProductList;
+    private List<Product> mProductList=new ArrayList<>();
 
     @Override
     protected int setLayoutId() {
@@ -90,6 +90,8 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 pageindex = 1;
+                mProductList.clear();
+                refreshLayout.setNoMoreData(false);
                 getProductList(pageindex);
             }
         });
@@ -111,6 +113,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mShoppingCartFab.setOnClickListener(this);
+        mEtSearch.setOnClickListener(this);
     }
 
 
@@ -127,6 +130,9 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.shopping_cart_fab:
                 startActivity(new Intent(mActivity, ShoppingCartActivity.class));
+                break;
+            case R.id.et_search:
+                startActivity(new Intent(mActivity, SearchActivity.class));
                 break;
         }
     }
@@ -209,7 +215,6 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                         if ("200".equals(code)) {
 //                            stateLayout.changeState(StateFrameLayout.SUCCESS);
                             JSONArray dataArray = new JSONArray(data);
-                            mProductList = new ArrayList<>();
                             for (int i = 0; i < dataArray.length(); i++) {
                                 mProductList.add(gson.fromJson(dataArray.getJSONObject(i).toString(), Product.class));
                             }
@@ -246,12 +251,15 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                             bannerTop.setImages(imagelist);
                             bannerTop.start();
                         } else {
-
+                            if (pageindex!=1){
+                                refreshLayout.setNoMoreData(true);
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     refreshLayout.finishRefresh();
+                    refreshLayout.finishLoadMore();
                     break;
                 case 1:
                     try {
