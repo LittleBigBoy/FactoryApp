@@ -26,6 +26,7 @@ import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.activity.JudgeActivity;
 import com.emjiayuan.nll.activity.LogisticsDetailActivity;
 import com.emjiayuan.nll.activity.OrderDetailActivity;
+import com.emjiayuan.nll.activity.soup.SoupOrderDetailActivity;
 import com.emjiayuan.nll.adapter.OrderAdapter;
 import com.emjiayuan.nll.adapter.SoupOrderAdapter;
 import com.emjiayuan.nll.base.BaseLazyFragment;
@@ -229,9 +230,9 @@ public class ViewPagerFragment extends BaseLazyFragment {
             mSoupOrderAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                                    Intent intent = new Intent(mActivity, OrderDetailActivity.class);
-//                                    intent.putExtra("collegeid", mOrderArrayList.get(position).getId());
-//                                    startActivity(intent);
+                    Intent intent = new Intent(mActivity, SoupOrderDetailActivity.class);
+                    intent.putExtra("orderid", mSoupOrderArrayList.get(position).getId());
+                    startActivity(intent);
                 }
             });
             mSoupOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -285,10 +286,10 @@ public class ViewPagerFragment extends BaseLazyFragment {
                                     break;
                             }
                             break;
-                        case R.id.up_down:
-                            View view1=adapter.getViewByPosition(R.id.rv_goods_in,position);
-                            view1.setVisibility(view1.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE);
-                            break;
+//                        case R.id.up_down:
+//                            View view1=adapter.getViewByPosition(R.id.rv_goods_in,position);
+//                            view1.setVisibility(view1.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE);
+//                            break;
                     }
                 }
             });
@@ -373,7 +374,7 @@ public class ViewPagerFragment extends BaseLazyFragment {
         formBody.add("compute", "");
         formBody.add("isProduct", "1");
         formBody.add("pageindex", Integer.toString(pageindex));
-        formBody.add("pagesize", "40");
+        formBody.add("pagesize", "1");
         Log.d("------参数------", formBody.build().toString());
 //new call
         Call call = MyOkHttp.GetCall("soupOrder.getSoupOrderList", formBody);
@@ -452,6 +453,7 @@ public class ViewPagerFragment extends BaseLazyFragment {
                             }
                             mOrderAdapter.setNewData(mOrderArrayList);
                         } else {
+                            mOrderAdapter.setNewData(mOrderArrayList);
                             if (pageindex!=1){
                                 mRefreshLayout.setNoMoreData(true);
                             }
@@ -472,12 +474,12 @@ public class ViewPagerFragment extends BaseLazyFragment {
                         if ("200".equals(code)) {
 //                            stateLayout.changeState(StateFrameLayout.SUCCESS);
                             JSONArray dataArray = new JSONArray(data);
-                            mSoupOrderArrayList = new ArrayList<>();
                             for (int i = 0; i < dataArray.length(); i++) {
                                 mSoupOrderArrayList.add(gson.fromJson(dataArray.getJSONObject(i).toString(), SoupOrder.class));
                             }
                             mSoupOrderAdapter.setNewData(mSoupOrderArrayList);
                         } else {
+                            mSoupOrderAdapter.setNewData(mSoupOrderArrayList);
                             if (pageindex!=1){
                                 mRefreshLayout.setNoMoreData(true);
                             }
@@ -495,8 +497,9 @@ public class ViewPagerFragment extends BaseLazyFragment {
                         String message = jsonObject.getString("message");
                         String data = jsonObject.getString("data");
                         Gson gson = new Gson();
+                        MyUtils.showToast(mActivity,message);
                         if ("200".equals(code)) {
-
+                            EventBus.getDefault().post(new UpdateEvent(""));
                         } else {
 
                         }
@@ -753,6 +756,18 @@ public class ViewPagerFragment extends BaseLazyFragment {
                 MyUtils.showToast(mActivity, "取消支付");
                 mPopupWindow.dismiss();
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(UpdateEvent event) {
+        pageindex=1;
+        if ("0".equals(mParam2)){
+            mOrderArrayList.clear();
+            getOrderList();
+        }else{
+            mSoupOrderArrayList.clear();
+            getSoupOrder();
         }
     }
 }

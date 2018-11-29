@@ -1,5 +1,7 @@
 package com.emjiayuan.nll.adapter;
 
+import android.view.View;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.emjiayuan.nll.R;
@@ -22,14 +24,19 @@ public class SoupOrderAdapter extends BaseQuickAdapter<SoupOrder,BaseViewHolder>
         helper.setText(R.id.status_tv,item.getOrder_status());
         helper.setText(R.id.total_tv,"共1件商品 合计: ¥"+item.getTotalmoney());
         RecyclerView rv_product=helper.getView(R.id.rv_product);
-        RecyclerView rv_goods_in=helper.getView(R.id.rv_goods_in);
+        final RecyclerView rv_goods_in=helper.getView(R.id.rv_goods_in);
         rv_product.setLayoutManager(new LinearLayoutManager(mContext));
         rv_goods_in.setLayoutManager(new LinearLayoutManager(mContext));
         rv_product.setAdapter(new SoupOrderProductAdapter(R.layout.order_item_in,item.getProduct_list(),item));
         rv_goods_in.setAdapter(new SoupInAdapter(R.layout.soup_item_in,item.getProduct_list()));
         helper.setVisible(R.id.up_down,true);
-        helper.addOnClickListener(R.id.up_down);
-        switch (item.getStatus()){
+        helper.setOnClickListener(R.id.up_down, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rv_goods_in.setVisibility(rv_goods_in.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE);
+            }
+        });
+        switch (item.getOrdertype()){
             /*0.已取消1.待付款2.待发货3.待收货*/
             case "0":
                 helper.setVisible(R.id.btn1,false);

@@ -13,4 +13,5 @@
     <color name="gray_one">#333333</color>
     <color name="gray_two">#808080</color>
     <color name="gray_three">#b2b2b2</color>
+    <color name="transparent">#00000000</color>
 </resources>

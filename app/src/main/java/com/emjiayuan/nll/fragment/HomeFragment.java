@@ -11,12 +11,14 @@ import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.emjiayuan.nll.Global;
 import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.activity.CourseDetailActivity;
+import com.emjiayuan.nll.activity.MessageActivity;
 import com.emjiayuan.nll.activity.NewsDetailActivity;
 import com.emjiayuan.nll.adapter.CourseAdapter;
 import com.emjiayuan.nll.adapter.NewsAdapter;
@@ -170,6 +172,7 @@ public class HomeFragment extends BaseLazyFragment {
 
 
     private TextView mHomeText;
+    private LinearLayout mMoreLl;
     Handler myHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -201,6 +204,13 @@ public class HomeFragment extends BaseLazyFragment {
                             mNewsAdapter = new NewsAdapter(R.layout.news_item, mNewsArrayList);
                             View top=LayoutInflater.from(mActivity).inflate(R.layout.home_top,null);
                             rvTop=top.findViewById(R.id.rv_top);
+                            mMoreLl =top.findViewById(R.id.more_ll);
+                            mMoreLl.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    startActivity(new Intent(mActivity,MessageActivity.class));
+                                }
+                            });
                             mHomeText =top.findViewById(R.id.home_text);
 //                            mHomeText.setText(Html.fromHtml("尊贵的<span style='color:#33A900; font-size:200'>"+Global.loginResult.getInfo().getTruename()+"<span/>您好！\n恭喜您成为伊穆家园第<span style='color:#33A900; font-size:20; font_weight:bold'>"+mRanknum+"<span/>位会员！"));
                             SpannableString styledText = new SpannableString("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！\n恭喜您成为伊穆家园第"+mRanknum+"位会员！");

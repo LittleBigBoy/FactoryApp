@@ -79,9 +79,16 @@
         <activity android:name="com.emjiayuan.nll.activity.VipAgreementActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.activity.SearchActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.activity.CourseSearchActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.nll.activity.MessageActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.activity.address.AddAddressActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.activity.address.AddressActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.activity.address.ModifyAddressActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.nll.activity.soup.MySoupOrderActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.nll.activity.soup.SoupOrderConfirmActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.nll.activity.soup.TldzActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.nll.activity.soup.SoupOrderDetailActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.nll.activity.soup.SoupSuccessActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.nll.activity.soup.SoupwikiActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity android:name="com.yalantis.ucrop.UCropActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
     </application>
 

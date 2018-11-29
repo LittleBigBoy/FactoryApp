@@ -16,6 +16,7 @@ import com.emjiayuan.nll.activity.CourseDetailActivity;
 import com.emjiayuan.nll.activity.CourseSearchActivity;
 import com.emjiayuan.nll.adapter.CourseAdapter;
 import com.emjiayuan.nll.base.BaseLazyFragment;
+import com.emjiayuan.nll.model.BannerItem;
 import com.emjiayuan.nll.model.Course;
 import com.emjiayuan.nll.utils.GlideImageLoader;
 import com.emjiayuan.nll.utils.MyOkHttp;
@@ -74,6 +75,7 @@ public class CourseFragment extends BaseLazyFragment implements View.OnClickList
     private ArrayList<Course> mCourseArrayList=new ArrayList<>();
     private CourseAdapter mCourseAdapter;
     private int pageindex=1;
+    private ArrayList<String> mImagelist;
 
     public CourseFragment() {
         // Required empty public constructor
@@ -131,12 +133,7 @@ public class CourseFragment extends BaseLazyFragment implements View.OnClickList
         });
 
         bannerTop.setImageLoader(new GlideImageLoader());
-        ArrayList<String> imagelist = new ArrayList();
-        for (int i = 0; i < images.length; i++) {
-            imagelist.add(images[i]);
-        }
-        bannerTop.setImages(imagelist);
-        bannerTop.start();
+
         getCollegeList(pageindex);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -234,6 +231,16 @@ public class CourseFragment extends BaseLazyFragment implements View.OnClickList
                         String data = jsonObject.getString("data");
                         Gson gson = new Gson();
                         if ("200".equals(code)) {
+                            if (jsonObject.has("bannerimage")){
+                                JSONArray bannerArray =jsonObject.getJSONArray("bannerimage");
+                                mImagelist = new ArrayList();
+                                for (int i = 0; i < bannerArray.length(); i++) {
+                                    BannerItem bannerItem=gson.fromJson(bannerArray.getJSONObject(i).toString(),BannerItem.class);
+                                    mImagelist.add(bannerItem.getImage());
+                                }
+                                bannerTop.setImages(mImagelist);
+                                bannerTop.start();
+                            }
 //                            stateLayout.changeState(StateFrameLayout.SUCCESS);
                             JSONArray dataArray = new JSONArray(data);
 //                            mCourseArrayList = new ArrayList<>();

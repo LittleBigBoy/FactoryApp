@@ -13,8 +13,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.activity.ProductActivity;
 import com.emjiayuan.nll.activity.ShoppingCartActivity;
+import com.emjiayuan.nll.activity.soup.TldzActivity;
 import com.emjiayuan.nll.adapter.CategoryAdapter;
 import com.emjiayuan.nll.base.BaseLazyFragment;
+import com.emjiayuan.nll.model.BannerItem;
 import com.emjiayuan.nll.model.Category;
 import com.emjiayuan.nll.utils.GlideImageLoader;
 import com.emjiayuan.nll.utils.MyOkHttp;
@@ -25,6 +27,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -170,6 +173,7 @@ public class PurchaseFragment extends BaseLazyFragment implements View.OnClickLi
     }
 
 
+    private ArrayList mImagelist;
     Handler myHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -204,17 +208,24 @@ public class PurchaseFragment extends BaseLazyFragment implements View.OnClickLi
                                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                     Intent intent = new Intent(mActivity, ProductActivity.class);
                                     intent.putExtra("categoryid", categoryList.get(position).getId());
+                                    intent.putExtra("topimage", categoryList.get(position).getTopimage());
                                     startActivity(intent);
                                 }
                             });
-
-                            bannerTop.setImageLoader(new GlideImageLoader());
-                            ArrayList<String> imagelist = new ArrayList();
-                            for (int i = 0; i < images.length; i++) {
-                                imagelist.add(images[i]);
+                            if (jsonObject.has("bannerimage")){
+                                mImagelist = new ArrayList();
+                                BannerItem bannerItem=gson.fromJson(jsonObject.getJSONObject("bannerimage").toString(),BannerItem.class);
+                                mImagelist.add(bannerItem.getImage());
+                                bannerTop.setImageLoader(new GlideImageLoader());
+                                bannerTop.setImages(mImagelist);
+                                bannerTop.start();
+                                bannerTop.setOnBannerListener(new OnBannerListener() {
+                                    @Override
+                                    public void OnBannerClick(int position) {
+                                        startActivity(new Intent(mActivity,TldzActivity.class));
+                                    }
+                                });
                             }
-                            bannerTop.setImages(imagelist);
-                            bannerTop.start();
                         } else {
 
                         }

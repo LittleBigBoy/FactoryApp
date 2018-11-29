@@ -21,7 +21,7 @@ public class SoupOrderProductAdapter extends BaseQuickAdapter<SoupOrder.ProductL
         // 加载网络图片
         helper.setText(R.id.name,mSoupOrder.getOrder_name());
         helper.setText(R.id.price,"￥"+mSoupOrder.getTotalmoney());
-        helper.setText(R.id.num,"x"+mSoupOrder.getLeixing());
+        helper.setText(R.id.num,mSoupOrder.getLeixing());
         Glide.with(mContext).load(item.getImages()).into((ImageView) helper.getView(R.id.icon));
     }
 

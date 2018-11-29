@@ -74,8 +74,10 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
             "http://qiniu.emjiayuan.com/upload_file/ems/2018071817991346559",
     };
     private String categoryid = "";
+    private String topimage = "";
     private int pageindex = 1;
     private List<Product> mProductList=new ArrayList<>();
+    private ArrayList<String> mImagelist;
 
     @Override
     protected int setLayoutId() {
@@ -85,6 +87,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initData() {
         categoryid = getIntent().getStringExtra("categoryid");
+        topimage = getIntent().getStringExtra("topimage");
         getProductList(pageindex);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -242,13 +245,10 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                                     addCar(mProductList.get(position).getId());
                                 }
                             });
-
                             bannerTop.setImageLoader(new GlideImageLoader());
-                            ArrayList<String> imagelist = new ArrayList();
-                            for (int i = 0; i < images.length; i++) {
-                                imagelist.add(images[i]);
-                            }
-                            bannerTop.setImages(imagelist);
+                            mImagelist = new ArrayList();
+                            mImagelist.add(topimage);
+                            bannerTop.setImages(mImagelist);
                             bannerTop.start();
                         } else {
                             if (pageindex!=1){
