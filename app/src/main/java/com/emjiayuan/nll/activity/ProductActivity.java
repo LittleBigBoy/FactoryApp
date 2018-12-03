@@ -174,7 +174,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
         FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
         formBody.add("categoryid", categoryid);//传递键值对参数
         formBody.add("pageindex", Integer.toString(pageindex));//传递键值对参数
-        formBody.add("pagesize", "40");//传递键值对参数
+        formBody.add("pagesize", "4");//传递键值对参数
 
 //new call
         Call call = MyOkHttp.GetCall("product.getProductList", formBody);
@@ -227,9 +227,9 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                             productAdapter.addHeaderView(top);
                             mRvProduct.setLayoutManager(new LinearLayoutManager(mActivity));
                             mRvProduct.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL, 1, R.color.gray));
-                            productAdapter.openLoadAnimation();
-                            productAdapter.isFirstOnly(false);
-                            productAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+//                            productAdapter.openLoadAnimation();
+//                            productAdapter.isFirstOnly(true);
+//                            productAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
                             mRvProduct.setAdapter(productAdapter);
                             productAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override

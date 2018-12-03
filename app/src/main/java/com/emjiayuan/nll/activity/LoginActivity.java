@@ -71,7 +71,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initData() {
-
+        setSwipeBackEnable(false);
     }
 
     @Override

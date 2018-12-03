@@ -35,10 +35,11 @@ public class SplashActivity extends BaseActivity {
             switch (msg.what) {
                 case GO_HOME:
                     goHome();
+//                    goGuide();
                     break;
                 case GO_GUIDE:
-//                    goGuide();
-                    goHome();
+                    goGuide();
+//                    goHome();
                     break;
             }
             super.handleMessage(msg);
@@ -70,7 +71,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        setSwipeBackEnable(false);
     }
 
     @Override
@@ -160,11 +161,11 @@ public class SplashActivity extends BaseActivity {
     }
 
 
-    /*private void goGuide() {
+    private void goGuide() {
         Intent intent = new Intent(SplashActivity.this, GuideActivity.class);
         SplashActivity.this.startActivity(intent);
         SplashActivity.this.finish();
-    }*/
+    }
 }
 
 

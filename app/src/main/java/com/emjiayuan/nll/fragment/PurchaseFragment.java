@@ -199,9 +199,9 @@ public class PurchaseFragment extends BaseLazyFragment implements View.OnClickLi
                             View top = LayoutInflater.from(mActivity).inflate(R.layout.banner_top_purchase, null);
                             bannerTop = top.findViewById(R.id.banner_top);
                             categoryAdapter.addHeaderView(top);
-                            categoryAdapter.openLoadAnimation();
-                            categoryAdapter.isFirstOnly(false);
-                            categoryAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+//                            categoryAdapter.openLoadAnimation();
+//                            categoryAdapter.isFirstOnly(false);
+//                            categoryAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
                             mRvCategory.setAdapter(categoryAdapter);
                             categoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                 @Override

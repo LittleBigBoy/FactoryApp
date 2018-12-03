@@ -119,9 +119,9 @@ public class CourseFragment extends BaseLazyFragment implements View.OnClickList
         View top = LayoutInflater.from(mActivity).inflate(R.layout.banner_top_college, null);
         bannerTop = top.findViewById(R.id.banner_top);
         mCourseAdapter.addHeaderView(top);
-        mCourseAdapter.openLoadAnimation();
-        mCourseAdapter.isFirstOnly(false);
-        mCourseAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+//        mCourseAdapter.openLoadAnimation();
+//        mCourseAdapter.isFirstOnly(false);
+//        mCourseAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mRvCollege.setAdapter(mCourseAdapter);
         mCourseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
