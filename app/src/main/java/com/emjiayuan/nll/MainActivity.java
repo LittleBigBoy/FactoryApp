@@ -7,10 +7,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.emjiayuan.nll.base.BaseActivity;
-import com.emjiayuan.nll.fragment.HomeFragment;
-import com.emjiayuan.nll.fragment.CourseFragment;
+import com.emjiayuan.nll.mvp.fragment.CourseFragment;
 import com.emjiayuan.nll.fragment.PersonalFragment;
-import com.emjiayuan.nll.fragment.PurchaseFragment;
+import com.emjiayuan.nll.mvp.fragment.PurchaseFragment;
+import com.emjiayuan.nll.mvp.fragment.HomeFragment;
 import com.emjiayuan.nll.widget.CustomViewPager;
 
 import java.util.ArrayList;

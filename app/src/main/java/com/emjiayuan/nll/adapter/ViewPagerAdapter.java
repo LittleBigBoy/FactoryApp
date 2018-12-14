@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.emjiayuan.nll.R;
-import com.emjiayuan.nll.activity.LoginActivity;
+import com.emjiayuan.nll.mvp.activity.LoginActivity;
 
 import java.util.List;
 

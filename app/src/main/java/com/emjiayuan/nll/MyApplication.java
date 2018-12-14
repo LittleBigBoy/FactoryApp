@@ -1,8 +1,8 @@
 package com.emjiayuan.nll;
 
-import android.app.Application;
 import android.content.Context;
 
+import com.blankj.utilcode.util.Utils;
 import com.emjiayuan.nll.utils.GlideImageLoader2;
 import com.qiyukf.unicorn.api.StatusBarNotificationConfig;
 import com.qiyukf.unicorn.api.Unicorn;
@@ -17,12 +17,14 @@ import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
+import androidx.multidex.MultiDexApplication;
+
 /**
  * 描述：
  * 作者：HMY
  * 时间：2016/5/13
  */
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
     static {//static 代码段可以防止内存泄露
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
@@ -48,6 +50,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Utils.init(this);
         // appKey 可以在七鱼管理系统->设置->APP接入 页面找到
         Unicorn.init(this, "1b5d0202117baa53c3c796075d043590", options(), new GlideImageLoader2(getApplicationContext()));
     }

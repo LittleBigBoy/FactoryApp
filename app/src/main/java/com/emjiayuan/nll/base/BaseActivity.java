@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.utils.HandleBackUtil;
+import com.emjiayuan.nll.utils.TUtil;
 import com.gyf.barlibrary.ImmersionBar;
 
 import androidx.annotation.Nullable;
@@ -20,12 +21,15 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
  * Created by geyifeng on 2017/5/9.
  */
 
-public abstract class BaseActivity extends SwipeBackActivity {
+public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel> extends SwipeBackActivity implements BaseView{
 
     private InputMethodManager imm;
     protected ImmersionBar mImmersionBar;
     private Unbinder unbinder;
     public Context mActivity;
+    public P mPresenter;
+    public M mModel;
+    private RxManager mRxManage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +38,18 @@ public abstract class BaseActivity extends SwipeBackActivity {
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //竖屏
         setContentView(setLayoutId());
         this.mActivity=this;
+
+        mPresenter = obtainPresenter();
+        mModel = obtainModel();
+        if (mPresenter != null) {
+            mPresenter.mContext = mActivity;
+            if (this instanceof BaseView) {
+                mPresenter.setVM(this, mModel);
+            }
+            mPresenter.onCreate(savedInstanceState);
+        }
+
+        mRxManage = new RxManager();
         //绑定控件
         unbinder = ButterKnife.bind(this);
         //初始化沉浸式
@@ -45,6 +61,14 @@ public abstract class BaseActivity extends SwipeBackActivity {
         initView();
         //设置监听
         setListener();
+
+    }
+    protected P obtainPresenter() {
+        return TUtil.getT(this, 0);
+    }
+
+    protected M obtainModel() {
+        return TUtil.getT(this, 1);
     }
 
     @Override
@@ -118,5 +142,35 @@ public abstract class BaseActivity extends SwipeBackActivity {
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void contentLoading() {
+
+    }
+
+    @Override
+    public void contentLoadingComplete() {
+
+    }
+
+    @Override
+    public void contentLoadingError() {
+
+    }
+
+    @Override
+    public void contentLoadingEmpty() {
+
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
     }
 }

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.interfaces.HandleBackInterface;
 import com.emjiayuan.nll.utils.HandleBackUtil;
+import com.emjiayuan.nll.utils.TUtil;
 import com.gyf.barlibrary.ImmersionBar;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,8 +27,11 @@ import butterknife.Unbinder;
  * 当使用viewpager加载Fragment，沉浸式的使用，原理懒加载
  * Created by geyifeng on 2017/4/7.
  */
-public abstract class BaseLazyFragment extends Fragment implements HandleBackInterface {
+public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseModel> extends Fragment implements HandleBackInterface,BaseView {
+    public P mPresenter;
+    public M mModel;
 
+    public RxManager mRxManage;
     protected Activity mActivity;
     protected View mRootView;
 
@@ -56,6 +60,28 @@ public abstract class BaseLazyFragment extends Fragment implements HandleBackInt
         mActivity = (Activity) context;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPresenter = obtainPresenter();
+        mModel = obtainModel();
+        if (mPresenter != null) {
+            mPresenter.mContext = this.getActivity();
+            if (this instanceof BaseView) {
+                mPresenter.setVM(this, mModel);
+            }
+            mPresenter.onCreate(savedInstanceState);
+        }
+
+        mRxManage = new RxManager();
+    }
+    protected P obtainPresenter() {
+        return TUtil.getT(this, 0);
+    }
+
+    protected M obtainModel() {
+        return TUtil.getT(this, 1);
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -214,4 +240,33 @@ public abstract class BaseLazyFragment extends Fragment implements HandleBackInt
         return HandleBackUtil.handleBackPress(this);
     }
 
+    @Override
+    public void contentLoading() {
+
+    }
+
+    @Override
+    public void contentLoadingComplete() {
+
+    }
+
+    @Override
+    public void contentLoadingError() {
+
+    }
+
+    @Override
+    public void contentLoadingEmpty() {
+
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
 }

@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.emjiayuan.nll.R;
-import com.emjiayuan.nll.activity.CourseDetailActivity;
-import com.emjiayuan.nll.activity.CourseSearchActivity;
+import com.emjiayuan.nll.mvp.activity.CourseDetailActivity;
+import com.emjiayuan.nll.mvp.activity.CourseSearchActivity;
 import com.emjiayuan.nll.adapter.CourseAdapter;
 import com.emjiayuan.nll.base.BaseLazyFragment;
 import com.emjiayuan.nll.model.BannerItem;

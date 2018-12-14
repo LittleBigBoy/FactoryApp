@@ -11,9 +11,9 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.emjiayuan.nll.R;
-import com.emjiayuan.nll.activity.ProductActivity;
-import com.emjiayuan.nll.activity.ShoppingCartActivity;
-import com.emjiayuan.nll.activity.soup.TldzActivity;
+import com.emjiayuan.nll.mvp.activity.ProductActivity;
+import com.emjiayuan.nll.mvp.activity.ShoppingCartActivity;
+import com.emjiayuan.nll.mvp.activity.soup.TldzActivity;
 import com.emjiayuan.nll.adapter.CategoryAdapter;
 import com.emjiayuan.nll.base.BaseLazyFragment;
 import com.emjiayuan.nll.model.BannerItem;
