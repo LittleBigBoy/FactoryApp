@@ -7,6 +7,7 @@ import android.os.Message;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.emjiayuan.nll.MainActivity;
 import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.base.BaseActivity;
 import com.gyf.barlibrary.ImmersionBar;
@@ -38,8 +39,8 @@ public class SplashActivity extends BaseActivity {
 //                    goGuide();
                     break;
                 case GO_GUIDE:
-                    goGuide();
-//                    goHome();
+//                    goGuide();
+                    goHome();
                     break;
             }
             super.handleMessage(msg);
@@ -155,7 +156,7 @@ public class SplashActivity extends BaseActivity {
 
 
     private void goHome() {
-        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         SplashActivity.this.startActivity(intent);
         SplashActivity.this.finish();
     }

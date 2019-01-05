@@ -52,7 +52,7 @@ public class MyApplication extends MultiDexApplication {
         super.onCreate();
         Utils.init(this);
         // appKey 可以在七鱼管理系统->设置->APP接入 页面找到
-        Unicorn.init(this, "1b5d0202117baa53c3c796075d043590", options(), new GlideImageLoader2(getApplicationContext()));
+//        Unicorn.init(this, "1b5d0202117baa53c3c796075d043590", options(), new GlideImageLoader2(getApplicationContext()));
     }
     // 如果返回值为null，则全部使用默认参数。
     private YSFOptions options() {

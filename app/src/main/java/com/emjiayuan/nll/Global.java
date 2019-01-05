@@ -10,8 +10,8 @@ import java.util.List;
 import cn.addapp.pickers.entity.Province;
 
 public class Global {
-    public static LoginResult loginResult;
-//    public static LoginResult loginResult=new LoginResult("1");
+//    public static LoginResult loginResult;
+    public static LoginResult loginResult=new LoginResult("1");
 //    public static UserInfo mUserInfo=new UserInfo();
     public static String location_name="";
     public static String provinceid="0";

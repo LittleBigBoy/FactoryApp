@@ -106,12 +106,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter,HomeModel> impl
     @Override
     protected void initData() {
 //        getHomeData();
-        mPresenter.getData("1");
+//        mPresenter.getData("1");
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
 //                getHomeData();
-                mPresenter.getData("1");
+//                mPresenter.getData("1");
             }
         });
 
@@ -139,57 +139,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter,HomeModel> impl
 
     @Override
     public void success(BaseResult<HomeData> baseResult) {
-        mHomeData = baseResult.getData();
-        mRanknum=mHomeData.getRanknum();
-        mCourseAdapter = new CourseAdapter(R.layout.course_item, mHomeData.getCollegelist());
-        mNewsAdapter = new NewsAdapter(R.layout.news_item, mHomeData.getNewslist());
-        View top=LayoutInflater.from(mActivity).inflate(R.layout.home_top,null);
-        rvTop=top.findViewById(R.id.rv_top);
-        mMoreLl =top.findViewById(R.id.more_ll);
-        mMoreLl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mActivity,MessageActivity.class));
-            }
-        });
-        mHomeText =top.findViewById(R.id.home_text);
-//                            mHomeText.setText(Html.fromHtml("尊贵的<span style='color:#33A900; font-size:200'>"+Global.loginResult.getInfo().getTruename()+"<span/>您好！\n恭喜您成为伊穆家园第<span style='color:#33A900; font-size:20; font_weight:bold'>"+mRanknum+"<span/>位会员！"));
-        SpannableString styledText = new SpannableString("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！\n恭喜您成为伊穆家园第"+mRanknum+"位会员！");
 
-        styledText.setSpan(new TextAppearanceSpan(mActivity, R.style.style0), 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        styledText.setSpan(new TextAppearanceSpan(mActivity, R.style.style1), 3, ("尊贵的"+Global.loginResult.getInfo().getTruename()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        styledText.setSpan(new TextAppearanceSpan(mActivity, R.style.style0), ("尊贵的"+Global.loginResult.getInfo().getTruename()).length(), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        styledText.setSpan(new TextAppearanceSpan(mActivity, R.style.style2), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！").length(), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！\n恭喜您成为伊穆家园第").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        styledText.setSpan(new TextAppearanceSpan(mActivity, R.style.style3), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！\n恭喜您成为伊穆家园第").length(), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！\n恭喜您成为伊穆家园第"+mRanknum).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        styledText.setSpan(new TextAppearanceSpan(mActivity, R.style.style2), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！\n恭喜您成为伊穆家园第"+mRanknum).length(), ("尊贵的"+Global.loginResult.getInfo().getTruename()+"您好！\n恭喜您成为伊穆家园第"+mRanknum+"位会员！").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        mHomeText.setText(styledText, TextView.BufferType.SPANNABLE);
-
-        mCourseAdapter.addHeaderView(top);
-        mCourseAdapter.openLoadAnimation();
-        mCourseAdapter.isFirstOnly(false);
-        mCourseAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-        rvTop.setLayoutManager(new LinearLayoutManager(mActivity));
-        rvTop.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL, 2, Color.parseColor("#E6E6E6")));
-        rvTop.setAdapter(mNewsAdapter);
-        rvHome.setAdapter(mCourseAdapter);
-        mCourseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent=new Intent(mActivity, CourseDetailActivity.class);
-                intent.putExtra("collegeid", mHomeData.getCollegelist().get(position).getId());
-                startActivity(intent);
-            }
-        });
-        mNewsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent=new Intent(mActivity, NewsDetailActivity.class);
-                intent.putExtra("newsid", mHomeData.getNewslist().get(position).getId());
-                startActivity(intent);
-            }
-        });
-        refreshLayout.finishRefresh();
     }
 
 }

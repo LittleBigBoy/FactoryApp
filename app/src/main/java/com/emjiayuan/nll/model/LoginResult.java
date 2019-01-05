@@ -5,6 +5,10 @@ import java.io.Serializable;
 public class LoginResult implements Serializable {
 
 
+    public LoginResult(String id) {
+        this.id = id;
+    }
+
     /**
      * id : 1
      * username : test
