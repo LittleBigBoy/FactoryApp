@@ -64,7 +64,7 @@
                 android:layout_gravity="center"
                 android:textColor="@drawable/tab_menu_home_text"
                 android:textSize="12sp"
-                android:text="学院"/>
+                android:text="所有工单"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_car"
@@ -86,7 +86,7 @@
                 android:layout_gravity="center"
                 android:textColor="@drawable/tab_menu_home_text"
                 android:textSize="12sp"
-                android:text="采购"/>
+                android:text="发现"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_mine"

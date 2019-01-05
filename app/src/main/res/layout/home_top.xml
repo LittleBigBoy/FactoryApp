@@ -2,63 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5F5"
     android:orientation="vertical">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@drawable/home_bg">
-        <TextView
-            android:id="@+id/home_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:padding="20dp"
-            android:textSize="28sp"
-            android:text="尊贵的嘻嘻您好！\n恭喜您成为伊穆家园第1653位会员"/>
-    </FrameLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:background="#F2F2F2"
-        android:padding="10dp">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:src="@drawable/ymtt"/>
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_top"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <LinearLayout
-        android:id="@+id/more_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:background="@color/white"
-        android:padding="10dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="查看更多"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:background="#F2F2F2"
-        android:padding="10dp">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:src="@drawable/cptj"/>
-    </LinearLayout>
 
 </LinearLayout>
