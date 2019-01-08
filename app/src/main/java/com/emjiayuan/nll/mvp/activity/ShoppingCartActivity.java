@@ -19,6 +19,7 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.emjiayuan.factoryside.mvp.activity.LoginActivity;
 import com.emjiayuan.nll.Global;
 import com.emjiayuan.nll.R;
 import com.emjiayuan.nll.adapter.ShoppingCartAdapter;

@@ -6,9 +6,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.emjiayuan.factoryside.mvp.fragment.AllWorkOrdersFragment;
+import com.emjiayuan.factoryside.mvp.fragment.MineFragment;
 import com.emjiayuan.nll.base.BaseActivity;
 import com.emjiayuan.nll.mvp.fragment.CourseFragment;
-import com.emjiayuan.nll.fragment.PersonalFragment;
 import com.emjiayuan.nll.mvp.fragment.PurchaseFragment;
 import com.emjiayuan.factoryside.mvp.fragment.HomeFragment;
 import com.emjiayuan.nll.widget.CustomViewPager;
@@ -68,9 +69,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setSwipeBackEnable(false);
         mFragments = new ArrayList<>();
         mFragments.add(HomeFragment.newInstance("",""));
-        mFragments.add(CourseFragment.newInstance("",""));
+        mFragments.add(AllWorkOrdersFragment.newInstance("",""));
         mFragments.add(PurchaseFragment.newInstance("",""));
-        mFragments.add(PersonalFragment.newInstance("",""));
+        mFragments.add(MineFragment.newInstance("",""));
     }
 
     @Override

@@ -45,7 +45,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.LoginActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.factoryside.mvp.activity.HomeInstallationActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.factoryside.mvp.activity.HomeMaintenanceActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.factoryside.mvp.activity.CustomerServiceActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.factoryside.mvp.activity.BatchOrderActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name="com.emjiayuan.factoryside.mvp.activity.LoginActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.mvp.activity.GuideActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.base.BaseActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name="com.emjiayuan.nll.mvp.activity.AddActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>

@@ -1,12 +1,18 @@
 package com.emjiayuan.factoryside.mvp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.emjiayuan.factoryside.mvp.activity.BatchOrderActivity;
+import com.emjiayuan.factoryside.mvp.activity.CustomerServiceActivity;
+import com.emjiayuan.factoryside.mvp.activity.HomeInstallationActivity;
+import com.emjiayuan.factoryside.mvp.activity.HomeMaintenanceActivity;
 import com.emjiayuan.factoryside.mvp.contract.HomeContract;
 import com.emjiayuan.factoryside.mvp.model.HomeModel;
 import com.emjiayuan.factoryside.mvp.presenter.HomePresenter;
@@ -130,7 +136,25 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 //        mRvMainMenu.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL, 2, Color.parseColor("#F2F2F2")));
         mRvMainMenu.setAdapter(mMainAdapter);
         mRvCommonMenu.setAdapter(mCommonAdapter);
-
+        mMainAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (position){
+                    case 0:
+                        startActivity(new Intent(mActivity,HomeInstallationActivity.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(mActivity,HomeMaintenanceActivity.class));
+                        break;
+                    case 2:
+                        startActivity(new Intent(mActivity,CustomerServiceActivity.class));
+                        break;
+                    case 3:
+                        startActivity(new Intent(mActivity,BatchOrderActivity.class));
+                        break;
+                }
+            }
+        });
         mRefreshLayout.setEnableLoadMore(false);
     }
 
