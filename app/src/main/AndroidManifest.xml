@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.emjiayuan.nll">
+    package="com.zhenhaikj.factoryside">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,11 +9,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <application
-        android:name=".MyApplication"
+        android:name=".mvp.MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/start_icon"
+        android:icon="@drawable/img1"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/start_icon"
+        android:roundIcon="@drawable/img1"
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         tools:replace="android:appComponentFactory"
@@ -24,7 +24,7 @@
 
             android:name="androidx.core.content.FileProvider"
 
-            android:authorities="com.emjiayuan.nll.fileProvider"
+            android:authorities="com.zhenhaikj.factoryside.fileProvider"
 
             android:grantUriPermissions="true"
 
@@ -38,62 +38,21 @@
 
         </provider>
 
-        <activity android:name="com.emjiayuan.nll.mvp.activity.SplashActivity">
+        <activity android:name=".mvp.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.emjiayuan.factoryside.mvp.activity.HomeInstallationActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.factoryside.mvp.activity.HomeMaintenanceActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.factoryside.mvp.activity.CustomerServiceActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.factoryside.mvp.activity.BatchOrderActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.factoryside.mvp.activity.LoginActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.GuideActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.base.BaseActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.AddActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.PhoneActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.PersonalInfoActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.ShopInfoActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.VerifyActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.MainActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.ForgetPwdActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.VipActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.RejectActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.ProductActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.ProductDetailActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.CollectionActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.HistoryActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.EnterpriseActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.SpitActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.HelpActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.HezuoActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.CourseDetailActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.NewsDetailActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.OrderNormalActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.OrderConfirmActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.OrderDetailActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.LogisticsActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.LogisticsDetailActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.SuccessActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.ShoppingCartActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.SettingActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.CgpwdActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.JudgeActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.VipAgreementActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.SearchActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.CourseSearchActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.MessageActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.address.AddAddressActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.address.AddressActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.address.ModifyAddressActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.soup.MySoupOrderActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.soup.SoupOrderConfirmActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.soup.TldzActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.soup.SoupOrderDetailActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.soup.SoupSuccessActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
-        <activity android:name="com.emjiayuan.nll.mvp.activity.soup.SoupwikiActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.AllWorkOrdersActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.HomeInstallationActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.HomeMaintenanceActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.CustomerServiceActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.BatchOrderActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.LoginActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.base.BaseActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.MainActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="com.yalantis.ucrop.UCropActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
     </application>
 

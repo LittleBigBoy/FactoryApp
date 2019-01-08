@@ -93,13 +93,13 @@
                         android:text="待付款"
                         android:textColor="#828282"/>
                 </LinearLayout>
-        <com.emjiayuan.nll.widget.MyListView
+        <com.zhenhaikj.factoryside.mvp.widget.MyListView
             android:id="@+id/lv_goods"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="#ffffff"
             android:dividerHeight="10dp"/>
-        <com.emjiayuan.nll.widget.MyListView
+        <com.zhenhaikj.factoryside.mvp.widget.MyListView
             android:id="@+id/lv_goods_in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

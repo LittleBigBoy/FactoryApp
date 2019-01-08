@@ -28,7 +28,7 @@
             android:layout_height="1dp"
             android:background="@color/black"/>
     </LinearLayout>
-    <com.emjiayuan.nll.widget.MyGridView
+    <com.zhenhaikj.factoryside.mvp.widget.MyGridView
         android:id="@+id/gv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

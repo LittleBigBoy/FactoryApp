@@ -38,7 +38,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_marginLeft="@dimen/dp_10"
-                                android:src="@drawable/delete" />
+                                android:src="@drawable/wd" />
 
                             <ImageView
                                 android:id="@+id/iv_setting"
@@ -46,7 +46,7 @@
                                 android:layout_height="30dp"
                                 android:layout_marginRight="@dimen/dp_10"
                                 android:layout_alignParentRight="true"
-                                android:src="@drawable/delete" />
+                                android:src="@drawable/setting" />
                         </RelativeLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                                 android:id="@+id/nickname"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="伊穆家园"
+                                android:text="小明"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginBottom="10dp"
                                 android:textColor="@color/white"
@@ -103,7 +103,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="80dp"
                         android:layout_margin="10dp"
                         android:background="@drawable/white_edit_shape"
                         android:orientation="horizontal">
@@ -125,14 +125,14 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     android:textSize="11sp"
-                                    android:text="待付款"
+                                    android:text="全部订单"
                                     android:textColor="#808080" />
                             </LinearLayout>
                             <View
                                 android:layout_width="1dp"
-                                android:layout_height="33dp"
-                                android:layout_marginTop="20dp"
-                                android:layout_marginBottom="20dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
                                 android:background="@color/gray_three"/>
                             <LinearLayout
                                 android:id="@+id/normal_dfh_ll"
@@ -152,15 +152,15 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     android:textSize="11sp"
-                                    android:text="待发货"
+                                    android:text="待返件"
                                     android:textColor="#808080" />
                             </LinearLayout>
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="33dp"
-                                android:layout_marginTop="20dp"
-                                android:layout_marginBottom="20dp"
-                                android:background="@color/gray_three"/>
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/gray_three"/>
                             <LinearLayout
                                 android:id="@+id/normal_dsh_ll"
                                 android:layout_width="0dp"
@@ -179,15 +179,15 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     android:textSize="11sp"
-                                    android:text="待收货"
+                                    android:text="待确认"
                                     android:textColor="#808080" />
                             </LinearLayout>
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="33dp"
-                                android:layout_marginTop="20dp"
-                                android:layout_marginBottom="20dp"
-                                android:background="@color/gray_three"/>
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/gray_three"/>
                             <LinearLayout
                                 android:id="@+id/normal_all_ll"
                                 android:layout_width="0dp"
@@ -206,7 +206,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     android:textSize="11sp"
-                                    android:text="全部订单"
+                                    android:text="已完成"
                                     android:textColor="#808080" />
                             </LinearLayout>
                     </LinearLayout>
@@ -240,9 +240,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:background="@color/gray_three"/>
+                        android:background="#F7F7F7"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -260,6 +258,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="客服电话"
+                            android:textSize="15sp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/black" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="400-000-0000"
                             android:textSize="15sp"
                             android:layout_marginRight="10dp"
                             android:layout_marginLeft="10dp"
@@ -320,6 +327,10 @@
                             android:layout_height="20dp"
                             android:src="@drawable/into" />
                     </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F7F7F7"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -337,6 +348,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="码上扫"
+                            android:textSize="15sp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/black" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="招募代理商只需扫一扫"
                             android:textSize="15sp"
                             android:layout_marginRight="10dp"
                             android:layout_marginLeft="10dp"
@@ -397,6 +417,10 @@
                             android:layout_height="20dp"
                             android:src="@drawable/into" />
                     </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F7F7F7"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

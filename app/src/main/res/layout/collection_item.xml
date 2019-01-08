@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.emjiayuan.nll.widget.MyImageView
+        <com.zhenhaikj.factoryside.mvp.widget.MyImageView
             android:id="@+id/icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

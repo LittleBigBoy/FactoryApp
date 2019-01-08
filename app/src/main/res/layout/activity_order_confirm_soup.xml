@@ -263,7 +263,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#DDDDDD"/>
-                    <com.emjiayuan.nll.widget.MyListView
+                    <com.zhenhaikj.factoryside.mvp.widget.MyListView
                         android:id="@+id/lv_goods"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"

@@ -30,7 +30,7 @@
                     android:focusableInTouchMode="true"
                     android:focusable="true"
                     android:orientation="vertical">
-                    <com.emjiayuan.nll.widget.MyLinearLayout
+                    <com.zhenhaikj.factoryside.mvp.widget.MyLinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -39,7 +39,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             app:image_scale_type="fit_xy"/>
-                    </com.emjiayuan.nll.widget.MyLinearLayout>
+                    </com.zhenhaikj.factoryside.mvp.widget.MyLinearLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -176,7 +176,7 @@
                         android:id="@+id/webview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-                    <com.emjiayuan.nll.widget.MyListView
+                    <com.zhenhaikj.factoryside.mvp.widget.MyListView
                         android:id="@+id/lv_pl"
                         android:layout_width="match_parent"
                         android:visibility="gone"
