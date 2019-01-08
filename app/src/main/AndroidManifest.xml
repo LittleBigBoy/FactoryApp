@@ -39,11 +39,7 @@
         </provider>
 
         <activity android:name=".mvp.activity.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".mvp.activity.AllWorkOrdersActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.HomeInstallationActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
@@ -54,6 +50,13 @@
         <activity android:name=".mvp.base.BaseActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.MainActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="com.yalantis.ucrop.UCropActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.WalletActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
