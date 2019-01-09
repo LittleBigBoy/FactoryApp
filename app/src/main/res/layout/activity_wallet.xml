@@ -127,20 +127,20 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="可用余额："
-                                    android:textSize="10dp"
+                                    android:textSize="10sp"
                                     android:layout_marginLeft="20dp"/>
                                 <TextView
                                     android:id="@+id/available_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="535.9"
-                                    android:textSize="10dp"
+                                    android:textSize="10sp"
                                     android:textColor="#101010"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="元"
-                                    android:textSize="10dp"
+                                    android:textSize="10sp"
                                     android:layout_marginLeft="5dp"/>
                             </LinearLayout>
                             <LinearLayout
@@ -152,20 +152,20 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="冻结余额："
-                                    android:textSize="10dp"
+                                    android:textSize="10sp"
                                     android:layout_marginLeft="20dp"/>
                                 <TextView
                                     android:id="@+id/freeze_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="1410.4"
-                                    android:textSize="10dp"
+                                    android:textSize="10sp"
                                     android:textColor="#101010"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="元"
-                                    android:textSize="10dp"
+                                    android:textSize="10sp"
                                     android:layout_marginLeft="5dp"/>
                             </LinearLayout>
                             <LinearLayout
@@ -178,21 +178,22 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="赠送余额："
-                                    android:textSize="10dp"
+                                    android:textSize="10sp"
                                     android:layout_marginLeft="20dp"/>
                                 <TextView
                                     android:id="@+id/gift_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0.00"
-                                    android:textSize="10dp"
+                                    android:textSize="10sp"
                                     android:textColor="#101010"/>
+
                                 <TextView
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="5dp"
                                     android:text="元"
-                                    android:textSize="10dp"
-                                    android:layout_marginLeft="5dp"/>
+                                    android:textSize="10sp" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -286,7 +287,7 @@
                             android:layout_height="wrap_content"
                             android:text="申请发票"
                             android:textColor="#101010"
-                            android:textSize="@dimen/dp_10"
+                            android:textSize="10sp"
                             android:layout_marginTop="5dp"/>
                     </LinearLayout>
                     <LinearLayout
@@ -306,7 +307,7 @@
                             android:layout_height="wrap_content"
                             android:text="我的银行卡"
                             android:textColor="#101010"
-                            android:textSize="@dimen/dp_10"
+                            android:textSize="10sp"
                             android:layout_marginTop="5dp"/>
                     </LinearLayout>
                     <LinearLayout
@@ -326,7 +327,7 @@
                             android:layout_height="wrap_content"
                             android:text="兑换码"
                             android:textColor="#101010"
-                            android:textSize="@dimen/dp_10"
+                            android:textSize="10sp"
                             android:layout_marginTop="5dp"/>
                     </LinearLayout>
 
