@@ -1,5 +1,7 @@
 package com.zhenhaikj.factoryside.mvp;
 
+import android.accounts.Account;
+
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.Course;
@@ -9,11 +11,31 @@ import com.zhenhaikj.factoryside.mvp.bean.Product;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ApiService {
+    /**
+     * app用户登录
+     */
+    @GET("Account/LoginOn")
+    Observable<BaseResult<String>> LoginOn(@Query("userName") String userName, @Query("passWord") String passWord);
+    /**
+     * app获取用户信息
+     */
+    @POST("Account/GetUserInfo")
+    Observable<BaseResult<String>> GetUserInfo(@Body RequestBody json);
+    /**
+     * app获取用户信息
+     */
+    @FormUrlEncoded
+    @POST("Account/GetUserInfo")
+    Observable<BaseResult<String>> GetUserInfo(@Field("userName") String userName);
     /**
      * 获取首页数据
      */
@@ -186,7 +208,7 @@ public interface ApiService {
 
     @GET("mineOrder/orderInfo")
 //获取订单
-    Observable<BaseResult<Order>> orderInfo(@Query("accountId") String accountId);
+    Observable<BaseResult<WorkOrder>> orderInfo(@Query("accountId") String accountId);
 
     // mineOrder/orderDetailsInfo 订单详情
     @GET("mineOrder/orderDetailsInfo")

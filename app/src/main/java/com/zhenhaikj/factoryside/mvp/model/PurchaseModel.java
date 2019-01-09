@@ -15,7 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 public class PurchaseModel implements PurchaseContract.Model {
     @Override
     public Observable<BaseResult<List<Category>>> getData() {
-        return ApiRetrofit.getDefault("product.getCategoryList").getCategory()
+        return ApiRetrofit.getDefault().getCategory()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

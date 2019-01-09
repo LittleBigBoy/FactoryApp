@@ -72,7 +72,8 @@ public class HomeInstallationActivity extends BaseActivity implements View.OnCli
 
     @Override
     protected void initView() {
-
+        mTvTitle.setVisibility(View.VISIBLE);
+        mTvTitle.setText("上门安装");
     }
 
     @Override

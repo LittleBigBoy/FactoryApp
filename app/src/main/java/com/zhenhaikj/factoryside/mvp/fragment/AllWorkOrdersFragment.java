@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
-import com.zhenhaikj.factoryside.mvp.adapter.ExamplePagerAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.WorkOrdersPagerAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
 import com.zhenhaikj.factoryside.R;
@@ -23,7 +23,9 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorT
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
@@ -36,8 +38,6 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
     MagicIndicator mMagicIndicator;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
@@ -49,6 +49,7 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
             "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     };
     private CommonNavigator commonNavigator;
+    private List<WorkOrderFragment> mWorkOrderFragmentList;
 
 
     public AllWorkOrdersFragment() {
@@ -103,7 +104,11 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
 
     @Override
     protected void initView() {
-        mViewPager.setAdapter(new ExamplePagerAdapter(Arrays.asList(mTitleDataList)));
+        mWorkOrderFragmentList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            mWorkOrderFragmentList.add(WorkOrderFragment.newInstance("",""));
+        }
+        mViewPager.setAdapter(new WorkOrdersPagerAdapter(getFragmentManager(),mTitleDataList,mWorkOrderFragmentList));
         commonNavigator = new CommonNavigator(mActivity);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
 

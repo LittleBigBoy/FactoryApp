@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers;
 public class HomeModel implements HomeContract.Model {
     @Override
     public Observable<BaseResult<HomeData>> getData(String userid) {
-        return ApiRetrofit.getDefault("public.appHome").getHome(userid)
+        return ApiRetrofit.getDefault().getHome(userid)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

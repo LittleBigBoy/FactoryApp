@@ -4,32 +4,32 @@ package com.zhenhaikj.factoryside.mvp.base;
  * Created by Administrator on 2018/5/2.
  */
 public class BaseResult<B> {
-    private String code;
-    private String message;
-    private B data;
+    private int StatusCode;
+    private String Info;
+    private B Data;
 
 
-    public String getCode() {
-        return code;
+    public int getStatusCode() {
+        return StatusCode;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setStatusCode(int statusCode) {
+        StatusCode = statusCode;
     }
 
-    public String getMessage() {
-        return message;
+    public String getInfo() {
+        return Info;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setInfo(String info) {
+        Info = info;
     }
 
     public B getData() {
-        return data;
+        return Data;
     }
 
     public void setData(B data) {
-        this.data = data;
+        Data = data;
     }
 }

@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
-import com.zhenhaikj.factoryside.mvp.adapter.ExamplePagerAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.WorkOrdersPagerAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
 import com.zhenhaikj.factoryside.R;
@@ -36,8 +36,6 @@ public class DiscoveryFragment extends BaseLazyFragment implements View.OnClickL
     MagicIndicator mMagicIndicator;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
@@ -98,39 +96,7 @@ public class DiscoveryFragment extends BaseLazyFragment implements View.OnClickL
 
     @Override
     protected void initData() {
-        mViewPager.setAdapter(new ExamplePagerAdapter(Arrays.asList(mTitleDataList)));
-        commonNavigator = new CommonNavigator(mActivity);
-        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
 
-            @Override
-            public int getCount() {
-                return mTitleDataList == null ? 0 : mTitleDataList.length;
-            }
-
-            @Override
-            public IPagerTitleView getTitleView(Context context, final int index) {
-                ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
-                colorTransitionPagerTitleView.setNormalColor(Color.GRAY);
-                colorTransitionPagerTitleView.setSelectedColor(Color.BLACK);
-                colorTransitionPagerTitleView.setText(mTitleDataList[index]);
-                colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mViewPager.setCurrentItem(index);
-                    }
-                });
-                return colorTransitionPagerTitleView;
-            }
-
-            @Override
-            public IPagerIndicator getIndicator(Context context) {
-                LinePagerIndicator indicator = new LinePagerIndicator(context);
-                indicator.setMode(LinePagerIndicator.MODE_WRAP_CONTENT);
-                return indicator;
-            }
-        });
-        mMagicIndicator.setNavigator(commonNavigator);
-        ViewPagerHelper.bind(mMagicIndicator, mViewPager);
     }
 
     @Override

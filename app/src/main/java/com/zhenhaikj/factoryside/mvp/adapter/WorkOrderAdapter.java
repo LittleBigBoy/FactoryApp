@@ -1,46 +1,37 @@
 package com.zhenhaikj.factoryside.mvp.adapter;
 
-import android.view.View;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenhaikj.factoryside.R;
-import com.zhenhaikj.factoryside.mvp.bean.SoupOrder;
+import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SoupOrderAdapter extends BaseQuickAdapter<SoupOrder,BaseViewHolder> {
-    public SoupOrderAdapter(int layoutResId, List<SoupOrder> data) {
+public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder,BaseViewHolder> {
+    public WorkOrderAdapter(int layoutResId, List<WorkOrder> data) {
         super(layoutResId, data);
     }
     @Override
-    protected void convert(BaseViewHolder helper, SoupOrder item) {
-        // 加载网络图片
-        helper.setText(R.id.order_time,item.getCreatetime());
+    protected void convert(BaseViewHolder helper, WorkOrder item) {
+        /*helper.setText(R.id.order_time,item.getCreatetime());
         helper.setText(R.id.order_num,item.getOrder_no());
         helper.setText(R.id.status_tv,item.getOrder_status());
-        helper.setText(R.id.total_tv,"共1件商品 合计: ¥"+item.getTotalmoney());
+        int count=0;
+        for (int i = 0; i < item.getProduct_list().size(); i++) {
+            count+=Integer.parseInt(item.getProduct_list().get(i).getBuycount());
+        }
+        helper.setText(R.id.total_tv,"共"+count+"件商品 合计: ¥"+item.getTotalmoney() +"(含运费及优惠券优惠)");
         RecyclerView rv_product=helper.getView(R.id.rv_product);
-        final RecyclerView rv_goods_in=helper.getView(R.id.rv_goods_in);
         rv_product.setLayoutManager(new LinearLayoutManager(mContext));
-        rv_goods_in.setLayoutManager(new LinearLayoutManager(mContext));
-        rv_product.setAdapter(new SoupOrderProductAdapter(R.layout.order_item_in,item.getProduct_list(),item));
-        rv_goods_in.setAdapter(new SoupInAdapter(R.layout.soup_item_in,item.getProduct_list()));
-        helper.setVisible(R.id.up_down,true);
-        helper.setOnClickListener(R.id.up_down, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                rv_goods_in.setVisibility(rv_goods_in.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE);
-            }
-        });
+        rv_product.setAdapter(new OrderProductAdapter(R.layout.order_item_in,item.getProduct_list()));
         switch (item.getOrdertype()){
-            /*0.已取消1.待付款2.待发货3.待收货*/
+            *//*0.已取消1.待付款2.待发货3.待收货4.待评价*//*
             case "0":
-                helper.setVisible(R.id.btn1,false);
-                helper.setVisible(R.id.btn2,false);
+                helper.setGone(R.id.btn1,false);
+                helper.setGone(R.id.btn2,false);
                 break;
             case "1":
                 helper.setText(R.id.btn1,"取消订单");
@@ -59,8 +50,14 @@ public class SoupOrderAdapter extends BaseQuickAdapter<SoupOrder,BaseViewHolder>
                 helper.setVisible(R.id.btn1,true);
                 helper.setVisible(R.id.btn2,true);
                 break;
+            case "4":
+                helper.setText(R.id.btn2,"去评价");
+                helper.setVisible(R.id.btn1,false);
+                helper.setVisible(R.id.btn2,true);
+                break;
         }
         helper.addOnClickListener(R.id.btn1);
-        helper.addOnClickListener(R.id.btn2);
+        helper.addOnClickListener(R.id.btn2);*/
     }
+
 }

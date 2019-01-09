@@ -23,7 +23,7 @@ public class PurchasePresenter extends PurchaseContract.Presenter {
 
                     @Override
                     public void onNext(BaseResult<List<Category>> baseResult) {
-                        if ("200".equals(baseResult.getCode())){
+                        if ("200".equals(baseResult.getStatusCode())){
                             mView.hideProgress();
                             mView.success(baseResult);
                         }else{

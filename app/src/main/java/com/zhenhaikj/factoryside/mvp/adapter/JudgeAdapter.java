@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.bean.Commentdata;
-import com.zhenhaikj.factoryside.mvp.bean.Order;
+import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.google.gson.Gson;
 import com.hedgehog.ratingbar.RatingBar;
@@ -48,19 +48,19 @@ public class JudgeAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    private List<Order.ProductListBean> grouplists = new ArrayList<>();
+    private List<WorkOrder.ProductListBean> grouplists = new ArrayList<>();
 
-    public List<Order.ProductListBean> getGrouplists() {
+    public List<WorkOrder.ProductListBean> getGrouplists() {
         return grouplists;
     }
 
-    public void setGrouplists(List<Order.ProductListBean> grouplists) {
+    public void setGrouplists(List<WorkOrder.ProductListBean> grouplists) {
         this.grouplists = grouplists;
     }
 
     private LayoutInflater mInflater;
 
-    public JudgeAdapter(Context mContext, List<Order.ProductListBean> grouplists) {
+    public JudgeAdapter(Context mContext, List<WorkOrder.ProductListBean> grouplists) {
         super();
         this.mContext = mContext;
         this.grouplists = grouplists;
@@ -74,7 +74,7 @@ public class JudgeAdapter extends BaseAdapter {
     }
 
     @Override
-    public Order.ProductListBean getItem(int position) {
+    public WorkOrder.ProductListBean getItem(int position) {
         return grouplists.get(position);
     }
 
@@ -93,7 +93,7 @@ public class JudgeAdapter extends BaseAdapter {
             holder = new ViewHolder(view,position);
             view.setTag(holder);
         }
-        Order.ProductListBean item=grouplists.get(position);
+        WorkOrder.ProductListBean item=grouplists.get(position);
         Glide.with(mContext).load(item.getImages()).into(holder.icon);
         holder.name.setText(item.getName());
         holder.ratingbar.setOnRatingChangeListener(new RatingBar.OnRatingChangeListener() {

@@ -6,7 +6,7 @@ import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import java.io.Serializable;
 import java.util.List;
 
-public class Order implements Serializable {
+public class WorkOrder implements Serializable {
 
     /**
      * id : 13084

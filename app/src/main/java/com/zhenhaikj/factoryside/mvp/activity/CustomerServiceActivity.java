@@ -60,7 +60,8 @@ public class CustomerServiceActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
-
+        mTvTitle.setVisibility(View.VISIBLE);
+        mTvTitle.setText("客户送修单");
     }
 
     @Override

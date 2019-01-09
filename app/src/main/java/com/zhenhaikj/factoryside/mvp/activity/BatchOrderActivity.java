@@ -43,7 +43,8 @@ public class BatchOrderActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initView() {
-
+        mTvTitle.setVisibility(View.VISIBLE);
+        mTvTitle.setText("批量下单");
     }
 
     @Override

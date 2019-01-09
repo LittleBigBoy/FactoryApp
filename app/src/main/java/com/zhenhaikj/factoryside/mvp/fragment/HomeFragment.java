@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -160,7 +161,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mCommonAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mActivity,AllWorkOrdersActivity.class));
+                Bundle bundle=new Bundle();
+                bundle.putString("title",mCommonMenus.get(position).getName());
+                bundle.putInt("position",position);
+                Intent intent=new Intent(mActivity,AllWorkOrdersActivity.class);
+                intent.putExtras(bundle);
+                ActivityUtils.startActivity(intent);
             }
         });
         mRefreshLayout.setEnableLoadMore(false);

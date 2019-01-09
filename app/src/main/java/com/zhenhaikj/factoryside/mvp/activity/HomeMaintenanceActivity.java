@@ -70,7 +70,8 @@ public class HomeMaintenanceActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
-
+        mTvTitle.setVisibility(View.VISIBLE);
+        mTvTitle.setText("上门维修");
     }
 
     @Override
