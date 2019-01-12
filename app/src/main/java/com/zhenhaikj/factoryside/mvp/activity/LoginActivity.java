@@ -13,6 +13,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
+import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.mvp.MainActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.R;
@@ -69,6 +70,16 @@ public class LoginActivity extends BaseActivity<LoginPresenter,LoginModel> imple
     protected void initView() {
         mEtUsername.setText("admin");
         mEtPassword.setText("123");
+    }
+
+    @Override
+    protected void initImmersionBar() {
+        super.initImmersionBar();
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarColor(R.color.white);
+        mImmersionBar.fitsSystemWindows(false);
+        mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
     }
 
     @Override

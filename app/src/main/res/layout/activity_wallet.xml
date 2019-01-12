@@ -2,17 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#F7F7F7">
-
+    <include layout="@layout/toolbar"/>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:srlAccentColor="@color/white"
+        android:background="@color/red">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#F7F7F7">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -25,28 +29,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="215dp"
+                        android:layout_height="140dp"
                         android:background="#F25037"
                         android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="25dp"
-                            android:text="我的钱包"
-                            android:textColor="#FFFFFF"
-                            android:textSize="25sp" />
                     </LinearLayout>
-                    
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:background="@drawable/background_wallet"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:layout_marginTop="80dp"
-                        android:layout_marginBottom="@dimen/dp_10"
+                        android:layout_margin="@dimen/dp_10"
                         android:orientation="vertical"
                         android:elevation="5dp">
                         <LinearLayout
@@ -58,15 +50,12 @@
                                 android:layout_height="wrap_content"
                                 android:text="总资产（元）"
                                 android:textSize="15sp"
+                                android:layout_weight="1"
                                 android:layout_marginTop="20dp"
                                 android:layout_marginLeft="20dp"/>
 
                             <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"/>
-                            <TextView
-                                android:id="@+id/Recharge_tv"
+                                android:id="@+id/recharge_tv"
                                 android:layout_width="65dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/wallet_frame"
@@ -77,7 +66,7 @@
                                 android:layout_marginTop="30dp"/>
 
                             <TextView
-                                android:id="@+id/PayTheDeposi_tv"
+                                android:id="@+id/pay_the_deposi_tv"
                                 android:layout_width="88dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/wallet_frame"
@@ -199,9 +188,9 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="2dp"
+                            android:layout_height="1dp"
                             android:background="#EEEEEE"
-                            android:layout_marginTop="15dp"
+                            android:layout_marginTop="13dp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"/>
 
@@ -224,17 +213,18 @@
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
                                     android:src="@drawable/voucher"/>
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="我的优惠券"
-                                    android:textSize="10sp"
-                                    android:textColor="#101010"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="5dp"/>
+                                    android:layout_marginLeft="5dp"
+                                    android:text="我的优惠券"
+                                    android:textColor="#101010"
+                                    android:textSize="10sp" />
                             </LinearLayout>
                             <View
-                                android:layout_width="2dp"
+                                android:layout_width="1dp"
                                 android:layout_height="match_parent"
                                 android:background="#EEEEEE"/>
                             <LinearLayout
@@ -265,7 +255,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                   android:layout_margin="10dp"
+                    android:layout_margin="10dp"
                     android:background="@drawable/background_wallet"
                     android:elevation="5dp"
                     android:orientation="horizontal">
@@ -352,24 +342,21 @@
                         android:textColor="#101010"
                         android:layout_marginLeft="3dp"/>
                 </LinearLayout>
-                
-                <LinearLayout
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
-                    android:background="@drawable/background_wallet"
-                    android:elevation="5dp">
-
+                    android:descendantFocusability="blocksDescendants"
+                    android:background="@drawable/white_round_shape"
+                    android:elevation="5dp"
+                    android:padding="@dimen/dp_10"
+                    android:layout_margin="@dimen/dp_10">
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rechargerecord_rv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    </androidx.recyclerview.widget.RecyclerView>
-
-
-                </LinearLayout>
-
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"/>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -391,26 +378,20 @@
                         android:layout_marginLeft="3dp"/>
                 </LinearLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
-                    android:background="@drawable/background_wallet"
-                    android:elevation="5dp">
-
+                    android:descendantFocusability="blocksDescendants"
+                    android:background="@drawable/white_round_shape"
+                    android:elevation="5dp"
+                    android:padding="@dimen/dp_10"
+                    android:layout_margin="@dimen/dp_10">
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/bill_rv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    </androidx.recyclerview.widget.RecyclerView>
-
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"/>
-
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"/>
+                </RelativeLayout>
             </LinearLayout>
 
         </ScrollView>

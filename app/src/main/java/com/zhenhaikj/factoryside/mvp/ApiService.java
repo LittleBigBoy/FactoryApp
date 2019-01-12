@@ -1,7 +1,5 @@
 package com.zhenhaikj.factoryside.mvp;
 
-import android.accounts.Account;
-
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.Course;
@@ -36,6 +34,12 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/GetUserInfo")
     Observable<BaseResult<String>> GetUserInfo(@Field("userName") String userName);
+    /**
+     * 获取工单列表
+     */
+    @FormUrlEncoded
+    @POST("Order/GetOrderInfoList")
+    Observable<BaseResult<String>> GetOrderInfoList(@Field("state") String state,@Field("page") String page,@Field("limit") String limit);
     /**
      * 获取首页数据
      */

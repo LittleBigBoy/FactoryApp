@@ -5,11 +5,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
-import com.zhenhaikj.factoryside.mvp.adapter.WorkOrdersPagerAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.MyPagerAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
 import com.zhenhaikj.factoryside.R;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -24,10 +23,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
@@ -45,11 +44,11 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
     private String mParam1;
     private String mParam2;
     private String[] mTitleDataList = new String[]{
-            "待接单", "退单处理", "已完结", "配件单", "待支付",
+            "所有工单","待接单", "退单处理", "已完结", "配件单", "待支付",
             "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     };
     private CommonNavigator commonNavigator;
-    private List<WorkOrderFragment> mWorkOrderFragmentList;
+    private List<Fragment> mWorkOrderFragmentList;
 
 
     public AllWorkOrdersFragment() {
@@ -86,10 +85,10 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
     /**
      * 初始化沉浸式
      */
+    @Override
     protected void initImmersionBar() {
         super.initImmersionBar();
-        mImmersionBar.fitsSystemWindows(false);
-        mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
+        mImmersionBar.statusBarView(mToolbar);
     }
 
     @Override
@@ -99,16 +98,12 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
 
     @Override
     protected void initData() {
-
-    }
-
-    @Override
-    protected void initView() {
         mWorkOrderFragmentList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 11; i++) {
             mWorkOrderFragmentList.add(WorkOrderFragment.newInstance("",""));
         }
-        mViewPager.setAdapter(new WorkOrdersPagerAdapter(getFragmentManager(),mTitleDataList,mWorkOrderFragmentList));
+        mViewPager.setOffscreenPageLimit(mTitleDataList.length);
+        mViewPager.setAdapter(new MyPagerAdapter(getFragmentManager(),mTitleDataList,mWorkOrderFragmentList));
         commonNavigator = new CommonNavigator(mActivity);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
 
@@ -120,7 +115,7 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
             @Override
             public IPagerTitleView getTitleView(Context context, final int index) {
                 ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
-                colorTransitionPagerTitleView.setNormalColor(Color.GRAY);
+                colorTransitionPagerTitleView.setNormalColor(Color.BLACK);
                 colorTransitionPagerTitleView.setSelectedColor(Color.RED);
                 colorTransitionPagerTitleView.setText(mTitleDataList[index]);
                 colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
@@ -140,8 +135,14 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
                 return indicator;
             }
         });
+        mMagicIndicator.setBackgroundResource(R.color.gray_four);
         mMagicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(mMagicIndicator, mViewPager);
+    }
+
+    @Override
+    protected void initView() {
+
     }
 
 

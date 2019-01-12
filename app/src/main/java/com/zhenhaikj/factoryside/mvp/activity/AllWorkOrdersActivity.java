@@ -7,10 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.zhenhaikj.factoryside.mvp.adapter.WorkOrdersPagerAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.MyPagerAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.R;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhenhaikj.factoryside.mvp.fragment.WorkOrderFragment;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -23,9 +22,9 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.Li
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
@@ -50,11 +49,11 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
 
 
     private String[] mTitleDataList = new String[]{
-            "待接单", "退单处理", "已完结", "配件单", "待支付",
+            "所有工单","待接单", "退单处理", "已完结", "配件单", "待支付",
             "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     };
     private CommonNavigator commonNavigator;
-    private ArrayList<WorkOrderFragment> mWorkOrderFragmentList;
+    private ArrayList<Fragment> mWorkOrderFragmentList;
     private Bundle bundle;
 
     @Override
@@ -72,10 +71,11 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
         bundle = getIntent().getExtras();
         mTvTitle.setText(bundle.getString("title"));
         mWorkOrderFragmentList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 11; i++) {
             mWorkOrderFragmentList.add(WorkOrderFragment.newInstance("",""));
         }
-        mViewPager.setAdapter(new WorkOrdersPagerAdapter(getSupportFragmentManager(),mTitleDataList, mWorkOrderFragmentList));
+        mViewPager.setOffscreenPageLimit(mTitleDataList.length);
+        mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(),mTitleDataList, mWorkOrderFragmentList));
         commonNavigator = new CommonNavigator(mActivity);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
 
@@ -87,7 +87,7 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
             @Override
             public IPagerTitleView getTitleView(Context context, final int index) {
                 ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
-                colorTransitionPagerTitleView.setNormalColor(Color.GRAY);
+                colorTransitionPagerTitleView.setNormalColor(Color.BLACK);
                 colorTransitionPagerTitleView.setSelectedColor(Color.RED);
                 colorTransitionPagerTitleView.setText(mTitleDataList[index]);
                 colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
@@ -124,8 +124,8 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
 
             }
         });
-        mViewPager.setCurrentItem(bundle.getInt("position"));
-        commonNavigator.onPageSelected(bundle.getInt("position"));
+        mViewPager.setCurrentItem(bundle.getInt("position")+1);
+        commonNavigator.onPageSelected(bundle.getInt("position")+1);
         mMagicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(mMagicIndicator, mViewPager);
     }
@@ -152,6 +152,5 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
                 break;
         }
     }
-
 
 }
