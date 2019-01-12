@@ -1,16 +1,9 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
-
-import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
 
 
 public class WarrantyActivity extends BaseActivity implements View.OnClickListener {

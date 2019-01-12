@@ -1,29 +1,17 @@
 package com.zhenhaikj.factoryside.mvp.fragment;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
-import com.zhenhaikj.factoryside.mvp.adapter.WorkOrdersPagerAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
 import com.zhenhaikj.factoryside.R;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
-import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.Arrays;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
@@ -43,7 +31,7 @@ public class DiscoveryFragment extends BaseLazyFragment implements View.OnClickL
     private String mParam1;
     private String mParam2;
     private String[] mTitleDataList = new String[]{
-            "待接单", "退单处理", "已完结", "配件单", "待支付",
+            "待接单", "退单处理", "已完结", "配件单", "to_be_paid",
             "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     };
     private CommonNavigator commonNavigator;
@@ -83,10 +71,10 @@ public class DiscoveryFragment extends BaseLazyFragment implements View.OnClickL
     /**
      * 初始化沉浸式
      */
+    @Override
     protected void initImmersionBar() {
         super.initImmersionBar();
-//        mImmersionBar.fitsSystemWindows(false);
-//        mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
+        mImmersionBar.statusBarView(mToolbar);
     }
 
     @Override

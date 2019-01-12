@@ -3,11 +3,17 @@ package com.zhenhaikj.factoryside.mvp.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.WorkOrderAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
+import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
+import com.zhenhaikj.factoryside.mvp.contract.AllWorkOrdersContract;
+import com.zhenhaikj.factoryside.mvp.model.AllWorkOrdersModel;
+import com.zhenhaikj.factoryside.mvp.presenter.AllWorkOrdersPresenter;
+import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -19,7 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-public class WorkOrderFragment extends BaseLazyFragment {
+public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter,AllWorkOrdersModel> implements AllWorkOrdersContract.View {
     private static final String ARG_PARAM1 = "param1";//""全部 1待付款 2待发货 3待收货
     private static final String ARG_PARAM2 = "param2";//0普通订单 1汤料订单
     @BindView(R.id.rv_work_order)
@@ -68,7 +74,6 @@ public class WorkOrderFragment extends BaseLazyFragment {
     @Override
     protected void initImmersionBar() {
         super.initImmersionBar();
-        mImmersionBar.fitsSystemWindows(false);
     }
 
     @Override
@@ -78,6 +83,7 @@ public class WorkOrderFragment extends BaseLazyFragment {
 
     @Override
     protected void initData() {
+        mPresenter.GetOrderInfoList("0","1","40");
         for (int i = 0; i < 30; i++) {
             workOrderList.add(new WorkOrder());
         }
@@ -102,5 +108,18 @@ public class WorkOrderFragment extends BaseLazyFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 
+    }
+
+    @Override
+    public void GetOrderInfoList(BaseResult<String> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                MyUtils.e("GetOrderInfoList",baseResult.getData());
+                ToastUtils.showShort(baseResult.getData());
+                break;
+            case 401:
+                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
     }
 }
