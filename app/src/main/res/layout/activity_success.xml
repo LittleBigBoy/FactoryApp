@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@color/white">
+
+    <include layout="@layout/toolbar"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/white">
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/success"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="支付成功"
+            android:textColor="#808080"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"/>
+        <Button
+            android:id="@+id/back_home"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/back_home"
+            android:layout_marginTop="60dp"
+            android:textColor="@color/white"
+            android:text="返回首页"/>
+        <Button
+            android:id="@+id/see_order"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/see_order"
+            android:text="查看订单"
+            android:layout_marginTop="10dp"
+            android:textColor="#4BC354"/>
+        <Button
+            android:id="@+id/share_order"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/see_order"
+            android:text="分享"
+            android:layout_marginTop="10dp"
+            android:textColor="#4BC354"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,157 @@
+package com.zhenhaikj.factoryside.mvp.activity;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.zhenhaikj.factoryside.mvp.adapter.WorkOrdersPagerAdapter;
+import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
+import com.zhenhaikj.factoryside.R;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.zhenhaikj.factoryside.mvp.fragment.WorkOrderFragment;
+
+import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
+import butterknife.BindView;
+
+
+public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickListener {
+
+
+    @BindView(R.id.icon_back)
+    ImageView mIconBack;
+    @BindView(R.id.tv_title)
+    TextView mTvTitle;
+    @BindView(R.id.tv_save)
+    TextView mTvSave;
+    @BindView(R.id.icon_search)
+    ImageView mIconSearch;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.magic_indicator)
+    MagicIndicator mMagicIndicator;
+    @BindView(R.id.view_pager)
+    ViewPager mViewPager;
+
+
+    private String[] mTitleDataList = new String[]{
+            "待接单", "退单处理", "已完结", "配件单", "待支付",
+            "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
+    };
+    private CommonNavigator commonNavigator;
+    private ArrayList<WorkOrderFragment> mWorkOrderFragmentList;
+    private Bundle bundle;
+
+    @Override
+    protected int setLayoutId() {
+        return R.layout.activity_all_work_orders;
+    }
+
+    @Override
+    protected void initData() {
+    }
+
+    @Override
+    protected void initView() {
+        mTvTitle.setVisibility(View.VISIBLE);
+        bundle = getIntent().getExtras();
+        mTvTitle.setText(bundle.getString("title"));
+        mWorkOrderFragmentList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            mWorkOrderFragmentList.add(WorkOrderFragment.newInstance("",""));
+        }
+        mViewPager.setAdapter(new WorkOrdersPagerAdapter(getSupportFragmentManager(),mTitleDataList, mWorkOrderFragmentList));
+        commonNavigator = new CommonNavigator(mActivity);
+        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
+
+            @Override
+            public int getCount() {
+                return mTitleDataList == null ? 0 : mTitleDataList.length;
+            }
+
+            @Override
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
+                colorTransitionPagerTitleView.setNormalColor(Color.GRAY);
+                colorTransitionPagerTitleView.setSelectedColor(Color.RED);
+                colorTransitionPagerTitleView.setText(mTitleDataList[index]);
+                colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mViewPager.setCurrentItem(index);
+                        mTvTitle.setText(mTitleDataList[index]);
+                    }
+                });
+                return colorTransitionPagerTitleView;
+            }
+
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                LinePagerIndicator indicator = new LinePagerIndicator(context);
+                indicator.setMode(LinePagerIndicator.MODE_WRAP_CONTENT);
+                indicator.setColors(Color.RED);
+                return indicator;
+            }
+        });
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mTvTitle.setText(mTitleDataList[position]);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        mViewPager.setCurrentItem(bundle.getInt("position"));
+        commonNavigator.onPageSelected(bundle.getInt("position"));
+        mMagicIndicator.setNavigator(commonNavigator);
+        ViewPagerHelper.bind(mMagicIndicator, mViewPager);
+    }
+
+    @Override
+    protected void setListener() {
+        mIconBack.setOnClickListener(this);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.icon_back:
+                finish();
+                break;
+            case R.id.icon_search:
+                finish();
+                break;
+        }
+    }
+
+
+}
