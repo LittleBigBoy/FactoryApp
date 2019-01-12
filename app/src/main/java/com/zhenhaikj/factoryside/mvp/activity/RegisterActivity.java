@@ -1,13 +1,12 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,17 +18,16 @@ import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.MainActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
-import com.zhenhaikj.factoryside.mvp.contract.LoginContract;
-import com.zhenhaikj.factoryside.mvp.model.LoginModel;
-import com.zhenhaikj.factoryside.mvp.presenter.LoginPresenter;
+import com.zhenhaikj.factoryside.mvp.contract.RegisterContract;
+import com.zhenhaikj.factoryside.mvp.model.RegisterModel;
+import com.zhenhaikj.factoryside.mvp.presenter.RegisterPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> implements View.OnClickListener, LoginContract.View {
+public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterModel> implements View.OnClickListener, RegisterContract.View {
 
-
+    private static final String TAG = "RegisterActivity";
     @BindView(R.id.et_username)
     EditText mEtUsername;
     @BindView(R.id.et_password)
@@ -40,31 +38,22 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     EditText mEtVerificationCode;
     @BindView(R.id.tv_get_verification_code)
     TextView mTvGetVerificationCode;
-    @BindView(R.id.login)
-    Button mLogin;
-    @BindView(R.id.tv_register)
-    TextView mTvRegister;
+
+    @BindView(R.id.tv_can_not_receive)
+    TextView mTvCanNotReceive;
     @BindView(R.id.cb)
     CheckBox mCb;
     @BindView(R.id.tv_agreement)
     TextView mTvAgreement;
-    @BindView(R.id.iv_qq)
-    ImageView mIvQq;
-    @BindView(R.id.iv_weixin)
-    ImageView mIvWeixin;
-    @BindView(R.id.iv_weibo)
-    ImageView mIvWeibo;
-    @BindView(R.id.tv_change)
-    TextView mTvChange;
-    @BindView(R.id.ll_code)
-    LinearLayout mLlCode;
+    @BindView(R.id.btn_register)
+    Button mBtnRegister;
     private String userName;
     private String passWord;
     private String code;
 
     @Override
     protected int setLayoutId() {
-        return R.layout.activity_login;
+        return R.layout.activity_register;
     }
 
     @Override
@@ -90,12 +79,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     protected void setListener() {
-        mLogin.setOnClickListener(this);
-        mTvRegister.setOnClickListener(this);
-        mTvChange.setOnClickListener(this);
-        mIvQq.setOnClickListener(this);
-        mIvWeixin.setOnClickListener(this);
-        mIvWeibo.setOnClickListener(this);
+        mTvGetVerificationCode.setOnClickListener(this);
+        mBtnRegister.setOnClickListener(this);
+        mTvCanNotReceive.setOnClickListener(this);
         mTvAgreement.setOnClickListener(this);
         mCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -114,9 +100,21 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.login:
+            case R.id.btn_register:
                 userName = mEtUsername.getText().toString();
-                passWord = mEtPassword.getText().toString();
+                code = mEtVerificationCode.getText().toString();
+                if ("".equals(userName)) {
+                    ToastUtils.showShort("请输入手机号！");
+                    return;
+                }
+                if ("".equals(code)) {
+                    ToastUtils.showShort("请输入验证码！");
+                    return;
+                }
+                mPresenter.Reg(userName, code);
+                break;
+            case R.id.tv_get_verification_code:
+                userName = mEtUsername.getText().toString();
                 if ("".equals(userName)) {
                     ToastUtils.showShort("请输入手机号！");
                     return;
@@ -125,33 +123,48 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                     ToastUtils.showShort("手机号格式不正确！");
                     return;
                 }
-                if ("".equals(passWord)) {
-                    ToastUtils.showShort("请输入密码！");
-                    return;
-                }
-                mPresenter.Login(userName, passWord);
+                mPresenter.ValidateUserName(userName);
+
                 break;
             case R.id.tv_agreement:
                 break;
             case R.id.tv_register:
-                startActivity(new Intent(mActivity, RegisterActivity.class));
                 break;
-            case R.id.tv_change:
-                if (mLlCode.getVisibility()==View.GONE){
-                    mLlCode.setVisibility(View.VISIBLE);
-                    mLlPassword.setVisibility(View.GONE);
-                    mTvChange.setText("密码登录>");
-                }else{
-                    mLlCode.setVisibility(View.GONE);
-                    mLlPassword.setVisibility(View.VISIBLE);
-                    mTvChange.setText("短信验证码登录>");
+            case R.id.tv_can_not_receive:
+                break;
+        }
+    }
+
+    @Override
+    public void Reg(BaseResult<String> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                MyUtils.e(TAG, baseResult.getData());
+                ToastUtils.showShort(baseResult.getData());
+                if ("true".equals(baseResult.getData())){
+                    mPresenter.Login(userName,"888888");
                 }
-                    break;
-            case R.id.iv_qq:
                 break;
-            case R.id.iv_weixin:
+            case 401:
+                ToastUtils.showShort(baseResult.getData());
                 break;
-            case R.id.iv_weibo:
+        }
+    }
+
+    @Override
+    public void GetCode(BaseResult<String> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                MyUtils.e(TAG, baseResult.getData());
+                ToastUtils.showShort(baseResult.getData());
+                if ("true".equals(baseResult.getData())){
+                    MyUtils.showToast(mActivity,"验证码已发送，请注意查收！");
+                }else{
+                    
+                }
+                break;
+            case 401:
+                ToastUtils.showShort(baseResult.getData());
                 break;
         }
     }
@@ -178,11 +191,17 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     }
 
     @Override
-    public void GetUserInfo(BaseResult<String> baseResult) {
+    public void ValidateUserName(BaseResult<String> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                MyUtils.e("userInfo", baseResult.getData());
-                ToastUtils.showShort(baseResult.getData());
+                MyUtils.e(TAG, baseResult.getData());
+                if ("true".equals(baseResult.getData())){
+                    TimeCount time = new TimeCount(60000, 1000);
+                    time.start();
+                    mPresenter.GetCode(userName);
+                }else{
+                    ToastUtils.showShort("手机号已经注册！");
+                }
                 break;
             case 401:
                 ToastUtils.showShort(baseResult.getData());
@@ -190,10 +209,31 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    class TimeCount extends CountDownTimer {
+
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+//            get_yzm.setBackgroundColor(Color.parseColor("#B6B6D8"));
+            if (mTvGetVerificationCode==null){
+                return;
+            }
+            mTvGetVerificationCode.setClickable(false);
+            mTvGetVerificationCode.setText(millisUntilFinished / 1000 + "s");
+        }
+
+        @Override
+        public void onFinish() {
+            if (mTvGetVerificationCode==null){
+                return;
+            }
+            mTvGetVerificationCode.setText("重新获取验证码");
+            mTvGetVerificationCode.setClickable(true);
+//            get_yzm.setBackgroundColor(Color.parseColor("#4EB84A"));
+
+        }
     }
 }

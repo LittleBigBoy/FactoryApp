@@ -19,6 +19,24 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     /**
+     * 判断用户名是否可用
+     */
+    @FormUrlEncoded
+    @POST("Account/ValidateUserName")
+    Observable<BaseResult<String>> ValidateUserName(@Field("UserID") String userName);
+    /**
+     * 获取短信
+     */
+    @FormUrlEncoded
+    @POST("Message/Send")
+    Observable<BaseResult<String>> GetCode(@Field("mobile") String mobile,@Field("type") String type,@Field("roleType") String roleType);
+    /**
+     * 注册
+     */
+    @FormUrlEncoded
+    @POST("Account/Reg")
+    Observable<BaseResult<String>> Reg(@Field("mobile") String mobile,@Field("type") String type,@Field("code") String code,@Field("roleType") String roleType);
+    /**
      * app用户登录
      */
     @GET("Account/LoginOn")

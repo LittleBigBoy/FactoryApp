@@ -156,7 +156,7 @@ public class SplashActivity extends BaseActivity {
 
 
     private void goHome() {
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
         SplashActivity.this.startActivity(intent);
         SplashActivity.this.finish();
     }
