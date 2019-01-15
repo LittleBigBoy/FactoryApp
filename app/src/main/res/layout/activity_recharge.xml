@@ -28,7 +28,7 @@
                 android:layout_marginTop="18dp"
                 android:text="在线充值"
                 android:textColor="#333333"
-                android:textSize="29sp" />
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -49,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:text="余额"
                         android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:textSize="23sp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -71,7 +71,7 @@
                             android:layout_height="wrap_content"
                             android:text="53.29"
                             android:textColor="@color/white"
-                            android:textSize="30sp" />
+                            android:textSize="29sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -87,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:text="冻结金额"
                         android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -95,7 +95,7 @@
                         android:layout_marginTop="7dp"
                         android:text="赠额"
                         android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
                         android:layout_marginTop="7dp"
                         android:text="本金"
                         android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -131,14 +131,14 @@
                             android:layout_height="wrap_content"
                             android:text="￥"
                             android:textColor="@color/white"
-                            android:textSize="12sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0.00"
                             android:textColor="@color/white"
-                            android:textSize="12sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -153,14 +153,14 @@
                             android:layout_height="wrap_content"
                             android:text="￥"
                             android:textColor="@color/white"
-                            android:textSize="12sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0.00"
                             android:textColor="@color/white"
-                            android:textSize="12sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -175,14 +175,14 @@
                             android:layout_height="wrap_content"
                             android:text="￥"
                             android:textColor="@color/white"
-                            android:textSize="12sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1230.00"
                             android:textColor="@color/white"
-                            android:textSize="12sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -216,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:text="实际到账："
                     android:textColor="@color/black"
-                    android:textSize="14dp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/tv_actual_arrival"
@@ -224,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:text="30.00"
                     android:textColor="#E83D27"
-                    android:textSize="14dp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -243,8 +243,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@mipmap/aplipay" />
 
                 <TextView
@@ -253,7 +253,7 @@
                     android:layout_marginLeft="12dp"
                     android:text="支付宝"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -262,8 +262,8 @@
 
                 <ImageView
                     android:id="@+id/iv_aplipay"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
                     android:src="@mipmap/check" />
@@ -277,8 +277,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@mipmap/wechat" />
 
                 <TextView
@@ -287,7 +287,7 @@
                     android:layout_marginLeft="12dp"
                     android:text="微信"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -296,8 +296,8 @@
 
                 <ImageView
                     android:id="@+id/iv_wechat"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
                     android:src="@mipmap/circle" />
@@ -323,7 +323,7 @@
                     android:layout_height="wrap_content"
                     android:text="点击充值即表示你已同意"
                     android:textColor="#999999"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_recharge_agreement"
@@ -331,7 +331,7 @@
                     android:layout_height="wrap_content"
                     android:text="《充值协议》"
                     android:textColor="#F25037"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <Button
@@ -344,7 +344,7 @@
                 android:background="@drawable/btn_shape"
                 android:text="去充值"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="20sp" />
 
         </LinearLayout>
     </ScrollView>
