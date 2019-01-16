@@ -17,13 +17,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="添加品牌"
+            android:text="选择分类"
             android:textSize="20dp"
             android:textColor="#7F7F7F"
             android:layout_marginTop="26dp"/>
 
-        <EditText
-            android:id="@+id/et_enter"
+        <TextView
+            android:id="@+id/tv_choose_category"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center"
@@ -31,7 +31,7 @@
             android:layout_marginTop="73dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:hint="请输入品牌名称"
+            android:hint="请选择分类"
             android:textColor="#333333"
             android:textSize="16sp"
             android:textColorHint="#B1B1B1"/>
@@ -45,7 +45,7 @@
             android:layout_marginTop="119dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/red_round_shape"
-            android:text="添加"
+            android:text="下一步"
             android:textSize="15sp"
             android:textColor="@color/white"/>
     </LinearLayout>

@@ -2,30 +2,30 @@ package com.zhenhaikj.factoryside.mvp.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
 
-import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 public class NewsFragment extends BaseLazyFragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    @BindView(R.id.magic_indicator)
-    MagicIndicator mMagicIndicator;
-    @BindView(R.id.view_pager)
-    ViewPager mViewPager;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    @BindView(R.id.message_rv)
+    RecyclerView mMessageRv;
+    @BindView(R.id.message_et)
+    EditText mMessageEt;
+    @BindView(R.id.annex_iv)
+    ImageView mAnnexIv;
 
 
     private String mParam1;
@@ -74,12 +74,11 @@ public class NewsFragment extends BaseLazyFragment implements View.OnClickListen
     @Override
     protected void initImmersionBar() {
         super.initImmersionBar();
-        mImmersionBar.statusBarView(mToolbar);
     }
 
     @Override
     protected int setLayoutId() {
-        return R.layout.fragment_all_work_order;
+        return R.layout.fragment_message;
     }
 
     @Override

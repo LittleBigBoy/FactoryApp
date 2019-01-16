@@ -122,4 +122,5 @@ dependencies {
     implementation project(':ImmersionBar')
     implementation project(':magicindicator')
     implementation'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.qmuiteam:qmui:1.1.3'
 }

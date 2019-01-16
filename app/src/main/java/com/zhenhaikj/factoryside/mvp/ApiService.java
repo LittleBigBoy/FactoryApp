@@ -1,10 +1,16 @@
 package com.zhenhaikj.factoryside.mvp;
 
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Accessory;
+import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Course;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
 import com.zhenhaikj.factoryside.mvp.bean.Product;
+import com.zhenhaikj.factoryside.mvp.bean.ProductType;
+import com.zhenhaikj.factoryside.mvp.bean.Province;
 
 import java.util.List;
 
@@ -39,8 +45,9 @@ public interface ApiService {
     /**
      * app用户登录
      */
-    @GET("Account/LoginOn")
-    Observable<BaseResult<String>> LoginOn(@Query("userName") String userName, @Query("passWord") String passWord);
+    @FormUrlEncoded
+    @POST("Account/LoginOn")
+    Observable<BaseResult<String>> LoginOn(@Field("userName") String userName, @Field("passWord") String passWord);
     /**
      * app获取用户信息
      */
@@ -58,6 +65,52 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Order/GetOrderInfoList")
     Observable<BaseResult<String>> GetOrderInfoList(@Field("state") String state,@Field("page") String page,@Field("limit") String limit);
+    /**
+     * 添加品牌
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/AddFactoryBrand")
+    Observable<BaseResult<Data>> AddFactoryBrand(@Field("UserID") String UserID, @Field("FBrandName") String FBrandName);
+    /**
+     * 获取品牌
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/GetFactoryBrand")
+    Observable<BaseResult<List<Brand>>> GetFactoryBrand(@Field("UserID") String UserID);
+    /**
+     * 获取分类
+     */
+    @POST("FactoryConfig/GetFactoryCategory")
+    Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory();
+    /**
+     * 获取型号
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/GetFactoryProducttype")
+    Observable<BaseResult<Data<List<ProductType>>>> GetFactoryProducttype(@Field("FBrandID") String FBrandID, @Field("FCategoryID") String FCategoryID);
+    /**
+     * 获取属性
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/GetFactoryAccessory")
+    Observable<BaseResult<Accessory>> GetFactoryAccessory(@Field("FProductTypeID") String FProductTypeID);
+    /**
+     * 获取省
+     */
+    @POST("Config/GetProvince")
+    Observable<BaseResult<List<Province>>> GetProvince();
+    /**
+     * 获取市
+     */
+    @FormUrlEncoded
+    @POST("Config/GetCity")
+    Observable<BaseResult<Data<List<City>>>> GetCity(@Field("parentcode") String parentcode);
+    /**
+     * 获取区
+     */
+    @FormUrlEncoded
+    @POST("Config/GetArea")
+    Observable<BaseResult<Data<List<City>>>> GetArea(@Field("parentcode") String parentcode);
     /**
      * 获取首页数据
      */

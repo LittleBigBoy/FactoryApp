@@ -70,19 +70,28 @@
                     android:padding="@dimen/dp_10"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp">
+
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/placard"/>
+                        android:layout_width="38dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/placard" />
                     <TextView
                         android:id="@+id/tv_announcement"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="百万奖励，助力双十一！！！"
                         android:textColor="@color/gray_three"
                         android:layout_marginLeft="@dimen/dp_10"
                         android:padding="5dp"
                         android:background="@drawable/edit_shape"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:padding="5dp"/>
                 </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_main_menu"
@@ -126,6 +135,7 @@
                             android:id="@+id/rv_common_menu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:overScrollMode="never"
                             android:nestedScrollingEnabled="false"/>
                     </RelativeLayout>
 

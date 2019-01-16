@@ -26,7 +26,7 @@ public class Config {
 //    public static final String URL = "https://www.jbshch.com/app/";
 //    public static final String URL = "https://api.emjiayuan.com/";//正式服
 //    public static final String URL = "http://emapi.jb.emjiayuan.com/";//测试服
-    public static final String URL = "http://47.96.126.145/api/";//测试服
+    public static final String URL = "http://47.96.126.145:8001/api/";//测试服
 
     public static final String SAVE_CITY_KEY = "save_city_key";
 

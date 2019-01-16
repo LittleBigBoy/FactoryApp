@@ -142,7 +142,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         for (int i = 4; i < 14; i++) {
             mCommonMenus.add(new MenuItem(icons[i], names[i]));
         }
-        mMainAdapter = new MenuAdapter(R.layout.menu_item, mMainMenus);
+        mMainAdapter = new MenuAdapter(R.layout.menu_item2, mMainMenus);
         mCommonAdapter = new MenuAdapter(R.layout.menu_item, mCommonMenus);
         mRvCommonMenu.setLayoutManager(new GridLayoutManager(mActivity, 5));
 //        mRvCommonMenu.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL, 2, Color.parseColor("#F2F2F2")));

@@ -13,6 +13,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
+import com.zhenhaikj.factoryside.mvp.activity.BrandActivity;
+import com.zhenhaikj.factoryside.mvp.activity.RechargeActivity;
 import com.zhenhaikj.factoryside.mvp.activity.WalletActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
@@ -180,7 +182,7 @@ public class MineFragment extends BaseLazyFragment<PurchasePresenter, PurchaseMo
                 startActivity(new Intent(mActivity,WalletActivity.class));
                 break;
             case R.id.tv_recharge:
-                startActivity(new Intent(mActivity,WalletActivity.class));
+                startActivity(new Intent(mActivity,RechargeActivity.class));
                 break;
             case R.id.ll_all_order:
                 /*bundle = new Bundle();
@@ -233,7 +235,7 @@ public class MineFragment extends BaseLazyFragment<PurchasePresenter, PurchaseMo
                 startActivity(new Intent(mActivity,WalletActivity.class));
                 break;
             case R.id.ll_add_brand:
-                startActivity(new Intent(mActivity,WalletActivity.class));
+                startActivity(new Intent(mActivity,BrandActivity.class));
                 break;
             case R.id.ll_feedback:
                 startActivity(new Intent(mActivity,WalletActivity.class));
