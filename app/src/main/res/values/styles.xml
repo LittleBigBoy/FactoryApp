@@ -34,4 +34,10 @@
         <item name="android:textStyle">normal</item>
     </style>
 
+    <style name="RadioButtonStyles">
+
+        <item name="android:button">@drawable/radio_button_selector</item>
+        <item name="android:height">19dp</item>
+
+    </style>
 </resources>
