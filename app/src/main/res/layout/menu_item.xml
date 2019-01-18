@@ -19,8 +19,8 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
+            android:layout_width="50dp"
+            android:layout_height="51dp"
             android:src="@drawable/all"/>
 
         <TextView
@@ -31,7 +31,7 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="费用变更单"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:textColor="#48495F"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

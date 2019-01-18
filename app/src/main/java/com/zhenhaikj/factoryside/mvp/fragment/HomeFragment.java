@@ -71,16 +71,16 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
 
     private Integer[] icons = new Integer[]{
-            R.drawable.installation, R.drawable.home_maintenance, R.drawable.customer_service_order, R.drawable.batch_order,
+            R.mipmap.installation, R.mipmap.home_maintenance, R.mipmap.customer_service_order, R.mipmap.batch_order,
             R.drawable.waiting_order, R.drawable.return_order_processing, R.drawable.finished, R.drawable.accessory_list, R.drawable.to_be_paid,
-            R.drawable.remote_bill, R.drawable.warranty, R.drawable.undone, R.drawable.cost_change, R.drawable.leave_a_message
+            R.drawable.remote_bill, R.drawable.warranty, R.drawable.undone, R.drawable.cost_change, R.drawable.leave_a_message,R.mipmap.all
     };
     private String[] names = new String[]{
             "上门安装", "上门维修", "客户送修单", "批量发单",
             "待接单", "退单处理", "已完结", "配件单", "待支付",
-            "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
+            "远程费单", "质保单", "未完成单", "费用变更", "留言工单","所有"
     };
-    private MenuAdapter mMainAdapter;
+    private MenuAdapter2 mMainAdapter;
     private MenuAdapter mCommonAdapter;
 
     public HomeFragment() {
@@ -139,14 +139,14 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         for (int i = 0; i < 4; i++) {
             mMainMenus.add(new MenuItem(icons[i], names[i]));
         }
-        for (int i = 4; i < 14; i++) {
+        for (int i = 4; i < 15; i++) {
             mCommonMenus.add(new MenuItem(icons[i], names[i]));
         }
-        mMainAdapter = new MenuAdapter(R.layout.menu_item2, mMainMenus);
+        mMainAdapter = new MenuAdapter2(R.layout.menu_item2, mMainMenus);
         mCommonAdapter = new MenuAdapter(R.layout.menu_item, mCommonMenus);
-        mRvCommonMenu.setLayoutManager(new GridLayoutManager(mActivity, 5));
+        mRvCommonMenu.setLayoutManager(new GridLayoutManager(mActivity, 4));
 //        mRvCommonMenu.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL, 2, Color.parseColor("#F2F2F2")));
-        mRvMainMenu.setLayoutManager(new GridLayoutManager(mActivity, 4));
+        mRvMainMenu.setLayoutManager(new GridLayoutManager(mActivity, 2));
 //        mRvMainMenu.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL, 2, Color.parseColor("#F2F2F2")));
         mRvMainMenu.setAdapter(mMainAdapter);
         mRvCommonMenu.setAdapter(mCommonAdapter);
@@ -251,6 +251,18 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             // 加载网络图片
             Glide.with(mContext).load(item.getIcon()).into((ImageView) helper.getView(R.id.icon));
             helper.setText(R.id.txt_content, item.getName());
+        }
+    }
+
+    public class MenuAdapter2 extends BaseQuickAdapter<MenuItem, BaseViewHolder> {
+        public MenuAdapter2(int layoutResId, List<MenuItem> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, MenuItem item) {
+            // 加载网络图片
+            Glide.with(mContext).load(item.getIcon()).into((ImageView) helper.getView(R.id.icon));
         }
     }
 }
