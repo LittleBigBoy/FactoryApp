@@ -100,7 +100,7 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
     protected void initData() {
         mWorkOrderFragmentList = new ArrayList<>();
         for (int i = 0; i < 11; i++) {
-            mWorkOrderFragmentList.add(WorkOrderFragment.newInstance("",""));
+            mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i],""));
         }
         mViewPager.setOffscreenPageLimit(mTitleDataList.length);
         mViewPager.setAdapter(new MyPagerAdapter(getFragmentManager(),mTitleDataList,mWorkOrderFragmentList));

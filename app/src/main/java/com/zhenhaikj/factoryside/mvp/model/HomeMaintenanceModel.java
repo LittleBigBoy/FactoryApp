@@ -3,6 +3,7 @@ package com.zhenhaikj.factoryside.mvp.model;
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
+import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.City;
@@ -63,9 +64,18 @@ public class HomeMaintenanceModel implements HomeMaintenanceContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<List<City>>>> GetArea(String parentcode) {
+    public Observable<BaseResult<Data<List<Area>>>> GetArea(String parentcode) {
         return ApiRetrofit.getDefault().GetArea(parentcode)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<Data<String>> AddOrder(String TypeID, String TypeName, String UserID, String FBrandID, String BrandName, String FCategoryID, String CategoryName, String FProductTypeID, String ProductType, String ProvinceCode, String CityCode, String AreaCode, String Address, String UserName, String Phone, String Memo, String OrderMoney, String RecycleOrderHour, String Guarantee, String AccessorySendState, String Extra, String ExtraTime, String ExtraFee) {
+        return ApiRetrofit.getDefault().AddOrder(TypeID, TypeName, UserID, FBrandID, BrandName, FCategoryID, CategoryName, FProductTypeID, ProductType, ProvinceCode, CityCode, AreaCode, Address, UserName, Phone, Memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+
 }

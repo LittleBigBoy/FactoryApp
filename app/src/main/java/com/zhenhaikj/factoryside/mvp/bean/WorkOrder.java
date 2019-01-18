@@ -1,904 +1,929 @@
 package com.zhenhaikj.factoryside.mvp.bean;
 
 
-import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
-
 import java.io.Serializable;
 import java.util.List;
 
 public class WorkOrder implements Serializable {
 
+
     /**
-     * id : 13084
-     * order_no : c20180304100001232639
-     * userid : 1
-     * order_cate :
-     * remark : 测试
-     * address : 浙江省 宁波市 江东区 市民中心2
-     * shengfen : 浙江省
-     * address_province : null
-     * address_name : 张先生
-     * address_phone : 15012345678
-     * pay_type : null
-     * payment : 余额支付
-     * pay_sign : null
-     * pay_status : 1
-     * pay_message : null
-     * paytime : null
-     * user_del : 0
-     * status : 0
-     * discountmoney : 0.00
-     * totalmoney : 735.00
-     * usemoney : 735.00
-     * usepoints : 0
-     * couponmoney : 0
-     * couponid : 0
-     * showmoney : 735
-     * invoice : null
-     * innercomment : null
-     * comment : null
-     * createtime : 1520177199
-     * express_price : null
-     * expressno : 000000
-     * expresscom : qita
-     * expressname : 其他
-     * expressstatus : null
-     * delflag : 0
-     * extramoney : 0.00
-     * ordertype : 3
-     * isgiftorder : 0
-     * ischongzhiorder : 0
-     * source_platform : null
-     * promotion_value :
-     * order_status : 待收货
-     * source_platform_str : APP
-     * createdate : 2018-03-04 23:26:39
-     * product_str :  伊穆家园 甄选 纯大料 整箱15斤 一箱6袋 价格：675.00 【 x 1件】 清真-伊穆家园牛肉面标准化汤料2.5斤试用装【中端型】 价格：60.00 【 x 1件】
-     * product_list : [{"id":"6689","orderid":"13084","typeid":"274","buyprice":"675.00","buycount":"1","createtime":"1520177199","buytype":"0","productid":"274","name":"伊穆家园 甄选 纯大料 整箱15斤 一箱6袋 ","images":"http://qiniu.emjiayuan.com/products_headimg1524909666212","productprice":"675.00","product_str":"伊穆家园 甄选 纯大料 整箱15斤 一箱6袋 价格：675.00 【 x 1件】 "},{"id":"6690","orderid":"13084","typeid":"51","buyprice":"60.00","buycount":"1","createtime":"1520177199","buytype":"0","productid":"51","name":"清真-伊穆家园牛肉面标准化汤料2.5斤试用装【中端型】","images":"http://qiniu.emjiayuan.com/products_headimg1525257958042","productprice":"60.00","product_str":"清真-伊穆家园牛肉面标准化汤料2.5斤试用装【中端型】 价格：60.00 【 x 1件】 "}]
-     * user_info : {"id":"1","username":"110","nickname":"13958243103","password":"5f93f983524def3dca464469d2cf9f3e","headimg":"http://qiniu.emjiayuan.com/upload_api/ems/2018060614681665753","class_id":"3","buy_class_id":"3","viptime":"1522406894","group_id":"3,4,5,6,8","discount":"96","sex":"0","birthday":"146747 E/------获取物流列表------1: 5200","status":"1","login":"786","last_login_time":"1529897281","last_login_ip":"125.115.189.40","token":"83296041e5ef1cecb8874b1878b04252","createtime":"1","yue":"94980.04","jifen":"4491","isnew":"1","isadmin":"1","register_platform":"","classname":"黄金","background":"http://qiniu.emjiayuan.com/class1516085096120","content":null,"showname":"139****3103"}
+     * code : 0
+     * msg : success
+     * count : 1
+     * data : [{"Id":1,"OrderID":1,"TypeID":2,"TypeName":"上门安装","SubTypeID":11,"SubTypeName":"电视机","CategoryID":1,"CategoryName":"大家电","SubCategoryID":1,"SubCategoryName":"电视机","Memo":"123","BrandID":1,"BrandName":"松下","ProductType":"TV02","ProvinceCode":"330000","CityCode":"330200","AreaCode":"330205","Address":"奔腾科技园","UserID":"admin","Guarantee":"N","UserName":"邰振江","Phone":"17681886869","CreateDate":"2019-01-11T16:21:37","AudDate":"2019-01-11T16:21:37","RepairCompleteDate":"2019-01-11T16:21:37","AppraiseDate":"2019-01-11T16:21:37","State":"0","Extra":"Y","ExtraTime":null,"ExtraFee":0,"IsUse":"Y","SendUser":"admin","LoginUser":"system","IsPay":"Y","OrderMoney":0,"BeyondMoney":0,"BeyondID":0,"BeyondState":"0","BeyondDistance":null,"Accessory":null,"AccessorySequency":null,"AccessoryState":null,"AccessorySendState":null,"AccessoryMoney":0,"Service":null,"ServiceMoney":0,"ReturnAccessory":null,"ReturnAccessoryMsg":null,"ApplyCancel":null,"UpdateTime":"2019-01-11T16:21:37","SendOrder":[{"Id":2,"SendID":2,"CreateDate":"2018-12-27T16:19:33","UserID":"admin","OrderID":1,"State":"1","UpdateDate":null,"LoginUser":"system","IsUse":"Y","CategoryID":0,"CategoryName":null,"SubTypeID":0,"SubTypeName":null,"Memo":null,"BrandID":0,"BrandName":null,"ProductType":null,"ProvinceCode":null,"CityCode":null,"AreaCode":null,"Address":null,"Guarantee":null,"UserName":null,"Phone":null,"page":1,"limit":10,"Version":0}],"OrderPayStr":null,"ThirdPartyNo":null,"ExpressNo":null,"RecycleOrderHour":0,"IsRecevieGoods":null,"page":0,"limit":0,"Version":0}]
      */
 
-    private String id;
-    private String order_no;
-    private String userid;
-    private String order_cate;
-    private String remark;
-    private String address;
-    private String shengfen;
-    private String address_province;
-    private String address_name;
-    private String address_phone;
-    private String pay_type;
-    private String payment;
-    private String pay_sign;
-    private String pay_status;
-    private String pay_message;
-    private String paytime;
-    private String user_del;
-    private String status;
-    private String discountmoney;
-    private String totalmoney;
-    private String usemoney;
-    private String usepoints;
-    private String couponmoney;
-    private String couponid;
-    private String showmoney;
-    private String invoice;
-    private String innercomment;
-    private String comment;
-    private String createtime;
-    private String express_price;
-    private String expressno;
-    private String expresscom;
-    private String expressname;
-    private String expressstatus;
-    private String delflag;
-    private String extramoney;
-    private String ordertype;
-    private String isgiftorder;
-    private String ischongzhiorder;
-    private String source_platform;
-    private String promotion_value;
-    private String order_status;
-    private String source_platform_str;
-    private String createdate;
-    private String product_str;
-    private UserInfoBean user_info;
-    private List<ProductListBean> product_list;
+    private String code;
+    private String msg;
+    private String count;
+    private List<DataBean> data;
 
-    public String getId() {
-        return id;
+    public String getCode() {
+        return code;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getOrder_no() {
-        return order_no;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setOrder_no(String order_no) {
-        this.order_no = order_no;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getCount() {
+        return count;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setCount(String count) {
+        this.count = count;
     }
 
-    public String getOrder_cate() {
-        return order_cate;
+    public List<DataBean> getData() {
+        return data;
     }
 
-    public void setOrder_cate(String order_cate) {
-        this.order_cate = order_cate;
+    public void setData(List<DataBean> data) {
+        this.data = data;
     }
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getShengfen() {
-        return shengfen;
-    }
-
-    public void setShengfen(String shengfen) {
-        this.shengfen = shengfen;
-    }
-
-    public String getAddress_province() {
-        return address_province;
-    }
-
-    public void setAddress_province(String address_province) {
-        this.address_province = address_province;
-    }
-
-    public String getAddress_name() {
-        return address_name;
-    }
-
-    public void setAddress_name(String address_name) {
-        this.address_name = address_name;
-    }
-
-    public String getAddress_phone() {
-        return address_phone;
-    }
-
-    public void setAddress_phone(String address_phone) {
-        this.address_phone = address_phone;
-    }
-
-    public String getPay_type() {
-        return pay_type;
-    }
-
-    public void setPay_type(String pay_type) {
-        this.pay_type = pay_type;
-    }
-
-    public String getPayment() {
-        return payment;
-    }
-
-    public void setPayment(String payment) {
-        this.payment = payment;
-    }
-
-    public String getPay_sign() {
-        return pay_sign;
-    }
-
-    public void setPay_sign(String pay_sign) {
-        this.pay_sign = pay_sign;
-    }
-
-    public String getPay_status() {
-        return pay_status;
-    }
-
-    public void setPay_status(String pay_status) {
-        this.pay_status = pay_status;
-    }
-
-    public String getPay_message() {
-        return pay_message;
-    }
-
-    public void setPay_message(String pay_message) {
-        this.pay_message = pay_message;
-    }
-
-    public String getPaytime() {
-        return paytime;
-    }
-
-    public void setPaytime(String paytime) {
-        this.paytime = paytime;
-    }
-
-    public String getUser_del() {
-        return user_del;
-    }
-
-    public void setUser_del(String user_del) {
-        this.user_del = user_del;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getDiscountmoney() {
-        return discountmoney;
-    }
-
-    public void setDiscountmoney(String discountmoney) {
-        this.discountmoney = discountmoney;
-    }
-
-    public String getTotalmoney() {
-        return totalmoney;
-    }
-
-    public void setTotalmoney(String totalmoney) {
-        this.totalmoney = totalmoney;
-    }
-
-    public String getUsemoney() {
-        return usemoney;
-    }
-
-    public void setUsemoney(String usemoney) {
-        this.usemoney = usemoney;
-    }
-
-    public String getUsepoints() {
-        return usepoints;
-    }
-
-    public void setUsepoints(String usepoints) {
-        this.usepoints = usepoints;
-    }
-
-    public String getCouponmoney() {
-        return couponmoney;
-    }
-
-    public void setCouponmoney(String couponmoney) {
-        this.couponmoney = couponmoney;
-    }
-
-    public String getCouponid() {
-        return couponid;
-    }
-
-    public void setCouponid(String couponid) {
-        this.couponid = couponid;
-    }
-
-    public String getShowmoney() {
-        return showmoney;
-    }
-
-    public void setShowmoney(String showmoney) {
-        this.showmoney = showmoney;
-    }
-
-    public String getInvoice() {
-        return invoice;
-    }
-
-    public void setInvoice(String invoice) {
-        this.invoice = invoice;
-    }
-
-    public String getInnercomment() {
-        return innercomment;
-    }
-
-    public void setInnercomment(String innercomment) {
-        this.innercomment = innercomment;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getCreatetime() {
-        return MyUtils.stampToDate(createtime);
-    }
-
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime;
-    }
-
-    public String getExpress_price() {
-        return express_price;
-    }
-
-    public void setExpress_price(String express_price) {
-        this.express_price = express_price;
-    }
-
-    public String getExpressno() {
-        return expressno;
-    }
-
-    public void setExpressno(String expressno) {
-        this.expressno = expressno;
-    }
-
-    public String getExpresscom() {
-        return expresscom;
-    }
-
-    public void setExpresscom(String expresscom) {
-        this.expresscom = expresscom;
-    }
-
-    public String getExpressname() {
-        return expressname;
-    }
-
-    public void setExpressname(String expressname) {
-        this.expressname = expressname;
-    }
-
-    public String getExpressstatus() {
-        return expressstatus;
-    }
-
-    public void setExpressstatus(String expressstatus) {
-        this.expressstatus = expressstatus;
-    }
-
-    public String getDelflag() {
-        return delflag;
-    }
-
-    public void setDelflag(String delflag) {
-        this.delflag = delflag;
-    }
-
-    public String getExtramoney() {
-        return extramoney;
-    }
-
-    public void setExtramoney(String extramoney) {
-        this.extramoney = extramoney;
-    }
-
-    public String getOrdertype() {
-        return ordertype;
-    }
-
-    public void setOrdertype(String ordertype) {
-        this.ordertype = ordertype;
-    }
-
-    public String getIsgiftorder() {
-        return isgiftorder;
-    }
-
-    public void setIsgiftorder(String isgiftorder) {
-        this.isgiftorder = isgiftorder;
-    }
-
-    public String getIschongzhiorder() {
-        return ischongzhiorder;
-    }
-
-    public void setIschongzhiorder(String ischongzhiorder) {
-        this.ischongzhiorder = ischongzhiorder;
-    }
-
-    public String getSource_platform() {
-        return source_platform;
-    }
-
-    public void setSource_platform(String source_platform) {
-        this.source_platform = source_platform;
-    }
-
-    public String getPromotion_value() {
-        return promotion_value;
-    }
-
-    public void setPromotion_value(String promotion_value) {
-        this.promotion_value = promotion_value;
-    }
-
-    public String getOrder_status() {
-        return order_status;
-    }
-
-    public void setOrder_status(String order_status) {
-        this.order_status = order_status;
-    }
-
-    public String getSource_platform_str() {
-        return source_platform_str;
-    }
-
-    public void setSource_platform_str(String source_platform_str) {
-        this.source_platform_str = source_platform_str;
-    }
-
-    public String getCreatedate() {
-        return createdate;
-    }
-
-    public void setCreatedate(String createdate) {
-        this.createdate = createdate;
-    }
-
-    public String getProduct_str() {
-        return product_str;
-    }
-
-    public void setProduct_str(String product_str) {
-        this.product_str = product_str;
-    }
-
-    public UserInfoBean getUser_info() {
-        return user_info;
-    }
-
-    public void setUser_info(UserInfoBean user_info) {
-        this.user_info = user_info;
-    }
-
-    public List<ProductListBean> getProduct_list() {
-        return product_list;
-    }
-
-    public void setProduct_list(List<ProductListBean> product_list) {
-        this.product_list = product_list;
-    }
-
-    public static class UserInfoBean implements Serializable {
+    public static class DataBean {
         /**
-         * id : 1
-         * username : 110
-         * nickname : 13958243103
-         * password : 5f93f983524def3dca464469d2cf9f3e
-         * headimg : http://qiniu.emjiayuan.com/upload_api/ems/2018060614681665753
-         * class_id : 3
-         * buy_class_id : 3
-         * viptime : 1522406894
-         * group_id : 3,4,5,6,8
-         * discount : 96
-         * sex : 0
-         * birthday : 146747 E/------获取物流列表------1: 5200
-         * status : 1
-         * login : 786
-         * last_login_time : 1529897281
-         * last_login_ip : 125.115.189.40
-         * token : 83296041e5ef1cecb8874b1878b04252
-         * createtime : 1
-         * yue : 94980.04
-         * jifen : 4491
-         * isnew : 1
-         * isadmin : 1
-         * register_platform :
-         * classname : 黄金
-         * background : http://qiniu.emjiayuan.com/class1516085096120
-         * content : null
-         * showname : 139****3103
+         * Id : 1
+         * OrderID : 1
+         * TypeID : 2
+         * TypeName : 上门安装
+         * SubTypeID : 11
+         * SubTypeName : 电视机
+         * CategoryID : 1
+         * CategoryName : 大家电
+         * SubCategoryID : 1
+         * SubCategoryName : 电视机
+         * Memo : 123
+         * BrandID : 1
+         * BrandName : 松下
+         * ProductType : TV02
+         * ProvinceCode : 330000
+         * CityCode : 330200
+         * AreaCode : 330205
+         * Address : 奔腾科技园
+         * UserID : admin
+         * Guarantee : N
+         * UserName : 邰振江
+         * Phone : 17681886869
+         * CreateDate : 2019-01-11T16:21:37
+         * AudDate : 2019-01-11T16:21:37
+         * RepairCompleteDate : 2019-01-11T16:21:37
+         * AppraiseDate : 2019-01-11T16:21:37
+         * State : 0
+         * Extra : Y
+         * ExtraTime : null
+         * ExtraFee : 0.0
+         * IsUse : Y
+         * SendUser : admin
+         * LoginUser : system
+         * IsPay : Y
+         * OrderMoney : 0.0
+         * BeyondMoney : 0.0
+         * BeyondID : 0
+         * BeyondState : 0
+         * BeyondDistance : null
+         * Accessory : null
+         * AccessorySequency : null
+         * AccessoryState : null
+         * AccessorySendState : null
+         * AccessoryMoney : 0.0
+         * Service : null
+         * ServiceMoney : 0.0
+         * ReturnAccessory : null
+         * ReturnAccessoryMsg : null
+         * ApplyCancel : null
+         * UpdateTime : 2019-01-11T16:21:37
+         * SendOrder : [{"Id":2,"SendID":2,"CreateDate":"2018-12-27T16:19:33","UserID":"admin","OrderID":1,"State":"1","UpdateDate":null,"LoginUser":"system","IsUse":"Y","CategoryID":0,"CategoryName":null,"SubTypeID":0,"SubTypeName":null,"Memo":null,"BrandID":0,"BrandName":null,"ProductType":null,"ProvinceCode":null,"CityCode":null,"AreaCode":null,"Address":null,"Guarantee":null,"UserName":null,"Phone":null,"page":1,"limit":10,"Version":0}]
+         * OrderPayStr : null
+         * ThirdPartyNo : null
+         * ExpressNo : null
+         * RecycleOrderHour : 0
+         * IsRecevieGoods : null
+         * page : 0
+         * limit : 0
+         * Version : 0
          */
 
-        private String id;
-        private String username;
-        private String nickname;
-        private String password;
-        private String headimg;
-        private String class_id;
-        private String buy_class_id;
-        private String viptime;
-        private String group_id;
-        private String discount;
-        private String sex;
-        private String birthday;
-        private String status;
-        private String login;
-        private String last_login_time;
-        private String last_login_ip;
-        private String token;
-        private String createtime;
-        private String yue;
-        private String jifen;
-        private String isnew;
-        private String isadmin;
-        private String register_platform;
-        private String classname;
-        private String background;
-        private String content;
-        private String showname;
+        private String Id;
+        private String OrderID;
+        private String TypeID;
+        private String TypeName;
+        private String SubTypeID;
+        private String SubTypeName;
+        private String CategoryID;
+        private String CategoryName;
+        private String SubCategoryID;
+        private String SubCategoryName;
+        private String Memo;
+        private String BrandID;
+        private String BrandName;
+        private String ProductType;
+        private String ProvinceCode;
+        private String CityCode;
+        private String AreaCode;
+        private String Address;
+        private String UserID;
+        private String Guarantee;
+        private String UserName;
+        private String Phone;
+        private String CreateDate;
+        private String AudDate;
+        private String RepairCompleteDate;
+        private String AppraiseDate;
+        private String State;
+        private String Extra;
+        private String ExtraTime;
+        private String ExtraFee;
+        private String IsUse;
+        private String SendUser;
+        private String LoginUser;
+        private String IsPay;
+        private String OrderMoney;
+        private String BeyondMoney;
+        private String BeyondID;
+        private String BeyondState;
+        private String BeyondDistance;
+        private String Accessory;
+        private String AccessorySequency;
+        private String AccessoryState;
+        private String AccessorySendState;
+        private String AccessoryMoney;
+        private String Service;
+        private String ServiceMoney;
+        private String ReturnAccessory;
+        private String ReturnAccessoryMsg;
+        private String ApplyCancel;
+        private String UpdateTime;
+        private String OrderPayStr;
+        private String ThirdPartyNo;
+        private String ExpressNo;
+        private String RecycleOrderHour;
+        private String IsRecevieGoods;
+        private String page;
+        private String limit;
+        private String Version;
+        private List<SendOrderBean> SendOrder;
 
         public String getId() {
-            return id;
+            return Id;
         }
 
-        public void setId(String id) {
-            this.id = id;
+        public void setId(String Id) {
+            this.Id = Id;
         }
 
-        public String getUsername() {
-            return username;
+        public String getOrderID() {
+            return OrderID;
         }
 
-        public void setUsername(String username) {
-            this.username = username;
+        public void setOrderID(String OrderID) {
+            this.OrderID = OrderID;
         }
 
-        public String getNickname() {
-            return nickname;
+        public String getTypeID() {
+            return TypeID;
         }
 
-        public void setNickname(String nickname) {
-            this.nickname = nickname;
+        public void setTypeID(String TypeID) {
+            this.TypeID = TypeID;
         }
 
-        public String getPassword() {
-            return password;
+        public String getTypeName() {
+            return TypeName;
         }
 
-        public void setPassword(String password) {
-            this.password = password;
+        public void setTypeName(String TypeName) {
+            this.TypeName = TypeName;
         }
 
-        public String getHeadimg() {
-            return headimg;
+        public String getSubTypeID() {
+            return SubTypeID;
         }
 
-        public void setHeadimg(String headimg) {
-            this.headimg = headimg;
+        public void setSubTypeID(String SubTypeID) {
+            this.SubTypeID = SubTypeID;
         }
 
-        public String getClass_id() {
-            return class_id;
+        public String getSubTypeName() {
+            return SubTypeName;
         }
 
-        public void setClass_id(String class_id) {
-            this.class_id = class_id;
+        public void setSubTypeName(String SubTypeName) {
+            this.SubTypeName = SubTypeName;
         }
 
-        public String getBuy_class_id() {
-            return buy_class_id;
+        public String getCategoryID() {
+            return CategoryID;
         }
 
-        public void setBuy_class_id(String buy_class_id) {
-            this.buy_class_id = buy_class_id;
+        public void setCategoryID(String CategoryID) {
+            this.CategoryID = CategoryID;
         }
 
-        public String getViptime() {
-            return viptime;
+        public String getCategoryName() {
+            return CategoryName;
         }
 
-        public void setViptime(String viptime) {
-            this.viptime = viptime;
+        public void setCategoryName(String CategoryName) {
+            this.CategoryName = CategoryName;
         }
 
-        public String getGroup_id() {
-            return group_id;
+        public String getSubCategoryID() {
+            return SubCategoryID;
         }
 
-        public void setGroup_id(String group_id) {
-            this.group_id = group_id;
+        public void setSubCategoryID(String SubCategoryID) {
+            this.SubCategoryID = SubCategoryID;
         }
 
-        public String getDiscount() {
-            return discount;
+        public String getSubCategoryName() {
+            return SubCategoryName;
         }
 
-        public void setDiscount(String discount) {
-            this.discount = discount;
+        public void setSubCategoryName(String SubCategoryName) {
+            this.SubCategoryName = SubCategoryName;
         }
 
-        public String getSex() {
-            return sex;
+        public String getMemo() {
+            return Memo;
         }
 
-        public void setSex(String sex) {
-            this.sex = sex;
+        public void setMemo(String Memo) {
+            this.Memo = Memo;
         }
 
-        public String getBirthday() {
-            return birthday;
+        public String getBrandID() {
+            return BrandID;
         }
 
-        public void setBirthday(String birthday) {
-            this.birthday = birthday;
+        public void setBrandID(String BrandID) {
+            this.BrandID = BrandID;
         }
 
-        public String getStatus() {
-            return status;
+        public String getBrandName() {
+            return BrandName;
         }
 
-        public void setStatus(String status) {
-            this.status = status;
+        public void setBrandName(String BrandName) {
+            this.BrandName = BrandName;
         }
 
-        public String getLogin() {
-            return login;
+        public String getProductType() {
+            return ProductType;
         }
 
-        public void setLogin(String login) {
-            this.login = login;
+        public void setProductType(String ProductType) {
+            this.ProductType = ProductType;
         }
 
-        public String getLast_login_time() {
-            return last_login_time;
+        public String getProvinceCode() {
+            return ProvinceCode;
         }
 
-        public void setLast_login_time(String last_login_time) {
-            this.last_login_time = last_login_time;
+        public void setProvinceCode(String ProvinceCode) {
+            this.ProvinceCode = ProvinceCode;
         }
 
-        public String getLast_login_ip() {
-            return last_login_ip;
+        public String getCityCode() {
+            return CityCode;
         }
 
-        public void setLast_login_ip(String last_login_ip) {
-            this.last_login_ip = last_login_ip;
+        public void setCityCode(String CityCode) {
+            this.CityCode = CityCode;
         }
 
-        public String getToken() {
-            return token;
+        public String getAreaCode() {
+            return AreaCode;
         }
 
-        public void setToken(String token) {
-            this.token = token;
+        public void setAreaCode(String AreaCode) {
+            this.AreaCode = AreaCode;
         }
 
-        public String getCreatetime() {
-            return createtime;
+        public String getAddress() {
+            return Address;
         }
 
-        public void setCreatetime(String createtime) {
-            this.createtime = createtime;
+        public void setAddress(String Address) {
+            this.Address = Address;
         }
 
-        public String getYue() {
-            return yue;
+        public String getUserID() {
+            return UserID;
         }
 
-        public void setYue(String yue) {
-            this.yue = yue;
+        public void setUserID(String UserID) {
+            this.UserID = UserID;
         }
 
-        public String getJifen() {
-            return jifen;
+        public String getGuarantee() {
+            return Guarantee;
         }
 
-        public void setJifen(String jifen) {
-            this.jifen = jifen;
+        public void setGuarantee(String Guarantee) {
+            this.Guarantee = Guarantee;
         }
 
-        public String getIsnew() {
-            return isnew;
+        public String getUserName() {
+            return UserName;
         }
 
-        public void setIsnew(String isnew) {
-            this.isnew = isnew;
+        public void setUserName(String UserName) {
+            this.UserName = UserName;
         }
 
-        public String getIsadmin() {
-            return isadmin;
+        public String getPhone() {
+            return Phone;
         }
 
-        public void setIsadmin(String isadmin) {
-            this.isadmin = isadmin;
+        public void setPhone(String Phone) {
+            this.Phone = Phone;
         }
 
-        public String getRegister_platform() {
-            return register_platform;
+        public String getCreateDate() {
+            return CreateDate;
         }
 
-        public void setRegister_platform(String register_platform) {
-            this.register_platform = register_platform;
+        public void setCreateDate(String CreateDate) {
+            this.CreateDate = CreateDate;
         }
 
-        public String getClassname() {
-            return classname;
+        public String getAudDate() {
+            return AudDate;
         }
 
-        public void setClassname(String classname) {
-            this.classname = classname;
+        public void setAudDate(String AudDate) {
+            this.AudDate = AudDate;
         }
 
-        public String getBackground() {
-            return background;
+        public String getRepairCompleteDate() {
+            return RepairCompleteDate;
         }
 
-        public void setBackground(String background) {
-            this.background = background;
+        public void setRepairCompleteDate(String RepairCompleteDate) {
+            this.RepairCompleteDate = RepairCompleteDate;
         }
 
-        public String getContent() {
-            return content;
+        public String getAppraiseDate() {
+            return AppraiseDate;
         }
 
-        public void setContent(String content) {
-            this.content = content;
+        public void setAppraiseDate(String AppraiseDate) {
+            this.AppraiseDate = AppraiseDate;
         }
 
-        public String getShowname() {
-            return showname;
+        public String getState() {
+            return State;
         }
 
-        public void setShowname(String showname) {
-            this.showname = showname;
+        public void setState(String State) {
+            this.State = State;
         }
-    }
 
-    public static class ProductListBean implements Serializable {
-        /**
-         * id : 6689
-         * orderid : 13084
-         * typeid : 274
-         * buyprice : 675.00
-         * buycount : 1
-         * createtime : 1520177199
-         * buytype : 0
-         * productid : 274
-         * name : 伊穆家园 甄选 纯大料 整箱15斤 一箱6袋
-         * images : http://qiniu.emjiayuan.com/products_headimg1524909666212
-         * productprice : 675.00
-         * product_str : 伊穆家园 甄选 纯大料 整箱15斤 一箱6袋 价格：675.00 【 x 1件】
-         */
+        public String getExtra() {
+            return Extra;
+        }
+
+        public void setExtra(String Extra) {
+            this.Extra = Extra;
+        }
+
+        public String getExtraTime() {
+            return ExtraTime;
+        }
+
+        public void setExtraTime(String ExtraTime) {
+            this.ExtraTime = ExtraTime;
+        }
+
+        public String getExtraFee() {
+            return ExtraFee;
+        }
+
+        public void setExtraFee(String ExtraFee) {
+            this.ExtraFee = ExtraFee;
+        }
+
+        public String getIsUse() {
+            return IsUse;
+        }
+
+        public void setIsUse(String IsUse) {
+            this.IsUse = IsUse;
+        }
+
+        public String getSendUser() {
+            return SendUser;
+        }
+
+        public void setSendUser(String SendUser) {
+            this.SendUser = SendUser;
+        }
+
+        public String getLoginUser() {
+            return LoginUser;
+        }
+
+        public void setLoginUser(String LoginUser) {
+            this.LoginUser = LoginUser;
+        }
+
+        public String getIsPay() {
+            if ("Y".equals(IsPay)){
+                return "已支付";
+            }else{
+                return "未支付";
+            }
+        }
+
+        public void setIsPay(String IsPay) {
+            this.IsPay = IsPay;
+        }
+
+        public String getOrderMoney() {
+            return OrderMoney;
+        }
+
+        public void setOrderMoney(String OrderMoney) {
+            this.OrderMoney = OrderMoney;
+        }
+
+        public String getBeyondMoney() {
+            return BeyondMoney;
+        }
+
+        public void setBeyondMoney(String BeyondMoney) {
+            this.BeyondMoney = BeyondMoney;
+        }
+
+        public String getBeyondID() {
+            return BeyondID;
+        }
+
+        public void setBeyondID(String BeyondID) {
+            this.BeyondID = BeyondID;
+        }
+
+        public String getBeyondState() {
+            return BeyondState;
+        }
+
+        public void setBeyondState(String BeyondState) {
+            this.BeyondState = BeyondState;
+        }
+
+        public String getBeyondDistance() {
+            return BeyondDistance;
+        }
+
+        public void setBeyondDistance(String BeyondDistance) {
+            this.BeyondDistance = BeyondDistance;
+        }
+
+        public String getAccessory() {
+            return Accessory;
+        }
+
+        public void setAccessory(String Accessory) {
+            this.Accessory = Accessory;
+        }
+
+        public String getAccessorySequency() {
+            return AccessorySequency;
+        }
+
+        public void setAccessorySequency(String AccessorySequency) {
+            this.AccessorySequency = AccessorySequency;
+        }
+
+        public String getAccessoryState() {
+            return AccessoryState;
+        }
+
+        public void setAccessoryState(String AccessoryState) {
+            this.AccessoryState = AccessoryState;
+        }
+
+        public String getAccessorySendState() {
+            return AccessorySendState;
+        }
+
+        public void setAccessorySendState(String AccessorySendState) {
+            this.AccessorySendState = AccessorySendState;
+        }
 
-        private String id;
-        private String orderid;
-        private String typeid;
-        private String buyprice;
-        private String buycount;
-        private String createtime;
-        private String buytype;
-        private String productid;
-        private String name;
-        private String images;
-        private String productprice;
-        private String product_str;
-        private String jifen;
-        private String giftjifen;
+        public String getAccessoryMoney() {
+            return AccessoryMoney;
+        }
+
+        public void setAccessoryMoney(String AccessoryMoney) {
+            this.AccessoryMoney = AccessoryMoney;
+        }
+
+        public String getService() {
+            return Service;
+        }
+
+        public void setService(String Service) {
+            this.Service = Service;
+        }
+
+        public String getServiceMoney() {
+            return ServiceMoney;
+        }
 
-        public String getGiftjifen() {
-            return giftjifen;
+        public void setServiceMoney(String ServiceMoney) {
+            this.ServiceMoney = ServiceMoney;
         }
 
-        public void setGiftjifen(String giftjifen) {
-            this.giftjifen = giftjifen;
+        public String getReturnAccessory() {
+            return ReturnAccessory;
         }
 
-        public String getJifen() {
-            return jifen;
+        public void setReturnAccessory(String ReturnAccessory) {
+            this.ReturnAccessory = ReturnAccessory;
         }
 
-        public void setJifen(String jifen) {
-            this.jifen = jifen;
+        public String getReturnAccessoryMsg() {
+            return ReturnAccessoryMsg;
         }
 
-        public String getId() {
-            return id;
+        public void setReturnAccessoryMsg(String ReturnAccessoryMsg) {
+            this.ReturnAccessoryMsg = ReturnAccessoryMsg;
         }
 
-        public void setId(String id) {
-            this.id = id;
+        public String getApplyCancel() {
+            return ApplyCancel;
         }
 
-        public String getOrderid() {
-            return orderid;
+        public void setApplyCancel(String ApplyCancel) {
+            this.ApplyCancel = ApplyCancel;
         }
 
-        public void setOrderid(String orderid) {
-            this.orderid = orderid;
+        public String getUpdateTime() {
+            return UpdateTime;
         }
 
-        public String getTypeid() {
-            return typeid;
+        public void setUpdateTime(String UpdateTime) {
+            this.UpdateTime = UpdateTime;
         }
 
-        public void setTypeid(String typeid) {
-            this.typeid = typeid;
+        public String getOrderPayStr() {
+            return OrderPayStr;
         }
 
-        public String getBuyprice() {
-            return buyprice;
+        public void setOrderPayStr(String OrderPayStr) {
+            this.OrderPayStr = OrderPayStr;
         }
 
-        public void setBuyprice(String buyprice) {
-            this.buyprice = buyprice;
+        public String getThirdPartyNo() {
+            return ThirdPartyNo;
         }
 
-        public String getBuycount() {
-            return buycount;
+        public void setThirdPartyNo(String ThirdPartyNo) {
+            this.ThirdPartyNo = ThirdPartyNo;
         }
 
-        public void setBuycount(String buycount) {
-            this.buycount = buycount;
+        public String getExpressNo() {
+            return ExpressNo;
         }
 
-        public String getCreatetime() {
-            return createtime;
+        public void setExpressNo(String ExpressNo) {
+            this.ExpressNo = ExpressNo;
         }
 
-        public void setCreatetime(String createtime) {
-            this.createtime = createtime;
+        public String getRecycleOrderHour() {
+            return RecycleOrderHour;
         }
 
-        public String getBuytype() {
-            return buytype;
+        public void setRecycleOrderHour(String RecycleOrderHour) {
+            this.RecycleOrderHour = RecycleOrderHour;
         }
 
-        public void setBuytype(String buytype) {
-            this.buytype = buytype;
+        public String getIsRecevieGoods() {
+            return IsRecevieGoods;
         }
 
-        public String getProductid() {
-            return productid;
+        public void setIsRecevieGoods(String IsRecevieGoods) {
+            this.IsRecevieGoods = IsRecevieGoods;
         }
 
-        public void setProductid(String productid) {
-            this.productid = productid;
+        public String getPage() {
+            return page;
         }
 
-        public String getName() {
-            return name;
+        public void setPage(String page) {
+            this.page = page;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public String getLimit() {
+            return limit;
         }
 
-        public String getImages() {
-            return images;
+        public void setLimit(String limit) {
+            this.limit = limit;
         }
 
-        public void setImages(String images) {
-            this.images = images;
+        public String getVersion() {
+            return Version;
         }
 
-        public String getProductprice() {
-            return productprice;
+        public void setVersion(String Version) {
+            this.Version = Version;
         }
 
-        public void setProductprice(String productprice) {
-            this.productprice = productprice;
+        public List<SendOrderBean> getSendOrder() {
+            return SendOrder;
         }
 
-        public String getProduct_str() {
-            return product_str;
+        public void setSendOrder(List<SendOrderBean> SendOrder) {
+            this.SendOrder = SendOrder;
         }
+
+        public static class SendOrderBean {
+            /**
+             * Id : 2
+             * SendID : 2
+             * CreateDate : 2018-12-27T16:19:33
+             * UserID : admin
+             * OrderID : 1
+             * State : 1
+             * UpdateDate : null
+             * LoginUser : system
+             * IsUse : Y
+             * CategoryID : 0
+             * CategoryName : null
+             * SubTypeID : 0
+             * SubTypeName : null
+             * Memo : null
+             * BrandID : 0
+             * BrandName : null
+             * ProductType : null
+             * ProvinceCode : null
+             * CityCode : null
+             * AreaCode : null
+             * Address : null
+             * Guarantee : null
+             * UserName : null
+             * Phone : null
+             * page : 1
+             * limit : 10
+             * Version : 0
+             */
+
+            private String Id;
+            private String SendID;
+            private String CreateDate;
+            private String UserID;
+            private String OrderID;
+            private String State;
+            private String UpdateDate;
+            private String LoginUser;
+            private String IsUse;
+            private String CategoryID;
+            private String CategoryName;
+            private String SubTypeID;
+            private String SubTypeName;
+            private String Memo;
+            private String BrandID;
+            private String BrandName;
+            private String ProductType;
+            private String ProvinceCode;
+            private String CityCode;
+            private String AreaCode;
+            private String Address;
+            private String Guarantee;
+            private String UserName;
+            private String Phone;
+            private String page;
+            private String limit;
+            private String Version;
+
+            public String getId() {
+                return Id;
+            }
+
+            public void setId(String Id) {
+                this.Id = Id;
+            }
+
+            public String getSendID() {
+                return SendID;
+            }
+
+            public void setSendID(String SendID) {
+                this.SendID = SendID;
+            }
+
+            public String getCreateDate() {
+                return CreateDate;
+            }
+
+            public void setCreateDate(String CreateDate) {
+                this.CreateDate = CreateDate;
+            }
+
+            public String getUserID() {
+                return UserID;
+            }
+
+            public void setUserID(String UserID) {
+                this.UserID = UserID;
+            }
+
+            public String getOrderID() {
+                return OrderID;
+            }
+
+            public void setOrderID(String OrderID) {
+                this.OrderID = OrderID;
+            }
+
+            public String getState() {
+                return State;
+            }
+
+            public void setState(String State) {
+                this.State = State;
+            }
+
+            public String getUpdateDate() {
+                return UpdateDate;
+            }
+
+            public void setUpdateDate(String UpdateDate) {
+                this.UpdateDate = UpdateDate;
+            }
+
+            public String getLoginUser() {
+                return LoginUser;
+            }
+
+            public void setLoginUser(String LoginUser) {
+                this.LoginUser = LoginUser;
+            }
+
+            public String getIsUse() {
+                return IsUse;
+            }
+
+            public void setIsUse(String IsUse) {
+                this.IsUse = IsUse;
+            }
+
+            public String getCategoryID() {
+                return CategoryID;
+            }
+
+            public void setCategoryID(String CategoryID) {
+                this.CategoryID = CategoryID;
+            }
+
+            public String getCategoryName() {
+                return CategoryName;
+            }
+
+            public void setCategoryName(String CategoryName) {
+                this.CategoryName = CategoryName;
+            }
+
+            public String getSubTypeID() {
+                return SubTypeID;
+            }
+
+            public void setSubTypeID(String SubTypeID) {
+                this.SubTypeID = SubTypeID;
+            }
+
+            public String getSubTypeName() {
+                return SubTypeName;
+            }
+
+            public void setSubTypeName(String SubTypeName) {
+                this.SubTypeName = SubTypeName;
+            }
+
+            public String getMemo() {
+                return Memo;
+            }
+
+            public void setMemo(String Memo) {
+                this.Memo = Memo;
+            }
+
+            public String getBrandID() {
+                return BrandID;
+            }
+
+            public void setBrandID(String BrandID) {
+                this.BrandID = BrandID;
+            }
+
+            public String getBrandName() {
+                return BrandName;
+            }
+
+            public void setBrandName(String BrandName) {
+                this.BrandName = BrandName;
+            }
+
+            public String getProductType() {
+                return ProductType;
+            }
+
+            public void setProductType(String ProductType) {
+                this.ProductType = ProductType;
+            }
+
+            public String getProvinceCode() {
+                return ProvinceCode;
+            }
+
+            public void setProvinceCode(String ProvinceCode) {
+                this.ProvinceCode = ProvinceCode;
+            }
+
+            public String getCityCode() {
+                return CityCode;
+            }
+
+            public void setCityCode(String CityCode) {
+                this.CityCode = CityCode;
+            }
+
+            public String getAreaCode() {
+                return AreaCode;
+            }
+
+            public void setAreaCode(String AreaCode) {
+                this.AreaCode = AreaCode;
+            }
+
+            public String getAddress() {
+                return Address;
+            }
+
+            public void setAddress(String Address) {
+                this.Address = Address;
+            }
+
+            public String getGuarantee() {
+                return Guarantee;
+            }
+
+            public void setGuarantee(String Guarantee) {
+                this.Guarantee = Guarantee;
+            }
+
+            public String getUserName() {
+                return UserName;
+            }
+
+            public void setUserName(String UserName) {
+                this.UserName = UserName;
+            }
+
+            public String getPhone() {
+                return Phone;
+            }
+
+            public void setPhone(String Phone) {
+                this.Phone = Phone;
+            }
+
+            public String getPage() {
+                return page;
+            }
+
+            public void setPage(String page) {
+                this.page = page;
+            }
+
+            public String getLimit() {
+                return limit;
+            }
+
+            public void setLimit(String limit) {
+                this.limit = limit;
+            }
+
+            public String getVersion() {
+                return Version;
+            }
 
-        public void setProduct_str(String product_str) {
-            this.product_str = product_str;
+            public void setVersion(String Version) {
+                this.Version = Version;
+            }
         }
     }
 }

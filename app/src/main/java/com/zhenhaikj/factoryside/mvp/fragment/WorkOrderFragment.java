@@ -1,10 +1,13 @@
 package com.zhenhaikj.factoryside.mvp.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.WorkOrderAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
@@ -13,7 +16,6 @@ import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.AllWorkOrdersContract;
 import com.zhenhaikj.factoryside.mvp.model.AllWorkOrdersModel;
 import com.zhenhaikj.factoryside.mvp.presenter.AllWorkOrdersPresenter;
-import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -21,24 +23,31 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter,AllWorkOrdersModel> implements AllWorkOrdersContract.View {
-    private static final String ARG_PARAM1 = "param1";//""全部 1待付款 2待发货 3待收货
-    private static final String ARG_PARAM2 = "param2";//0普通订单 1汤料订单
+public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, AllWorkOrdersModel> implements AllWorkOrdersContract.View {
+    private static final String ARG_PARAM1 = "param1";//
+    private static final String ARG_PARAM2 = "param2";//
     @BindView(R.id.rv_work_order)
     RecyclerView mRvWorkOrder;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.empty_view)
+    LinearLayout mEmptyView;
 
-
+    private int pageIndex = 1;
     private String mParam1;
     private String mParam2;
+    private WorkOrder workOrder;
     private WorkOrderAdapter mWorkOrderAdapter;
-    private List<WorkOrder> workOrderList=new ArrayList<>();
-
+    private List<WorkOrder.DataBean> workOrderList = new ArrayList<>();
+    private String[] mTitleDataList = new String[]{
+            "所有工单", "待接单", "退单处理", "已完结", "配件单", "待支付",
+            "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
+    };
 
     public WorkOrderFragment() {
         // Required empty public constructor
@@ -81,22 +90,74 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter,A
         return R.layout.fragment_work_order_page;
     }
 
+    //"所有工单","待接单", "退单处理", "已完结", "配件单", "待支付",
+//        "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     @Override
     protected void initData() {
-        mPresenter.GetOrderInfoList("0","1","40");
-        for (int i = 0; i < 30; i++) {
-            workOrderList.add(new WorkOrder());
+        getData();
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mRefreshLayout.setNoMoreData(false);
+                workOrderList.clear();
+                pageIndex = 1;
+                getData();
+            }
+        });
+        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                pageIndex++;
+                getData();
+            }
+        });
+    }
+
+    public void getData() {
+        switch (mParam1) {
+            case "所有工单":
+                mPresenter.GetOrderInfoList("", Integer.toString(pageIndex), "3");
+                break;
+            case "待接单":
+                mPresenter.GetOrderInfoList("0", Integer.toString(pageIndex), "3");
+                break;
+            case "退单处理":
+                mPresenter.GetOrderInfoList("-1", Integer.toString(pageIndex), "3");
+                break;
+            case "已完结":
+                mPresenter.GetOrderInfoList("1", Integer.toString(pageIndex), "3");
+                break;
+            case "配件单":
+                mPresenter.GetOrderInfoList("2", Integer.toString(pageIndex), "3");
+                break;
+            case "待支付":
+                mPresenter.GetOrderInfoList("3", Integer.toString(pageIndex), "3");
+                break;
+            case "远程费单":
+                mPresenter.GetOrderInfoList("1", Integer.toString(pageIndex), "3");
+                break;
+            case "质保单":
+                mPresenter.GetOrderInfoList("2", Integer.toString(pageIndex), "3");
+                break;
+            case "未完成单":
+                mPresenter.GetOrderInfoList("3", Integer.toString(pageIndex), "3");
+                break;
+            case "费用变更":
+                mPresenter.GetOrderInfoList("1", Integer.toString(pageIndex), "3");
+                break;
+            case "留言工单":
+                mPresenter.GetOrderInfoList("2", Integer.toString(pageIndex), "3");
+                break;
         }
-        mRvWorkOrder.setLayoutManager(new LinearLayoutManager(mActivity));
-//        mRvWorkOrder.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL, 20, Color.parseColor("#EEEEEE")));
-        mWorkOrderAdapter = new WorkOrderAdapter(R.layout.order_item, workOrderList);
-        mRvWorkOrder.setAdapter(mWorkOrderAdapter);
     }
 
 
     @Override
     protected void initView() {
-
+        mRvWorkOrder.setLayoutManager(new LinearLayoutManager(mActivity));
+        mWorkOrderAdapter = new WorkOrderAdapter(R.layout.order_item, workOrderList);
+        mWorkOrderAdapter.setEmptyView(getEmptyView());
+        mRvWorkOrder.setAdapter(mWorkOrderAdapter);
     }
 
     @Override
@@ -111,14 +172,21 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter,A
     }
 
     @Override
-    public void GetOrderInfoList(BaseResult<String> baseResult) {
-        switch (baseResult.getStatusCode()){
+    public void GetOrderInfoList(BaseResult<WorkOrder> baseResult) {
+        switch (baseResult.getStatusCode()) {
             case 200:
-                MyUtils.e("GetOrderInfoList",baseResult.getData());
-                ToastUtils.showShort(baseResult.getData());
+                workOrder = baseResult.getData();
+                workOrderList.addAll(workOrder.getData());
+                mWorkOrderAdapter.setNewData(workOrderList);
+                mRefreshLayout.finishRefresh();
+                if (pageIndex!=1&&"0".equals(workOrder.getCount())){
+                    mRefreshLayout.finishLoadMoreWithNoMoreData();
+                }else{
+                    mRefreshLayout.finishLoadMore();
+                }
                 break;
             case 401:
-                ToastUtils.showShort(baseResult.getData());
+                ToastUtils.showShort(baseResult.getInfo());
                 break;
         }
     }

@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp;
 
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
+import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.City;
@@ -11,6 +12,7 @@ import com.zhenhaikj.factoryside.mvp.bean.HomeData;
 import com.zhenhaikj.factoryside.mvp.bean.Product;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
+import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 
 import java.util.List;
 
@@ -61,10 +63,11 @@ public interface ApiService {
     Observable<BaseResult<String>> GetUserInfo(@Field("userName") String userName);
     /**
      * 获取工单列表
+     * 废除-1，待审核0，派单中1，服务中2，已完成3
      */
     @FormUrlEncoded
     @POST("Order/GetOrderInfoList")
-    Observable<BaseResult<String>> GetOrderInfoList(@Field("state") String state,@Field("page") String page,@Field("limit") String limit);
+    Observable<BaseResult<WorkOrder>> GetOrderInfoList(@Field("state") String state, @Field("page") String page, @Field("limit") String limit);
     /**
      * 添加品牌
      */
@@ -110,7 +113,57 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("Config/GetArea")
-    Observable<BaseResult<Data<List<City>>>> GetArea(@Field("parentcode") String parentcode);
+    Observable<BaseResult<Data<List<Area>>>> GetArea(@Field("parentcode") String parentcode);
+    /**
+     * 发布工单
+     * TypeID;//分类ID 1维修 2安装 3其他服务
+     * TypeName;//
+     * UserID;//用户id
+     * FBrandID;//品牌id
+     * FBrandName;//品牌名
+     * FCategoryID;//分类id
+     * FCategoryName;//分类名
+     * FProductTypeID;//型号id
+     * FProductType;//型号名
+     * ProvinceCode;//省code
+     * CityCode;//市code
+     * AreaCode;//区code
+     * Address;//详细地址
+     * UserName;//客户姓名
+     * Phone;//客户手机
+     * Memo;//故障描述
+     * RecycleOrderHour;//回收时间
+     * Guarantee;//保内Y保外N
+     * AccessorySendState;//是否已发配件 Y是N否
+     * Extra;//是否加急Y是N否
+     * ExtraTime;//加急时间
+     * ExtraFee;//加急费用
+     */
+    @FormUrlEncoded
+    @POST("Order/AddOrder")
+    Observable<Data<String>> AddOrder(@Field("TypeID") String TypeID,
+                                                      @Field("TypeName") String TypeName,
+                                                      @Field("UserID") String UserID,
+                                                      @Field("BrandID") String FBrandID,
+                                                      @Field("BrandName") String BrandName,
+                                                      @Field("CategoryID") String FCategoryID,
+                                                      @Field("CategoryName") String CategoryName,
+                                                      @Field("ProductTypeID") String FProductTypeID,
+                                                      @Field("ProductType") String ProductType,
+                                                      @Field("ProvinceCode") String ProvinceCode,
+                                                      @Field("CityCode") String CityCode,
+                                                      @Field("AreaCode") String AreaCode,
+                                                      @Field("Address") String Address,
+                                                      @Field("UserName") String UserName,
+                                                      @Field("Phone") String Phone,
+                                                      @Field("Memo") String Memo,
+                                                      @Field("OrderMoney") String OrderMoney,
+                                                      @Field("RecycleOrderHour") String RecycleOrderHour,
+                                                      @Field("Guarantee") String Guarantee,
+                                                      @Field("AccessorySendState") String AccessorySendState,
+                                                      @Field("Extra") String Extra,
+                                                      @Field("ExtraTime") String ExtraTime,
+                                                      @Field("ExtraFee") String ExtraFee);
     /**
      * 获取首页数据
      */

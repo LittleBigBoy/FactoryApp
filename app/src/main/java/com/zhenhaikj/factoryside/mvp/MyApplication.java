@@ -1,10 +1,12 @@
 package com.zhenhaikj.factoryside.mvp;
 
 import android.content.Context;
+import android.graphics.Color;
 
 import com.blankj.utilcode.util.Utils;
 import com.qiyukf.unicorn.api.StatusBarNotificationConfig;
 import com.qiyukf.unicorn.api.YSFOptions;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -28,12 +30,12 @@ public class MyApplication extends MultiDexApplication {
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
             @Override
             public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-//                MaterialHeader header=new MaterialHeader(context);
-//                header.setPrimaryColors(Color.parseColor("#00000000"));
-//                header.setShowBezierWave(true);
-//                layout.setEnableHeaderTranslationContent(false);
-//                return header;//指定为经典Header，默认是 贝塞尔雷达Header
-                return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);//指定为经典Header，默认是 贝塞尔雷达Header
+                MaterialHeader header=new MaterialHeader(context);
+                header.setPrimaryColors(Color.parseColor("#00000000"));
+                header.setShowBezierWave(true);
+                layout.setEnableHeaderTranslationContent(false);
+                return header;//指定为经典Header，默认是 贝塞尔雷达Header
+//                return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);//指定为经典Header，默认是 贝塞尔雷达Header
             }
         });
         //设置全局的Footer构建器

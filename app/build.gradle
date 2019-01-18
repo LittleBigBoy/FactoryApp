@@ -48,8 +48,8 @@ dependencies {
     //上拉加载下拉刷新
 
     //1.0.5 当1.1.0出现问题可以回退到1.0.5.1
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-15'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-15'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-19'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-19'
 
     //没有使用特殊Header，可以不加这行
 

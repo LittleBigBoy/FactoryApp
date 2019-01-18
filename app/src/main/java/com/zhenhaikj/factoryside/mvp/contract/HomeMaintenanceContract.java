@@ -6,6 +6,7 @@ import com.zhenhaikj.factoryside.mvp.base.BasePresenter;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.base.BaseView;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
+import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.City;
@@ -26,7 +27,30 @@ public interface HomeMaintenanceContract {
         Observable<BaseResult<Accessory>> GetFactoryAccessory(String FProductTypeID);
         Observable<BaseResult<List<Province>>> GetProvince();
         Observable<BaseResult<Data<List<City>>>> GetCity(String parentcode);
-        Observable<BaseResult<Data<List<City>>>> GetArea(String parentcode);
+        Observable<BaseResult<Data<List<Area>>>> GetArea(String parentcode);
+        Observable<Data<String>> AddOrder(String TypeID,
+                                                          String TypeName,
+                                                          String UserID,
+                                                          String FBrandID,
+                                                          String BrandName,
+                                                          String FCategoryID,
+                                                          String CategoryName,
+                                                          String FProductTypeID,
+                                                          String ProductType,
+                                                          String ProvinceCode,
+                                                          String CityCode,
+                                                          String AreaCode,
+                                                          String Address,
+                                                          String UserName,
+                                                          String Phone,
+                                                          String Memo,
+                                                          String OrderMoney,
+                                                          String RecycleOrderHour,
+                                                          String Guarantee,
+                                                          String AccessorySendState,
+                                                          String Extra,
+                                                          String ExtraTime,
+                                                          String ExtraFee);
     }
 
     interface View extends BaseView {
@@ -36,16 +60,47 @@ public interface HomeMaintenanceContract {
         void GetFactoryAccessory(BaseResult<Accessory> baseResult);
         void GetProvince(BaseResult<List<Province>> baseResult);
         void GetCity(BaseResult<Data<List<City>>> baseResult);
-        void GetArea(BaseResult<Data<List<City>>> baseResult);
+        void GetArea(BaseResult<Data<List<Area>>> baseResult);
+        void AddOrder(Data<String> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetFactoryBrand(String UserID);
+
         public abstract void GetFactoryCategory();
+
         public abstract void GetFactoryProducttype(String FBrandID, String FCategoryID);
+
         public abstract void GetFactoryAccessory(String FProductTypeID);
+
         public abstract void GetProvince();
+
         public abstract void GetCity(String parentcode);
+
         public abstract void GetArea(String parentcode);
+
+        public abstract void AddOrder(String TypeID,
+                                      String TypeName,
+                                      String UserID,
+                                      String FBrandID,
+                                      String BrandName,
+                                      String FCategoryID,
+                                      String CategoryName,
+                                      String FProductTypeID,
+                                      String ProductType,
+                                      String ProvinceCode,
+                                      String CityCode,
+                                      String AreaCode,
+                                      String Address,
+                                      String UserName,
+                                      String Phone,
+                                      String Memo,
+                                      String OrderMoney,
+                                      String RecycleOrderHour,
+                                      String Guarantee,
+                                      String AccessorySendState,
+                                      String Extra,
+                                      String ExtraTime,
+                                      String ExtraFee);
     }
 }
