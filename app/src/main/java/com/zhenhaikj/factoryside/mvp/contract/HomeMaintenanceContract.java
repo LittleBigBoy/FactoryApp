@@ -28,7 +28,7 @@ public interface HomeMaintenanceContract {
         Observable<BaseResult<List<Province>>> GetProvince();
         Observable<BaseResult<Data<List<City>>>> GetCity(String parentcode);
         Observable<BaseResult<Data<List<Area>>>> GetArea(String parentcode);
-        Observable<Data<String>> AddOrder(String TypeID,
+        Observable<BaseResult<Data<String>>> AddOrder(String TypeID,
                                                           String TypeName,
                                                           String UserID,
                                                           String FBrandID,
@@ -61,7 +61,7 @@ public interface HomeMaintenanceContract {
         void GetProvince(BaseResult<List<Province>> baseResult);
         void GetCity(BaseResult<Data<List<City>>> baseResult);
         void GetArea(BaseResult<Data<List<Area>>> baseResult);
-        void AddOrder(Data<String> baseResult);
+        void AddOrder(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {

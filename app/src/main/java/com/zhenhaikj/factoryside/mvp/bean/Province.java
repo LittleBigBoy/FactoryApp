@@ -1,6 +1,8 @@
 package com.zhenhaikj.factoryside.mvp.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Province implements Serializable {
 
@@ -18,6 +20,15 @@ public class Province implements Serializable {
     private String name;
     private String IsUse;
     private String Version;
+    private List<City> cities = new ArrayList<City>();
+
+    public List<City> getCities() {
+        return cities;
+    }
+
+    public void setCities(List<City> cities) {
+        this.cities = cities;
+    }
 
     public String getId() {
         return Id;

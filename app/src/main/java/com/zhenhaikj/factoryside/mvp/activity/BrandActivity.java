@@ -132,6 +132,10 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter,AddBrandModel>
                     @Override
                     public void onClick(View v) {
                         brandName = et_brandName.getText().toString();
+                        if ("".equals(brandName)||brandName==null){
+                            MyUtils.showToast(mActivity,"请输入品牌名称！");
+                            return;
+                        }
                         mPresenter.AddFactoryBrand(userID,brandName);
                     }
                 });

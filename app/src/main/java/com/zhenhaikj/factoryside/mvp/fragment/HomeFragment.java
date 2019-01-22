@@ -188,6 +188,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             public void onRefresh(RefreshLayout refreshLayout) {
 //                getHomeData();
 //                mPresenter.getData("1");
+                mRefreshLayout.finishRefresh(1000);
             }
         });
 

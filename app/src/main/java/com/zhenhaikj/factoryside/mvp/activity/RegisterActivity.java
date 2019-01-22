@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +21,7 @@ import com.zhenhaikj.factoryside.mvp.contract.RegisterContract;
 import com.zhenhaikj.factoryside.mvp.model.RegisterModel;
 import com.zhenhaikj.factoryside.mvp.presenter.RegisterPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 
 import butterknife.BindView;
 
@@ -29,13 +29,13 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     private static final String TAG = "RegisterActivity";
     @BindView(R.id.et_username)
-    EditText mEtUsername;
+    ClearEditText mEtUsername;
     @BindView(R.id.et_password)
-    EditText mEtPassword;
+    ClearEditText mEtPassword;
     @BindView(R.id.ll_password)
     LinearLayout mLlPassword;
     @BindView(R.id.et_verification_code)
-    EditText mEtVerificationCode;
+    ClearEditText mEtVerificationCode;
     @BindView(R.id.tv_get_verification_code)
     TextView mTvGetVerificationCode;
 

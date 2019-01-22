@@ -1,5 +1,6 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -170,6 +172,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     protected void initData() {
         SPUtils spUtils = SPUtils.getInstance("token");
         userID = spUtils.getString("userName");
+//        mPresenter.GetFactoryBrand(userID);
     }
 
     @Override
@@ -182,6 +185,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mIconSearch.setOnClickListener(this);
+        mTvAddProduct.setOnClickListener(this);
 
         mTvChooseBrand.setOnClickListener(this);
         mTvChooseCategory.setOnClickListener(this);
@@ -247,6 +251,9 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         switch (view.getId()) {
             case R.id.icon_back:
                 finish();
+                break;
+            case R.id.tv_add_product:
+                startActivity(new Intent(mActivity,BrandActivity.class));
                 break;
             case R.id.tv_choose_brand:
                 mPresenter.GetFactoryBrand(userID);
@@ -415,22 +422,22 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     FAccessoryID = null;
                     CategoryName = null;
                     ProductTypeName = null;
+                    OrderMoney=null;
                 }
                 if (list.get(position) instanceof Category) {
                     FCategoryID = ((Category) list.get(position)).getFCategoryID();
                     CategoryName = ((Category) list.get(position)).getFCategoryName();
+                    OrderMoney = ((Category) list.get(position)).getInitPrice();
                     tv.setText(CategoryName);
                     mTvChooseType.setText("");
                     mTvChooseProperty.setText("");
                     FProductTypeID = null;
                     FAccessoryID = null;
                     ProductTypeName = null;
-                    OrderMoney=null;
                 }
                 if (list.get(position) instanceof ProductType) {
                     FProductTypeID = ((ProductType) list.get(position)).getFProductTypeID();
                     ProductTypeName = ((ProductType) list.get(position)).getFProductTypeName();
-                    OrderMoney = ((ProductType) list.get(position)).getInitPrice();
                     tv.setText(ProductTypeName);
                     mTvChooseProperty.setText("");
                     FAccessoryID = null;
@@ -466,7 +473,13 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 }
             }
         });
-        popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow = new PopupWindow(contentView);
+        popupWindow.setWidth(tv.getWidth());
+        if (list.size()>5){
+            popupWindow.setHeight(600);
+        }else{
+            popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        }
 //        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setFocusable(true);
@@ -474,14 +487,14 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-//                MyUtils.setWindowAlpa(mActivity, false);
+                MyUtils.setWindowAlpa(mActivity, false);
             }
         });
         if (popupWindow != null && !popupWindow.isShowing()) {
             popupWindow.showAsDropDown(tv, 0, 10);
 //            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
         }
-
+        MyUtils.setWindowAlpa(mActivity,true);
     }
 
     @Override
@@ -489,8 +502,13 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         switch (baseResult.getStatusCode()) {
             case 200:
                 brandList = baseResult.getData();
-                brandsAdapter = new BrandsAdapter(R.layout.category_item, brandList);
-                showPopWindow(mTvChooseBrand, brandsAdapter, brandList);
+                if (brandList.size()==0){
+                    ToastUtils.showShort("你还没添加品牌，请先添加品牌！");
+                    startActivity(new Intent(mActivity,BrandActivity.class));
+                }else{
+                    brandsAdapter = new BrandsAdapter(R.layout.category_item, brandList);
+                    showPopWindow(mTvChooseBrand, brandsAdapter, brandList);
+                }
                 break;
             case 401:
 //                ToastUtils.showShort(baseResult.getData());
@@ -505,8 +523,12 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 Data<List<Category>> data = baseResult.getData();
                 if (data.isItem1()) {
                     categoryList = data.getItem2();
-                    categoryAdapter = new CategoryAdapter(R.layout.category_item, categoryList);
-                    showPopWindow(mTvChooseCategory, categoryAdapter, categoryList);
+                    if (categoryList.size()==0){
+                        MyUtils.showToast(mActivity, "无分类，请联系管理员添加！");
+                    }else{
+                        categoryAdapter = new CategoryAdapter(R.layout.category_item, categoryList);
+                        showPopWindow(mTvChooseCategory, categoryAdapter, categoryList);
+                    }
                 } else {
                     MyUtils.showToast(mActivity, "获取分类失败！");
                 }
@@ -524,8 +546,12 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 Data<List<ProductType>> data = baseResult.getData();
                 if (data.isItem1()) {
                     productTypeList = data.getItem2();
-                    productTypeAdapter = new ProductTypeAdapter(R.layout.category_item, productTypeList);
-                    showPopWindow(mTvChooseType, productTypeAdapter, productTypeList);
+                    if (productTypeList.size()==0){
+                        MyUtils.showToast(mActivity, "无型号，请联系管理员！");
+                    }else{
+                        productTypeAdapter = new ProductTypeAdapter(R.layout.category_item, productTypeList);
+                        showPopWindow(mTvChooseType, productTypeAdapter, productTypeList);
+                    }
                 } else {
                     MyUtils.showToast(mActivity, "获取型号失败！");
                 }
@@ -606,12 +632,26 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     }
 
     @Override
-    public void AddOrder(Data<String> baseResult) {
-        if (baseResult.isItem1()){
-            ToastUtils.showShort("发布成功！");
-            finish();
-        }else{
-            ToastUtils.showShort("发布失败！");
+    public void AddOrder(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<String> data=baseResult.getData();
+                if (data.isItem1()){
+                    ToastUtils.showShort(data.getItem2());
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title", "所有工单");
+                    bundle.putInt("position", 0);
+                    Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }else{
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
         }
+
     }
 }

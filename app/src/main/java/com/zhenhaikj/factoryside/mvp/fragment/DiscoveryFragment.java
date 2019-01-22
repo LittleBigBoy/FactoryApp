@@ -2,10 +2,11 @@ package com.zhenhaikj.factoryside.mvp.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
+import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
-import com.zhenhaikj.factoryside.R;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
@@ -26,6 +27,8 @@ public class DiscoveryFragment extends BaseLazyFragment implements View.OnClickL
     ViewPager mViewPager;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.title)
+    TextView mTitle;
 
 
     private String mParam1;
@@ -84,7 +87,7 @@ public class DiscoveryFragment extends BaseLazyFragment implements View.OnClickL
 
     @Override
     protected void initData() {
-
+        mTitle.setText("发现");
     }
 
     @Override

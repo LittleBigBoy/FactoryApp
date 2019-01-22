@@ -4,7 +4,48 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE"
     android:orientation="vertical">
+    <include layout="@layout/toolbar" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F25037"
+            android:orientation="horizontal">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="订单待接中"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginBottom="59dp"
+                    android:text="长时间无人接单可点击由客服派单"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="109dp"
+            android:layout_marginLeft="97dp"
+            android:src="@drawable/background" />
+    </FrameLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -13,53 +54,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <include layout="@layout/toolbar" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="52dp"
-                    android:background="#F25037"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="订单待接中"
-                            android:textColor="@color/white"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="9dp"
-                            android:layout_marginBottom="59dp"
-                            android:text="长时间无人接单可点击由客服派单"
-                            android:textColor="@color/white"
-                            android:textSize="10sp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="139dp"
-                    android:layout_marginLeft="97dp"
-                    android:layout_marginTop="20dp"
-                    android:src="@drawable/background" />
-            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -6,12 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
@@ -23,6 +21,7 @@ import com.zhenhaikj.factoryside.mvp.contract.LoginContract;
 import com.zhenhaikj.factoryside.mvp.model.LoginModel;
 import com.zhenhaikj.factoryside.mvp.presenter.LoginPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,13 +30,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
 
     @BindView(R.id.et_username)
-    EditText mEtUsername;
+    ClearEditText mEtUsername;
     @BindView(R.id.et_password)
-    EditText mEtPassword;
+    ClearEditText mEtPassword;
     @BindView(R.id.ll_password)
     LinearLayout mLlPassword;
     @BindView(R.id.et_verification_code)
-    EditText mEtVerificationCode;
+    ClearEditText mEtVerificationCode;
     @BindView(R.id.tv_get_verification_code)
     TextView mTvGetVerificationCode;
     @BindView(R.id.login)

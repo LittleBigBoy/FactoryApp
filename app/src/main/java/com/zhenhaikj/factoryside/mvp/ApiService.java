@@ -67,7 +67,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("Order/GetOrderInfoList")
-    Observable<BaseResult<WorkOrder>> GetOrderInfoList(@Field("state") String state, @Field("page") String page, @Field("limit") String limit);
+    Observable<BaseResult<WorkOrder>> GetOrderInfoList(@Field("UserID") String UserID,@Field("state") String state, @Field("page") String page, @Field("limit") String limit);
     /**
      * 添加品牌
      */
@@ -141,7 +141,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("Order/AddOrder")
-    Observable<Data<String>> AddOrder(@Field("TypeID") String TypeID,
+    Observable<BaseResult<Data<String>>> AddOrder(@Field("TypeID") String TypeID,
                                                       @Field("TypeName") String TypeName,
                                                       @Field("UserID") String UserID,
                                                       @Field("BrandID") String FBrandID,

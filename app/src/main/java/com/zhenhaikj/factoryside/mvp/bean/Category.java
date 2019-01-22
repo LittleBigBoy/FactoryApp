@@ -11,6 +11,7 @@ public class Category implements Serializable {
      * FCategoryName : 洗衣机类
      * ParentID : 999
      * IsUse : Y
+     * InitPrice : 50.0
      * Version : 0
      */
 
@@ -19,6 +20,7 @@ public class Category implements Serializable {
     private String FCategoryName;
     private String ParentID;
     private String IsUse;
+    private String InitPrice;
     private String Version;
 
     public String getId() {
@@ -59,6 +61,14 @@ public class Category implements Serializable {
 
     public void setIsUse(String IsUse) {
         this.IsUse = IsUse;
+    }
+
+    public String getInitPrice() {
+        return InitPrice;
+    }
+
+    public void setInitPrice(String InitPrice) {
+        this.InitPrice = InitPrice;
     }
 
     public String getVersion() {

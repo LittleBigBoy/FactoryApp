@@ -12,7 +12,7 @@ import io.reactivex.Observable;
 
 public interface AllWorkOrdersContract {
     interface Model extends BaseModel {
-        Observable<BaseResult<WorkOrder>> GetOrderInfoList(String state, String page, String limit);
+        Observable<BaseResult<WorkOrder>> GetOrderInfoList(String UserID,String state, String page, String limit);
     }
 
     interface View extends BaseView {
@@ -20,6 +20,6 @@ public interface AllWorkOrdersContract {
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
-        public abstract void GetOrderInfoList(String state, String page,String limit);
+        public abstract void GetOrderInfoList(String UserID,String state, String page,String limit);
     }
 }

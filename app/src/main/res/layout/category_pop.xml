@@ -3,12 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:background="@drawable/gray_shape"
+    android:elevation="5dp"
+    android:layout_margin="@dimen/dp_10"
+    android:background="@drawable/white_round_shape"
     android:orientation="horizontal">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
         android:layout_margin="@dimen/dp_10"/>
 </LinearLayout>

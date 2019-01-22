@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.blankj.utilcode.util.Utils;
 import com.qiyukf.unicorn.api.StatusBarNotificationConfig;
@@ -16,6 +17,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
 
 import androidx.multidex.MultiDexApplication;
 
@@ -53,6 +57,26 @@ public class MyApplication extends MultiDexApplication {
         Utils.init(this);
         // appKey 可以在七鱼管理系统->设置->APP接入 页面找到
 //        Unicorn.init(this, "1b5d0202117baa53c3c796075d043590", options(), new GlideImageLoader2(getApplicationContext()));
+        XGPushConfig.enableDebug(this,true);
+        XGPushConfig.enableOtherPush(getApplicationContext(), true);
+        XGPushConfig.setHuaweiDebug(true);
+        XGPushConfig.setMiPushAppId(getApplicationContext(), "3dda854c8a0b1");
+        XGPushConfig.setMiPushAppKey(getApplicationContext(), "143c2f4a39b0224cc8568280e3688a30");
+        XGPushConfig.setMzPushAppId(this, "3dda854c8a0b1");
+        XGPushConfig.setMzPushAppKey(this, "143c2f4a39b0224cc8568280e3688a30");
+        XGPushManager.registerPush(this, new XGIOperateCallback() {
+            @Override
+            public void onSuccess(Object data, int flag) {
+//token在设备卸载重装的时候有可能会变
+                Log.d("TPush", "注册成功，设备token为：" + data);
+            }
+            @Override
+            public void onFail(Object data, int errCode, String msg) {
+                Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+            }
+        });
+        XGPushManager.bindAccount(getApplicationContext(), "XINGE");
+        XGPushManager.setTag(this,"XINGE");
     }
     // 如果返回值为null，则全部使用默认参数。
     private YSFOptions options() {

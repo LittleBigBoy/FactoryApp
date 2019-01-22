@@ -1,6 +1,9 @@
 package com.zhenhaikj.factoryside.mvp.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class City implements Serializable {
 
@@ -21,6 +24,15 @@ public class City implements Serializable {
     private String IsUse;
     private String Version;
 
+    private List<Area> counties = new ArrayList<Area>();
+
+    public List<Area> getCounties() {
+        return counties;
+    }
+
+    public void setCounties(List<Area> counties) {
+        this.counties = counties;
+    }
     public String getId() {
         return Id;
     }
