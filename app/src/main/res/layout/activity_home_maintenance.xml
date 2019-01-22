@@ -17,9 +17,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/background_wallet"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_margin="@dimen/dp_10"
                 android:layout_marginBottom="@dimen/dp_10"
                 android:orientation="vertical">
                 <LinearLayout
@@ -64,7 +64,7 @@
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@drawable/white_round_shape">
+                    android:background="@drawable/background_wallet">
                     <TextView
                         android:id="@+id/tv_choose_brand"
                         android:layout_width="match_parent"
@@ -179,14 +179,14 @@
                 android:textColor="@color/black"
                 android:padding="@dimen/dp_10"
                 android:textSize="14sp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/background_wallet"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_margin="@dimen/dp_10"
                 android:layout_marginBottom="@dimen/dp_10"
                 android:orientation="vertical">
                 <LinearLayout
@@ -353,14 +353,14 @@
                 android:textColor="@color/black"
                 android:padding="@dimen/dp_10"
                 android:textSize="14sp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/background_wallet"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_margin="@dimen/dp_10"
                 android:layout_marginBottom="@dimen/dp_10"
                 android:orientation="vertical">
                 <LinearLayout
