@@ -37,12 +37,22 @@ public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter 
     }
 
     @Override
-    public void GetFactoryCategory() {
-        mModel.GetFactoryCategory()
+    public void GetFactoryCategory(String ParentID) {
+        mModel.GetFactoryCategory(ParentID)
                 .subscribe(new BaseObserver<Data<List<Category>>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<List<Category>>> value) {
                         mView.GetFactoryCategory(value);
+                    }
+                });
+    }
+    @Override
+    public void GetChildFactoryCategory(String ParentID) {
+        mModel.GetChildFactoryCategory(ParentID)
+                .subscribe(new BaseObserver<Data<List<Category>>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<List<Category>>> value) {
+                        mView.GetChildFactoryCategory(value);
                     }
                 });
     }

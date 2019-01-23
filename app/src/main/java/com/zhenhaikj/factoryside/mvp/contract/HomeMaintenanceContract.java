@@ -22,7 +22,8 @@ import io.reactivex.Observable;
 public interface HomeMaintenanceContract {
     interface Model extends BaseModel {
         Observable<BaseResult<List<Brand>>> GetFactoryBrand(String UserID);
-        Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory();
+        Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory(String ParentID);
+        Observable<BaseResult<Data<List<Category>>>> GetChildFactoryCategory(String ParentID);
         Observable<BaseResult<Data<List<ProductType>>>> GetFactoryProducttype(String FBrandID, String FCategoryID);
         Observable<BaseResult<Accessory>> GetFactoryAccessory(String FProductTypeID);
         Observable<BaseResult<List<Province>>> GetProvince();
@@ -56,6 +57,7 @@ public interface HomeMaintenanceContract {
     interface View extends BaseView {
         void GetFactoryBrand(BaseResult<List<Brand>> baseResult);
         void GetFactoryCategory(BaseResult<Data<List<Category>>> baseResult);
+        void GetChildFactoryCategory(BaseResult<Data<List<Category>>> baseResult);
         void GetFactoryProducttype(BaseResult<Data<List<ProductType>>> baseResult);
         void GetFactoryAccessory(BaseResult<Accessory> baseResult);
         void GetProvince(BaseResult<List<Province>> baseResult);
@@ -67,7 +69,8 @@ public interface HomeMaintenanceContract {
     abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetFactoryBrand(String UserID);
 
-        public abstract void GetFactoryCategory();
+        public abstract void GetFactoryCategory(String ParentID);
+        public abstract void GetChildFactoryCategory(String ParentID);
 
         public abstract void GetFactoryProducttype(String FBrandID, String FCategoryID);
 

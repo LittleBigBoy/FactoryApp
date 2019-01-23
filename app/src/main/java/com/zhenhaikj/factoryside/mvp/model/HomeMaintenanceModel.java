@@ -29,8 +29,14 @@ public class HomeMaintenanceModel implements HomeMaintenanceContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory() {
-        return ApiRetrofit.getDefault().GetFactoryCategory()
+    public Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory(String ParentID) {
+        return ApiRetrofit.getDefault().GetFactoryCategory(ParentID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<BaseResult<Data<List<Category>>>> GetChildFactoryCategory(String ParentID) {
+        return ApiRetrofit.getDefault().GetChildFactoryCategory(ParentID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

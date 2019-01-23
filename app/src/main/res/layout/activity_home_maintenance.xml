@@ -198,39 +198,19 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="城市*"
                         android:textSize="14sp"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/gray_three" />
                     <TextView
-                        android:id="@+id/tv_province"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_address"
+                        android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:gravity="right|center"
-                        android:hint="请选择省>"
+                        android:hint="请选择省、市、区>"
                         android:paddingLeft="@dimen/dp_10"
                         android:paddingRight="@dimen/dp_10"
                         android:textColor="@color/black" />
-                    <TextView
-                        android:id="@+id/tv_city"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:gravity="right|center"
-                        android:hint="请选择市>"
-                        android:paddingLeft="@dimen/dp_10"
-                        android:paddingRight="@dimen/dp_10"
-                        android:textColor="@color/black" />
-                    <TextView
-                        android:id="@+id/tv_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:gravity="right|center"
-                        android:hint="请选择区>"
-                        android:paddingLeft="@dimen/dp_10"
-                        android:paddingRight="@dimen/dp_10"
-                        android:textColor="@color/black"
-                        android:layout_marginRight="5dp"/>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"

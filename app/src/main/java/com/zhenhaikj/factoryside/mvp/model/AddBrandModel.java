@@ -24,8 +24,8 @@ public class AddBrandModel implements AddBrandContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory() {
-        return ApiRetrofit.getDefault().GetFactoryCategory()
+    public Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory(String ParentID) {
+        return ApiRetrofit.getDefault().GetFactoryCategory(ParentID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

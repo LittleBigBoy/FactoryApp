@@ -3,9 +3,9 @@ package com.zhenhaikj.factoryside.mvp.activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,11 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.donkingliang.labels.LabelsView;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.AccessoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.AreaAdapter;
@@ -81,12 +82,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     TextView mTvChooseType;
     @BindView(R.id.tv_choose_property)
     TextView mTvChooseProperty;
-    @BindView(R.id.tv_province)
-    TextView mTvProvince;
-    @BindView(R.id.tv_city)
-    TextView mTvCity;
-    @BindView(R.id.tv_area)
-    TextView mTvArea;
+
     @BindView(R.id.et_detail)
     EditText mEtDetail;
     @BindView(R.id.et_name)
@@ -121,6 +117,8 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     AppCompatSpinner mSpinner;
     @BindView(R.id.tv_pca)
     TextView mTvPca;
+    @BindView(R.id.tv_address)
+    TextView mTvAddress;
     private PopupWindow popupWindow;
     private List<Province> provinceList;
     private List<City> cityList;
@@ -162,6 +160,21 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     private ProvinceAdapter provinceAdapter;
     private CityAdapter cityAdapter;
     private AreaAdapter areaAdapter;
+    private List<Category> popularList;
+    private List<Category> chooseList;
+    private CategoryAdapter popularAdapter;
+    private CategoryAdapter chooseAdapter;
+    private RecyclerView rv_choose;
+
+    private LabelsView lv_popular;
+    private ImageView iv_close;
+
+    private RecyclerView rv_address;
+    private RecyclerView rv_address_choose;
+    private TextView tv_province;
+    private TextView tv_city;
+    private TextView tv_area;
+    private TextView tv_choose;
 
     @Override
     protected int setLayoutId() {
@@ -193,9 +206,9 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         mTvChooseProperty.setVisibility(View.GONE);
         mTvChooseProperty.setOnClickListener(this);
 
-        mTvProvince.setOnClickListener(this);
-        mTvCity.setOnClickListener(this);
-        mTvArea.setOnClickListener(this);
+        mTvAddress.setOnClickListener(this);
+
+
 
         mLlUnderWarranty.setOnClickListener(this);
         mLlOutsideTheWarranty.setOnClickListener(this);
@@ -253,13 +266,13 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 finish();
                 break;
             case R.id.tv_add_product:
-                startActivity(new Intent(mActivity,BrandActivity.class));
+                startActivity(new Intent(mActivity, BrandActivity.class));
                 break;
             case R.id.tv_choose_brand:
                 mPresenter.GetFactoryBrand(userID);
                 break;
             case R.id.tv_choose_category:
-                mPresenter.GetFactoryCategory();
+                mPresenter.GetFactoryCategory("999");
                 break;
             case R.id.tv_choose_type:
                 if (FBrandID == null) {
@@ -279,22 +292,14 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 }
                 mPresenter.GetFactoryAccessory(FProductTypeID);
                 break;
+            case R.id.tv_address:
+                mPresenter.GetProvince();
+                break;
             case R.id.tv_province:
                 mPresenter.GetProvince();
                 break;
             case R.id.tv_city:
-                if (ProvinceCode == null) {
-                    MyUtils.showToast(mActivity, "请选择省！");
-                    return;
-                }
                 mPresenter.GetCity(ProvinceCode);
-                break;
-            case R.id.tv_area:
-                if (CityCode == null) {
-                    MyUtils.showToast(mActivity, "请选择市！");
-                    return;
-                }
-                mPresenter.GetArea(CityCode);
                 break;
             case R.id.ll_under_warranty:
                 mCbUnderWarranty.setChecked(true);
@@ -347,7 +352,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     return;
                 }
                 DetailAddress = mEtDetail.getText().toString();
-                Address=mTvPca.getText().toString()+DetailAddress;
+                Address = mTvPca.getText().toString() + DetailAddress;
                 Name = mEtName.getText().toString();
                 Phone = mEtPhone.getText().toString();
                 RecycleOrderHour = mEtRecoveryTime.getText().toString();
@@ -388,7 +393,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     MyUtils.showToast(mActivity, "请输入故障描述！");
                     return;
                 }
-                mPresenter.AddOrder("1","维修",userID, FBrandID,BrandName, FCategoryID,CategoryName, FProductTypeID ,ProductTypeName, ProvinceCode, CityCode, AreaCode, Address, Name, Phone, FaultDescription,OrderMoney,RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee);
+                mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, FCategoryID, CategoryName, FProductTypeID, ProductTypeName, ProvinceCode, CityCode, AreaCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee);
                 break;
         }
     }
@@ -398,6 +403,103 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    public void showPopWindowGetAddress(final TextView tv) {
+
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.address_pop, null);
+        tv_province = contentView.findViewById(R.id.tv_province);
+        tv_city = contentView.findViewById(R.id.tv_city);
+        tv_area = contentView.findViewById(R.id.tv_area);
+        tv_city.setOnClickListener(this);
+        tv_province.setOnClickListener(this);
+        tv_choose = contentView.findViewById(R.id.tv_choose);
+        tv_choose.setText("选择省份/地区");
+        rv_address_choose = contentView.findViewById(R.id.rv_address_choose);
+        iv_close = contentView.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        rv_address_choose.setLayoutManager(new LinearLayoutManager(mActivity));
+        rv_address_choose.setAdapter(provinceAdapter);
+        provinceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ProvinceName = provinceList.get(position).getName();
+                ProvinceCode = provinceList.get(position).getCode();
+                mPresenter.GetCity(ProvinceCode);
+                tv_province.setText(ProvinceName);
+                tv_province.setVisibility(View.VISIBLE);
+                tv_city.setVisibility(View.VISIBLE);
+            }
+        });
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenHeight() - 300);
+//        popupWindow.setWidth(tv.getWidth());
+        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (popupWindow != null && !popupWindow.isShowing()) {
+//            popupWindow.showAsDropDown(tv, 0, 10);
+            popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
+    }
+
+    public void showPopWindowGetCategory(final TextView tv) {
+
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
+        lv_popular = contentView.findViewById(R.id.lv_popular);
+        rv_choose = contentView.findViewById(R.id.rv_choose);
+        iv_close = contentView.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
+            @Override
+            public CharSequence getLabelText(TextView label, int position, Category data) {
+                return data.getFCategoryName();
+            }
+        });
+        mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
+        lv_popular.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
+            @Override
+            public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
+                if (isSelect) {
+                    mPresenter.GetChildFactoryCategory(((Category) data).getId());
+                }
+            }
+        });
+
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenHeight() - 300);
+//        popupWindow.setWidth(tv.getWidth());
+        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (popupWindow != null && !popupWindow.isShowing()) {
+//            popupWindow.showAsDropDown(tv, 0, 10);
+            popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
     }
 
     public void showPopWindow(final TextView tv, BaseQuickAdapter adapter, final List list) {
@@ -422,7 +524,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     FAccessoryID = null;
                     CategoryName = null;
                     ProductTypeName = null;
-                    OrderMoney=null;
+                    OrderMoney = null;
                 }
                 if (list.get(position) instanceof Category) {
                     FCategoryID = ((Category) list.get(position)).getFCategoryID();
@@ -450,8 +552,6 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     ProvinceName = ((Province) list.get(position)).getName();
                     tv.setText(ProvinceName + ">");
                     ProvinceCode = ((Province) list.get(position)).getCode();
-                    mTvCity.setText("");
-                    mTvArea.setText("");
                     CityCode = null;
                     CityName = null;
                     mTvPca.setText(ProvinceName);
@@ -460,7 +560,6 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     CityName = ((City) list.get(position)).getName();
                     tv.setText(CityName + ">");
                     CityCode = ((City) list.get(position)).getCode();
-                    mTvArea.setText("");
                     AreaCode = null;
                     AreaName = null;
                     mTvPca.setText(ProvinceName + CityName);
@@ -475,9 +574,9 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         });
         popupWindow = new PopupWindow(contentView);
         popupWindow.setWidth(tv.getWidth());
-        if (list.size()>5){
+        if (list.size() > 5) {
             popupWindow.setHeight(600);
-        }else{
+        } else {
             popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
         }
 //        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
@@ -494,7 +593,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
             popupWindow.showAsDropDown(tv, 0, 10);
 //            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
         }
-        MyUtils.setWindowAlpa(mActivity,true);
+        MyUtils.setWindowAlpa(mActivity, true);
     }
 
     @Override
@@ -502,10 +601,10 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         switch (baseResult.getStatusCode()) {
             case 200:
                 brandList = baseResult.getData();
-                if (brandList.size()==0){
+                if (brandList.size() == 0) {
                     ToastUtils.showShort("你还没添加品牌，请先添加品牌！");
-                    startActivity(new Intent(mActivity,BrandActivity.class));
-                }else{
+                    startActivity(new Intent(mActivity, BrandActivity.class));
+                } else {
                     brandsAdapter = new BrandsAdapter(R.layout.category_item, brandList);
                     showPopWindow(mTvChooseBrand, brandsAdapter, brandList);
                 }
@@ -522,12 +621,46 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
             case 200:
                 Data<List<Category>> data = baseResult.getData();
                 if (data.isItem1()) {
-                    categoryList = data.getItem2();
-                    if (categoryList.size()==0){
+                    popularList = data.getItem2();
+                    if (popularList.size() == 0) {
                         MyUtils.showToast(mActivity, "无分类，请联系管理员添加！");
-                    }else{
-                        categoryAdapter = new CategoryAdapter(R.layout.category_item, categoryList);
-                        showPopWindow(mTvChooseCategory, categoryAdapter, categoryList);
+                    } else {
+                        showPopWindowGetCategory(mTvChooseCategory);
+                    }
+                } else {
+                    MyUtils.showToast(mActivity, "获取分类失败！");
+                }
+                break;
+            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetChildFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<List<Category>> data = baseResult.getData();
+                if (data.isItem1()) {
+                    chooseList = data.getItem2();
+                    if (chooseList.size() == 0) {
+                        MyUtils.showToast(mActivity, "无分类，请联系管理员添加！");
+                    } else {
+                        rv_choose.setLayoutManager(new LinearLayoutManager(mActivity));
+                        chooseAdapter = new CategoryAdapter(R.layout.item_choose, chooseList);
+                        rv_choose.setAdapter(chooseAdapter);
+                        chooseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                CategoryName = chooseList.get(position).getFCategoryName();
+                                mTvChooseCategory.setText(CategoryName);
+                                FCategoryID = chooseList.get(position).getFCategoryID();
+                                FProductTypeID = null;
+                                ProductTypeName = null;
+                                popupWindow.dismiss();
+                            }
+                        });
                     }
                 } else {
                     MyUtils.showToast(mActivity, "获取分类失败！");
@@ -546,9 +679,9 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 Data<List<ProductType>> data = baseResult.getData();
                 if (data.isItem1()) {
                     productTypeList = data.getItem2();
-                    if (productTypeList.size()==0){
+                    if (productTypeList.size() == 0) {
                         MyUtils.showToast(mActivity, "无型号，请联系管理员！");
-                    }else{
+                    } else {
                         productTypeAdapter = new ProductTypeAdapter(R.layout.category_item, productTypeList);
                         showPopWindow(mTvChooseType, productTypeAdapter, productTypeList);
                     }
@@ -583,7 +716,28 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
             case 200:
                 provinceList = baseResult.getData();
                 provinceAdapter = new ProvinceAdapter(R.layout.category_item, provinceList);
-                showPopWindow(mTvProvince, provinceAdapter, provinceList);
+//                showPopWindow(mTvProvince, provinceAdapter, provinceList);
+                if (popupWindow!=null){
+                    if (popupWindow.isShowing()){
+                        rv_address_choose.setAdapter(provinceAdapter);
+                        provinceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                ProvinceName = provinceList.get(position).getName();
+                                ProvinceCode = provinceList.get(position).getCode();
+                                mPresenter.GetCity(ProvinceCode);
+                                tv_province.setText(ProvinceName);
+                                tv_province.setVisibility(View.VISIBLE);
+                                tv_city.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    }else{
+                        showPopWindowGetAddress(mTvAddress);
+                    }
+                }else{
+                    showPopWindowGetAddress(mTvAddress);
+                }
+
                 break;
             case 401:
 //                ToastUtils.showShort(baseResult.getData());
@@ -599,7 +753,21 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 if (data.isItem1()) {
                     cityList = data.getItem2();
                     cityAdapter = new CityAdapter(R.layout.category_item, cityList);
-                    showPopWindow(mTvCity, cityAdapter, cityList);
+                    rv_address_choose.setAdapter(cityAdapter);
+                    tv_choose.setText("选择城市");
+                    cityAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            CityName = cityList.get(position).getName();
+                            CityCode = cityList.get(position).getCode();
+                            mPresenter.GetArea(CityCode);
+                            tv_city.setText(CityName);
+                            tv_province.setVisibility(View.VISIBLE);
+                            tv_city.setVisibility(View.VISIBLE);
+                            tv_area.setVisibility(View.VISIBLE);
+                        }
+                    });
+//                    showPopWindow(mTvCity, cityAdapter, cityList);
                 } else {
                     MyUtils.showToast(mActivity, "获取市失败！");
                 }
@@ -619,7 +787,23 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 if (data.isItem1()) {
                     areaList = data.getItem2();
                     areaAdapter = new AreaAdapter(R.layout.category_item, areaList);
-                    showPopWindow(mTvArea, areaAdapter, areaList);
+                    rv_address_choose.setAdapter(areaAdapter);
+                    tv_choose.setText("选择区/县");
+                    areaAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            AreaName = areaList.get(position).getName();
+                            AreaCode = areaList.get(position).getCode();
+                            tv_area.setText(AreaName);
+                            tv_province.setVisibility(View.VISIBLE);
+                            tv_city.setVisibility(View.VISIBLE);
+                            tv_area.setVisibility(View.VISIBLE);
+                            popupWindow.dismiss();
+                            mTvAddress.setText(ProvinceName+CityName+AreaName);
+                            mTvPca.setText(ProvinceName+CityName+AreaName);
+                        }
+                    });
+//                    showPopWindow(mTvArea, areaAdapter, areaList);
                 } else {
                     MyUtils.showToast(mActivity, "获取区失败！");
                 }
@@ -635,8 +819,8 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     public void AddOrder(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data<String> data=baseResult.getData();
-                if (data.isItem1()){
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
                     ToastUtils.showShort(data.getItem2());
                     Bundle bundle = new Bundle();
                     bundle.putString("title", "所有工单");
@@ -644,7 +828,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
-                }else{
+                } else {
                     ToastUtils.showShort(data.getItem2());
                 }
                 break;

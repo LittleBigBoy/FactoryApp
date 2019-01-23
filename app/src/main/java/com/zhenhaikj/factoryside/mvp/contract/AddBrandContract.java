@@ -16,7 +16,7 @@ import io.reactivex.Observable;
 public interface AddBrandContract {
     interface Model extends BaseModel {
         Observable<BaseResult<Data>> AddFactoryBrand(String UserID, String FBrandName);
-        Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory();
+        Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory(String ParentID);
     }
 
     interface View extends BaseView {
@@ -26,6 +26,6 @@ public interface AddBrandContract {
 
     abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void AddFactoryBrand(String UserID, String FBrandName);
-        public abstract void GetFactoryCategory();
+        public abstract void GetFactoryCategory(String ParentID);
     }
 }

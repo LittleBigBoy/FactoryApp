@@ -83,8 +83,15 @@ public interface ApiService {
     /**
      * 获取分类
      */
+    @FormUrlEncoded
     @POST("FactoryConfig/GetFactoryCategory")
-    Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory();
+    Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory(@Field("ParentID") String ParentID);
+    /**
+     * 获取子分类
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/GetFactoryCategory")
+    Observable<BaseResult<Data<List<Category>>>> GetChildFactoryCategory(@Field("ParentID") String ParentID);
     /**
      * 获取型号
      */

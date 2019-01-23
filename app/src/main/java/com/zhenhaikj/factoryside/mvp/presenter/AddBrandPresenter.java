@@ -24,8 +24,8 @@ public class AddBrandPresenter extends AddBrandContract.Presenter {
     }
 
     @Override
-    public void GetFactoryCategory() {
-        mModel.GetFactoryCategory()
+    public void GetFactoryCategory(String ParentID) {
+        mModel.GetFactoryCategory(ParentID)
                 .subscribe(new BaseObserver<Data<List<Category>>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<List<Category>>> value) {

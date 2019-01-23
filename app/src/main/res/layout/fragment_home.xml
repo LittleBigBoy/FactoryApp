@@ -93,13 +93,19 @@
                         android:layout_marginLeft="@dimen/dp_10"
                         android:padding="5dp"/>
                 </LinearLayout>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_main_menu"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:background="@drawable/white_round_shape"
-                    android:overScrollMode="never"
-                    android:padding="10dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants"
+                    android:background="@drawable/white_round_shape">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_main_menu"
+                        android:layout_width="match_parent"
+                        android:overScrollMode="never"
+                        android:nestedScrollingEnabled="false"
+                        android:padding="10dp"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
