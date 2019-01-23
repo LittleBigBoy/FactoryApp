@@ -16,11 +16,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/background_wallet"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_margin="@dimen/dp_10"
                 android:layout_marginBottom="@dimen/dp_10"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="15dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -28,11 +29,13 @@
                     android:text="平台订单"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"/>
+
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/gray_three"/>
+                    android:background="@color/gray_three" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -131,11 +134,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/background_wallet"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_margin="@dimen/dp_10"
                 android:layout_marginBottom="@dimen/dp_10"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="15dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -225,11 +229,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/background_wallet"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_margin="@dimen/dp_10"
                 android:layout_marginBottom="@dimen/dp_10"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="15dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

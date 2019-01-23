@@ -16,11 +16,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/background_wallet"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_margin="@dimen/dp_10"
                 android:layout_marginBottom="@dimen/dp_10"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="15dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -82,15 +83,17 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:padding="@dimen/dp_10"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:layout_marginLeft="15dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/background_wallet"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_margin="@dimen/dp_10"
                 android:layout_marginBottom="@dimen/dp_10"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="15dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -204,15 +207,17 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:padding="@dimen/dp_10"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:layout_marginLeft="15dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/background_wallet"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_margin="@dimen/dp_10"
                 android:layout_marginBottom="@dimen/dp_10"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="15dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
