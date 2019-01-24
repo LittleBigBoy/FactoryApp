@@ -408,10 +408,39 @@ public class MyUtils {
                 float alpha = (float) animation.getAnimatedValue();
                 lp.alpha = alpha;
                 window.setAttributes(lp);
+                if (alpha == 1) {
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,可能出现黑屏的bug
+                } else {
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的bug
+                }
+
             }
         });
         animator.start();
     }
+    /**
+     * 设置添加屏幕的背景透明度
+     * <p>
+     *
+     * @param bgAlpha
+     */
+    public static void backgroundAlpha(Context mContext,float bgAlpha)
+    {
+        if (android.os.Build.VERSION.SDK_INT < 11) {
+            return;
+        }
+        final Window window = ((Activity) mContext).getWindow();
+        final WindowManager.LayoutParams lp = window.getAttributes();
+        lp.alpha = bgAlpha;
+        if (bgAlpha == 1) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,可能出现黑屏的bug
+        } else {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的bug
+        }
+        window.setAttributes(lp);
+
+    }
+
     public static void showToast(Context context, String text) {
 //        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
         new AlertDialog.Builder(context).setMessage(text).setPositiveButton("我知道了", new DialogInterface.OnClickListener() {

@@ -83,7 +83,7 @@
         </activity>
         <activity android:name=".mvp.activity.AllWorkOrdersActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.HomeInstallationActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
-        <activity android:name=".mvp.activity.HomeMaintenanceActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.HomeMaintenanceActivity" android:theme="@style/AppThemeNoTranslucent" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.CustomerServiceActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.BatchOrderActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.LoginActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>

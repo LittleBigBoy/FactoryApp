@@ -456,12 +456,14 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
+//                MyUtils.backgroundAlpha(mActivity,1);
                 MyUtils.setWindowAlpa(mActivity, false);
             }
         });
         if (popupWindow != null && !popupWindow.isShowing()) {
 //            popupWindow.showAsDropDown(tv, 0, 10);
             popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+//            MyUtils.backgroundAlpha(mActivity,0.5f);
         }
         MyUtils.setWindowAlpa(mActivity, true);
     }
