@@ -19,7 +19,7 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
         helper.setText(R.id.tv_order_num,"工单号："+item.getOrderID())
                 .setText(R.id.tv_name,item.getMemo())
                 .setText(R.id.tv_warranty,item.getTypeName())
-                .setText(R.id.tv_status,item.getIsPay())
+                .setText(R.id.tv_status,item.getState())
                 .setText(R.id.tv_info,item.getUserName()+item.getPhone())
                 .setText(R.id.tv_address,item.getAddress())
                 .setText(R.id.tv_cost,"￥"+item.getOrderMoney())

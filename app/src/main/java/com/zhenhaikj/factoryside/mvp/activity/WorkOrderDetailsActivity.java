@@ -6,16 +6,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
+import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
+import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
+import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
+import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
+import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class WorkOrderDetailsActivity extends BaseActivity implements View.OnClickListener {
+public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPresenter,WorkOrdersDetailModel> implements View.OnClickListener,WorkOrdersDetailContract.View {
 
     @BindView(R.id.icon_back)
     ImageView mIconBack;
@@ -67,6 +74,8 @@ public class WorkOrderDetailsActivity extends BaseActivity implements View.OnCli
     TextView mTvFaultDescription;
     @BindView(R.id.view)
     View mView;
+    private String OrderID;
+    private WorkOrder.DataBean data;
 
     @Override
     protected int setLayoutId() {
@@ -84,6 +93,8 @@ public class WorkOrderDetailsActivity extends BaseActivity implements View.OnCli
     protected void initData() {
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("订单详情");
+        OrderID =getIntent().getStringExtra("OrderID");
+        mPresenter.GetOrderInfo(OrderID);
     }
 
     @Override
@@ -118,5 +129,34 @@ public class WorkOrderDetailsActivity extends BaseActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void GetOrderInfo(BaseResult<WorkOrder.DataBean> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                data =baseResult.getData();
+                mTvName.setText(data.getUserName());
+                mTvPhone.setText(data.getPhone());
+                mTvAddress.setText(data.getAddress());
+                mTvTime.setText(data.getCreateDate());
+                mTvWorkOrderStatus.setText(data.getState());
+                mTvWorkOrderNumber.setText(data.getId());
+                mTvWarrantyType.setText(data.getGuarantee());
+                mTvWorkOrderType.setText(data.getTypeName());
+                mTvRecoveryTime.setText(data.getRecycleOrderHour());
+                mTvSentOutAccessories.setText(data.getAccessorySendState());
+                mTvBrand.setText(data.getBrandName());
+                mTvCategory.setText(data.getCategoryName());
+                mTvModel.setText(data.getProductType());
+                mTvFaultDescription.setText(data.getMemo());
+
+                mTvSpecifyDoorToDoorTime.setText(data.getExtraTime());
+                mTvOrderSource.setText(data.getExpressNo());
+                mTvThirdParty.setText(data.getThirdPartyNo());
+                break;
+            case 401:
+                break;
+        }
     }
 }

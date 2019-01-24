@@ -152,34 +152,34 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                 mPresenter.GetOrderInfoList(UserID,"", Integer.toString(pageIndex), "3");
                 break;
             case "待接单":
-                mPresenter.GetOrderInfoList(UserID,"0", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID,"1", Integer.toString(pageIndex), "3");
                 break;
             case "退单处理":
                 mPresenter.GetOrderInfoList(UserID,"-1", Integer.toString(pageIndex), "3");
                 break;
             case "已完结":
-                mPresenter.GetOrderInfoList(UserID,"1", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID,"0", Integer.toString(pageIndex), "3");
                 break;
             case "配件单":
-                mPresenter.GetOrderInfoList(UserID,"2", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID,"-2", Integer.toString(pageIndex), "3");
                 break;
             case "待支付":
-                mPresenter.GetOrderInfoList(UserID,"3", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID,"2", Integer.toString(pageIndex), "3");
                 break;
             case "远程费单":
-                mPresenter.GetOrderInfoList(UserID,"1", Integer.toString(pageIndex), "3");
-                break;
-            case "质保单":
-                mPresenter.GetOrderInfoList(UserID,"2", Integer.toString(pageIndex), "3");
-                break;
-            case "未完成单":
                 mPresenter.GetOrderInfoList(UserID,"3", Integer.toString(pageIndex), "3");
                 break;
+            case "质保单":
+                mPresenter.GetOrderInfoList(UserID,"4", Integer.toString(pageIndex), "3");
+                break;
+            case "未完成单":
+                mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
+                break;
             case "费用变更":
-                mPresenter.GetOrderInfoList(UserID,"1", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID,"6", Integer.toString(pageIndex), "3");
                 break;
             case "留言工单":
-                mPresenter.GetOrderInfoList(UserID,"2", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID,"7", Integer.toString(pageIndex), "3");
                 break;
         }
     }
@@ -202,7 +202,9 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
                         break;
                     case R.id.tv_see_detail:
-                        startActivity(new Intent(mActivity,WorkOrderDetailsActivity.class));
+                        Intent intent=new Intent(mActivity,WorkOrderDetailsActivity.class);
+                        intent.putExtra("OrderID",workOrderList.get(position).getOrderID());
+                        startActivity(intent);
                         break;
                 }
             }

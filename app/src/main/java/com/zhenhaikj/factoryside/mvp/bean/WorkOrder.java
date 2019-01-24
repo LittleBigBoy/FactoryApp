@@ -327,7 +327,11 @@ public class WorkOrder implements Serializable {
         }
 
         public String getGuarantee() {
-            return Guarantee;
+            if ("Y".equals(Guarantee)){
+                return "保内";
+            }else{
+                return "保外";
+            }
         }
 
         public void setGuarantee(String Guarantee) {
@@ -383,7 +387,40 @@ public class WorkOrder implements Serializable {
         }
 
         public String getState() {
-            return State;
+            String status="";
+            switch (State){
+                case "-2":
+                    status="申请废除工单";
+                    break;
+                case "-1":
+                    status="废除工单";
+                    break;
+                case "0":
+                    status="待审核";
+                    break;
+                case "1":
+                    status="已审核派单中";
+                    break;
+                case "2":
+                    status="已接单待联系客户";
+                    break;
+                case "3":
+                    status="已联系客户待服务";
+                    break;
+                case "4":
+                    status="服务中";
+                    break;
+                case "5":
+                    status="服务完成";
+                    break;
+                case "6":
+                    status="待评价";
+                    break;
+                case "7":
+                    status="结束";
+                    break;
+            }
+            return status;
         }
 
         public void setState(String State) {
@@ -399,7 +436,11 @@ public class WorkOrder implements Serializable {
         }
 
         public String getExtraTime() {
-            return ExtraTime;
+            if ("0".equals(ExtraTime)){
+                return "无";
+            }else{
+                return ExtraTime;
+            }
         }
 
         public void setExtraTime(String ExtraTime) {
@@ -515,7 +556,11 @@ public class WorkOrder implements Serializable {
         }
 
         public String getAccessorySendState() {
-            return AccessorySendState;
+            if ("Y".equals(AccessorySendState)){
+                return "是";
+            }else{
+                return "否";
+            }
         }
 
         public void setAccessorySendState(String AccessorySendState) {
@@ -587,7 +632,11 @@ public class WorkOrder implements Serializable {
         }
 
         public String getThirdPartyNo() {
-            return ThirdPartyNo;
+            if ("".equals(ThirdPartyNo)||ThirdPartyNo==null){
+                return "无";
+            }else{
+                return ThirdPartyNo;
+            }
         }
 
         public void setThirdPartyNo(String ThirdPartyNo) {
@@ -595,7 +644,11 @@ public class WorkOrder implements Serializable {
         }
 
         public String getExpressNo() {
-            return ExpressNo;
+            if ("".equals(ExpressNo)||ExpressNo==null){
+                return "无";
+            }else{
+                return ExpressNo;
+            }
         }
 
         public void setExpressNo(String ExpressNo) {
@@ -750,7 +803,40 @@ public class WorkOrder implements Serializable {
             }
 
             public String getState() {
-                return State;
+                String status="";
+                switch (State){
+                    case "-2":
+                        status="申请废除工单";
+                        break;
+                    case "-1":
+                        status="废除工单";
+                        break;
+                    case "0":
+                        status="待审核";
+                        break;
+                    case "1":
+                        status="已审核派单中";
+                        break;
+                    case "2":
+                        status="已接单待联系客户";
+                        break;
+                    case "3":
+                        status="已联系客户待服务";
+                        break;
+                    case "4":
+                        status="服务中";
+                        break;
+                    case "5":
+                        status="服务完成";
+                        break;
+                    case "6":
+                        status="待评价";
+                        break;
+                    case "7":
+                        status="结束";
+                        break;
+                }
+                return status;
             }
 
             public void setState(String State) {

@@ -78,6 +78,15 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Order/GetOrderInfoList")
     Observable<BaseResult<WorkOrder>> GetOrderInfoList(@Field("UserID") String UserID,@Field("state") String state, @Field("page") String page, @Field("limit") String limit);
+
+    /**
+     * 获取工单详情
+     * 通过OrderID获取工单详情
+     */
+    @FormUrlEncoded
+    @POST("Order/GetOrderInfo")
+    Observable<BaseResult<WorkOrder.DataBean>> GetOrderInfo(@Field("OrderID") String OrderID);
+
     /**
      * 添加品牌
      */
