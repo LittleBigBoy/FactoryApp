@@ -21,6 +21,7 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.donkingliang.labels.LabelsView;
+import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.AccessoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.AreaAdapter;
@@ -119,6 +120,8 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     TextView mTvPca;
     @BindView(R.id.tv_address)
     TextView mTvAddress;
+    @BindView(R.id.view)
+    View mView;
     private PopupWindow popupWindow;
     private List<Province> provinceList;
     private List<City> cityList;
@@ -195,6 +198,15 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     }
 
     @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+//        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarView(mView);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
+    }
+
+    @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mIconSearch.setOnClickListener(this);
@@ -207,7 +219,6 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         mTvChooseProperty.setOnClickListener(this);
 
         mTvAddress.setOnClickListener(this);
-
 
 
         mLlUnderWarranty.setOnClickListener(this);
@@ -436,7 +447,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 tv_city.setVisibility(View.VISIBLE);
             }
         });
-        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenHeight() - 300);
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenHeight() - 700);
 //        popupWindow.setWidth(tv.getWidth());
         popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -483,7 +494,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
             }
         });
 
-        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenHeight() - 300);
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenHeight() - 700);
 //        popupWindow.setWidth(tv.getWidth());
         popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -717,8 +728,8 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 provinceList = baseResult.getData();
                 provinceAdapter = new ProvinceAdapter(R.layout.category_item, provinceList);
 //                showPopWindow(mTvProvince, provinceAdapter, provinceList);
-                if (popupWindow!=null){
-                    if (popupWindow.isShowing()){
+                if (popupWindow != null) {
+                    if (popupWindow.isShowing()) {
                         rv_address_choose.setAdapter(provinceAdapter);
                         provinceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                             @Override
@@ -731,10 +742,10 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                                 tv_city.setVisibility(View.VISIBLE);
                             }
                         });
-                    }else{
+                    } else {
                         showPopWindowGetAddress(mTvAddress);
                     }
-                }else{
+                } else {
                     showPopWindowGetAddress(mTvAddress);
                 }
 
@@ -799,8 +810,8 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                             tv_city.setVisibility(View.VISIBLE);
                             tv_area.setVisibility(View.VISIBLE);
                             popupWindow.dismiss();
-                            mTvAddress.setText(ProvinceName+CityName+AreaName);
-                            mTvPca.setText(ProvinceName+CityName+AreaName);
+                            mTvAddress.setText(ProvinceName + CityName + AreaName);
+                            mTvPca.setText(ProvinceName + CityName + AreaName);
                         }
                     });
 //                    showPopWindow(mTvArea, areaAdapter, areaList);

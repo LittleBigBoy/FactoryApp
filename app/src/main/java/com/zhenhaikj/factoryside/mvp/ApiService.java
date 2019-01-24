@@ -44,6 +44,16 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/Reg")
     Observable<BaseResult<String>> Reg(@Field("mobile") String mobile,@Field("type") String type,@Field("code") String code,@Field("roleType") String roleType);
+
+    /*
+     *新增获取更新推送账户的token以及tags， 工厂的type是6 师傅的type是7 ， createtime可以不传 UserID为登录用户名
+     * */
+    @FormUrlEncoded
+    @POST("Message/AddAndUpdatePushAccount")
+    Observable<BaseResult<String>> AddAndUpdatePushAccount(@Field("token") String token,
+                                                           @Field("type") String type,
+                                                           @Field("UserID") String UserID);
+
     /**
      * app用户登录
      */

@@ -59,8 +59,8 @@ public class MyApplication extends MultiDexApplication {
         XGPushConfig.enableDebug(this,true);
         XGPushConfig.enableOtherPush(getApplicationContext(), true);
         XGPushConfig.setHuaweiDebug(true);
-        XGPushConfig.setMiPushAppId(getApplicationContext(), "3dda854c8a0b1");
-        XGPushConfig.setMiPushAppKey(getApplicationContext(), "143c2f4a39b0224cc8568280e3688a30");
+        XGPushConfig.setMiPushAppId(getApplicationContext(), "2882303761517940129");
+        XGPushConfig.setMiPushAppKey(getApplicationContext(), "5461794037129");
         XGPushConfig.setMzPushAppId(this, "3dda854c8a0b1");
         XGPushConfig.setMzPushAppKey(this, "143c2f4a39b0224cc8568280e3688a30");
         XGPushManager.registerPush(this, new XGIOperateCallback() {

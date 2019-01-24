@@ -2,10 +2,12 @@ package com.zhenhaikj.factoryside.mvp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
@@ -67,6 +69,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @BindView(R.id.ll_message)
     LinearLayout ll_message;
     private ArrayList<Fragment> mFragments;
+    private long mExittime;
 
 
     @Override
@@ -89,7 +92,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void initView() {
         viewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
         viewPager.setOffscreenPageLimit(5);
-        viewPager.setScroll(true);
+        viewPager.setScroll(false);
         ll_home.setSelected(true);
     }
 
@@ -98,7 +101,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         //在BaseActivity里初始化
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
-        mImmersionBar.statusBarColor(R.color.red);
+        mImmersionBar.statusBarColor(R.color.transparent);
         mImmersionBar.fitsSystemWindows(false);
         mImmersionBar.init();
     }
@@ -219,5 +222,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onPause() {
         super.onPause();
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        /*  两秒之内再按一下退出*/
+        //判断用户是否点击了返回键
+        if (keyCode==KeyEvent.KEYCODE_BACK){
+            //与上次点击返回键作差
+            if ((System.currentTimeMillis()- mExittime)>2000){
+                //大于2秒认为是误操作
+                Toast.makeText(this,"再按一次退出程序",Toast.LENGTH_SHORT).show();
+                //并记录记录下本次点击返回键的时刻
+                mExittime =System.currentTimeMillis();
+            }else {
+                //小于2秒 则用户希望退出
+                System.exit(0);
+            }
+            return true;
+
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

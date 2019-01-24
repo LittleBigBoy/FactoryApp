@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
+import com.tencent.android.tpush.XGPushConfig;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.MainActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
@@ -167,8 +168,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 //                RequestBody json=RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),gson.toJson(getUserInfo));
 //                mPresenter.GetUserInfo(json);
 //                mPresenter.GetUserInfo(userName);
+                mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"6",userName);
                 startActivity(new Intent(mActivity, MainActivity.class));
                 finish();
+
                 break;
             case 401:
                 ToastUtils.showShort(baseResult.getData());
@@ -178,6 +181,19 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void GetUserInfo(BaseResult<String> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                MyUtils.e("userInfo", baseResult.getData());
+                ToastUtils.showShort(baseResult.getData());
+                break;
+            case 401:
+                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void AddAndUpdatePushAccount(BaseResult<String> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
                 MyUtils.e("userInfo", baseResult.getData());

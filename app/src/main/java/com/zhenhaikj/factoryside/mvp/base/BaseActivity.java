@@ -14,6 +14,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import androidx.annotation.Nullable;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
@@ -30,6 +31,8 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
     public P mPresenter;
     public M mModel;
     private RxManager mRxManage;
+    // 右滑返回
+    private SwipeBackLayout mSwipeBackLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +41,10 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //竖屏
         setContentView(setLayoutId());
         this.mActivity=this;
+
+        mSwipeBackLayout=getSwipeBackLayout();
+        // 设置滑动方向，可设置EDGE_LEFT, EDGE_RIGHT, EDGE_ALL, EDGE_BOTTOM
+        mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
 
         mPresenter = obtainPresenter();
         mModel = obtainModel();
@@ -88,6 +95,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
         mImmersionBar.statusBarColor(R.color.red);
         mImmersionBar.fitsSystemWindows(true);
+        mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
     }
 
@@ -126,6 +134,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
             this.imm.hideSoftInputFromWindow(localView.getWindowToken(), 2);
         }
     }
+
 
     @Override
     public void onBackPressed() {

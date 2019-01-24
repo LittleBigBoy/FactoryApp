@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -89,7 +90,12 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
     @Override
     protected void initImmersionBar() {
-        super.initImmersionBar();
+        mImmersionBar = ImmersionBar.with(this);
+//        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarColor(R.color.red);
+        mImmersionBar.fitsSystemWindows(true);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
     }
 
     @Override

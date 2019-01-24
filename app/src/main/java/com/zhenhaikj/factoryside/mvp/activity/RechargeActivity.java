@@ -6,10 +6,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
-import com.zhenhaikj.factoryside.mvp.adapter.BillAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.FaceValueAdapter;
-import com.zhenhaikj.factoryside.mvp.adapter.RechargeRecordAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 
@@ -18,7 +17,6 @@ import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +48,8 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     TextView mTvRechargeAgreement;
     @BindView(R.id.bt_recharge)
     Button mBtRecharge;
+    @BindView(R.id.view)
+    View mView;
     private List<Address> faceValueList = new ArrayList<>();
     private FaceValueAdapter faceValueAdapter;
 
@@ -57,7 +57,14 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     protected int setLayoutId() {
         return R.layout.activity_recharge;
     }
-
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+//        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarView(mView);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
+    }
     @Override
     protected void initData() {
         mTvTitle.setVisibility(View.VISIBLE);
@@ -66,7 +73,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
             faceValueList.add(new Address());
         }
         faceValueAdapter = new FaceValueAdapter(R.layout.face_value_item, faceValueList);
-        mRlRechargeAmount.setLayoutManager(new GridLayoutManager(mActivity,3));
+        mRlRechargeAmount.setLayoutManager(new GridLayoutManager(mActivity, 3));
         mRlRechargeAmount.setAdapter(faceValueAdapter);
     }
 

@@ -21,6 +21,8 @@ android {
 
                 XG_ACCESS_ID:"2100325416",
                 XG_ACCESS_KEY : "A4353PG3XBDA",
+                HW_APPID: "100606023",
+                PACKAGE_NAME:"com.zhenhaikj.factoryside"
         ]
     }
     buildTypes {
@@ -97,18 +99,13 @@ dependencies {
     //七牛
     implementation 'com.qiniu:qiniu-android-sdk:7.3.7'
 
-    //信鸽普通版本jar，不包含厂商通道
-    implementation  'com.tencent.xinge:xinge:4.0.5-release'
-    //implementation'com.tencent.xinge:xinge:4.3.0-beta'
-    //信鸽及动态加载厂商通道jar(此版本已经集成厂商通道，无需依赖其它三个厂商依赖)
-
-    //compile 'com.tencent.xinge:xinge:4.3.0-xgotherpush-beta'
-    //jg包
-    implementation'com.tencent.jg:jg:1.1'
-    //wup包
+    //增加以下依赖/*信鸽*/
+    implementation 'com.tencent.xinge:xinge:4.3.0-beta'
     implementation 'com.tencent.wup:wup:1.0.0.E-release'
-    //mid包，minSdkVersion 14
     implementation 'com.tencent.mid:mid:4.0.7-Release'
+    implementation 'com.tencent.xinge:mipush:4.3.0-xiaomi-beta'
+    implementation 'com.tencent.xinge:xgmz:4.3.0-meizu-beta'
+    implementation 'com.tencent.xinge:xghw:4.3.0-huawei-beta'
 
     //rxjava
     implementation 'io.reactivex.rxjava2:rxjava:2.1.9'

@@ -1,34 +1,24 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.ToastUtils;
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.donkingliang.labels.LabelsView;
-import com.qmuiteam.qmui.widget.popup.QMUIListPopup;
+import com.gyf.barlibrary.ImmersionBar;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
 import com.zhenhaikj.factoryside.R;
-import com.zhenhaikj.factoryside.mvp.MainActivity;
 import com.zhenhaikj.factoryside.mvp.adapter.BrandAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
-import com.zhenhaikj.factoryside.mvp.adapter.FaceValueAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
@@ -39,21 +29,17 @@ import com.zhenhaikj.factoryside.mvp.model.AddBrandModel;
 import com.zhenhaikj.factoryside.mvp.presenter.AddBrandPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class BrandActivity extends BaseActivity<AddBrandPresenter,AddBrandModel> implements View.OnClickListener,AddBrandContract.View {
+public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel> implements View.OnClickListener, AddBrandContract.View {
 
     @BindView(R.id.icon_back)
     ImageView mIconBack;
@@ -69,6 +55,8 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter,AddBrandModel>
     RecyclerView mRlBrand;
     @BindView(R.id.iv_add_brand)
     ImageView mIvAddBrand;
+    @BindView(R.id.view)
+    View mView;
     private List<Address> brandList = new ArrayList<>();
     private BrandAdapter brandAdapter;
     private String brandName;
@@ -88,7 +76,14 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter,AddBrandModel>
     protected int setLayoutId() {
         return R.layout.activity_brand;
     }
-
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+//        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarView(mView);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
+    }
     @Override
     protected void initData() {
         mTvTitle.setVisibility(View.VISIBLE);
@@ -125,22 +120,22 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter,AddBrandModel>
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_add_brand:
-                dialog = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand_name,null);
+                dialog = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand_name, null);
                 et_brandName = dialog.findViewById(R.id.et_enter);
                 btn_next = dialog.findViewById(R.id.btn_next);
                 btn_next.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         brandName = et_brandName.getText().toString();
-                        if ("".equals(brandName)||brandName==null){
-                            MyUtils.showToast(mActivity,"请输入品牌名称！");
+                        if ("".equals(brandName) || brandName == null) {
+                            MyUtils.showToast(mActivity, "请输入品牌名称！");
                             return;
                         }
-                        mPresenter.AddFactoryBrand(userID,brandName);
+                        mPresenter.AddFactoryBrand(userID, brandName);
                     }
                 });
                 alertDialog = new AlertDialog.Builder(mActivity).setView(dialog).create();
-                        alertDialog.show();
+                alertDialog.show();
                 break;
             case R.id.icon_back:
                 finish();
@@ -159,10 +154,10 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter,AddBrandModel>
     public void AddFactoryBrand(BaseResult<Data> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data data=baseResult.getData();
-                if (data.isItem1()){
+                Data data = baseResult.getData();
+                if (data.isItem1()) {
                     alertDialog.dismiss();
-                    MyUtils.showToast(mActivity,"添加品牌成功！");
+                    MyUtils.showToast(mActivity, "添加品牌成功！");
                     /*View dialog=LayoutInflater.from(mActivity).inflate(R.layout.dialog_choose_category,null);
                     tv_choose_category = dialog.findViewById(R.id.tv_choose_category);
                     btn_next = dialog.findViewById(R.id.btn_next);
@@ -181,8 +176,8 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter,AddBrandModel>
                     });
                     categoryDialog=new AlertDialog.Builder(mActivity).setView(dialog).create();
                     categoryDialog.show();*/
-                }else{
-                    MyUtils.showToast(mActivity,"添加品牌失败！");
+                } else {
+                    MyUtils.showToast(mActivity, "添加品牌失败！");
                 }
                 break;
             case 401:
@@ -195,7 +190,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter,AddBrandModel>
     public void GetFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                categoryList=baseResult.getData().getItem2();
+                categoryList = baseResult.getData().getItem2();
                 showPopWindow();
                 break;
             case 401:
@@ -209,7 +204,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter,AddBrandModel>
         View view = LayoutInflater.from(mActivity).inflate(R.layout.category_pop, null);
         final RecyclerView rv = view.findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(mActivity));
-        CategoryAdapter adapter=new CategoryAdapter(R.layout.category_item, categoryList);
+        CategoryAdapter adapter = new CategoryAdapter(R.layout.category_item, categoryList);
         rv.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -230,7 +225,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter,AddBrandModel>
             }
         });
         if (popupWindow != null && !popupWindow.isShowing()) {
-            popupWindow.showAsDropDown(tv_choose_category,0,10);
+            popupWindow.showAsDropDown(tv_choose_category, 0, 10);
 //            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
         }
 

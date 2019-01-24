@@ -1,6 +1,8 @@
 package com.zhenhaikj.factoryside.mvp.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +17,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
 import com.zhenhaikj.factoryside.mvp.activity.BatchOrderActivity;
@@ -72,13 +75,13 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     private Integer[] icons = new Integer[]{
             R.mipmap.installation, R.mipmap.home_maintenance, R.mipmap.customer_service_order, R.mipmap.batch_order,
-            R.drawable.waiting_order, R.drawable.return_order_processing, R.drawable.finished, R.drawable.accessory_list, R.drawable.to_be_paid,
-            R.drawable.remote_bill, R.drawable.warranty, R.drawable.undone, R.drawable.cost_change, R.drawable.leave_a_message,R.mipmap.all
+            R.mipmap.all,R.drawable.waiting_order, R.drawable.return_order_processing, R.drawable.finished, R.drawable.accessory_list, R.drawable.to_be_paid,
+            R.drawable.remote_bill, R.drawable.warranty, R.drawable.undone, R.drawable.cost_change, R.drawable.leave_a_message
     };
     private String[] names = new String[]{
             "上门安装", "上门维修", "客户送修单", "批量发单",
-            "待接单", "退单处理", "已完结", "配件单", "待支付",
-            "远程费单", "质保单", "未完成单", "费用变更", "留言工单","所有"
+            "所有","待接单", "退单处理", "已完结", "配件单", "待支付",
+            "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     };
     private MenuAdapter2 mMainAdapter;
     private MenuAdapter mCommonAdapter;
@@ -116,8 +119,11 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.statusBarView(mToolbar);
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarColor(R.color.gray_five);
+        mImmersionBar.fitsSystemWindows(true);
+        mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
     }
 
     @Override
@@ -133,6 +139,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         }
         mBannerHome.setImageLoader(new GlideImageLoader());
         mBannerHome.setImages(images);
+        mBannerHome.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        mBannerHome.setIndicatorGravity(BannerConfig.CENTER);
         mBannerHome.start();
         mMainMenus = new ArrayList<>();
         mCommonMenus = new ArrayList<>();

@@ -5,11 +5,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gyf.barlibrary.ImmersionBar;
+import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.MyPagerAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
-import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.fragment.WorkOrderFragment;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -27,6 +29,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickListener {
@@ -46,10 +49,22 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
     MagicIndicator mMagicIndicator;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
+    @BindView(R.id.view)
+    View mView;
+    @BindView(R.id.tv_type_name)
+    TextView mTvTypeName;
+    @BindView(R.id.tv_need_to_send_accessories)
+    TextView mTvNeedToSendAccessories;
+    @BindView(R.id.tv_filter)
+    TextView mTvFilter;
+    @BindView(R.id.iv_filter)
+    ImageView mIvFilter;
+    @BindView(R.id.ll_filter)
+    LinearLayout mLlFilter;
 
 
     private String[] mTitleDataList = new String[]{
-            "所有工单","待接单", "退单处理", "已完结", "配件单", "待支付",
+            "所有工单", "待接单", "退单处理", "已完结", "配件单", "待支付",
             "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     };
 
@@ -65,18 +80,27 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initData() {
     }
-
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+//        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+//        mImmersionBar.statusBarView(mView);
+        mImmersionBar.fitsSystemWindows(true);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
+    }
     @Override
     protected void initView() {
+        setSwipeBackEnable(false);
         mTvTitle.setVisibility(View.VISIBLE);
         bundle = getIntent().getExtras();
         mTvTitle.setText(bundle.getString("title"));
         mWorkOrderFragmentList = new ArrayList<>();
         for (int i = 0; i < 11; i++) {
-            mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i],""));
+            mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i], ""));
         }
         mViewPager.setOffscreenPageLimit(mTitleDataList.length);
-        mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(),mTitleDataList, mWorkOrderFragmentList));
+        mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), mTitleDataList, mWorkOrderFragmentList));
         commonNavigator = new CommonNavigator(mActivity);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
 
@@ -125,8 +149,8 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
 
             }
         });
-        mViewPager.setCurrentItem(bundle.getInt("position")+1);
-        commonNavigator.onPageSelected(bundle.getInt("position")+1);
+        mViewPager.setCurrentItem(bundle.getInt("position"));
+        commonNavigator.onPageSelected(bundle.getInt("position"));
         mMagicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(mMagicIndicator, mViewPager);
     }
@@ -154,4 +178,10 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }
