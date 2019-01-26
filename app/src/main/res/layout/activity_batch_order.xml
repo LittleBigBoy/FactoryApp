@@ -23,11 +23,10 @@
                 android:orientation="vertical"
                 android:padding="15dp">
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="平台订单"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>
 
@@ -35,12 +34,14 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/gray_three" />
+                    android:background="#D2D2D2"
+                    android:layout_marginTop="13dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp">
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -52,11 +53,13 @@
                             android:layout_height="80dp"
                             android:padding="@dimen/dp_10"
                             android:layout_marginRight="@dimen/dp_10"
-                            android:src="@drawable/alipay" />
+                            android:src="@mipmap/anzhuang" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="安装（保内/保外）"/>
+                            android:text="安装（保内/保外）"
+                            android:textSize="12sp"
+                            android:textColor="#898989"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="0dp"
@@ -69,11 +72,13 @@
                             android:layout_height="80dp"
                             android:padding="@dimen/dp_10"
                             android:layout_marginRight="@dimen/dp_10"
-                            android:src="@drawable/alipay" />
+                            android:src="@mipmap/weixiu" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="安装（保内/保外）"/>
+                            android:text="安装（保内/保外）"
+                            android:textSize="12sp"
+                            android:textColor="#898989"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="0dp"
@@ -86,50 +91,55 @@
                             android:layout_height="80dp"
                             android:padding="@dimen/dp_10"
                             android:layout_marginRight="@dimen/dp_10"
-                            android:src="@drawable/alipay" />
+                            android:src="@mipmap/che" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="安装（保内/保外）"/>
+                            android:text="安装（保内/保外）"
+                            android:textSize="12sp"
+                            android:textColor="#898989"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/gray_three"/>
+                    android:background="#D2D2D2"
+                    android:layout_marginTop="15dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="@dimen/dp_10"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:text="*安装单中产品未到客户家的，请在模板中填写快递单号和编码，快递编码可在下方下载"/>
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/dp_10">
+
                     <TextView
                         android:id="@+id/tv_download"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/dp_4"
+                        android:padding="10dp"
                         android:background="@drawable/edit_shape"
-                        android:text="模板下载"/>
+                        android:text="模板下载"
+                        android:textSize="12sp"
+                        android:textColor="#898989"/>
                     <TextView
                         android:id="@+id/tv_code"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/dp_4"
+                        android:padding="10dp"
                         android:background="@drawable/edit_shape"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:text="快递编码表"/>
+                        android:layout_marginLeft="20dp"
+                        android:text="快递编码表"
+                        android:textSize="12sp"
+                        android:textColor="#898989"/>
                 </LinearLayout>
-                <View
+
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/gray_three"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:textSize="10sp"
+                    android:textColor="#999999"
+                    android:text="* 安装单中产品未到客户家的，请在模板中填写快递单号和编码，快递编码可在上方下载"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -141,22 +151,23 @@
                 android:orientation="vertical"
                 android:padding="15dp">
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="第三方订单"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/black" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/gray_three"/>
+                    android:background="#D2D2D2"
+                    android:layout_marginTop="13dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp">
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -164,15 +175,17 @@
                         android:gravity="center"
                         android:orientation="vertical">
                         <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:padding="@dimen/dp_10"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginRight="@dimen/dp_10"
-                            android:src="@drawable/alipay" />
+                            android:src="@mipmap/tianmao" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="天猫（保内/保外）"/>
+                            android:text="天猫（保内/保外）"
+                            android:textSize="12sp"
+                            android:textColor="#898989"
+                            android:layout_marginTop="@dimen/dp_10"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="0dp"
@@ -181,15 +194,17 @@
                         android:gravity="center"
                         android:orientation="vertical">
                         <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:padding="@dimen/dp_10"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginRight="@dimen/dp_10"
-                            android:src="@drawable/alipay" />
+                            android:src="@mipmap/jingdong" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="京东（保内/保外）"/>
+                            android:text="京东（保内/保外）"
+                            android:textSize="12sp"
+                            android:textColor="#898989"
+                            android:layout_marginTop="@dimen/dp_10"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="0dp"
@@ -198,33 +213,37 @@
                         android:gravity="center"
                         android:orientation="vertical">
                         <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:padding="@dimen/dp_10"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginRight="@dimen/dp_10"
-                            android:src="@drawable/alipay" />
+                            android:src="@mipmap/enterprise" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="企业（保内/保外）"/>
+                            android:text="企业（保内/保外）"
+                            android:textSize="12sp"
+                            android:textColor="#898989"
+                            android:layout_marginTop="@dimen/dp_10"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/gray_three"/>
+                    android:background="#D2D2D2"
+                    android:layout_marginTop="15dp"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/dp_10"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="14dp"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:text="提示：1）点击您所需导入的模板导入数据；2）导入电商订单原始数据，目前仅支持天猫/京东格式；3）选择文件后，点击【开始导入数据】按钮进行导入操作"/>
+                    android:textSize="10sp"
+                    android:textColor="#999999"
+                    android:text="提示：1）点击您所需导入的模板导入数据；
+             2）导入电商订单原始数据，目前仅支持天猫/京东格式；
+             3）选择文件后，点击【开始导入数据】按钮进行导入操作"/>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/gray_three"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -236,40 +255,44 @@
                 android:orientation="vertical"
                 android:padding="15dp">
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="批量工单导入记录历史"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/black" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/gray_three"/>
+                    android:background="#D2D2D2"
+                    android:layout_marginTop="15dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="7dp">
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:padding="@dimen/dp_10"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:src="@drawable/alipay" />
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginRight="14dp"
+                        android:src="@mipmap/enterprise_small" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
                         android:text="平台保内工单"/>
                     <TextView
                         android:id="@+id/tv_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="61dp"
+                        android:layout_height="33dp"
                         android:background="@drawable/edit_shape"
-                        android:padding="@dimen/dp_4"
-                        android:text="查看详情"/>
+                        android:gravity="center"
+                        android:text="查看详情"
+                        android:textSize="12sp"
+                        android:textColor="#898989"/>
                 </LinearLayout>
             </LinearLayout>
             <Button
