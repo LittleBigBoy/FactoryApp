@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.blankj.utilcode.util.Utils;
@@ -19,7 +20,15 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
+import com.tencent.bugly.crashreport.CrashReport;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
 /**
@@ -76,11 +85,67 @@ public class MyApplication extends MultiDexApplication {
         });
         XGPushManager.bindAccount(getApplicationContext(), "XINGE");
         XGPushManager.setTag(this,"XINGE");
+
+
+        /*Context context = getApplicationContext();
+// 获取当前包名
+        String packageName = context.getPackageName();
+// 获取当前进程名
+        String processName = getProcessName(android.os.Process.myPid());
+// 设置是否为上报进程
+        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
+        strategy.setUploadProcess(processName == null || processName.equals(packageName));
+// 初始化Bugly
+        CrashReport.initCrashReport(context, "e1a0d72980", true, strategy);*/
+
+        // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
+        // 调试时，将第三个参数改为true
+        Bugly.init(this, "e1a0d72980", true);
+    }
+
+    /**
+     * 获取进程号对应的进程名
+     *
+     * @param pid 进程号
+     * @return 进程名
+     */
+    private static String getProcessName(int pid) {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
+            String processName = reader.readLine();
+            if (!TextUtils.isEmpty(processName)) {
+                processName = processName.trim();
+            }
+            return processName;
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
+        return null;
     }
     // 如果返回值为null，则全部使用默认参数。
     private YSFOptions options() {
         YSFOptions options = new YSFOptions();
         options.statusBarNotificationConfig = new StatusBarNotificationConfig();
         return options;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        // you must install multiDex whatever tinker is installed!
+        MultiDex.install(base);
+
+
+        // 安装tinker
+        Beta.installTinker();
     }
 }

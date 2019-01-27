@@ -14,6 +14,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.MainActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
@@ -74,8 +75,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     protected void initView() {
-        mEtUsername.setText("admin");
-        mEtPassword.setText("123");
+//        mEtUsername.setText("admin");
+//        mEtPassword.setText("123");
+        mEtUsername.setText("18767773654");
+        mEtPassword.setText("888888");
     }
 
     @Override
@@ -115,6 +118,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login:
+//                CrashReport.testJavaCrash();
                 userName = mEtUsername.getText().toString();
                 passWord = mEtPassword.getText().toString();
                 if ("".equals(userName)) {
