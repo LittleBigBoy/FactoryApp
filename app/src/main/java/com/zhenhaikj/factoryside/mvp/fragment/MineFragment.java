@@ -13,8 +13,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.activity.AboutUsActivity;
 import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
 import com.zhenhaikj.factoryside.mvp.activity.BrandActivity;
+import com.zhenhaikj.factoryside.mvp.activity.OpinionActivity;
+import com.zhenhaikj.factoryside.mvp.activity.PersonalInformationActivity;
 import com.zhenhaikj.factoryside.mvp.activity.RechargeActivity;
 import com.zhenhaikj.factoryside.mvp.activity.WalletActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
@@ -227,7 +230,7 @@ public class MineFragment extends BaseLazyFragment<PurchasePresenter, PurchaseMo
                 startActivity(new Intent(mActivity,WalletActivity.class));
                 break;
             case R.id.ll_personal_info:
-                startActivity(new Intent(mActivity,WalletActivity.class));
+                startActivity(new Intent(mActivity, PersonalInformationActivity.class));
                 break;
             case R.id.ll_sub_account_management:
                 startActivity(new Intent(mActivity,WalletActivity.class));
@@ -242,10 +245,10 @@ public class MineFragment extends BaseLazyFragment<PurchasePresenter, PurchaseMo
                 startActivity(new Intent(mActivity,BrandActivity.class));
                 break;
             case R.id.ll_feedback:
-                startActivity(new Intent(mActivity,WalletActivity.class));
+                startActivity(new Intent(mActivity, OpinionActivity.class));
                 break;
             case R.id.ll_about:
-                startActivity(new Intent(mActivity,WalletActivity.class));
+                startActivity(new Intent(mActivity, AboutUsActivity.class));
                 break;
         }
     }

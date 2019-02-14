@@ -3,12 +3,12 @@ package com.zhenhaikj.factoryside.mvp.activity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.BillAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.RechargeRecordAdapter;
@@ -19,41 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class WalletActivity extends BaseActivity implements View.OnClickListener {
+public class PersonalInformationActivity extends BaseActivity implements View.OnClickListener {
 
 
-    @BindView(R.id.money_tv)
-    TextView mMoneyTv;
-    @BindView(R.id.hide_iv)
-    ImageView mHideIv;
-    @BindView(R.id.available_tv)
-    TextView mAvailableTv;
-    @BindView(R.id.freeze_tv)
-    TextView mFreezeTv;
-    @BindView(R.id.gift_tv)
-    TextView mGiftTv;
-    @BindView(R.id.voucher_ll)
-    LinearLayout mVoucherLl;
-    @BindView(R.id.margin_ll)
-    LinearLayout mMarginLl;
-    @BindView(R.id.invoice_ll)
-    LinearLayout mInvoiceLl;
-    @BindView(R.id.bank_card_ll)
-    LinearLayout mBankCardLl;
-    @BindView(R.id.exchange_ll)
-    LinearLayout mExchangeLl;
-    @BindView(R.id.rechargerecord_rv)
-    RecyclerView mRechargerecordRv;
-    @BindView(R.id.bill_rv)
-    RecyclerView mBillRv;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.view)
+    View mView;
     @BindView(R.id.icon_back)
     ImageView mIconBack;
     @BindView(R.id.tv_title)
@@ -64,12 +38,46 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
     ImageView mIconSearch;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.recharge_tv)
-    TextView mRechargeTv;
-    @BindView(R.id.pay_the_deposi_tv)
-    TextView mPayTheDeposiTv;
-    @BindView(R.id.view)
-    View mView;
+    @BindView(R.id.iv_avatar)
+    ImageView mIvAvatar;
+    @BindView(R.id.ll_avatar)
+    LinearLayout mLlAvatar;
+    @BindView(R.id.tv_nickname)
+    TextView mTvNickname;
+    @BindView(R.id.ll_nickname)
+    LinearLayout mLlNickname;
+    @BindView(R.id.tv_name)
+    TextView mTvName;
+    @BindView(R.id.tv_certification)
+    TextView mTvCertification;
+    @BindView(R.id.tv_phone)
+    TextView mTvPhone;
+    @BindView(R.id.ll_password)
+    LinearLayout mLlPassword;
+    @BindView(R.id.tv_id_card)
+    TextView mTvIdCard;
+    @BindView(R.id.iv_id_card_one)
+    ImageView mIvIdCardOne;
+    @BindView(R.id.iv_id_card_two)
+    ImageView mIvIdCardTwo;
+    @BindView(R.id.tv_shop_address)
+    TextView mTvShopAddress;
+    @BindView(R.id.ll_shop_address)
+    LinearLayout mLlShopAddress;
+    @BindView(R.id.ll_male)
+    LinearLayout mLlMale;
+    @BindView(R.id.ll_female)
+    LinearLayout mLlFemale;
+    @BindView(R.id.tv_my_skills)
+    TextView mTvMySkills;
+    @BindView(R.id.ll_my_skills)
+    LinearLayout mLlMySkills;
+    @BindView(R.id.tv_recipient_address)
+    TextView mTvRecipientAddress;
+    @BindView(R.id.ll_recipient_address)
+    LinearLayout mLlRecipientAddress;
+    @BindView(R.id.btn_sign_out_of_your_account)
+    Button mBtnSignOutOfYourAccount;
     private List<Address> billList = new ArrayList<>();
     private List<Address> rechargeRecordList = new ArrayList<>();
     private BillAdapter billAdapter;
@@ -77,8 +85,9 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected int setLayoutId() {
-        return R.layout.activity_wallet;
+        return R.layout.activity_personal_information;
     }
+
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
@@ -96,18 +105,8 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initView() {
         mTvTitle.setVisibility(View.VISIBLE);
-        mTvTitle.setText("我的钱包");
-        mRefreshLayout.setEnableLoadMore(false);
-        for (int i = 0; i < 10; i++) {
-            billList.add(new Address());
-            rechargeRecordList.add(new Address());
-        }
-        billAdapter = new BillAdapter(R.layout.bill_item, billList);
-        rechargeRecordAdapter = new RechargeRecordAdapter(R.layout.rechargerecord_item, rechargeRecordList);
-        mBillRv.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRechargerecordRv.setLayoutManager(new LinearLayoutManager(mActivity));
-        mBillRv.setAdapter(billAdapter);
-        mRechargerecordRv.setAdapter(rechargeRecordAdapter);
+        mTvTitle.setText("个人信息管理");
+
     }
 
     @Override

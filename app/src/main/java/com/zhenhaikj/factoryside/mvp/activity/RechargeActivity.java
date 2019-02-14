@@ -84,6 +84,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void setListener() {
+        mIconBack.setOnClickListener(this);
     }
 
 

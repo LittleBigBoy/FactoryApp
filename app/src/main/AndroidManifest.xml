@@ -103,6 +103,9 @@
         <activity android:name=".mvp.base.BaseActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.MainActivity" android:screenOrientation="portrait" android:theme="@style/AppThemeNoTranslucent"></activity>
         <activity android:name="com.yalantis.ucrop.UCropActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.OpinionActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.AboutUsActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.PersonalInformationActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>
