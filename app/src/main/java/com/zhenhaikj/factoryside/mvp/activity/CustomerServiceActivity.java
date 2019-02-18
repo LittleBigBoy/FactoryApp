@@ -29,28 +29,6 @@ public class CustomerServiceActivity extends BaseActivity implements View.OnClic
     ImageView mIconSearch;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.tv_register)
-    TextView mTvRegister;
-    @BindView(R.id.tv_add_product)
-    TextView mTvAddProduct;
-    @BindView(R.id.tv_address)
-    TextView mTvAddress;
-    @BindView(R.id.tv_detail)
-    TextView mTvDetail;
-    @BindView(R.id.tv_name)
-    TextView mTvName;
-    @BindView(R.id.tv_phone)
-    TextView mTvPhone;
-    @BindView(R.id.rb1)
-    RadioButton mRb1;
-    @BindView(R.id.rb2)
-    RadioButton mRb2;
-    @BindView(R.id.rg1)
-    RadioGroup mRg1;
-    @BindView(R.id.tv_fault_description)
-    TextView mTvFaultDescription;
-    @BindView(R.id.btn_add)
-    Button mBtnAdd;
     @BindView(R.id.view)
     View mView;
 
