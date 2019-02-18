@@ -1,155 +1,311 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0F0"
     android:orientation="vertical">
 
-   <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center_vertical"
-        android:background="@color/white"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:textColor="#E0E0E0"
-            android:layout_marginLeft="20dp"
-            android:text="头像"/>
-        <ImageView
-            android:id="@+id/tx"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/default_tx"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center_vertical"
-        android:background="@color/white"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:textColor="#E0E0E0"
-            android:text="用户名"/>
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#333333"
-            android:text=""/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/pwd_ll"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center_vertical"
-        android:background="@color/white"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="修改密码"
-            android:textColor="#E0E0E0" />
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:layout_weight="1"
-            android:textColor="#333333"
-            android:text="********"/>
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/into"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center_vertical"
-        android:background="@color/white"
-        android:layout_marginTop="5dp"
-        android:visibility="gone"
-        android:orientation="horizontal">
+            android:layout_height="100dp"
+            android:background="@color/red" />
 
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="昵称"
-            android:textColor="#E0E0E0" />
-        <TextView
-            android:id="@+id/nickname"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:layout_weight="1"
-            android:textColor="#333333"
-            android:text="lala"/>
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/into"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/update_ll"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center_vertical"
-        android:paddingRight="20dp"
-        android:background="@color/white"
-        android:layout_marginTop="25dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:textColor="#E0E0E0"
-            android:layout_marginLeft="20dp"
-            android:text="版本"/>
-        <TextView
-            android:id="@+id/version"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="#333333"
-            android:text="v1.0"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#333333"
-            android:text="检测更新"/>
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="20dp"
-            android:src="@drawable/into"/>
-    </LinearLayout>
-    <LinearLayout
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@drawable/white_half_shape"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:orientation="horizontal"
+                android:paddingLeft="14dp"
+                android:paddingRight="28dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="安装工单"
+                    android:textColor="#858585"
+                    android:textSize="14sp" />
+
+                <Switch
+                    android:id="@+id/switcher_installation_work_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:checked="true"
+                    android:switchMinWidth="2dp"
+                    android:thumb="@drawable/thumb"
+                    android:track="@drawable/track" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="15dp"
+                android:background="#E4E4E4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:paddingLeft="14dp"
+                android:paddingRight="28dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="维修工单"
+                    android:textColor="#858585"
+                    android:textSize="14sp" />
+
+                <Switch
+                    android:id="@+id/switcher_repair_work_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:checked="true"
+                    android:switchMinWidth="2dp"
+                    android:thumb="@drawable/thumb"
+                    android:track="@drawable/track" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="15dp"
+                android:background="#E4E4E4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:paddingLeft="14dp"
+                android:paddingRight="28dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="是否接受送修工单"
+                    android:textColor="#858585"
+                    android:textSize="14sp" />
+
+                <Switch
+                    android:id="@+id/switcher_accept_the_repair_work_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:checked="true"
+                    android:switchMinWidth="2dp"
+                    android:thumb="@drawable/thumb"
+                    android:track="@drawable/track" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="15dp"
+                android:background="#E4E4E4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:paddingLeft="14dp"
+                android:paddingRight="28dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="接收送修工单"
+                    android:textColor="#858585"
+                    android:textSize="14sp" />
+
+                <Switch
+                    android:id="@+id/switcher_receiving_repair_work_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:checked="true"
+                    android:switchMinWidth="2dp"
+                    android:thumb="@drawable/thumb"
+                    android:track="@drawable/track" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="15dp"
+                android:background="#E4E4E4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:paddingLeft="14dp"
+                android:paddingRight="28dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="是否允许派单"
+                    android:textColor="#858585"
+                    android:textSize="14sp" />
+
+                <Switch
+                    android:id="@+id/switcher_whether_to_allow_the_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:checked="true"
+                    android:switchMinWidth="2dp"
+                    android:thumb="@drawable/thumb"
+                    android:track="@drawable/track" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="15dp"
+                android:background="#E4E4E4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="14dp"
+                android:orientation="horizontal"
+                android:paddingLeft="14dp"
+                android:paddingRight="28dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="允许派单"
+                    android:textColor="#858585"
+                    android:textSize="14sp" />
+
+                <Switch
+                    android:id="@+id/switcher_allow_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:checked="true"
+                    android:switchMinWidth="2dp"
+                    android:thumb="@drawable/thumb"
+                    android:track="@drawable/track" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:orientation="horizontal">
-    <Button
-        android:id="@+id/login_out"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/btn_shape"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="30dp"
-        android:textColor="@color/red"
-        android:text="退出登录"/>
-    </LinearLayout>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/red" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="13dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_clean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="14dp"
+                android:paddingTop="25dp"
+                android:paddingRight="28dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="清除缓存"
+                    android:textColor="#858585"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/clean" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="12dp"
+                android:background="#E4E4E4" />
+
+            <LinearLayout
+                android:id="@+id/ll_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal"
+                android:paddingLeft="14dp"
+                android:paddingTop="20dp"
+                android:paddingRight="28dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="检查更新"
+                    android:textColor="#858585"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/update" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
 </LinearLayout>

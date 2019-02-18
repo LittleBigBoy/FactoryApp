@@ -19,6 +19,7 @@ import com.zhenhaikj.factoryside.mvp.activity.BrandActivity;
 import com.zhenhaikj.factoryside.mvp.activity.OpinionActivity;
 import com.zhenhaikj.factoryside.mvp.activity.PersonalInformationActivity;
 import com.zhenhaikj.factoryside.mvp.activity.RechargeActivity;
+import com.zhenhaikj.factoryside.mvp.activity.SettingActivity;
 import com.zhenhaikj.factoryside.mvp.activity.WalletActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
@@ -180,7 +181,7 @@ public class MineFragment extends BaseLazyFragment<PurchasePresenter, PurchaseMo
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_setting:
-                startActivity(new Intent(mActivity,WalletActivity.class));
+                startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
             case R.id.iv_service:
                 startActivity(new Intent(mActivity,WalletActivity.class));

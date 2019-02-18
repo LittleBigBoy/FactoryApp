@@ -285,7 +285,7 @@
                             android:id="@+id/iv_id_card_one"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:src="@mipmap/add" />
+                            android:src="@drawable/add" />
 
                         <ImageView
                             android:id="@+id/iv_id_card_two"
@@ -293,7 +293,7 @@
                             android:layout_height="60dp"
                             android:layout_marginLeft="14dp"
                             android:layout_marginRight="14dp"
-                            android:src="@mipmap/add" />
+                            android:src="@drawable/add" />
                     </LinearLayout>
 
                     <LinearLayout
