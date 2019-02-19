@@ -104,6 +104,7 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
 
     @Override
     protected void setListener() {
+        mIconBack.setOnClickListener(this);
     }
 
 

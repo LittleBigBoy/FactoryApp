@@ -71,7 +71,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private ArrayList<Fragment> mFragments;
     private long mExittime;
 
-
     @Override
     protected int setLayoutId() {
         return R.layout.activity_main;
@@ -86,6 +85,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mFragments.add(AllWorkOrdersFragment.newInstance("", ""));
         mFragments.add(DiscoveryFragment.newInstance("", ""));
         mFragments.add(MineFragment.newInstance("", ""));
+        startService(new Intent(mActivity,LogcatScannerService.class));
     }
 
     @Override

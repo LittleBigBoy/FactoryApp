@@ -1,8 +1,12 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.baidu.aip.asrwakeup3.core.recog.MyRecognizer;
+import com.baidu.aip.asrwakeup3.core.recog.listener.ChainRecogListener;
+import com.baidu.aip.asrwakeup3.core.recog.listener.IRecogListener;
+import com.baidu.aip.asrwakeup3.core.recog.listener.MessageStatusRecogListener;
+import com.baidu.aip.asrwakeup3.core.util.MyLogger;
+import com.baidu.aip.asrwakeup3.uiasr.params.OnlineRecogParams;
+import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
+import com.baidu.voicerecognition.android.ui.DigitalDialogInput;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -45,8 +57,14 @@ import com.zhenhaikj.factoryside.mvp.model.HomeMaintenanceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.HomeMaintenancePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 
-import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -122,6 +140,10 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     TextView mTvAddress;
     @BindView(R.id.view)
     View mView;
+    @BindView(R.id.iv_add_name)
+    ImageView mIvAddName;
+    @BindView(R.id.iv_microphone)
+    ImageView mIvMicrophone;
     private PopupWindow popupWindow;
     private List<Province> provinceList;
     private List<City> cityList;
@@ -178,6 +200,15 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     private TextView tv_city;
     private TextView tv_area;
     private TextView tv_choose;
+    private MyRecognizer myRecognizer;
+    protected Handler handler;
+    /**
+     * 对话框界面的输入参数
+     */
+    private DigitalDialogInput input;
+    private ChainRecogListener chainRecogListener;
+    private boolean running;
+    private OnlineRecogParams apiParams;
 
     @Override
     protected int setLayoutId() {
@@ -189,6 +220,20 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         SPUtils spUtils = SPUtils.getInstance("token");
         userID = spUtils.getString("userName");
 //        mPresenter.GetFactoryBrand(userID);
+
+        IRecogListener listener = new MessageStatusRecogListener(handler);
+        // DEMO集成步骤 1.1 1.3 初始化：new一个IRecogListener示例 & new 一个 MyRecognizer 示例,并注册输出事件
+        if (myRecognizer==null){
+            myRecognizer = new MyRecognizer(mActivity, listener);
+        }
+        /**
+         * 有2个listner，一个是用户自己的业务逻辑，如MessageStatusRecogListener。另一个是UI对话框的。
+         * 使用这个ChainRecogListener把两个listener和并在一起
+         */
+        chainRecogListener = new ChainRecogListener();
+        // DigitalDialogInput 输入 ，MessageStatusRecogListener可替换为用户自己业务逻辑的listener
+        chainRecogListener.addListener(new MessageStatusRecogListener(handler));
+        myRecognizer.setEventListener(chainRecogListener); // 替换掉原来的listener
     }
 
     @Override
@@ -208,6 +253,8 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
 
     @Override
     protected void setListener() {
+        mIvMicrophone.setOnClickListener(this);
+
         mIconBack.setOnClickListener(this);
         mIconSearch.setOnClickListener(this);
         mTvAddProduct.setOnClickListener(this);
@@ -273,6 +320,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
             case R.id.icon_back:
                 finish();
                 break;
@@ -406,14 +454,56 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 }
                 mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, FCategoryID, CategoryName, FProductTypeID, ProductTypeName, ProvinceCode, CityCode, AreaCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee);
                 break;
+
+            case R.id.iv_microphone:
+
+                // 此处params可以打印出来，直接写到你的代码里去，最终的json一致即可。
+                final Map<String, Object> params = fetchParams();
+
+                // BaiduASRDigitalDialog的输入参数
+                input = new DigitalDialogInput(myRecognizer, chainRecogListener, params);
+                BaiduASRDigitalDialog.setInput(input); // 传递input信息，在BaiduASRDialog中读取,
+                Intent intent = new Intent(this, BaiduASRDigitalDialog.class);
+
+                // 修改对话框样式
+                // intent.putExtra(BaiduASRDigitalDialog.PARAM_DIALOG_THEME, BaiduASRDigitalDialog.THEME_ORANGE_DEEPBG);
+
+                running = true;
+                startActivityForResult(intent, 2);
+                break;
         }
     }
-
+    protected Map<String, Object> fetchParams() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        //  上面的获取是为了生成下面的Map， 自己集成时可以忽略
+        apiParams = new OnlineRecogParams();
+        Map<String, Object> params = apiParams.fetch(sp);
+        //  集成时不需要上面的代码，只需要params参数。
+        return params;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        running = false;
+        if (requestCode == 2) {
+            String message = "";
+            if (resultCode == RESULT_OK) {
+                ArrayList results = data.getStringArrayListExtra("results");
+                if (results != null && results.size() > 0) {
+                    message += results.get(0);
+                }
+            } else {
+                message += "";
+            }
+            mEtDetail.setText(message);
+        }
     }
 
     public void showPopWindowGetAddress(final TextView tv) {
@@ -445,6 +535,13 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 tv_province.setText(ProvinceName);
                 tv_province.setVisibility(View.VISIBLE);
                 tv_city.setVisibility(View.VISIBLE);
+//                try {
+//                    JSONObject json=new JSONObject("");
+//                    json.g
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+
             }
         });
         popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenHeight() - 700);

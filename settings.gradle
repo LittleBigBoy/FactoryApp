@@ -1,1 +1,1 @@
-include ':app', 'SwipeBackLayout', 'ImmersionBar', ':magicindicator', ':android-pickers'
+include ':app', 'SwipeBackLayout', 'ImmersionBar', ':magicindicator', ':android-pickers', ':core', ':uiasr', ':uidialog'
