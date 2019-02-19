@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -84,6 +85,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mTvOpinion.setOnClickListener(this);
     }
 
 
@@ -101,6 +103,8 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
             case R.id.icon_search:
                 finish();
                 break;
+            case R.id.tv_opinion:
+                startActivity(new Intent(mActivity,OpinionActivity.class));
         }
     }
 

@@ -45,6 +45,7 @@
         android:textColor="#AFAFAF"
         android:background="@drawable/gray_shape"/>
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_about_app"
         android:layout_width="109dp"
         android:layout_height="33dp"
