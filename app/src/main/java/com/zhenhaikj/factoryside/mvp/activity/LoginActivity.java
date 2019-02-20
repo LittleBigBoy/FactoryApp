@@ -62,6 +62,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     private String userName;
     private String passWord;
     private String code;
+    private SPUtils spUtils;
+    private boolean isLogin;
 
     @Override
     protected int setLayoutId() {
@@ -77,8 +79,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     protected void initView() {
 //        mEtUsername.setText("admin");
 //        mEtPassword.setText("123");
-        mEtUsername.setText("18767773654");
-        mEtPassword.setText("888888");
+        spUtils = SPUtils.getInstance("token");
+        userName=spUtils.getString("userName");
+        passWord=spUtils.getString("passWord");
+        isLogin =spUtils.getBoolean("isLogin");
+        mEtUsername.setText(userName);
+        mEtPassword.setText(passWord);
+//        if (userName!=null&&passWord!=null&&isLogin){
+//            mPresenter.Login(userName, passWord);
+//        }
     }
 
     @Override
@@ -164,9 +173,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     public void Login(BaseResult<String> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                SPUtils spUtils = SPUtils.getInstance("token");
+
                 spUtils.put("adminToken", baseResult.getData());
                 spUtils.put("userName", userName);
+                spUtils.put("passWord", passWord);
+                spUtils.put("isLogin", true);
 //                GetUserInfo getUserInfo=new GetUserInfo(userName,baseResult.getData(),"","");
 //                Gson gson=new Gson();
 //                RequestBody json=RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),gson.toJson(getUserInfo));

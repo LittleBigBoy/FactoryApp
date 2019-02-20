@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.blankj.utilcode.util.SPUtils;
+import com.zhenhaikj.factoryside.mvp.MainActivity;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +22,10 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private static final String SHAREDPREFERENCES_NAME = "first_pref";
+    private SPUtils spUtils;
+    private String userName;
+    private String passWord;
+    private boolean isLogin;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,9 +68,16 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void goHome() {
-        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-        SplashActivity.this.startActivity(intent);
-        SplashActivity.this.finish();
+        spUtils = SPUtils.getInstance("token");
+        userName = spUtils.getString("userName");
+        passWord = spUtils.getString("passWord");
+        isLogin = spUtils.getBoolean("isLogin");
+        if (userName!=null&&passWord!=null&&isLogin){
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        }else{
+            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+        }
+        finish();
     }
 
 

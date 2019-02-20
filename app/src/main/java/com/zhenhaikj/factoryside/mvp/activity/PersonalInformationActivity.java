@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.BillAdapter;
@@ -82,6 +85,7 @@ public class PersonalInformationActivity extends BaseActivity implements View.On
     private List<Address> rechargeRecordList = new ArrayList<>();
     private BillAdapter billAdapter;
     private RechargeRecordAdapter rechargeRecordAdapter;
+    private SPUtils spUtils;
 
     @Override
     protected int setLayoutId() {
@@ -106,12 +110,13 @@ public class PersonalInformationActivity extends BaseActivity implements View.On
     protected void initView() {
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("个人信息管理");
-
+        spUtils = SPUtils.getInstance("token");
     }
 
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mBtnSignOutOfYourAccount.setOnClickListener(this);
     }
 
 
@@ -126,8 +131,10 @@ public class PersonalInformationActivity extends BaseActivity implements View.On
             case R.id.icon_back:
                 finish();
                 break;
-            case R.id.icon_search:
-                finish();
+            case R.id.btn_sign_out_of_your_account:
+                spUtils.put("isLogin",false);
+                startActivity(new Intent(mActivity, LoginActivity.class));
+                ActivityUtils.finishAllActivities();
                 break;
         }
     }
