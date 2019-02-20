@@ -1,12 +1,13 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,6 @@ import com.baidu.aip.asrwakeup3.core.recog.MyRecognizer;
 import com.baidu.aip.asrwakeup3.core.recog.listener.ChainRecogListener;
 import com.baidu.aip.asrwakeup3.core.recog.listener.IRecogListener;
 import com.baidu.aip.asrwakeup3.core.recog.listener.MessageStatusRecogListener;
-import com.baidu.aip.asrwakeup3.core.util.MyLogger;
 import com.baidu.aip.asrwakeup3.uiasr.params.OnlineRecogParams;
 import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
 import com.baidu.voicerecognition.android.ui.DigitalDialogInput;
@@ -57,9 +57,6 @@ import com.zhenhaikj.factoryside.mvp.model.HomeMaintenanceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.HomeMaintenancePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +64,8 @@ import java.util.Map;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -144,6 +143,8 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     ImageView mIvAddName;
     @BindView(R.id.iv_microphone)
     ImageView mIvMicrophone;
+    @BindView(R.id.ll_microphone)
+    LinearLayout mLlMicrophone;
     private PopupWindow popupWindow;
     private List<Province> provinceList;
     private List<City> cityList;
@@ -219,13 +220,14 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
 
     @Override
     protected void initData() {
+        initPermission();
         SPUtils spUtils = SPUtils.getInstance("token");
         userID = spUtils.getString("userName");
 //        mPresenter.GetFactoryBrand(userID);
 
         IRecogListener listener = new MessageStatusRecogListener(handler);
         // DEMO集成步骤 1.1 1.3 初始化：new一个IRecogListener示例 & new 一个 MyRecognizer 示例,并注册输出事件
-        if (myRecognizer==null){
+        if (myRecognizer == null) {
             myRecognizer = new MyRecognizer(mActivity, listener);
         }
         /**
@@ -255,7 +257,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
 
     @Override
     protected void setListener() {
-        mIvMicrophone.setOnClickListener(this);
+        mLlMicrophone.setOnClickListener(this);
 
         mIconBack.setOnClickListener(this);
         mIconSearch.setOnClickListener(this);
@@ -454,10 +456,10 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     MyUtils.showToast(mActivity, "请输入故障描述！");
                     return;
                 }
-                mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, FCategoryID, CategoryName,SubCategoryID,SubCategoryName, FProductTypeID, ProductTypeName, ProvinceCode, CityCode, AreaCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee);
+                mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName, FProductTypeID, ProductTypeName, ProvinceCode, CityCode, AreaCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee);
                 break;
 
-            case R.id.iv_microphone:
+            case R.id.ll_microphone:
 
                 // 此处params可以打印出来，直接写到你的代码里去，最终的json一致即可。
                 final Map<String, Object> params = fetchParams();
@@ -475,6 +477,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 break;
         }
     }
+
     protected Map<String, Object> fetchParams() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mActivity);
         //  上面的获取是为了生成下面的Map， 自己集成时可以忽略
@@ -483,6 +486,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         //  集成时不需要上面的代码，只需要params参数。
         return params;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -585,15 +589,15 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 return data.getFCategoryName();
             }
         });
-        FCategoryID=popularList.get(0).getId();
-        CategoryName=popularList.get(0).getFCategoryName();
+        FCategoryID = popularList.get(0).getId();
+        CategoryName = popularList.get(0).getFCategoryName();
         mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
         lv_popular.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
             @Override
             public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
                 if (isSelect) {
-                    FCategoryID=((Category) data).getId();
-                    CategoryName=((Category) data).getFCategoryName();
+                    FCategoryID = ((Category) data).getId();
+                    CategoryName = ((Category) data).getFCategoryName();
                     mPresenter.GetChildFactoryCategory(((Category) data).getId());
                 }
             }
@@ -956,5 +960,65 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 break;
         }
 
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!running) {
+            myRecognizer.release();
+            finish();
+        }
+    }
+
+
+    /**
+     * android 6.0 以上需要动态申请权限
+     */
+    private void initPermission() {
+        String[] permissions = {
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+
+        ArrayList<String> toApplyList = new ArrayList<String>();
+
+        for (String perm : permissions) {
+            if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, perm)) {
+                toApplyList.add(perm);
+                // 进入到这里代表没有权限.
+
+            }
+        }
+        String[] tmpList = new String[toApplyList.size()];
+        if (!toApplyList.isEmpty()) {
+            ActivityCompat.requestPermissions(this, toApplyList.toArray(tmpList), 123);
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        // 此处为android 6.0以上动态授权的回调，用户自行实现。
+        int count = 0;
+        if (requestCode == 123) {
+            for (int i = 0; i < permissions.length; i++) {
+                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    count++;
+                } else {
+                    // Permission Denied
+                }
+            }
+            if (count == permissions.length) {
+
+            } else {
+                ToastUtils.showShort("没有相关权限！");
+            }
+        }
     }
 }

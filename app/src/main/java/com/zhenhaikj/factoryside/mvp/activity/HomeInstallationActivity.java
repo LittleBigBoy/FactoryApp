@@ -3,9 +3,10 @@ package com.zhenhaikj.factoryside.mvp.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
@@ -19,6 +20,8 @@ import butterknife.ButterKnife;
 public class HomeInstallationActivity extends BaseActivity implements View.OnClickListener {
 
 
+    @BindView(R.id.view)
+    View mView;
     @BindView(R.id.icon_back)
     ImageView mIconBack;
     @BindView(R.id.tv_title)
@@ -33,43 +36,50 @@ public class HomeInstallationActivity extends BaseActivity implements View.OnCli
     TextView mTvRegister;
     @BindView(R.id.tv_add_product)
     TextView mTvAddProduct;
+    @BindView(R.id.tv_name)
+    EditText mTvName;
+    @BindView(R.id.tv_phone)
+    EditText mTvPhone;
     @BindView(R.id.tv_address)
     TextView mTvAddress;
     @BindView(R.id.tv_detail)
     TextView mTvDetail;
-    @BindView(R.id.tv_name)
-    TextView mTvName;
-    @BindView(R.id.tv_phone)
-    TextView mTvPhone;
-    @BindView(R.id.rb1)
-    RadioButton mRb1;
-    @BindView(R.id.rb2)
-    RadioButton mRb2;
-    @BindView(R.id.rg1)
-    RadioGroup mRg1;
-    @BindView(R.id.rb_not)
-    RadioButton mRbNot;
-    @BindView(R.id.rb_ok)
-    RadioButton mRbOk;
-    @BindView(R.id.rg2)
-    RadioGroup mRg2;
-    @BindView(R.id.tv_add_num)
-    TextView mTvAddNum;
+    @BindView(R.id.cb_under_warranty)
+    CheckBox mCbUnderWarranty;
+    @BindView(R.id.ll_under_warranty)
+    LinearLayout mLlUnderWarranty;
+    @BindView(R.id.cb_outside_the_warranty)
+    CheckBox mCbOutsideTheWarranty;
+    @BindView(R.id.ll_outside_the_warranty)
+    LinearLayout mLlOutsideTheWarranty;
+    @BindView(R.id.tv_time)
+    TextView mTvTime;
+    @BindView(R.id.ll_recovery_time)
+    LinearLayout mLlRecoveryTime;
     @BindView(R.id.tv_add)
     TextView mTvAdd;
     @BindView(R.id.tv_delete)
     TextView mTvDelete;
+    @BindView(R.id.cb_yes)
+    CheckBox mCbYes;
+    @BindView(R.id.ll_yes)
+    LinearLayout mLlYes;
+    @BindView(R.id.cb_no)
+    CheckBox mCbNo;
+    @BindView(R.id.ll_no)
+    LinearLayout mLlNo;
+    @BindView(R.id.iv_designated_time)
+    ImageView mIvDesignatedTime;
     @BindView(R.id.tv_fault_description)
     TextView mTvFaultDescription;
     @BindView(R.id.login)
     Button mLogin;
-    @BindView(R.id.view)
-    View mView;
 
     @Override
     protected int setLayoutId() {
-        return R.layout.activity_home_installation;
+        return R.layout.activity_home_installation2;
     }
+
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
@@ -78,6 +88,7 @@ public class HomeInstallationActivity extends BaseActivity implements View.OnCli
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
     }
+
     @Override
     protected void initData() {
     }
