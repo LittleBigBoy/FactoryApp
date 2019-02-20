@@ -174,6 +174,8 @@ public interface ApiService {
                                                       @Field("BrandName") String BrandName,
                                                       @Field("CategoryID") String FCategoryID,
                                                       @Field("CategoryName") String CategoryName,
+                                                      @Field("SubCategoryID") String SubCategoryID,
+                                                      @Field("SubCategoryName") String SubCategoryName,
                                                       @Field("ProductTypeID") String FProductTypeID,
                                                       @Field("ProductType") String ProductType,
                                                       @Field("ProvinceCode") String ProvinceCode,

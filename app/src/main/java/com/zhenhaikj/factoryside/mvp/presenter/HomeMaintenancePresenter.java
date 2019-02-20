@@ -129,8 +129,8 @@ public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter 
     }
 
     @Override
-    public void AddOrder(String TypeID, String TypeName, String UserID, String FBrandID, String BrandName, String FCategoryID, String CategoryName, String FProductTypeID, String ProductType, String ProvinceCode, String CityCode, String AreaCode, String Address, String UserName, String Phone, String Memo, String OrderMoney, String RecycleOrderHour, String Guarantee, String AccessorySendState, String Extra, String ExtraTime, String ExtraFee) {
-        mModel.AddOrder(TypeID, TypeName, UserID, FBrandID, BrandName, FCategoryID, CategoryName, FProductTypeID, ProductType, ProvinceCode, CityCode, AreaCode, Address, UserName, Phone, Memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee)
+    public void AddOrder(String TypeID, String TypeName, String UserID, String FBrandID, String BrandName, String FCategoryID, String CategoryName, String SubCategoryID, String SubCategoryName, String FProductTypeID, String ProductType, String ProvinceCode, String CityCode, String AreaCode, String Address, String UserName, String Phone, String Memo, String OrderMoney, String RecycleOrderHour, String Guarantee, String AccessorySendState, String Extra, String ExtraTime, String ExtraFee) {
+        mModel.AddOrder(TypeID, TypeName, UserID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName, FProductTypeID, ProductType, ProvinceCode, CityCode, AreaCode, Address, UserName, Phone, Memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee)
                 .subscribe(new BaseObserver<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
@@ -138,6 +138,4 @@ public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter 
                     }
                 });
     }
-
-
 }

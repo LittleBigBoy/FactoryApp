@@ -165,6 +165,8 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     private String AreaName;
     private String BrandName;
     private String CategoryName;
+    private String SubCategoryID;
+    private String SubCategoryName;
     private String ProductTypeName;
     private String OrderMoney;
     private String Address;//详细地址
@@ -338,11 +340,11 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     MyUtils.showToast(mActivity, "请选择品牌！");
                     return;
                 }
-                if (FCategoryID == null) {
+                if (SubCategoryID == null) {
                     MyUtils.showToast(mActivity, "请选择分类！");
                     return;
                 }
-                mPresenter.GetFactoryProducttype(FBrandID, FCategoryID);
+                mPresenter.GetFactoryProducttype(FBrandID, SubCategoryID);
                 break;
             case R.id.tv_choose_property:
                 if (FProductTypeID == null) {
@@ -386,7 +388,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     MyUtils.showToast(mActivity, "请选择品牌！");
                     return;
                 }
-                if (FCategoryID == null) {
+                if (SubCategoryID == null) {
                     MyUtils.showToast(mActivity, "请选择分类！");
                     return;
                 }
@@ -452,7 +454,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     MyUtils.showToast(mActivity, "请输入故障描述！");
                     return;
                 }
-                mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, FCategoryID, CategoryName, FProductTypeID, ProductTypeName, ProvinceCode, CityCode, AreaCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee);
+                mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, FCategoryID, CategoryName,SubCategoryID,SubCategoryName, FProductTypeID, ProductTypeName, ProvinceCode, CityCode, AreaCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee);
                 break;
 
             case R.id.iv_microphone:
@@ -583,11 +585,15 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 return data.getFCategoryName();
             }
         });
+        FCategoryID=popularList.get(0).getId();
+        CategoryName=popularList.get(0).getFCategoryName();
         mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
         lv_popular.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
             @Override
             public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
                 if (isSelect) {
+                    FCategoryID=((Category) data).getId();
+                    CategoryName=((Category) data).getFCategoryName();
                     mPresenter.GetChildFactoryCategory(((Category) data).getId());
                 }
             }
@@ -633,14 +639,16 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     FProductTypeID = null;
                     FAccessoryID = null;
                     CategoryName = null;
+                    SubCategoryID = null;
+                    SubCategoryName = null;
                     ProductTypeName = null;
                     OrderMoney = null;
                 }
                 if (list.get(position) instanceof Category) {
-                    FCategoryID = ((Category) list.get(position)).getFCategoryID();
-                    CategoryName = ((Category) list.get(position)).getFCategoryName();
+                    SubCategoryID = ((Category) list.get(position)).getFCategoryID();
+                    SubCategoryName = ((Category) list.get(position)).getFCategoryName();
                     OrderMoney = ((Category) list.get(position)).getInitPrice();
-                    tv.setText(CategoryName);
+                    tv.setText(SubCategoryName);
                     mTvChooseType.setText("");
                     mTvChooseProperty.setText("");
                     FProductTypeID = null;
@@ -763,11 +771,12 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                         chooseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                CategoryName = chooseList.get(position).getFCategoryName();
-                                mTvChooseCategory.setText(CategoryName);
-                                FCategoryID = chooseList.get(position).getFCategoryID();
+                                SubCategoryName = chooseList.get(position).getFCategoryName();
+                                mTvChooseCategory.setText(SubCategoryName);
+                                SubCategoryID = chooseList.get(position).getFCategoryID();
                                 FProductTypeID = null;
                                 ProductTypeName = null;
+                                mTvChooseType.setText("");
                                 popupWindow.dismiss();
                             }
                         });

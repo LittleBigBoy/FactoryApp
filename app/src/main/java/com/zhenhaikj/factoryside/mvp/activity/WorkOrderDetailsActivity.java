@@ -148,7 +148,7 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
                 mTvRecoveryTime.setText(data.getRecycleOrderHour());
                 mTvSentOutAccessories.setText(data.getAccessorySendState());
                 mTvBrand.setText(data.getBrandName());
-                mTvCategory.setText(data.getCategoryName());
+                mTvCategory.setText(data.getSubCategoryName());
                 mTvModel.setText(data.getProductType());
                 mTvFaultDescription.setText(data.getMemo());
 

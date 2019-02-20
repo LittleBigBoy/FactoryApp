@@ -200,11 +200,21 @@
                     android:overScrollMode="never"
                     android:nestedScrollingEnabled="false"/>
             </RelativeLayout>
-
+            <EditText
+                android:id="@+id/et_any_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="任意金额"
+                android:maxLength="5"
+                android:singleLine="true"
+                android:inputType="number"
+                android:background="@drawable/edit_shape"
+                android:padding="@dimen/dp_10"
+                android:layout_margin="20dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:padding="12dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -237,15 +247,16 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_alipay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="30dp"
+                android:padding="@dimen/dp_10"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_marginLeft="@dimen/dp_10"
                     android:src="@mipmap/aplipay" />
 
                 <TextView
@@ -266,20 +277,21 @@
                     android:layout_width="19dp"
                     android:layout_height="19dp"
                     android:layout_gravity="center"
-                    android:layout_marginRight="20dp"
-                    android:src="@mipmap/check" />
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/pay_check_selector" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_wxpay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="25dp"
+                android:padding="@dimen/dp_10"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_marginLeft="@dimen/dp_10"
                     android:src="@mipmap/wechat" />
 
                 <TextView
@@ -300,8 +312,8 @@
                     android:layout_width="19dp"
                     android:layout_height="19dp"
                     android:layout_gravity="center"
-                    android:layout_marginRight="20dp"
-                    android:src="@mipmap/circle" />
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/pay_check_selector" />
             </LinearLayout>
 
             <View

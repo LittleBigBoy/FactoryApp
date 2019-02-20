@@ -15,9 +15,9 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/dp_10"
         android:paddingBottom="@dimen/dp_10"
-        android:background="@drawable/face_value_bg"
+        android:background="@drawable/face_value_selector"
         android:text="100元"
-        android:textColor="#666666"
+        android:textColor="@drawable/face_value_textcolor_selector"
         android:textSize="12sp"
         android:layout_gravity="center"
         android:gravity="center"/>
