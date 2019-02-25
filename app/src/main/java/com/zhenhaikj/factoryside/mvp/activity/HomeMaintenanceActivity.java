@@ -8,6 +8,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +58,7 @@ import com.zhenhaikj.factoryside.mvp.contract.HomeMaintenanceContract;
 import com.zhenhaikj.factoryside.mvp.model.HomeMaintenanceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.HomeMaintenancePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,6 +148,14 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     ImageView mIvMicrophone;
     @BindView(R.id.ll_microphone)
     LinearLayout mLlMicrophone;
+    @BindView(R.id.ll_choose_brand)
+    LinearLayout mLlChooseBrand;
+    @BindView(R.id.ll_choose_category)
+    LinearLayout mLlChooseCategory;
+    @BindView(R.id.ll_choose_type)
+    LinearLayout mLlChooseType;
+    @BindView(R.id.et_num)
+    ClearEditText mEtNum;
     private PopupWindow popupWindow;
     private List<Province> provinceList;
     private List<City> cityList;
@@ -212,6 +223,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     private ChainRecogListener chainRecogListener;
     private boolean running;
     private OnlineRecogParams apiParams;
+    private String Num;
 
     @Override
     protected int setLayoutId() {
@@ -313,6 +325,29 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 ExtraFee = "0";
             }
         });
+        mEtNum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = s.toString();
+                int len = s.toString().length();
+                if (len > 1 && text.startsWith("0")) {
+                    Num=s.replace(0,1,"").toString();
+                }else{
+                    Num=s.toString();
+                }
+//                mTvActualArrival.setText(value);
+            }
+        });
     }
 
 
@@ -398,6 +433,15 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     MyUtils.showToast(mActivity, "请选择型号！");
                     return;
                 }
+                Num = mEtNum.getText().toString();
+                if (Num == null) {
+                    MyUtils.showToast(mActivity, "请输入维修数量！");
+                    return;
+                }
+                if ("".equals(Num)) {
+                    MyUtils.showToast(mActivity, "请输入维修数量！");
+                    return;
+                }
                 /*if (FAccessoryID == null) {
                     MyUtils.showToast(mActivity, "请选择属性！");
                     return;
@@ -456,7 +500,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     MyUtils.showToast(mActivity, "请输入故障描述！");
                     return;
                 }
-                mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName, FProductTypeID, ProductTypeName, ProvinceCode, CityCode, AreaCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee);
+                mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName, FProductTypeID, ProductTypeName, ProvinceCode, CityCode, AreaCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
                 break;
 
             case R.id.ll_microphone:
@@ -968,7 +1012,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         super.onPause();
         if (!running) {
             myRecognizer.release();
-            finish();
+//            finish();
         }
     }
 

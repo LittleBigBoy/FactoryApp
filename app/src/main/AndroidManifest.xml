@@ -90,7 +90,7 @@
             android:theme="@android:style/Theme.Translucent" />
         <activity android:name=".mvp.activity.AllWorkOrdersActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.HomeInstallationActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
-        <activity android:name=".mvp.activity.HomeMaintenanceActivity" android:theme="@style/AppThemeNoTranslucent" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.HomeMaintenanceActivity"  android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.CustomerServiceActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.BatchOrderActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.LoginActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
@@ -99,7 +99,7 @@
         <activity android:name=".mvp.activity.WarrantyActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.RechargeActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.WorkOrderDetailsActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
-        <activity android:name=".mvp.activity.BrandActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.BrandActivity"  android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.base.BaseActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.MainActivity" android:screenOrientation="portrait" android:theme="@style/AppThemeNoTranslucent"></activity>
         <activity android:name="com.yalantis.ucrop.UCropActivity" android:screenOrientation="portrait" android:launchMode="singleTask"></activity>

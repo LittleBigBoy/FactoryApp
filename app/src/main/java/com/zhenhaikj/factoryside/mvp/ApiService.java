@@ -37,13 +37,13 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("Message/Send")
-    Observable<BaseResult<String>> GetCode(@Field("mobile") String mobile,@Field("type") String type,@Field("roleType") String roleType);
+    Observable<BaseResult<Data<String>>> GetCode(@Field("mobile") String mobile,@Field("type") String type,@Field("roleType") String roleType);
     /**
      * 注册
      */
     @FormUrlEncoded
     @POST("Account/Reg")
-    Observable<BaseResult<String>> Reg(@Field("mobile") String mobile,@Field("type") String type,@Field("code") String code,@Field("roleType") String roleType);
+    Observable<BaseResult<Data<String>>> Reg(@Field("mobile") String mobile,@Field("type") String type,@Field("code") String code,@Field("roleType") String roleType);
 
     /*
      *新增获取更新推送账户的token以及tags， 工厂的type是6 师傅的type是7 ， createtime可以不传 UserID为登录用户名
@@ -191,7 +191,8 @@ public interface ApiService {
                                                       @Field("AccessorySendState") String AccessorySendState,
                                                       @Field("Extra") String Extra,
                                                       @Field("ExtraTime") String ExtraTime,
-                                                      @Field("ExtraFee") String ExtraFee);
+                                                      @Field("ExtraFee") String ExtraFee,
+                                                        @Field("Num") String Num);
     /**
      * 获取首页数据
      */

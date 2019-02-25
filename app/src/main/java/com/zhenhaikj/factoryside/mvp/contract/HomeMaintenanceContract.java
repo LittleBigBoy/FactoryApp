@@ -53,7 +53,8 @@ public interface HomeMaintenanceContract {
                                                           String AccessorySendState,
                                                           String Extra,
                                                           String ExtraTime,
-                                                          String ExtraFee);
+                                                          String ExtraFee,
+                                                      String Num);
     }
 
     interface View extends BaseView {
@@ -108,6 +109,7 @@ public interface HomeMaintenanceContract {
                                       String AccessorySendState,
                                       String Extra,
                                       String ExtraTime,
-                                      String ExtraFee);
+                                      String ExtraFee,
+                                      String Num);
     }
 }

@@ -17,6 +17,7 @@ import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.MainActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.contract.RegisterContract;
 import com.zhenhaikj.factoryside.mvp.model.RegisterModel;
 import com.zhenhaikj.factoryside.mvp.presenter.RegisterPresenter;
@@ -63,8 +64,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     protected void initView() {
-        mEtUsername.setText("admin");
-        mEtPassword.setText("123");
+//        mEtUsername.setText("admin");
+//        mEtPassword.setText("123");
     }
 
     @Override
@@ -131,40 +132,39 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
             case R.id.tv_register:
                 break;
             case R.id.tv_can_not_receive:
+
                 break;
         }
     }
 
     @Override
-    public void Reg(BaseResult<String> baseResult) {
+    public void Reg(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                MyUtils.e(TAG, baseResult.getData());
-                ToastUtils.showShort(baseResult.getData());
-                if ("true".equals(baseResult.getData())){
+                Data data=baseResult.getData();
+                if (data.isItem1()){
                     mPresenter.Login(userName,"888888");
                 }
                 break;
             case 401:
-                ToastUtils.showShort(baseResult.getData());
+//                ToastUtils.showShort(baseResult.getData());
                 break;
         }
     }
 
     @Override
-    public void GetCode(BaseResult<String> baseResult) {
+    public void GetCode(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                MyUtils.e(TAG, baseResult.getData());
-                ToastUtils.showShort(baseResult.getData());
-                if ("true".equals(baseResult.getData())){
+                Data data=baseResult.getData();
+                if (data.isItem1()){
                     MyUtils.showToast(mActivity,"验证码已发送，请注意查收！");
                 }else{
                     
                 }
                 break;
             case 401:
-                ToastUtils.showShort(baseResult.getData());
+//                ToastUtils.showShort(baseResult.getData());
                 break;
         }
     }
