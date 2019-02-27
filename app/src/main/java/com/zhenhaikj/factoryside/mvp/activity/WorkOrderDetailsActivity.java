@@ -16,6 +16,7 @@ import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
@@ -105,6 +106,7 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mLlContactCustomerService.setOnClickListener(this);
     }
 
 
@@ -121,6 +123,25 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
                 break;
             case R.id.icon_search:
                 finish();
+                break;
+            case R.id.ll_contact_customer_service:
+                final CommonDialog_Home dialog = new CommonDialog_Home(WorkOrderDetailsActivity.this);
+                dialog.setMessage("是否拨打电话给客服")
+                        //.setImageResId(R.mipmap.ic_launcher)
+                        .setTitle("提示")
+                        .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {//拨打电话
+                        dialog.dismiss();
+                        call("tel:"+"4006262365");
+                    }
+
+                    @Override
+                    public void onNegtiveClick() {//取消
+                        dialog.dismiss();
+                        // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
                 break;
         }
     }

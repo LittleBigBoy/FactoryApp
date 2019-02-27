@@ -27,6 +27,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.contract.PurchaseContract;
 import com.zhenhaikj.factoryside.mvp.model.PurchaseModel;
 import com.zhenhaikj.factoryside.mvp.presenter.PurchasePresenter;
+import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -35,6 +36,8 @@ import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
+
+import static com.blankj.utilcode.util.PhoneUtils.call;
 
 public class MineFragment extends BaseLazyFragment<PurchasePresenter, PurchaseModel> implements View.OnClickListener, PurchaseContract.View {
     private static final String ARG_PARAM1 = "param1";
@@ -90,6 +93,8 @@ public class MineFragment extends BaseLazyFragment<PurchasePresenter, PurchaseMo
     private String mParam2;
     private Bundle bundle;
     private Intent intent;
+
+    int position = 0;
 
 
     public MineFragment() {
@@ -184,7 +189,23 @@ public class MineFragment extends BaseLazyFragment<PurchasePresenter, PurchaseMo
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
             case R.id.iv_service:
-                startActivity(new Intent(mActivity,WalletActivity.class));
+                final CommonDialog_Home dialog = new CommonDialog_Home(getActivity());
+                dialog.setMessage("是否拨打电话给客服")
+                        //.setImageResId(R.mipmap.ic_launcher)
+                        .setTitle("提示")
+                        .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {//拨打电话
+                        dialog.dismiss();
+                        call("tel:"+"4006262365");
+                    }
+
+                    @Override
+                    public void onNegtiveClick() {//取消
+                        dialog.dismiss();
+                        // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
                 break;
             case R.id.ll_gift:
                 startActivity(new Intent(mActivity,WalletActivity.class));
@@ -193,42 +214,58 @@ public class MineFragment extends BaseLazyFragment<PurchasePresenter, PurchaseMo
                 startActivity(new Intent(mActivity,RechargeActivity.class));
                 break;
             case R.id.ll_all_order:
-                /*bundle = new Bundle();
-                bundle.putString("title","");
+                bundle = new Bundle();
+                bundle.putString("title","所有订单");
                 bundle.putInt("position", position);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
-                ActivityUtils.startActivity(intent);*/
+                ActivityUtils.startActivity(intent);
                 break;
             case R.id.ll_to_be_returned:
-                /*bundle = new Bundle();
-                bundle.putString("title", "所有订单");
+                bundle = new Bundle();
+                bundle.putString("title", "待返件");
                 bundle.putInt("position", position);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
-                ActivityUtils.startActivity(intent);*/
+                ActivityUtils.startActivity(intent);
                 break;
             case R.id.ll_to_be_confirmed:
-                /*bundle = new Bundle();
-                bundle.putString("title","");
+                bundle = new Bundle();
+                bundle.putString("title","待确认");
                 bundle.putInt("position", position);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
-                ActivityUtils.startActivity(intent);*/
+                ActivityUtils.startActivity(intent);
                 break;
             case R.id.ll_complete:
-                /*bundle = new Bundle();
-                bundle.putString("title","");
+                bundle = new Bundle();
+                bundle.putString("title","已完成");
                 bundle.putInt("position", position);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
-                ActivityUtils.startActivity(intent);*/
+                ActivityUtils.startActivity(intent);
                 break;
             case R.id.ll_my_wallet:
                 startActivity(new Intent(mActivity,WalletActivity.class));
                 break;
             case R.id.ll_service_phone:
-                startActivity(new Intent(mActivity,WalletActivity.class));
+                final CommonDialog_Home dialog1 = new CommonDialog_Home(getActivity());
+                dialog1.setMessage("是否拨打电话给客服")
+                        //.setImageResId(R.mipmap.ic_launcher)
+                        .setTitle("提示")
+                        .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {//拨打电话
+                        dialog1.dismiss();
+                        call("tel:"+"4006262365");
+                    }
+
+                    @Override
+                    public void onNegtiveClick() {//取消
+                        dialog1.dismiss();
+                        // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
                 break;
             case R.id.ll_personal_info:
                 startActivity(new Intent(mActivity, PersonalInformationActivity.class));

@@ -1,5 +1,6 @@
 package com.zhenhaikj.factoryside.mvp.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -33,6 +34,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 
 public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, AllWorkOrdersModel> implements AllWorkOrdersContract.View {
     private static final String ARG_PARAM1 = "param1";//
@@ -43,6 +46,8 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.empty_view)
     LinearLayout mEmptyView;
+    private ClipboardManager myClipboard;
+    private ClipData myClip;
 
     private int pageIndex = 1;
     private String mParam1;
@@ -144,6 +149,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
             }
         });
 
+        myClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
     }
 
     public void getData() {
@@ -205,6 +211,12 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                         Intent intent=new Intent(mActivity,WorkOrderDetailsActivity.class);
                         intent.putExtra("OrderID",workOrderList.get(position).getOrderID());
                         startActivity(intent);
+                        break;
+                    case R.id.iv_copy:
+                         String id=workOrderList.get(position).getOrderID();
+                        myClip = ClipData.newPlainText("", id);
+                        myClipboard.setPrimaryClip(myClip);
+                        ToastUtils.showShort("复制成功");
                         break;
                 }
             }

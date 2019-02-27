@@ -25,7 +25,8 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
                 .setText(R.id.tv_cost,"￥"+item.getOrderMoney())
                 .addOnClickListener(R.id.tv_complaint)
                 .addOnClickListener(R.id.tv_leave_message)
-                .addOnClickListener(R.id.tv_see_detail);
+                .addOnClickListener(R.id.tv_see_detail)
+                .addOnClickListener(R.id.iv_copy);
     }
 
 }

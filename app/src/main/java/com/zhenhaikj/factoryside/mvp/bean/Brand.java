@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.bean;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 public class Brand implements Serializable {
 

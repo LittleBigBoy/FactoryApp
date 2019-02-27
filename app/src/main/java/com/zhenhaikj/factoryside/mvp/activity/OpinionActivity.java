@@ -2,12 +2,15 @@ package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.BillAdapter;
@@ -72,6 +75,23 @@ public class OpinionActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initData() {
+
+        mEtOpinion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mTvWordCount.setText(s.length()+"/200");
+            }
+        });
     }
 
     @SuppressLint("ResourceAsColor")
@@ -85,6 +105,9 @@ public class OpinionActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mTvAccountProblem.setOnClickListener(this);
+        mTvPaymentIssues.setOnClickListener(this);
+        mTvOtherQuestions.setOnClickListener(this);
     }
 
 
@@ -101,6 +124,21 @@ public class OpinionActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.icon_search:
                 finish();
+                break;
+            case R.id.tv_account_problem:
+                mTvAccountProblem.setSelected(true);
+                mTvPaymentIssues.setSelected(false);
+                mTvOtherQuestions.setSelected(false);
+                break;
+            case R.id.tv_payment_issues:
+                mTvAccountProblem.setSelected(false);
+                mTvPaymentIssues.setSelected(true);
+                mTvOtherQuestions.setSelected(false);
+                break;
+            case R.id.tv_other_questions:
+                mTvAccountProblem.setSelected(false);
+                mTvPaymentIssues.setSelected(false);
+                mTvOtherQuestions.setSelected(true);
                 break;
         }
     }

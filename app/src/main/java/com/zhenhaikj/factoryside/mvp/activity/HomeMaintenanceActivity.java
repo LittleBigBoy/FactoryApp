@@ -518,6 +518,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
 
                 running = true;
                 startActivityForResult(intent, 2);
+//                startActivity(new Intent(mActivity,ActivityUiDialog.class));
                 break;
         }
     }
@@ -647,7 +648,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
             }
         });
 
-        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenHeight() - 700);
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 //        popupWindow.setWidth(tv.getWidth());
         popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());

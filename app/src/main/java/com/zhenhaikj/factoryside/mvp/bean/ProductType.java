@@ -24,6 +24,8 @@ public class ProductType implements Serializable {
     private String InitPrice;
     private String IsUse;
     private String Version;
+    private String FBrandName;
+    private String FCategoryName;
 
     public String getId() {
         return Id;
@@ -87,6 +89,22 @@ public class ProductType implements Serializable {
 
     public void setVersion(String Version) {
         this.Version = Version;
+    }
+
+    public String getFBrandName() {
+        return FBrandName;
+    }
+
+    public void setFBrandName(String FBrandName) {
+        this.FBrandName = FBrandName;
+    }
+
+    public String getFCategoryName() {
+        return FCategoryName;
+    }
+
+    public void setFCategoryName(String FCategoryName) {
+        this.FCategoryName = FCategoryName;
     }
 }
 

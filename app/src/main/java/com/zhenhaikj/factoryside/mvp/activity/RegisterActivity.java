@@ -23,6 +23,7 @@ import com.zhenhaikj.factoryside.mvp.model.RegisterModel;
 import com.zhenhaikj.factoryside.mvp.presenter.RegisterPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
+import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
 import butterknife.BindView;
 
@@ -132,7 +133,23 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
             case R.id.tv_register:
                 break;
             case R.id.tv_can_not_receive:
+                final CommonDialog_Home dialog = new CommonDialog_Home(this);
+                dialog.setMessage("是否拨打电话给客服")
+                        //.setImageResId(R.mipmap.ic_launcher)
+                        .setTitle("提示")
+                        .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {//拨打电话
+                        dialog.dismiss();
+                        call("tel:"+"18074208209");
+                    }
 
+                    @Override
+                    public void onNegtiveClick() {//取消
+                        dialog.dismiss();
+                        // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
                 break;
         }
     }

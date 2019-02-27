@@ -99,12 +99,22 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("FactoryConfig/GetFactoryBrand")
     Observable<BaseResult<List<Brand>>> GetFactoryBrand(@Field("UserID") String UserID);
+
+//    @FormUrlEncoded
+//    @POST("FactoryConfig/GetFactoryBrand")
+//    Observable<BaseResult<List<ProductType>>> GetBrand(@Field("UserID") String UserID);
+
     /**
      * 获取分类
      */
     @FormUrlEncoded
     @POST("FactoryConfig/GetFactoryCategory")
     Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory(@Field("ParentID") String ParentID);
+
+//    @FormUrlEncoded
+//    @POST("FactoryConfig/GetFactoryCategory")
+//    Observable<BaseResult<Data<List<ProductType>>>> GetCategory(@Field("ParentID") String ParentID);
+
     /**
      * 获取子分类
      */
@@ -117,6 +127,19 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("FactoryConfig/GetFactoryProducttype")
     Observable<BaseResult<Data<List<ProductType>>>> GetFactoryProducttype(@Field("FBrandID") String FBrandID, @Field("FCategoryID") String FCategoryID);
+
+
+    @POST("FactoryConfig/GetFactoryProducttype")
+    Observable<BaseResult<Data<List<ProductType>>>> GetProducttype();
+
+
+    /*
+    *删除工厂产品型号
+    * */
+    @FormUrlEncoded
+    @POST("FactoryConfig/DeleteFactoryProducttype")
+    Observable<BaseResult<Data<List<ProductType>>>> DeleteFactoryProducttype(@Field("FProductTypeID") String FProductTypeID);
+
     /**
      * 获取属性
      */

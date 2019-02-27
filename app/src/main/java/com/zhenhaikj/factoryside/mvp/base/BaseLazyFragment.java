@@ -1,9 +1,13 @@
 package com.zhenhaikj.factoryside.mvp.base;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -220,6 +226,36 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
     @SuppressWarnings("unchecked")
     protected <T extends View> T findActivityViewById(@IdRes int id) {
         return (T) mActivity.findViewById(id);
+    }
+
+
+    /*电话*/
+    public static final int REQUEST_CALL_PERMISSION = 10111; //拨号请求码
+    /**
+     * 判断是否有某项权限
+     * @param string_permission 权限
+     * @param request_code 请求码
+     * @return
+     */
+    public boolean checkReadPermission(String string_permission,int request_code) {
+        boolean flag = false;
+        if (ContextCompat.checkSelfPermission(getActivity(), string_permission) == PackageManager.PERMISSION_GRANTED) {//已有权限
+            flag = true;
+        } else {//申请权限
+            ActivityCompat.requestPermissions(getActivity(), new String[]{string_permission}, request_code);
+        }
+        return flag;
+    }
+
+    /**
+     * 拨打电话（直接拨打）
+     * @param telPhone 电话
+     */
+    public void call(String telPhone){
+        if(checkReadPermission(Manifest.permission.CALL_PHONE,REQUEST_CALL_PERMISSION)){
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(telPhone));
+            startActivity(intent);
+        }
     }
 
     /**

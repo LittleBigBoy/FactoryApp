@@ -16,14 +16,18 @@ import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.BrandAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
-import com.zhenhaikj.factoryside.mvp.bean.Address;
+import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.contract.AddBrandContract;
 import com.zhenhaikj.factoryside.mvp.model.AddBrandModel;
 import com.zhenhaikj.factoryside.mvp.presenter.AddBrandPresenter;
@@ -32,6 +36,7 @@ import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +46,7 @@ import butterknife.ButterKnife;
 
 public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel> implements View.OnClickListener, AddBrandContract.View {
 
+    private static final String TAG = "BrandActivity";
     @BindView(R.id.icon_back)
     ImageView mIconBack;
     @BindView(R.id.tv_title)
@@ -57,12 +63,15 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     ImageView mIvAddBrand;
     @BindView(R.id.view)
     View mView;
-    private List<Address> brandList = new ArrayList<>();
+    private List<ProductType> brandList = new ArrayList<>();
+    private Brand brand;
     private BrandAdapter brandAdapter;
     private String brandName;
     private EditText et_brandName;
     private Button btn_next;
     private String userID;
+    private String FBrandID;//品牌id
+    private String FCategoryID;//分类id
     private TextView tv_choose_category;
     private String category;
     private View dialog;
@@ -72,10 +81,12 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     private List<Category> categoryList;
     private QMUIPopup qmuiPopup;
 
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_brand;
     }
+
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
@@ -84,19 +95,41 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
     }
+
     @Override
     protected void initData() {
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("添加品牌");
-        for (int i = 0; i < 36; i++) {
-            brandList.add(new Address());
-        }
+//        for (int i = 0; i < 36; i++) {
+//            brandList.add(new Brand());
+//        }
         brandAdapter = new BrandAdapter(R.layout.item_brand, brandList);
         mRlBrand.setLayoutManager(new LinearLayoutManager(mActivity));
         mRlBrand.setAdapter(brandAdapter);
+        brandAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.iv_delete:
+                        String id = brandAdapter.getData().get(position).getFProductTypeID();
+//                        Log.d(TAG,"........."+id);
+                        mPresenter.DeleteFactoryProducttype(id);
+                        mPresenter.GetProducttype();
+                        break;
+                    case R.id.rl_brand:
+
+                        break;
+                }
+            }
+        });
+
+
+
 
         SPUtils spUtils = SPUtils.getInstance("token");
         userID = spUtils.getString("userName");
+        mPresenter.GetProducttype();
+
     }
 
     @Override
@@ -195,6 +228,55 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
                 break;
             case 401:
 //                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+//    @Override
+//    public void GetBrand(BaseResult<List<ProductType>> baseResult) {
+//        switch (baseResult.getStatusCode()){
+//            case 200:
+//                brandList=baseResult.getData();
+//                brandAdapter.setNewData(brandList);
+//                FBrandID=brandList.get(1).getFBrandID();
+//                mPresenter.GetCategory(FBrandID);
+//                break;
+//            case 401:
+//                break;
+//        }
+//    }
+//
+//    @Override
+//    public void GetCategory(BaseResult<Data<List<ProductType>>> baseResult) {
+//        switch (baseResult.getStatusCode()){
+//            case 200:
+//                brandList=baseResult.getData().getItem2();
+//                brandAdapter.setNewData(brandList);
+//                break;
+//            case 401:
+//                break;
+//        }
+//    }
+
+    @Override
+    public void GetProducttype(BaseResult<Data<List<ProductType>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                brandList = baseResult.getData().getItem2();
+                brandAdapter.setNewData(brandList);
+                break;
+            case 401:
+                break;
+        }
+    }
+
+    @Override
+    public void DeleteFactoryProducttype(BaseResult<Data<List<ProductType>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+
+                break;
+            case 401:
                 break;
         }
     }
