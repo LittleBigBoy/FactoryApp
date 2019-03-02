@@ -58,7 +58,8 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("Account/LoginOn")
-    Observable<BaseResult<String>> LoginOn(@Field("userName") String userName, @Field("passWord") String passWord);
+    Observable<BaseResult<String>> LoginOn(@Field("userName") String userName, @Field("passWord") String passWord,
+                                           @Field("RoleType") String RoleType);
     /**
      * app获取用户信息
      */
