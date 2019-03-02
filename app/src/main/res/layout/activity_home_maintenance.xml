@@ -733,7 +733,7 @@
                 <TextView
                     android:id="@+id/tv_expedited"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="right|center"
                     android:paddingLeft="@dimen/dp_10"

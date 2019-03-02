@@ -230,6 +230,7 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
         mIconSearch.setOnClickListener(this);
         mTvChooseBrand.setOnClickListener(this);
         mTvChooseCategory.setOnClickListener(this);
+        mTvChooseCategory.setOnClickListener(this);
         mTvChooseType.setOnClickListener(this);
         mTvAddress.setOnClickListener(this);
         mBtnRelease.setOnClickListener(this);

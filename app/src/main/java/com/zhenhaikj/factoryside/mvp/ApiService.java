@@ -31,18 +31,20 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/ValidateUserName")
     Observable<BaseResult<String>> ValidateUserName(@Field("UserID") String userName);
+
     /**
      * 获取短信
      */
     @FormUrlEncoded
     @POST("Message/Send")
-    Observable<BaseResult<Data<String>>> GetCode(@Field("mobile") String mobile,@Field("type") String type,@Field("roleType") String roleType);
+    Observable<BaseResult<Data<String>>> GetCode(@Field("mobile") String mobile, @Field("type") String type, @Field("roleType") String roleType);
+
     /**
      * 注册
      */
     @FormUrlEncoded
     @POST("Account/Reg")
-    Observable<BaseResult<Data<String>>> Reg(@Field("mobile") String mobile,@Field("type") String type,@Field("code") String code,@Field("roleType") String roleType);
+    Observable<BaseResult<Data<String>>> Reg(@Field("mobile") String mobile, @Field("type") String type, @Field("code") String code, @Field("roleType") String roleType);
 
     /*
      *新增获取更新推送账户的token以及tags， 工厂的type是6 师傅的type是7 ， createtime可以不传 UserID为登录用户名
@@ -58,26 +60,28 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("Account/LoginOn")
-    Observable<BaseResult<String>> LoginOn(@Field("userName") String userName, @Field("passWord") String passWord,
-                                           @Field("RoleType") String RoleType);
+    Observable<BaseResult<String>> LoginOn(@Field("userName") String userName, @Field("passWord") String passWord,@Field("roleType") String roleType);
+
     /**
      * app获取用户信息
      */
     @POST("Account/GetUserInfo")
     Observable<BaseResult<String>> GetUserInfo(@Body RequestBody json);
+
     /**
      * app获取用户信息
      */
     @FormUrlEncoded
     @POST("Account/GetUserInfo")
     Observable<BaseResult<String>> GetUserInfo(@Field("userName") String userName);
+
     /**
      * 获取工单列表
      * 废除-1，待审核0，派单中1，服务中2，已完成3
      */
     @FormUrlEncoded
     @POST("Order/GetOrderInfoList")
-    Observable<BaseResult<WorkOrder>> GetOrderInfoList(@Field("UserID") String UserID,@Field("state") String state, @Field("page") String page, @Field("limit") String limit);
+    Observable<BaseResult<WorkOrder>> GetOrderInfoList(@Field("UserID") String UserID, @Field("state") String state, @Field("page") String page, @Field("limit") String limit);
 
     /**
      * 获取工单详情
@@ -93,6 +97,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("FactoryConfig/AddFactoryBrand")
     Observable<BaseResult<Data>> AddFactoryBrand(@Field("UserID") String UserID, @Field("FBrandName") String FBrandName);
+
     /**
      * 获取品牌
      */
@@ -121,6 +126,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("FactoryConfig/GetFactoryCategory")
     Observable<BaseResult<Data<List<Category>>>> GetChildFactoryCategory(@Field("ParentID") String ParentID);
+
     /**
      * 获取型号
      */
@@ -134,8 +140,8 @@ public interface ApiService {
 
 
     /*
-    *删除工厂产品型号
-    * */
+     *删除工厂产品型号
+     * */
     @FormUrlEncoded
     @POST("FactoryConfig/DeleteFactoryProducttype")
     Observable<BaseResult<Data<List<ProductType>>>> DeleteFactoryProducttype(@Field("FProductTypeID") String FProductTypeID);
@@ -146,17 +152,20 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("FactoryConfig/GetFactoryAccessory")
     Observable<BaseResult<Accessory>> GetFactoryAccessory(@Field("FProductTypeID") String FProductTypeID);
+
     /**
      * 获取省
      */
     @POST("Config/GetProvince")
     Observable<BaseResult<List<Province>>> GetProvince();
+
     /**
      * 获取市
      */
     @FormUrlEncoded
     @POST("Config/GetCity")
     Observable<BaseResult<Data<List<City>>>> GetCity(@Field("parentcode") String parentcode);
+
     /**
      * 获取区
      */
@@ -165,12 +174,11 @@ public interface ApiService {
     Observable<BaseResult<Data<List<Area>>>> GetArea(@Field("parentcode") String parentcode);
 
     /*
-    * 获取街道，乡镇
-    * */
+     * 获取街道，乡镇
+     * */
     @FormUrlEncoded
     @POST("Config/GetDistrict")
     Observable<BaseResult<Data<List<District>>>> GetDistrict(@Field("parentcode") String parentcode);
-
 
 
     /**
@@ -201,48 +209,78 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Order/AddOrder")
     Observable<BaseResult<Data<String>>> AddOrder(@Field("TypeID") String TypeID,
-                                                      @Field("TypeName") String TypeName,
-                                                      @Field("UserID") String UserID,
-                                                      @Field("BrandID") String FBrandID,
-                                                      @Field("BrandName") String BrandName,
-                                                      @Field("CategoryID") String FCategoryID,
-                                                      @Field("CategoryName") String CategoryName,
-                                                      @Field("SubCategoryID") String SubCategoryID,
-                                                      @Field("SubCategoryName") String SubCategoryName,
-                                                      @Field("ProductTypeID") String FProductTypeID,
-                                                      @Field("ProductType") String ProductType,
-                                                      @Field("ProvinceCode") String ProvinceCode,
-                                                      @Field("CityCode") String CityCode,
-                                                      @Field("AreaCode") String AreaCode,
-                                                      @Field("Address") String Address,
-                                                      @Field("UserName") String UserName,
-                                                      @Field("Phone") String Phone,
-                                                      @Field("Memo") String Memo,
-                                                      @Field("OrderMoney") String OrderMoney,
-                                                      @Field("RecycleOrderHour") String RecycleOrderHour,
-                                                      @Field("Guarantee") String Guarantee,
-                                                      @Field("AccessorySendState") String AccessorySendState,
-                                                      @Field("Extra") String Extra,
-                                                      @Field("ExtraTime") String ExtraTime,
-                                                      @Field("ExtraFee") String ExtraFee,
-                                                        @Field("Num") String Num);
+                                                  @Field("TypeName") String TypeName,
+                                                  @Field("UserID") String UserID,
+                                                  @Field("BrandID") String FBrandID,
+                                                  @Field("BrandName") String BrandName,
+                                                  @Field("CategoryID") String FCategoryID,
+                                                  @Field("CategoryName") String CategoryName,
+                                                  @Field("SubCategoryID") String SubCategoryID,
+                                                  @Field("SubCategoryName") String SubCategoryName,
+                                                  @Field("ProductTypeID") String FProductTypeID,
+                                                  @Field("ProductType") String ProductType,
+                                                  @Field("ProvinceCode") String ProvinceCode,
+                                                  @Field("CityCode") String CityCode,
+                                                  @Field("AreaCode") String AreaCode,
+                                                  @Field("Address") String Address,
+                                                  @Field("UserName") String UserName,
+                                                  @Field("Phone") String Phone,
+                                                  @Field("Memo") String Memo,
+                                                  @Field("OrderMoney") String OrderMoney,
+                                                  @Field("RecycleOrderHour") String RecycleOrderHour,
+                                                  @Field("Guarantee") String Guarantee,
+                                                  @Field("AccessorySendState") String AccessorySendState,
+                                                  @Field("Extra") String Extra,
+                                                  @Field("ExtraTime") String ExtraTime,
+                                                  @Field("ExtraFee") String ExtraFee,
+                                                  @Field("Num") String Num);
+
+
+    @FormUrlEncoded
+    @POST("Order/AddOrder")
+    Observable<BaseResult<Data<String>>> AddOrderService(@Field("TypeID") String TypeID,
+                                                         @Field("TypeName") String TypeName,
+                                                         @Field("UserID") String UserID,
+                                                         @Field("BrandID") String FBrandID,
+                                                         @Field("BrandName") String BrandName,
+                                                         @Field("CategoryID") String FCategoryID,
+                                                         @Field("CategoryName") String CategoryName,
+                                                         @Field("SubCategoryID") String SubCategoryID,
+                                                         @Field("SubCategoryName") String SubCategoryName,
+                                                         @Field("ProductTypeID") String FProductTypeID,
+                                                         @Field("ProductType") String ProductType,
+                                                         @Field("ProvinceCode") String ProvinceCode,
+                                                         @Field("CityCode") String CityCode,
+                                                         @Field("AreaCode") String AreaCode,
+                                                         @Field("Address") String Address,
+                                                         @Field("UserName") String UserName,
+                                                         @Field("Phone") String Phone,
+                                                         @Field("Memo") String Memo,
+                                                         @Field("OrderMoney") String OrderMoney,
+                                                         @Field("RecycleOrderHour") String RecycleOrderHour,
+                                                         @Field("Guarantee") String Guarantee,
+                                                         @Field("Num") String Num);
+
     /**
      * 获取首页数据
      */
     @FormUrlEncoded
     @POST("api.php")
     Observable<BaseResult<HomeData>> getHome(@Field("userid") String userid);
+
     /**
      * 获取学院数据
      */
     @FormUrlEncoded
     @POST("api.php")
     Observable<BaseResult<List<Course>>> getCourse(@Field("pageindex") String pageindex, @Field("pagesize") String pagesize);
+
     /**
      * 获取采购数据
      */
     @POST("api.php")
     Observable<BaseResult<List<Category>>> getCategory();
+
     /**
      * 添加到购物车
      */
@@ -254,6 +292,7 @@ public interface ApiService {
             @Field("option") String option,
             @Field("num") String num
     );
+
     /**
      * 获取产品列表
      */
