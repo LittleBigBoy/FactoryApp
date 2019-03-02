@@ -1,23 +1,68 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.RegexUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.donkingliang.labels.LabelsView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.adapter.AreaAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.BrandsAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.CityAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.DistrictAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.ProductTypeAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.ProvinceAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
+import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Area;
+import com.zhenhaikj.factoryside.mvp.bean.Brand;
+import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.City;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.District;
+import com.zhenhaikj.factoryside.mvp.bean.ProductType;
+import com.zhenhaikj.factoryside.mvp.bean.Province;
+import com.zhenhaikj.factoryside.mvp.contract.HomeInstallationContract;
+import com.zhenhaikj.factoryside.mvp.model.HomeInstallationModel;
+import com.zhenhaikj.factoryside.mvp.presenter.HomeInstallationPresenter;
+import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeInstallationActivity extends BaseActivity implements View.OnClickListener {
+public class HomeInstallationActivity extends BaseActivity<HomeInstallationPresenter, HomeInstallationModel> implements View.OnClickListener, HomeInstallationContract.View {
 
 
     @BindView(R.id.view)
@@ -36,14 +81,28 @@ public class HomeInstallationActivity extends BaseActivity implements View.OnCli
     TextView mTvRegister;
     @BindView(R.id.tv_add_product)
     TextView mTvAddProduct;
+    @BindView(R.id.tv_choose_brand)
+    TextView mTvChooseBrand;
+    @BindView(R.id.ll_choose_brand)
+    LinearLayout mLlChooseBrand;
+    @BindView(R.id.tv_choose_category)
+    TextView mTvChooseCategory;
+    @BindView(R.id.ll_choose_category)
+    LinearLayout mLlChooseCategory;
+    @BindView(R.id.tv_choose_type)
+    TextView mTvChooseType;
+    @BindView(R.id.ll_choose_type)
+    LinearLayout mLlChooseType;
+    @BindView(R.id.et_num)
+    ClearEditText mEtNum;
+    @BindView(R.id.iv_add_name)
+    ImageView mIvAddName;
     @BindView(R.id.tv_name)
     EditText mTvName;
     @BindView(R.id.tv_phone)
     EditText mTvPhone;
     @BindView(R.id.tv_address)
     TextView mTvAddress;
-    @BindView(R.id.tv_detail)
-    TextView mTvDetail;
     @BindView(R.id.cb_under_warranty)
     CheckBox mCbUnderWarranty;
     @BindView(R.id.ll_under_warranty)
@@ -52,10 +111,6 @@ public class HomeInstallationActivity extends BaseActivity implements View.OnCli
     CheckBox mCbOutsideTheWarranty;
     @BindView(R.id.ll_outside_the_warranty)
     LinearLayout mLlOutsideTheWarranty;
-    @BindView(R.id.tv_time)
-    TextView mTvTime;
-    @BindView(R.id.ll_recovery_time)
-    LinearLayout mLlRecoveryTime;
     @BindView(R.id.tv_add)
     TextView mTvAdd;
     @BindView(R.id.tv_delete)
@@ -68,12 +123,78 @@ public class HomeInstallationActivity extends BaseActivity implements View.OnCli
     CheckBox mCbNo;
     @BindView(R.id.ll_no)
     LinearLayout mLlNo;
-    @BindView(R.id.iv_designated_time)
-    ImageView mIvDesignatedTime;
-    @BindView(R.id.tv_fault_description)
-    TextView mTvFaultDescription;
-    @BindView(R.id.login)
-    Button mLogin;
+    @BindView(R.id.tv_pca)
+    TextView mTvPca;
+    @BindView(R.id.et_detail)
+    ClearEditText mEtDetail;
+    @BindView(R.id.iv_microphone)
+    ImageView mIvMicrophone;
+    @BindView(R.id.ll_microphone)
+    LinearLayout mLlMicrophone;
+    @BindView(R.id.et_recovery_time)
+    EditText mEtRecoveryTime;
+    @BindView(R.id.spinner)
+    AppCompatSpinner mSpinner;
+    @BindView(R.id.tv_expedited)
+    TextView mTvExpedited;
+    @BindView(R.id.et_fault_description)
+    ClearEditText mEtFaultDescription;
+    @BindView(R.id.btn_release)
+    Button mBtnRelease;
+
+    private PopupWindow popupWindow;
+    private List<Brand> brandList;
+    private List<Category> popularList;
+    private List<Category> chooseList;
+    private String Guarantee;//保内Y保外N
+    private String AccessorySendState;//是否已发配件 Y是N否
+    private String Extra;//是否加急Y是N否
+    private String ExtraTime;//加急时间
+    private String ExtraFee;//加急费用
+    private String userID;//用户id
+    private String FBrandID;//品牌id
+    private String FCategoryID;//分类id
+    private String FProductTypeID;//型号id
+    private String ProvinceCode;//省code
+    private String CityCode;//市code
+    private String AreaCode;//区code
+    private String DistrictCode;//街道code
+    private String ProvinceName;
+    private String CityName;
+    private String AreaName;
+    private String DistrictName;
+    private String SubCategoryID;
+    private String CategoryName;
+    private String BrandName;
+    private String ProductTypeName;
+    private String SubCategoryName;
+
+    private TextView tv_province;
+    private TextView tv_city;
+    private TextView tv_area;
+
+    private RecyclerView rv_choose;
+
+    private LabelsView lv_popular;
+    private ImageView iv_close;
+    private BrandsAdapter brandsAdapter;
+    private CategoryAdapter chooseAdapter;
+    private List<ProductType> productTypeList;
+    private ProductTypeAdapter productTypeAdapter;
+    private TextView tv_choose;
+    private RecyclerView rv_address_choose;
+    private ProvinceAdapter provinceAdapter;
+    private List<Province> provinceList;
+    private List<City> cityList;
+    private List<Area> areaList;
+    private List<District> districtList;
+    private CityAdapter cityAdapter;
+    private AreaAdapter areaAdapter;
+    private DistrictAdapter districtAdapter;
+    private String OrderMoney;
+    private String Num;
+    private TextView tv_district;
+
 
     @Override
     protected int setLayoutId() {
@@ -91,6 +212,10 @@ public class HomeInstallationActivity extends BaseActivity implements View.OnCli
 
     @Override
     protected void initData() {
+        initPermission();
+        SPUtils spUtils = SPUtils.getInstance("token");
+        userID = spUtils.getString("userName");
+
     }
 
     @Override
@@ -103,6 +228,74 @@ public class HomeInstallationActivity extends BaseActivity implements View.OnCli
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mIconSearch.setOnClickListener(this);
+        mTvChooseBrand.setOnClickListener(this);
+        mTvChooseCategory.setOnClickListener(this);
+        mTvChooseType.setOnClickListener(this);
+        mTvAddress.setOnClickListener(this);
+        mBtnRelease.setOnClickListener(this);
+        mLlUnderWarranty.setOnClickListener(this);
+        mLlOutsideTheWarranty.setOnClickListener(this);
+        mLlYes.setOnClickListener(this);
+        mLlNo.setOnClickListener(this);
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        Extra = "N";
+                        ExtraTime = "0";
+                        ExtraFee = "0";
+                        break;
+                    case 1:
+                        Extra = "Y";
+                        ExtraTime = "12";
+                        ExtraFee = "60";
+                        break;
+                    case 2:
+                        Extra = "Y";
+                        ExtraTime = "24";
+                        ExtraFee = "40";
+                        break;
+                    case 3:
+                        Extra = "Y";
+                        ExtraTime = "48";
+                        ExtraFee = "20";
+                        break;
+                }
+                mTvExpedited.setText("加急费用￥" + ExtraFee);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Extra = "N";
+                ExtraTime = "0";
+                ExtraFee = "0";
+            }
+        });
+
+        mEtNum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = s.toString();
+                int len = s.toString().length();
+                if (len > 1 && text.startsWith("0")) {
+                    Num=s.replace(0,1,"").toString();
+                }else{
+                    Num=s.toString();
+                }
+//                mTvActualArrival.setText(value);
+            }
+        });
     }
 
 
@@ -120,6 +313,141 @@ public class HomeInstallationActivity extends BaseActivity implements View.OnCli
             case R.id.icon_search:
                 finish();
                 break;
+            case R.id.tv_choose_brand:
+                mPresenter.GetFactoryBrand(userID);
+                break;
+            case R.id.tv_choose_category:
+                mPresenter.GetFactoryCategory("999");
+                break;
+            case R.id.tv_choose_type:
+                if (FBrandID == null) {
+                    MyUtils.showToast(mActivity, "请选择品牌！");
+                    return;
+                }
+                if (SubCategoryID == null) {
+                    MyUtils.showToast(mActivity, "请选择分类！");
+                    return;
+                }
+                mPresenter.GetFactoryProducttype(FBrandID, SubCategoryID);
+                break;
+            case R.id.tv_address:
+                mPresenter.GetProvince();
+                break;
+            case R.id.tv_province:
+                mPresenter.GetProvince();
+                break;
+            case R.id.tv_city:
+                mPresenter.GetCity(ProvinceCode);
+                break;
+            case R.id.tv_area:
+                mPresenter.GetArea(CityCode);
+                break;
+            case R.id.ll_under_warranty:
+                mCbUnderWarranty.setChecked(true);
+                mCbOutsideTheWarranty.setChecked(false);
+                Guarantee = "Y";
+                break;
+            case R.id.ll_outside_the_warranty:
+                mCbUnderWarranty.setChecked(false);
+                mCbOutsideTheWarranty.setChecked(true);
+                Guarantee = "N";
+                break;
+            case R.id.ll_yes:
+                mCbYes.setChecked(true);
+                mCbNo.setChecked(false);
+                AccessorySendState = "Y";
+                break;
+            case R.id.ll_no:
+                mCbYes.setChecked(false);
+                mCbNo.setChecked(true);
+                AccessorySendState = "N";
+                break;
+            case R.id.btn_release:
+                if (FBrandID == null) {
+                    MyUtils.showToast(mActivity, "请选择品牌！");
+                    return;
+                }
+                if (SubCategoryID == null) {
+                    MyUtils.showToast(mActivity, "请选择分类！");
+                    return;
+                }
+                if (FProductTypeID == null) {
+                    MyUtils.showToast(mActivity, "请选择型号！");
+                    return;
+                }
+                Num = mEtNum.getText().toString();
+                if (Num == null) {
+                    MyUtils.showToast(mActivity, "请输入维修数量！");
+                    return;
+                }
+                if ("".equals(Num)) {
+                    MyUtils.showToast(mActivity, "请输入维修数量！");
+                    return;
+                }
+                /*if (FAccessoryID == null) {
+                    MyUtils.showToast(mActivity, "请选择属性！");
+                    return;
+                }*/
+                if (ProvinceCode == null) {
+                    MyUtils.showToast(mActivity, "请选择省！");
+                    return;
+                }
+                if (CityCode == null) {
+                    MyUtils.showToast(mActivity, "请选择市！");
+                    return;
+                }
+                if (AreaCode == null) {
+                    MyUtils.showToast(mActivity, "请选择区！");
+                    return;
+                }
+                if (DistrictCode==null){
+                    MyUtils.showToast(mActivity,"请选择街道、乡、镇");
+                }
+                String DetailAddress = mEtDetail.getText().toString();
+                String Address = mTvPca.getText().toString() + DetailAddress;
+                String Name = mTvName.getText().toString();
+                String Phone = mTvPhone.getText().toString();
+                String RecycleOrderHour = mEtRecoveryTime.getText().toString();
+                String FaultDescription = mEtFaultDescription.getText().toString();
+                if (DetailAddress == null || "".equals(DetailAddress)) {
+                    MyUtils.showToast(mActivity, "请输入详细地址！");
+                    return;
+                }
+                if (Name == null || "".equals(Name)) {
+                    MyUtils.showToast(mActivity, "请输入客户姓名！");
+                    return;
+                }
+                if (Phone == null || "".equals(Phone)) {
+                    MyUtils.showToast(mActivity, "请输入客户手机！");
+                    return;
+                }
+                if (!RegexUtils.isMobileExact(Phone)) {
+                    MyUtils.showToast(mActivity, "手机号格式不正确！");
+                    return;
+                }
+                if (Guarantee == null || "".equals(Guarantee)) {
+                    MyUtils.showToast(mActivity, "请选择保修期内或保修期外！");
+                    return;
+                }
+                if (RecycleOrderHour == null || "".equals(RecycleOrderHour)) {
+                    MyUtils.showToast(mActivity, "请输入回收时间！");
+                    return;
+                }
+                if (!(Integer.parseInt(RecycleOrderHour) >= 12 || Integer.parseInt(RecycleOrderHour) <= 48)) {
+                    MyUtils.showToast(mActivity, "回收时间需大于等于12小于等于48！");
+                    return;
+                }
+                if (AccessorySendState == null || "".equals(AccessorySendState)) {
+                    MyUtils.showToast(mActivity, "请选择是否为已发配件！");
+                    return;
+                }
+                if (FaultDescription == null || "".equals(FaultDescription)) {
+                    MyUtils.showToast(mActivity, "请输入故障描述！");
+                    return;
+                }
+                mPresenter.AddOrder("0", "安装", userID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName, FProductTypeID, ProductTypeName, ProvinceCode, CityCode, AreaCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
+                break;
+
         }
     }
 
@@ -128,5 +456,514 @@ public class HomeInstallationActivity extends BaseActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    public void showPopWindowGetAddress(final TextView tv) {
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.address_pop, null);
+        tv_province = contentView.findViewById(R.id.tv_province);
+        tv_city = contentView.findViewById(R.id.tv_city);
+        tv_area = contentView.findViewById(R.id.tv_area);
+        tv_district = contentView.findViewById(R.id.tv_district);
+        tv_city.setOnClickListener(this);
+        tv_province.setOnClickListener(this);
+        tv_area.setOnClickListener(this);
+        tv_choose = contentView.findViewById(R.id.tv_choose);
+        tv_choose.setText("选择省份/地区");
+        rv_address_choose = contentView.findViewById(R.id.rv_address_choose);
+        iv_close = contentView.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        rv_address_choose.setLayoutManager(new LinearLayoutManager(mActivity));
+        rv_address_choose.setAdapter(provinceAdapter);
+        provinceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ProvinceName = provinceList.get(position).getName();
+                ProvinceCode = provinceList.get(position).getCode();
+                mPresenter.GetCity(ProvinceCode);
+                tv_province.setText(ProvinceName);
+                tv_province.setVisibility(View.VISIBLE);
+                tv_city.setVisibility(View.VISIBLE);
+//                try {
+//                    JSONObject json=new JSONObject("");
+//                    json.g
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+
+            }
+        });
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenHeight() - 700);
+//        popupWindow.setWidth(tv.getWidth());
+        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+//                MyUtils.backgroundAlpha(mActivity,1);
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (popupWindow != null && !popupWindow.isShowing()) {
+//            popupWindow.showAsDropDown(tv, 0, 10);
+            popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+//            MyUtils.backgroundAlpha(mActivity,0.5f);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
+    }
+
+    public void showPopWindowGetCategory(final TextView tv) {
+
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
+        lv_popular = contentView.findViewById(R.id.lv_popular);
+        rv_choose = contentView.findViewById(R.id.rv_choose);
+        iv_close = contentView.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
+            @Override
+            public CharSequence getLabelText(TextView label, int position, Category data) {
+                return data.getFCategoryName();
+            }
+        });
+        FCategoryID = popularList.get(0).getId();
+        CategoryName = popularList.get(0).getFCategoryName();
+        mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
+        lv_popular.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
+            @Override
+            public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
+                if (isSelect) {
+                    FCategoryID = ((Category) data).getId();
+                    CategoryName = ((Category) data).getFCategoryName();
+                    mPresenter.GetChildFactoryCategory(((Category) data).getId());
+                }
+            }
+        });
+
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+//        popupWindow.setWidth(tv.getWidth());
+        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (popupWindow != null && !popupWindow.isShowing()) {
+//            popupWindow.showAsDropDown(tv, 0, 10);
+            popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
+    }
+
+
+    public void showPopWindow(final TextView tv, BaseQuickAdapter adapter, final List list) {
+
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop, null);
+        final RecyclerView rv = contentView.findViewById(R.id.rv);
+        rv.setLayoutManager(new LinearLayoutManager(mActivity));
+        rv.setAdapter(adapter);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                popupWindow.dismiss();
+                if (list.get(position) instanceof Brand) {
+                    FBrandID = ((Brand) list.get(position)).getFBrandID();
+                    BrandName = ((Brand) list.get(position)).getFBrandName();
+                    tv.setText(BrandName);
+                    mTvChooseCategory.setText("");
+                    mTvChooseType.setText("");
+//                    mTvChooseProperty.setText("");
+                    FCategoryID = null;
+                    FProductTypeID = null;
+//                    FAccessoryID = null;
+                    CategoryName = null;
+                    SubCategoryID = null;
+                    SubCategoryName = null;
+//                    ProductTypeName = null;
+                    OrderMoney = null;
+                }
+                if (list.get(position) instanceof Category) {
+                    SubCategoryID = ((Category) list.get(position)).getFCategoryID();
+                    SubCategoryName = ((Category) list.get(position)).getFCategoryName();
+                    OrderMoney = ((Category) list.get(position)).getInitPrice();
+                    tv.setText(SubCategoryName);
+                    mTvChooseType.setText("");
+//                    mTvChooseProperty.setText("");
+                    FProductTypeID = null;
+//                    FAccessoryID = null;
+                    ProductTypeName = null;
+                }
+                if (list.get(position) instanceof ProductType) {
+                    FProductTypeID = ((ProductType) list.get(position)).getFProductTypeID();
+                    ProductTypeName = ((ProductType) list.get(position)).getFProductTypeName();
+                    tv.setText(ProductTypeName);
+//                    mTvChooseProperty.setText("");
+//                    FAccessoryID = null;
+                }
+//                if (list.get(position) instanceof Accessory.Item1Bean) {
+//                    tv.setText(((Accessory.Item1Bean) list.get(position)).getAccessoryName());
+//                    FAccessoryID = ((Accessory.Item1Bean) list.get(position)).getFAccessoryID();
+//                }
+                if (list.get(position) instanceof Province) {
+                    ProvinceName = ((Province) list.get(position)).getName();
+                    tv.setText(ProvinceName + ">");
+                    ProvinceCode = ((Province) list.get(position)).getCode();
+                    CityCode = null;
+                    CityName = null;
+//                    mTvPca.setText(ProvinceName);
+                }
+                if (list.get(position) instanceof City) {
+                    CityName = ((City) list.get(position)).getName();
+                    tv.setText(CityName + ">");
+                    CityCode = ((City) list.get(position)).getCode();
+                    AreaCode = null;
+                    AreaName = null;
+//                    mTvPca.setText(ProvinceName + CityName);
+                }
+                if (list.get(position) instanceof Area) {
+                    AreaName = ((Area) list.get(position)).getName();
+                    tv.setText(AreaName + ">");
+                    AreaCode = ((Area) list.get(position)).getCode();
+//                    mTvPca.setText(ProvinceName + CityName + AreaName);
+                }
+                if (list.get(position) instanceof District){
+                    DistrictName=((District) list.get(position)).getName();
+                    tv.setText(DistrictName+">");
+                    DistrictCode=((District) list.get(position)).getCode();
+                    mTvPca.setText(ProvinceName+CityName+AreaName+DistrictName);
+                }
+            }
+        });
+        popupWindow = new PopupWindow(contentView);
+        popupWindow.setWidth(tv.getWidth());
+        if (list.size() > 5) {
+            popupWindow.setHeight(600);
+        } else {
+            popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        }
+//        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (popupWindow != null && !popupWindow.isShowing()) {
+            popupWindow.showAsDropDown(tv, 0, 10);
+//            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
+    }
+
+
+    @Override
+    public void GetFactoryBrand(BaseResult<List<Brand>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                brandList = baseResult.getData();
+                if (brandList.size() == 0) {
+                    ToastUtils.showShort("你还没添加品牌，请先添加品牌！");
+                    startActivity(new Intent(mActivity, BrandActivity.class));
+                } else {
+                    brandsAdapter = new BrandsAdapter(R.layout.category_item, brandList);
+                    showPopWindow(mTvChooseBrand, brandsAdapter, brandList);
+                }
+                break;
+            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<List<Category>> data = baseResult.getData();
+                if (data.isItem1()) {
+                    popularList = data.getItem2();
+                    if (popularList.size() == 0) {
+                        MyUtils.showToast(mActivity, "无分类，请联系管理员添加！");
+                    } else {
+                        showPopWindowGetCategory(mTvChooseCategory);
+                    }
+                } else {
+                    MyUtils.showToast(mActivity, "获取分类失败！");
+                }
+                break;
+            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+
+    }
+
+    @Override
+    public void GetChildFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<List<Category>> data = baseResult.getData();
+                if (data.isItem1()) {
+                    chooseList = data.getItem2();
+                    if (chooseList.size() == 0) {
+                        MyUtils.showToast(mActivity, "无分类，请联系管理员添加！");
+                    } else {
+                        rv_choose.setLayoutManager(new LinearLayoutManager(mActivity));
+                        chooseAdapter = new CategoryAdapter(R.layout.item_choose, chooseList);
+                        rv_choose.setAdapter(chooseAdapter);
+                        chooseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                SubCategoryName = chooseList.get(position).getFCategoryName();
+                                mTvChooseCategory.setText(SubCategoryName);
+                                SubCategoryID = chooseList.get(position).getFCategoryID();
+                                FProductTypeID = null;
+                                ProductTypeName = null;
+                                mTvChooseType.setText("");
+                                popupWindow.dismiss();
+                            }
+                        });
+                    }
+                } else {
+                    MyUtils.showToast(mActivity, "获取分类失败！");
+                }
+                break;
+            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+
+    }
+
+    @Override
+    public void GetFactoryProducttype(BaseResult<Data<List<ProductType>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<List<ProductType>> data = baseResult.getData();
+                if (data.isItem1()) {
+                    productTypeList = data.getItem2();
+                    if (productTypeList.size() == 0) {
+                        MyUtils.showToast(mActivity, "无型号，请联系管理员！");
+                    } else {
+                        productTypeAdapter = new ProductTypeAdapter(R.layout.category_item, productTypeList);
+                        showPopWindow(mTvChooseType, productTypeAdapter, productTypeList);
+                    }
+                } else {
+                    MyUtils.showToast(mActivity, "获取型号失败！");
+                }
+                break;
+            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetProvince(BaseResult<List<Province>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                provinceList = baseResult.getData();
+                provinceAdapter = new ProvinceAdapter(R.layout.category_item, provinceList);
+//                showPopWindow(mTvProvince, provinceAdapter, provinceList);
+                if (popupWindow != null) {
+                    if (popupWindow.isShowing()) {
+                        rv_address_choose.setAdapter(provinceAdapter);
+                        provinceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                ProvinceName = provinceList.get(position).getName();
+                                ProvinceCode = provinceList.get(position).getCode();
+                                mPresenter.GetCity(ProvinceCode);
+                                tv_province.setText(ProvinceName);
+                                tv_province.setVisibility(View.VISIBLE);
+                                tv_city.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    } else {
+                        showPopWindowGetAddress(mTvAddress);
+                    }
+                } else {
+                    showPopWindowGetAddress(mTvAddress);
+                }
+
+                break;
+            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetCity(BaseResult<Data<List<City>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<List<City>> data = baseResult.getData();
+                if (data.isItem1()) {
+                    cityList = data.getItem2();
+                    cityAdapter = new CityAdapter(R.layout.category_item, cityList);
+                    rv_address_choose.setAdapter(cityAdapter);
+                    tv_choose.setText("选择城市");
+                    cityAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            CityName = cityList.get(position).getName();
+                            CityCode = cityList.get(position).getCode();
+                            mPresenter.GetArea(CityCode);
+                            tv_city.setText(CityName);
+                            tv_province.setVisibility(View.VISIBLE);
+                            tv_city.setVisibility(View.VISIBLE);
+                            tv_area.setVisibility(View.VISIBLE);
+                        }
+                    });
+//                    showPopWindow(mTvCity, cityAdapter, cityList);
+                } else {
+                    MyUtils.showToast(mActivity, "获取市失败！");
+                }
+
+                break;
+            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetArea(BaseResult<Data<List<Area>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<List<Area>> data = baseResult.getData();
+                if (data.isItem1()) {
+                    areaList = data.getItem2();
+                    areaAdapter = new AreaAdapter(R.layout.category_item, areaList);
+                    rv_address_choose.setAdapter(areaAdapter);
+                    tv_choose.setText("选择区/县");
+                    areaAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            AreaName = areaList.get(position).getName();
+                            AreaCode = areaList.get(position).getCode();
+                            mPresenter.GetDistrict(AreaCode);
+                            tv_area.setText(AreaName);
+                            tv_province.setVisibility(View.VISIBLE);
+                            tv_city.setVisibility(View.VISIBLE);
+                            tv_area.setVisibility(View.VISIBLE);
+//                            popupWindow.dismiss();
+//                            mTvAddress.setText(ProvinceName + CityName + AreaName);
+//                            mTvPca.setText(ProvinceName + CityName + AreaName);
+                        }
+                    });
+//                    showPopWindow(mTvArea, areaAdapter, areaList);
+                } else {
+                    MyUtils.showToast(mActivity, "获取区失败！");
+                }
+
+                break;
+            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetDistrict(BaseResult<Data<List<District>>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                Data<List<District>> data=baseResult.getData();
+                if (data.isItem1()){
+                    districtList=data.getItem2();
+                    districtAdapter=new DistrictAdapter(R.layout.category_item,districtList);
+                    rv_address_choose.setAdapter(districtAdapter);
+                    tv_choose.setText("选择街道/乡/镇");
+                    districtAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            DistrictName=districtList.get(position).getName();
+                            DistrictCode=districtList.get(position).getCode();
+                            tv_district.setText(DistrictName);
+                            tv_province.setVisibility(View.VISIBLE);
+                            tv_city.setVisibility(View.VISIBLE);
+                            tv_area.setVisibility(View.VISIBLE);
+                            tv_district.setVisibility(View.VISIBLE);
+                            popupWindow.dismiss();
+                            mTvAddress.setText(ProvinceName + CityName + AreaName+DistrictName);
+                            mTvPca.setText(ProvinceName + CityName + AreaName+DistrictName);
+                        }
+                    });
+                }else {
+                    MyUtils.showToast(mActivity,"获取街道/乡/镇失败");
+                }
+                break;
+            case 401:
+                break;
+        }
+
+    }
+
+    @Override
+    public void AddOrder(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
+                    ToastUtils.showShort(data.getItem2());
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title", "所有工单");
+                    bundle.putInt("position",0);
+                    Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else {
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    /**
+     * android 6.0 以上需要动态申请权限
+     */
+    private void initPermission() {
+        String[] permissions = {
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+
+        ArrayList<String> toApplyList = new ArrayList<String>();
+
+        for (String perm : permissions) {
+            if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, perm)) {
+                toApplyList.add(perm);
+                // 进入到这里代表没有权限.
+
+            }
+        }
+        String[] tmpList = new String[toApplyList.size()];
+        if (!toApplyList.isEmpty()) {
+            ActivityCompat.requestPermissions(this, toApplyList.toArray(tmpList), 123);
+        }
+
     }
 }

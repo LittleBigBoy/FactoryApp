@@ -51,16 +51,6 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
     ViewPager mViewPager;
     @BindView(R.id.view)
     View mView;
-    @BindView(R.id.tv_type_name)
-    TextView mTvTypeName;
-    @BindView(R.id.tv_need_to_send_accessories)
-    TextView mTvNeedToSendAccessories;
-    @BindView(R.id.tv_filter)
-    TextView mTvFilter;
-    @BindView(R.id.iv_filter)
-    ImageView mIvFilter;
-    @BindView(R.id.ll_filter)
-    LinearLayout mLlFilter;
 
 
     private String[] mTitleDataList = new String[]{

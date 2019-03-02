@@ -8,6 +8,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Course;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
 import com.zhenhaikj.factoryside.mvp.bean.Product;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
@@ -21,9 +22,7 @@ import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public interface ApiService {
     /**
@@ -163,6 +162,16 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Config/GetArea")
     Observable<BaseResult<Data<List<Area>>>> GetArea(@Field("parentcode") String parentcode);
+
+    /*
+    * 获取街道，乡镇
+    * */
+    @FormUrlEncoded
+    @POST("Config/GetDistrict")
+    Observable<BaseResult<Data<List<District>>>> GetDistrict(@Field("parentcode") String parentcode);
+
+
+
     /**
      * 发布工单
      * TypeID;//分类ID 1维修 2安装 3其他服务

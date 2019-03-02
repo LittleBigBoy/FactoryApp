@@ -141,7 +141,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                     @Override
                     public void onPositiveClick() {//拨打电话
                         dialog.dismiss();
-                        call("tel:"+"18074208209");
+                        call("tel:"+"4006262365");
                     }
 
                     @Override

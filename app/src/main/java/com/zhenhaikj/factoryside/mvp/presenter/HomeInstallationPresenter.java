@@ -1,11 +1,8 @@
 package com.zhenhaikj.factoryside.mvp.presenter;
 
-
-import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
-import com.zhenhaikj.factoryside.mvp.ApiService;
+import com.zhenhaikj.factoryside.mvp.activity.HomeInstallationActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
-import com.zhenhaikj.factoryside.mvp.bean.Accessory;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
@@ -14,18 +11,11 @@ import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
-import com.zhenhaikj.factoryside.mvp.contract.HomeMaintenanceContract;
+import com.zhenhaikj.factoryside.mvp.contract.HomeInstallationContract;
 
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-
-public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter {
-
+public class HomeInstallationPresenter extends HomeInstallationContract.Presenter {
     @Override
     public void GetFactoryBrand(String UserID) {
         mModel.GetFactoryBrand(UserID)
@@ -69,33 +59,6 @@ public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter 
                 });
     }
 
-    @Override
-    public void GetFactoryAccessory(String FProductTypeID) {
-        mModel.GetFactoryAccessory(FProductTypeID)
-                .subscribe(new BaseObserver<Accessory>() {
-                    @Override
-                    protected void onHandleSuccess(BaseResult<Accessory> value) {
-                        mView.GetFactoryAccessory(value);
-                    }
-                });
-    }
-
-    /*@Override
-    public void GetProvince() {
-        mModel.GetProvince()
-                .flatMap(new Function<BaseResult<List<Province>>, ObservableSource<BaseResult<Data<List<City>>>>>() {
-                    @Override
-                    public ObservableSource<BaseResult<Data<List<City>>>> apply(BaseResult<List<Province>> listBaseResult) throws Exception {
-                        return ApiRetrofit.getDefault().GetCity(listBaseResult.getData().get(0).getCode());
-                    }
-                }).toList()
-                .subscribe(new BaseObserver<List<Province>>() {
-                    @Override
-                    protected void onHandleSuccess(BaseResult<List<Province>> value) {
-                        mView.GetProvince(value);
-                    }
-                });
-    }*/
     @Override
     public void GetProvince() {
         mModel.GetProvince()
@@ -150,4 +113,5 @@ public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter 
                     }
                 });
     }
+
 }

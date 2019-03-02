@@ -179,13 +179,13 @@
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
-                <ImageView
-                    android:id="@+id/iv_add_name"
-                    android:layout_width="17dp"
-                    android:layout_height="18dp"
-                    android:layout_marginRight="11dp"
-                    android:src="@mipmap/tianjia"
-                    android:visibility="gone" />
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_add_name"-->
+                    <!--android:layout_width="17dp"-->
+                    <!--android:layout_height="18dp"-->
+                    <!--android:layout_marginRight="11dp"-->
+                    <!--android:src="@mipmap/tianjia"-->
+                    <!--android:visibility="gone" />-->
             </LinearLayout>
 
             <TextView
@@ -297,7 +297,7 @@
                         android:layout_height="18dp"
                         android:layout_marginRight="11dp"
                         android:src="@mipmap/tianjia"
-                        android:visibility="gone" />
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <View

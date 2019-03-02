@@ -1,17 +1,23 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -42,6 +48,7 @@ import com.zhenhaikj.factoryside.mvp.adapter.AreaAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.BrandsAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CityAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.DistrictAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ProductTypeAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ProvinceAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
@@ -52,6 +59,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.contract.HomeMaintenanceContract;
@@ -77,6 +85,7 @@ import butterknife.ButterKnife;
 public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresenter, HomeMaintenanceModel> implements View.OnClickListener, HomeMaintenanceContract.View {
 
 
+    private static final String TAG = "HomeMaintenanceActivity";
     @BindView(R.id.icon_back)
     ImageView mIconBack;
     @BindView(R.id.tv_title)
@@ -160,6 +169,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     private List<Province> provinceList;
     private List<City> cityList;
     private List<Area> areaList;
+    private List<District> districtList;
     private List<Brand> brandList;
     private List<Category> categoryList;
     private List<ProductType> productTypeList;
@@ -172,9 +182,11 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     private String ProvinceCode;//省code
     private String CityCode;//市code
     private String AreaCode;//区code
+    private String DistrictCode;//街道code
     private String ProvinceName;
     private String CityName;
     private String AreaName;
+    private String DistrictName;
     private String BrandName;
     private String CategoryName;
     private String SubCategoryID;
@@ -199,6 +211,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     private ProvinceAdapter provinceAdapter;
     private CityAdapter cityAdapter;
     private AreaAdapter areaAdapter;
+    private DistrictAdapter districtAdapter;
     private List<Category> popularList;
     private List<Category> chooseList;
     private CategoryAdapter popularAdapter;
@@ -224,6 +237,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     private boolean running;
     private OnlineRecogParams apiParams;
     private String Num;
+    private TextView tv_district;
 
     @Override
     protected int setLayoutId() {
@@ -288,6 +302,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         mLlOutsideTheWarranty.setOnClickListener(this);
         mLlYes.setOnClickListener(this);
         mLlNo.setOnClickListener(this);
+
 
         mBtnRelease.setOnClickListener(this);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -399,6 +414,9 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
             case R.id.tv_city:
                 mPresenter.GetCity(ProvinceCode);
                 break;
+            case R.id.tv_area:
+                mPresenter.GetArea(CityCode);
+                break;
             case R.id.ll_under_warranty:
                 mCbUnderWarranty.setChecked(true);
                 mCbOutsideTheWarranty.setChecked(false);
@@ -457,6 +475,9 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 if (AreaCode == null) {
                     MyUtils.showToast(mActivity, "请选择区！");
                     return;
+                }
+                if (DistrictCode==null){
+                    MyUtils.showToast(mActivity,"请选择街道、乡、镇");
                 }
                 DetailAddress = mEtDetail.getText().toString();
                 Address = mTvPca.getText().toString() + DetailAddress;
@@ -557,14 +578,17 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         }
     }
 
+
     public void showPopWindowGetAddress(final TextView tv) {
 
         View contentView = LayoutInflater.from(mActivity).inflate(R.layout.address_pop, null);
         tv_province = contentView.findViewById(R.id.tv_province);
         tv_city = contentView.findViewById(R.id.tv_city);
         tv_area = contentView.findViewById(R.id.tv_area);
+        tv_district = contentView.findViewById(R.id.tv_district);
         tv_city.setOnClickListener(this);
         tv_province.setOnClickListener(this);
+        tv_area.setOnClickListener(this);
         tv_choose = contentView.findViewById(R.id.tv_choose);
         tv_choose.setText("选择省份/地区");
         rv_address_choose = contentView.findViewById(R.id.rv_address_choose);
@@ -735,7 +759,15 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     AreaName = ((Area) list.get(position)).getName();
                     tv.setText(AreaName + ">");
                     AreaCode = ((Area) list.get(position)).getCode();
+                    DistrictCode=null;
+                    DistrictName=null;
                     mTvPca.setText(ProvinceName + CityName + AreaName);
+                }
+                if (list.get(position) instanceof District){
+                    DistrictName=((District) list.get(position)).getName();
+                    tv.setText(DistrictName+">");
+                    DistrictCode=((District) list.get(position)).getCode();
+                    mTvPca.setText(ProvinceName+CityName+AreaName+DistrictName);
                 }
             }
         });
@@ -962,13 +994,11 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                             AreaName = areaList.get(position).getName();
                             AreaCode = areaList.get(position).getCode();
+                            mPresenter.GetDistrict(AreaCode);
                             tv_area.setText(AreaName);
                             tv_province.setVisibility(View.VISIBLE);
                             tv_city.setVisibility(View.VISIBLE);
                             tv_area.setVisibility(View.VISIBLE);
-                            popupWindow.dismiss();
-                            mTvAddress.setText(ProvinceName + CityName + AreaName);
-                            mTvPca.setText(ProvinceName + CityName + AreaName);
                         }
                     });
 //                    showPopWindow(mTvArea, areaAdapter, areaList);
@@ -979,6 +1009,40 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 break;
             case 401:
 //                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetDistrict(BaseResult<Data<List<District>>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                Data<List<District>> data=baseResult.getData();
+                if (data.isItem1()){
+                    districtList=data.getItem2();
+                    districtAdapter=new DistrictAdapter(R.layout.category_item,districtList);
+                    rv_address_choose.setAdapter(districtAdapter);
+                    tv_choose.setText("选择街道/乡/镇");
+                    districtAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            DistrictName=districtList.get(position).getName();
+                            DistrictCode=districtList.get(position).getCode();
+                            tv_district.setText(DistrictName);
+                            tv_province.setVisibility(View.VISIBLE);
+                            tv_city.setVisibility(View.VISIBLE);
+                            tv_area.setVisibility(View.VISIBLE);
+                            tv_district.setVisibility(View.VISIBLE);
+                            popupWindow.dismiss();
+                            mTvAddress.setText(ProvinceName + CityName + AreaName+DistrictName);
+                            mTvPca.setText(ProvinceName + CityName + AreaName+DistrictName);
+                        }
+                    });
+                }else {
+                    MyUtils.showToast(mActivity,"获取街道/乡/镇失败");
+                }
+                break;
+            case 401:
                 break;
         }
     }

@@ -58,6 +58,14 @@
             android:visibility="gone"
             android:hint="请选择区"
             android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/tv_district"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:visibility="gone"
+            android:hint="请选择街道/乡/镇"
+            android:textColor="@color/black"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
