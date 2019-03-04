@@ -13,6 +13,7 @@ import com.zhenhaikj.factoryside.mvp.bean.HomeData;
 import com.zhenhaikj.factoryside.mvp.bean.Product;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 
 import java.util.List;
@@ -262,6 +263,29 @@ public interface ApiService {
                                                          @Field("RecycleOrderHour") String RecycleOrderHour,
                                                          @Field("Guarantee") String Guarantee,
                                                          @Field("Num") String Num);
+
+    /*获取用户信息*/
+    @FormUrlEncoded
+    @POST("Account/GetUserInfoList")
+    Observable<BaseResult<UserInfo>> GetUserInfoList(@Field("UserID") String UserID,
+                                                     @Field("limit") String limit);
+
+
+    /*修改昵称*/
+    @FormUrlEncoded
+    @POST("Account/UpdateAccountNickName")
+    Observable<BaseResult<Data>> UpdateAccountNickName(@Field("UserID") String UserID,
+                                                       @Field("NickName") String NickName);
+
+
+    /*修改密码*/
+
+    @FormUrlEncoded
+    @POST("Account/UpdatePassword")
+    Observable<BaseResult<Data>> UpdatePassword(@Field("UserID") String UserID,
+                                                @Field("Password") String Password);
+
+
 
     /**
      * 获取首页数据

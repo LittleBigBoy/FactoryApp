@@ -117,6 +117,8 @@ public class PersonalInformationActivity extends BaseActivity implements View.On
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mBtnSignOutOfYourAccount.setOnClickListener(this);
+        mLlNickname.setOnClickListener(this);
+        mLlPassword.setOnClickListener(this);
     }
 
 
@@ -135,6 +137,12 @@ public class PersonalInformationActivity extends BaseActivity implements View.On
                 spUtils.put("isLogin",false);
                 startActivity(new Intent(mActivity, LoginActivity.class));
                 ActivityUtils.finishAllActivities();
+                break;
+            case R.id.ll_nickname:
+                startActivity(new Intent(mActivity,ChageUserNameActivity.class));
+                break;
+            case R.id.ll_password:
+                startActivity(new Intent(mActivity,ChagePasswordActivity.class));
                 break;
         }
     }

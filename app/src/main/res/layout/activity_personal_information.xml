@@ -277,7 +277,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:text="身份证照片"
+                            android:text="营业执照"
                             android:textColor="#858585"
                             android:textSize="14sp" />
 
@@ -315,7 +315,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:text="店铺地址"
+                            android:text="公司地址"
                             android:textColor="#858585"
                             android:textSize="14sp" />
 
