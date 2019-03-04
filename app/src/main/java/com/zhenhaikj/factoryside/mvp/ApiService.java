@@ -80,8 +80,8 @@ public interface ApiService {
      * 废除-1，待审核0，派单中1，服务中2，已完成3
      */
     @FormUrlEncoded
-    @POST("Order/GetOrderInfoList")
-    Observable<BaseResult<WorkOrder>> GetOrderInfoList(@Field("UserID") String UserID, @Field("state") String state, @Field("page") String page, @Field("limit") String limit);
+    @POST("Order/FactoryGetOrderList")
+    Observable<BaseResult<WorkOrder>> FactoryGetOrderList(@Field("UserID") String UserID, @Field("State") String state, @Field("page") String page, @Field("limit") String limit);
 
     /**
      * 获取工单详情

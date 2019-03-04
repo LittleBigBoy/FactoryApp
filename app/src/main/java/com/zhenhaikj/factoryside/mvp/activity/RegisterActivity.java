@@ -51,7 +51,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     @BindView(R.id.btn_register)
     Button mBtnRegister;
     private String userName;
-    private String passWord;
+    private String passWord="888888";
     private String code;
     private SPUtils spUtils;
 

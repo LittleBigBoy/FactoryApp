@@ -14,20 +14,27 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.Constants;
 import com.zhenhaikj.factoryside.mvp.adapter.FaceValueAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.bean.FaceValue;
 import com.zhenhaikj.factoryside.mvp.bean.PayResult;
+import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -76,6 +83,8 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     private FaceValueAdapter faceValueAdapter;
     private String[] faceValues = new String[]{"100", "300", "500", "1000", "2000", "3000"};
     private String value;
+    private IWXAPI api;
+    private int payway=1;
 
     @Override
     protected int setLayoutId() {
@@ -93,6 +102,8 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
+        api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
+
         mIvAplipay.setSelected(true);//默认选中支付宝
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("充值");
@@ -184,10 +195,12 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.ll_alipay:
+                payway =1;
                 mIvAplipay.setSelected(true);
                 mIvWechat.setSelected(false);
                 break;
             case R.id.ll_wxpay:
+                payway =2;
                 mIvAplipay.setSelected(false);
                 mIvWechat.setSelected(true);
                 break;
@@ -195,7 +208,18 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
                 break;
             case R.id.bt_recharge:
-                ToastUtils.showShort("充值"+value+"元！");
+                if (value==null){
+                    ToastUtils.showShort("请选择或输入充值金额");
+                    return;
+                }
+                switch (payway){
+                    case 1:
+                        alipay();
+                        break;
+                    case 2:
+                        WXpay();
+                        break;
+                }
                 break;
         }
     }
@@ -203,7 +227,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
      * 支付宝支付业务
      *
      */
-    public void payV2() {
+    public void alipay() {
 
         /**
          * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
@@ -231,6 +255,26 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         Thread payThread = new Thread(payRunnable);
         payThread.start();
     }
+
+    /**
+     * 微信支付
+     */
+    public void WXpay(){
+        PayReq req = new PayReq();
+//        req.appId			= json.getString("appid");
+//        req.partnerId		= json.getString("partnerid");
+//        req.prepayId		= json.getString("prepayid");
+//        req.nonceStr		= json.getString("noncestr");
+//        req.timeStamp		= json.getString("timestamp");
+//        req.packageValue	= json.getString("package");
+//        req.sign			= json.getString("sign");
+        req.extData			= "app data"; // optional
+        api.sendReq(req);
+    }
+
+    /**
+     * 支付宝支付结果回调
+     */
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
@@ -257,12 +301,25 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 default:
                     break;
             }
-        };
+        }
     };
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+
+    /**
+     * 微信支付结果
+     * @param resp
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(BaseResp resp) {
+        switch (resp.errCode){
+            case 0:
+                ToastUtils.showShort("支付成功");
+                break;
+            case -1:
+                ToastUtils.showShort("支付出错");
+                break;
+            case -2:
+                ToastUtils.showShort("支付取消");
+                break;
+        }
     }
 }
