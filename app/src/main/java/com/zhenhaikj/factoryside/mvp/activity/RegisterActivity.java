@@ -232,14 +232,15 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     }
 
     @Override
-    public void AddAndUpdatePushAccount(BaseResult<String> baseResult) {
+    public void AddAndUpdatePushAccount(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                MyUtils.e("userInfo", baseResult.getData());
-                ToastUtils.showShort(baseResult.getData());
-                break;
-            case 401:
-                ToastUtils.showShort(baseResult.getData());
+                Data<String> data=baseResult.getData();
+                if (data.isItem1()){
+
+                }else{
+                    ToastUtils.showShort(data.getItem2());
+                }
                 break;
         }
     }

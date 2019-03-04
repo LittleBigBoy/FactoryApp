@@ -17,7 +17,7 @@ public interface RegisterContract {
         Observable<BaseResult<Data<String>>> GetCode(String userName);
         Observable<BaseResult<Data<String>>> Login(String userName,String passWord);
         Observable<BaseResult<String>> ValidateUserName(String userName);
-        Observable<BaseResult<String>> AddAndUpdatePushAccount(String token, String type, String UserID);
+        Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(String token, String type, String UserID);
     }
 
     interface View extends BaseView {
@@ -25,7 +25,7 @@ public interface RegisterContract {
         void GetCode(BaseResult<Data<String>> baseResult);
         void Login(BaseResult<Data<String>> baseResult);
         void ValidateUserName(BaseResult<String> baseResult);
-        void AddAndUpdatePushAccount(BaseResult<String> baseResult);
+        void AddAndUpdatePushAccount(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
