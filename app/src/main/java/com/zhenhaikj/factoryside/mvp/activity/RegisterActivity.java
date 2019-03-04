@@ -13,6 +13,7 @@ import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
+import com.tencent.android.tpush.XGPushConfig;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.MainActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
@@ -52,6 +53,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     private String userName;
     private String passWord;
     private String code;
+    private SPUtils spUtils;
 
     @Override
     protected int setLayoutId() {
@@ -187,23 +189,26 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     }
 
     @Override
-    public void Login(BaseResult<String> baseResult) {
+    public void Login(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                SPUtils spUtils = SPUtils.getInstance("token");
-                spUtils.put("adminToken", baseResult.getData());
-                spUtils.put("userName", userName);
-//                GetUserInfo getUserInfo=new GetUserInfo(userName,baseResult.getData(),"","");
-//                Gson gson=new Gson();
-//                RequestBody json=RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),gson.toJson(getUserInfo));
-//                mPresenter.GetUserInfo(json);
-//                mPresenter.GetUserInfo(userName);
-                startActivity(new Intent(mActivity, MainActivity.class));
-                finish();
+                Data<String> data=baseResult.getData();
+                if (data.isItem1()){
+                    spUtils = SPUtils.getInstance("token");
+                    spUtils.put("adminToken", data.getItem2());
+                    spUtils.put("userName", userName);
+                    spUtils.put("passWord", passWord);
+                    spUtils.put("isLogin", true);
+                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"6",userName);
+                    startActivity(new Intent(mActivity, MainActivity.class));
+                    finish();
+                }else{
+                    ToastUtils.showShort(data.getItem2());
+                }
                 break;
-            case 401:
-                ToastUtils.showShort(baseResult.getData());
-                break;
+//            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+//                break;
         }
     }
 
@@ -219,6 +224,19 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 }else{
                     ToastUtils.showShort("手机号已经注册！");
                 }
+                break;
+            case 401:
+                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void AddAndUpdatePushAccount(BaseResult<String> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                MyUtils.e("userInfo", baseResult.getData());
+                ToastUtils.showShort(baseResult.getData());
                 break;
             case 401:
                 ToastUtils.showShort(baseResult.getData());

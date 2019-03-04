@@ -19,6 +19,7 @@ import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.MainActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.contract.LoginContract;
 import com.zhenhaikj.factoryside.mvp.model.LoginModel;
 import com.zhenhaikj.factoryside.mvp.presenter.LoginPresenter;
@@ -170,26 +171,21 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     }
 
     @Override
-    public void Login(BaseResult<String> baseResult) {
+    public void Login(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-
-                spUtils.put("adminToken", baseResult.getData());
-                spUtils.put("userName", userName);
-                spUtils.put("passWord", passWord);
-                spUtils.put("isLogin", true);
-//                GetUserInfo getUserInfo=new GetUserInfo(userName,baseResult.getData(),"","");
-//                Gson gson=new Gson();
-//                RequestBody json=RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),gson.toJson(getUserInfo));
-//                mPresenter.GetUserInfo(json);
-//                mPresenter.GetUserInfo(userName);
-                mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"6",userName);
-                startActivity(new Intent(mActivity, MainActivity.class));
-                finish();
-
-                break;
-            case 401:
-                ToastUtils.showShort(baseResult.getData());
+                Data<String> data=baseResult.getData();
+                if (data.isItem1()){
+                    spUtils.put("adminToken", data.getItem2());
+                    spUtils.put("userName", userName);
+                    spUtils.put("passWord", passWord);
+                    spUtils.put("isLogin", true);
+                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"6",userName);
+                    startActivity(new Intent(mActivity, MainActivity.class));
+                    finish();
+                }else{
+                    ToastUtils.showShort(data.getItem2());
+                }
                 break;
         }
     }

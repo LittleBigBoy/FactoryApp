@@ -28,7 +28,7 @@ public class RegisterModel implements RegisterContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<String>> Login(String userName, String passWord) {
+    public Observable<BaseResult<Data<String>>> Login(String userName, String passWord) {
         return ApiRetrofit.getDefault().LoginOn(userName,passWord,"6")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
@@ -37,6 +37,12 @@ public class RegisterModel implements RegisterContract.Model {
     @Override
     public Observable<BaseResult<String>> ValidateUserName(String userName) {
         return ApiRetrofit.getDefault().ValidateUserName(userName)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<BaseResult<String>> AddAndUpdatePushAccount(String token, String type, String UserID) {
+        return ApiRetrofit.getDefault().AddAndUpdatePushAccount(token, type, UserID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

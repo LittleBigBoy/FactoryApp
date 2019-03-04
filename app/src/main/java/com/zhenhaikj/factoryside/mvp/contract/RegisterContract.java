@@ -15,15 +15,17 @@ public interface RegisterContract {
     interface Model extends BaseModel {
         Observable<BaseResult<Data<String>>> Reg(String userName, String code);
         Observable<BaseResult<Data<String>>> GetCode(String userName);
-        Observable<BaseResult<String>> Login(String userName,String passWord);
+        Observable<BaseResult<Data<String>>> Login(String userName,String passWord);
         Observable<BaseResult<String>> ValidateUserName(String userName);
+        Observable<BaseResult<String>> AddAndUpdatePushAccount(String token, String type, String UserID);
     }
 
     interface View extends BaseView {
         void Reg(BaseResult<Data<String>> baseResult);
         void GetCode(BaseResult<Data<String>> baseResult);
-        void Login(BaseResult<String> baseResult);
+        void Login(BaseResult<Data<String>> baseResult);
         void ValidateUserName(BaseResult<String> baseResult);
+        void AddAndUpdatePushAccount(BaseResult<String> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -31,5 +33,6 @@ public interface RegisterContract {
         public abstract void GetCode(String userName);
         public abstract void  Login(String userName,String passWord);
         public abstract void  ValidateUserName(String userName);
+        public abstract void  AddAndUpdatePushAccount(String token, String type, String UserID);
     }
 }

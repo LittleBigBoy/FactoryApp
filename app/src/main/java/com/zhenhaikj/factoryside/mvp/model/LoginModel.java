@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp.model;
 
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.contract.LoginContract;
 
 import io.reactivex.Observable;
@@ -12,7 +13,7 @@ import okhttp3.RequestBody;
 
 public class LoginModel implements LoginContract.Model {
     @Override
-    public Observable<BaseResult<String>> Login(String userName, String passWord) {
+    public Observable<BaseResult<Data<String>>> Login(String userName, String passWord) {
         return ApiRetrofit.getDefault().LoginOn(userName,passWord,"6")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
