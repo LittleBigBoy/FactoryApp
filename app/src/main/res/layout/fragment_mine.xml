@@ -323,7 +323,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="4006262365"
+                        android:text="400-6262-365"
                         android:textSize="15sp"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"

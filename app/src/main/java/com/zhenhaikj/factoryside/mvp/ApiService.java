@@ -285,6 +285,12 @@ public interface ApiService {
     Observable<BaseResult<Data>> UpdatePassword(@Field("UserID") String UserID,
                                                 @Field("Password") String Password);
 
+    /*
+    * 修改密码
+    * */
+    @POST("Upload/UploadAvator")
+    Observable<BaseResult<Data<String>>> UploadAvator(@Body RequestBody json);
+
 
 
     /**

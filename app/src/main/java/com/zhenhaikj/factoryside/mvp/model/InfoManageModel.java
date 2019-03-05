@@ -10,6 +10,7 @@ import com.zhenhaikj.factoryside.mvp.contract.InfoManageContract;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.RequestBody;
 
 public class InfoManageModel implements InfoManageContract.Model {
     @Override
@@ -29,6 +30,13 @@ public class InfoManageModel implements InfoManageContract.Model {
     @Override
     public Observable<BaseResult<Data>> UpdatePassword(String UserId, String Password) {
         return ApiRetrofit.getDefault().UpdatePassword(UserId,Password)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> UploadAvator(RequestBody josn) {
+        return ApiRetrofit.getDefault().UploadAvator(josn)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

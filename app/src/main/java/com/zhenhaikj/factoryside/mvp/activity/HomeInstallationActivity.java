@@ -2,9 +2,12 @@ package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -19,6 +22,13 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.baidu.aip.asrwakeup3.core.recog.MyRecognizer;
+import com.baidu.aip.asrwakeup3.core.recog.listener.ChainRecogListener;
+import com.baidu.aip.asrwakeup3.core.recog.listener.IRecogListener;
+import com.baidu.aip.asrwakeup3.core.recog.listener.MessageStatusRecogListener;
+import com.baidu.aip.asrwakeup3.uiasr.params.OnlineRecogParams;
+import com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog;
+import com.baidu.voicerecognition.android.ui.DigitalDialogInput;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -52,7 +62,9 @@ import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -196,6 +208,17 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
     private TextView tv_district;
 
 
+    private MyRecognizer myRecognizer;
+    protected Handler handler;
+    /**
+     * 对话框界面的输入参数
+     */
+    private DigitalDialogInput input;
+    private ChainRecogListener chainRecogListener;
+    private boolean running;
+    private OnlineRecogParams apiParams;
+
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_home_installation2;
@@ -216,6 +239,20 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
         SPUtils spUtils = SPUtils.getInstance("token");
         userID = spUtils.getString("userName");
 
+
+        IRecogListener listener = new MessageStatusRecogListener(handler);
+        // DEMO集成步骤 1.1 1.3 初始化：new一个IRecogListener示例 & new 一个 MyRecognizer 示例,并注册输出事件
+        if (myRecognizer == null) {
+            myRecognizer = new MyRecognizer(mActivity, listener);
+        }
+        /**
+         * 有2个listner，一个是用户自己的业务逻辑，如MessageStatusRecogListener。另一个是UI对话框的。
+         * 使用这个ChainRecogListener把两个listener和并在一起
+         */
+        chainRecogListener = new ChainRecogListener();
+        // DigitalDialogInput 输入 ，MessageStatusRecogListener可替换为用户自己业务逻辑的listener
+        chainRecogListener.addListener(new MessageStatusRecogListener(handler));
+        myRecognizer.setEventListener(chainRecogListener); // 替换掉原来的listener
     }
 
     @Override
@@ -238,6 +275,7 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
         mLlOutsideTheWarranty.setOnClickListener(this);
         mLlYes.setOnClickListener(this);
         mLlNo.setOnClickListener(this);
+        mLlMicrophone.setOnClickListener(this);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -448,9 +486,63 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
                 }
                 mPresenter.AddOrder("0", "安装", userID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName, FProductTypeID, ProductTypeName, ProvinceCode, CityCode, AreaCode,DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
                 break;
+            case R.id.ll_microphone:
+                // 此处params可以打印出来，直接写到你的代码里去，最终的json一致即可。
+                final Map<String, Object> params = fetchParams();
+
+                // BaiduASRDigitalDialog的输入参数
+                input = new DigitalDialogInput(myRecognizer, chainRecogListener, params);
+                BaiduASRDigitalDialog.setInput(input); // 传递input信息，在BaiduASRDialog中读取,
+                Intent intent = new Intent(this, BaiduASRDigitalDialog.class);
+
+                // 修改对话框样式
+                // intent.putExtra(BaiduASRDigitalDialog.PARAM_DIALOG_THEME, BaiduASRDigitalDialog.THEME_ORANGE_DEEPBG);
+
+                running = true;
+                startActivityForResult(intent, 2);
+//                startActivity(new Intent(mActivity,ActivityUiDialog.class));
+                break;
 
         }
     }
+
+    protected Map<String, Object> fetchParams() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        //  上面的获取是为了生成下面的Map， 自己集成时可以忽略
+        apiParams = new OnlineRecogParams();
+        Map<String, Object> params = apiParams.fetch(sp);
+        //  集成时不需要上面的代码，只需要params参数。
+        return params;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        running = false;
+        if (requestCode == 2) {
+            String message = "";
+            if (resultCode == RESULT_OK) {
+                ArrayList results = data.getStringArrayListExtra("results");
+                if (results != null && results.size() > 0) {
+                    message += results.get(0);
+                }
+            } else {
+                message += "";
+            }
+            mEtDetail.setText(message);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!running) {
+            myRecognizer.release();
+//            finish();
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

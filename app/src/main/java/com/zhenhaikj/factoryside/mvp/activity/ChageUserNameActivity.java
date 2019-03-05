@@ -112,4 +112,9 @@ public class ChageUserNameActivity extends BaseActivity<InfoManagePresenter, Inf
     public void UpdatePassword(BaseResult<Data> baseResult) {
 
     }
+
+    @Override
+    public void UploadAvator(BaseResult<Data<String>> baseResult) {
+
+    }
 }

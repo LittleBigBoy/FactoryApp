@@ -148,4 +148,9 @@ public class ChagePasswordActivity extends BaseActivity<InfoManagePresenter, Inf
                 break;
         }
     }
+
+    @Override
+    public void UploadAvator(BaseResult<Data<String>> baseResult) {
+
+    }
 }

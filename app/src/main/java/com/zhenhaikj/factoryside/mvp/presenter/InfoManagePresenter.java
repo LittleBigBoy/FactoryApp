@@ -7,6 +7,8 @@ import com.zhenhaikj.factoryside.mvp.bean.User;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.InfoManageContract;
 
+import okhttp3.RequestBody;
+
 public class InfoManagePresenter extends InfoManageContract.Presenter {
     @Override
     public void GetUserInfoList(String UserId, String limit) {
@@ -38,6 +40,17 @@ public class InfoManagePresenter extends InfoManageContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data> value) {
                         mView.UpdatePassword(value);
+                    }
+                });
+    }
+
+    @Override
+    public void UploadAvator(RequestBody josn) {
+        mModel.UploadAvator(josn)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.UploadAvator(value);
                     }
                 });
     }
