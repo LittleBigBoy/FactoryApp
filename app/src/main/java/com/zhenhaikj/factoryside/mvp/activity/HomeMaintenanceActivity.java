@@ -1072,15 +1072,23 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     }
 
 
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if (!running) {
+//            myRecognizer.release();
+////            finish();
+//        }
+//    }
+
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         if (!running) {
             myRecognizer.release();
 //            finish();
         }
     }
-
 
     /**
      * android 6.0 以上需要动态申请权限
