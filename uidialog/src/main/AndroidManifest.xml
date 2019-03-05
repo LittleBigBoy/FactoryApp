@@ -5,8 +5,7 @@
                 android:name=".BaiduASRDigitalDialog"
                 android:configChanges="orientation|keyboardHidden|screenLayout"
                 android:theme="@android:style/Theme.Dialog"
-                android:exported="false"
-                android:screenOrientation="portrait">
+                android:exported="false">
             <intent-filter>
                 <action android:name="com.baidu.action.RECOGNIZE_SPEECH"/>
                 <category android:name="android.intent.category.DEFAULT"/>
