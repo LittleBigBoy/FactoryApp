@@ -285,6 +285,16 @@ public interface ApiService {
     Observable<BaseResult<Data>> UpdatePassword(@Field("UserID") String UserID,
                                                 @Field("Password") String Password);
 
+    /**
+     * 充值信息
+     * @param UserID
+     * @param TotalAmount
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Pay/GetOrderStr")
+    Observable<BaseResult<Data<String>>> GetOrderStr(@Field("UserID") String UserID,
+                                                @Field("TotalAmount") String TotalAmount);
     /*
     * 修改密码
     * */
@@ -303,38 +313,38 @@ public interface ApiService {
     /**
      * 获取学院数据
      */
-    @FormUrlEncoded
-    @POST("api.php")
-    Observable<BaseResult<List<Course>>> getCourse(@Field("pageindex") String pageindex, @Field("pagesize") String pagesize);
+//    @FormUrlEncoded
+//    @POST("api.php")
+//    Observable<BaseResult<List<Course>>> getCourse(@Field("pageindex") String pageindex, @Field("pagesize") String pagesize);
 
     /**
      * 获取采购数据
      */
-    @POST("api.php")
-    Observable<BaseResult<List<Category>>> getCategory();
+//    @POST("api.php")
+//    Observable<BaseResult<List<Category>>> getCategory();
 
     /**
      * 添加到购物车
      */
-    @FormUrlEncoded
-    @POST("api.php")
-    Observable<BaseResult> addCart(
-            @Field("userid") String userid,
-            @Field("productid") String productid,
-            @Field("option") String option,
-            @Field("num") String num
-    );
+//    @FormUrlEncoded
+//    @POST("api.php")
+//    Observable<BaseResult> addCart(
+//            @Field("userid") String userid,
+//            @Field("productid") String productid,
+//            @Field("option") String option,
+//            @Field("num") String num
+//    );
 
     /**
      * 获取产品列表
      */
-    @FormUrlEncoded
-    @POST("api.php")
-    Observable<BaseResult<List<Product>>> getProduct(
-            @Field("categoryid") String categoryid,
-            @Field("pageindex") String pageindex,
-            @Field("pagesize") String pagesize
-    );
+//    @FormUrlEncoded
+//    @POST("api.php")
+//    Observable<BaseResult<List<Product>>> getProduct(
+//            @Field("categoryid") String categoryid,
+//            @Field("pageindex") String pageindex,
+//            @Field("pagesize") String pagesize
+//    );
 
     /*@GET("/app/index/cartList")
     Observable<BaseResult<List<CartBean>>> cartList(@Query("userId") String userId);

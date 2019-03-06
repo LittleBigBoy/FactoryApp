@@ -22,24 +22,15 @@ import com.zhenhaikj.factoryside.mvp.activity.RechargeActivity;
 import com.zhenhaikj.factoryside.mvp.activity.SettingActivity;
 import com.zhenhaikj.factoryside.mvp.activity.WalletActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
-import com.zhenhaikj.factoryside.mvp.base.BaseResult;
-import com.zhenhaikj.factoryside.mvp.bean.Category;
-import com.zhenhaikj.factoryside.mvp.contract.PurchaseContract;
-import com.zhenhaikj.factoryside.mvp.model.PurchaseModel;
-import com.zhenhaikj.factoryside.mvp.presenter.PurchasePresenter;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 
-import static com.blankj.utilcode.util.PhoneUtils.call;
-
-public class MineFragment extends BaseLazyFragment<PurchasePresenter, PurchaseModel> implements View.OnClickListener, PurchaseContract.View {
+public class MineFragment extends BaseLazyFragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.iv_service)
@@ -289,15 +280,5 @@ public class MineFragment extends BaseLazyFragment<PurchasePresenter, PurchaseMo
                 startActivity(new Intent(mActivity, AboutUsActivity.class));
                 break;
         }
-    }
-
-    @Override
-    public void success(BaseResult<List<Category>> baseResult) {
-
-    }
-
-    @Override
-    public void fail(BaseResult<List<Category>> baseResult) {
-
     }
 }
