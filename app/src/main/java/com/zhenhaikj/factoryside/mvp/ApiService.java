@@ -296,10 +296,16 @@ public interface ApiService {
     Observable<BaseResult<Data<String>>> GetOrderStr(@Field("UserID") String UserID,
                                                 @Field("TotalAmount") String TotalAmount);
     /*
-    * 修改密码
+    * 修改头像
     * */
     @POST("Upload/UploadAvator")
     Observable<BaseResult<Data<String>>> UploadAvator(@Body RequestBody json);
+
+    /*修改性别*/
+    @FormUrlEncoded
+    @POST("Account/UpdateSex")
+    Observable<BaseResult<Data>> UpdateSex(@Field("UserID") String UserID,
+                                           @Field("Sex") String Sex);
 
 
 

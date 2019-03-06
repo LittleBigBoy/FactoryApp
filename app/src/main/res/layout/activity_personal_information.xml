@@ -368,10 +368,11 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/iv_male"
                                 android:layout_width="14dp"
                                 android:layout_height="14dp"
                                 android:layout_gravity="center"
-                                android:src="@mipmap/male" />
+                                android:src="@drawable/man_selector" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -392,10 +393,11 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/iv_female"
                                 android:layout_width="14dp"
                                 android:layout_height="14dp"
                                 android:layout_gravity="center"
-                                android:src="@mipmap/female" />
+                                android:src="@drawable/female_selector" />
 
                             <TextView
                                 android:layout_width="wrap_content"

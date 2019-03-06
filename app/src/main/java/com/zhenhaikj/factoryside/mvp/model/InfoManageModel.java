@@ -40,4 +40,11 @@ public class InfoManageModel implements InfoManageContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data>> UpdateSex(String UserId, String sex) {
+        return ApiRetrofit.getDefault().UpdateSex(UserId, sex)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

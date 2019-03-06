@@ -1,18 +1,39 @@
 package com.zhenhaikj.factoryside.mvp.fragment;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.activity.AboutUsActivity;
 import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
 import com.zhenhaikj.factoryside.mvp.activity.BrandActivity;
@@ -22,15 +43,41 @@ import com.zhenhaikj.factoryside.mvp.activity.RechargeActivity;
 import com.zhenhaikj.factoryside.mvp.activity.SettingActivity;
 import com.zhenhaikj.factoryside.mvp.activity.WalletActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
+import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
+import com.zhenhaikj.factoryside.mvp.contract.MineContract;
+import com.zhenhaikj.factoryside.mvp.contract.PurchaseContract;
+import com.zhenhaikj.factoryside.mvp.model.MineModel;
+import com.zhenhaikj.factoryside.mvp.model.PurchaseModel;
+import com.zhenhaikj.factoryside.mvp.presenter.MinePresenter;
+import com.zhenhaikj.factoryside.mvp.presenter.PurchasePresenter;
+import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.utils.SpUtils;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import androidx.appcompat.widget.Toolbar;
-import butterknife.BindView;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MineFragment extends BaseLazyFragment implements View.OnClickListener {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
+import butterknife.BindView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
+import static com.blankj.utilcode.util.PhoneUtils.call;
+
+public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.iv_service)
@@ -86,6 +133,15 @@ public class MineFragment extends BaseLazyFragment implements View.OnClickListen
     private Intent intent;
 
     int position = 0;
+    private View shareView;
+    private AlertDialog shareDialog;
+    private String userId;
+    private UserInfo.UserInfoDean userInfoDean;
+    private int size;
+    private ArrayList<String> permissions;
+    private PopupWindow mPopupWindow;
+    private View popupWindow_view;
+    private String filePath;
 
 
     public MineFragment() {
@@ -135,13 +191,16 @@ public class MineFragment extends BaseLazyFragment implements View.OnClickListen
 
     @Override
     protected void initData() {
-        Glide.with(mActivity).load(R.drawable.avatar).apply(RequestOptions.circleCropTransform().placeholder(R.drawable.default_avatar).error(R.drawable.default_avatar)).into(mIvProfileImage);
+//        Glide.with(mActivity).load(R.drawable.avatar).apply(RequestOptions.circleCropTransform().placeholder(R.drawable.default_avatar).error(R.drawable.default_avatar)).into(mIvProfileImage);
         mRefreshLayout.setEnableLoadMore(false);
+        mPresenter.GetUserInfoList(userId,"1");
     }
 
     @Override
     protected void initView() {
-
+        SPUtils spUtils=SPUtils.getInstance("token");
+        userId = spUtils.getString("userName");
+        userInfoDean = new UserInfo.UserInfoDean();
     }
 
     @Override
@@ -165,12 +224,13 @@ public class MineFragment extends BaseLazyFragment implements View.OnClickListen
         mLlAddBrand.setOnClickListener(this);
         mLlFeedback.setOnClickListener(this);
         mLlAbout.setOnClickListener(this);
+        mIvProfileImage.setOnClickListener(this);
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-
+        mPresenter.GetUserInfoList(userId,"1");
     }
 
     @Override
@@ -199,7 +259,16 @@ public class MineFragment extends BaseLazyFragment implements View.OnClickListen
                 }).show();
                 break;
             case R.id.ll_gift:
-                startActivity(new Intent(mActivity,WalletActivity.class));
+//                startActivity(new Intent(mActivity,WalletActivity.class));
+                shareView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share,null);
+                shareDialog = new AlertDialog.Builder(mActivity).setView(shareView).create();
+                shareDialog.show();
+                Window window=shareDialog.getWindow();
+                WindowManager.LayoutParams lp=window.getAttributes();
+                Display display=mActivity.getWindowManager().getDefaultDisplay();
+                lp.width=(int) (display.getWidth()*0.6);
+                window.setAttributes(lp);
+                window.setBackgroundDrawable(new ColorDrawable());
                 break;
             case R.id.tv_recharge:
                 startActivity(new Intent(mActivity,RechargeActivity.class));
@@ -279,6 +348,226 @@ public class MineFragment extends BaseLazyFragment implements View.OnClickListen
             case R.id.ll_about:
                 startActivity(new Intent(mActivity, AboutUsActivity.class));
                 break;
+            case R.id.iv_profile_image:
+                if (requestPermissions()){
+                    showPopupWindow(101,102);
+                }else {
+                    requestPermissions(permissions.toArray(new String[permissions.size()]),10001);
+                }
+                break;
         }
     }
+
+    public void showPopupWindow(final int code1,final int code2 ){
+        popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.camera_layout,null);
+        Button camera_btn= popupWindow_view.findViewById(R.id.camera_btn);
+        Button photo_btn= popupWindow_view.findViewById(R.id.photo_btn);
+        Button cancel_btn= popupWindow_view.findViewById(R.id.cancel_btn);
+        camera_btn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                if (requestPermissions()){
+                    Intent intent=new Intent();
+                    intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    String f=System.currentTimeMillis()+".jpg";
+                    String fileDir= Environment.getExternalStorageDirectory().getAbsolutePath()+"/xgy";
+                    filePath = Environment.getExternalStorageDirectory().getAbsoluteFile()+"/xgy/"+f;
+                    File dirfile=new File(fileDir);
+                    if (!dirfile.exists()){
+                        dirfile.mkdirs();
+                    }
+                    File file=new File(filePath);
+                    Uri fileUri;
+                    if (Build.VERSION.SDK_INT >= 24){
+                        fileUri = FileProvider.getUriForFile(mActivity, "com.zhenhaikj.factoryside.fileProvider", file);
+                    }else {
+                        fileUri=Uri.fromFile(file);
+                    }
+
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT,fileUri);
+                    startActivityForResult(intent,code1);
+                }else {
+                    requestPermissions(permissions.toArray(new String[permissions.size()]),10001);
+                }
+                mPopupWindow.dismiss();
+            }
+        });
+
+        photo_btn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                if (requestPermissions()){
+                    Intent intent1=new Intent(Intent.ACTION_GET_CONTENT);
+                    intent1.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent1.setType("image/*");
+                    startActivityForResult(Intent.createChooser(intent1,"test"),code2);
+                    mPopupWindow.dismiss();
+                }else {
+                    requestPermissions(permissions.toArray(new String[permissions.size()]), 10002);
+                }
+            }
+        });
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow.dismiss();
+            }
+        });
+
+        mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity,false);
+            }
+        });
+        if (mPopupWindow !=null&&!mPopupWindow.isShowing()){
+            mPopupWindow.showAtLocation(popupWindow_view, Gravity.BOTTOM,0,0);
+        }
+        MyUtils.setWindowAlpa(mActivity,true);
+    }
+
+    //请求权限
+    private boolean requestPermissions() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            permissions = new ArrayList<>();
+            if (mActivity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+            if (mActivity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            if (mActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.CAMERA);
+            }
+            if (permissions.size() == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        size = 0;
+        for (int i=0;i<grantResults.length;i++){
+            if (grantResults[i]==PackageManager.PERMISSION_GRANTED){
+                size++;
+            }
+        }
+        switch (requestCode){
+            case 1001:
+                if (size ==grantResults.length){
+                    showPopupWindow(101,102);
+                }else {
+                    MyUtils.showToast(mActivity,"相关权限未开启");
+                }
+                break;
+            case 1002:
+                if (size ==grantResults.length){
+                    showPopupWindow(201,202);
+                }else {
+                    MyUtils.showToast(mActivity,"相关权限未开启");
+                }
+        }
+    }
+
+    public void uploadImg(File f){
+        MultipartBody.Builder builder=new MultipartBody.Builder().setType(MultipartBody.FORM);
+        builder.addFormDataPart("img",f.getName(), RequestBody.create(MediaType.parse("img/png"),f));
+        builder.addFormDataPart("UserId",userId);
+        MultipartBody requestBody=builder.build();
+        mPresenter.UploadAvator(requestBody);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        File file = null;
+        switch (requestCode) {
+            //拍照获取图片
+            case 101:
+                if (resultCode == -1) {
+                    Glide.with(mActivity).load(filePath).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(mIvProfileImage);
+                    file = new File(filePath);
+                }
+                if (file != null) {
+                    uploadImg(file);
+                }
+                break;
+            //从相册中获取
+            case 102:
+                if (data != null) {
+                    Uri uri = data.getData();
+                    Glide.with(mActivity).load(uri).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(mIvProfileImage);
+                    file = new File(MyUtils.getRealPathFromUri(mActivity, uri));
+                }
+                if (file != null) {
+                    uploadImg(file);
+                }
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                userInfoDean=baseResult.getData().getData().get(0);
+                if (userInfoDean.getAvator()==null){
+                    return;
+                }else {
+                    Glide.with(mActivity)
+                            .load(Config.HEAD_URL+userInfoDean.getAvator())
+                            .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                            .into(mIvProfileImage);
+                }
+                mTvNickname.setText(userInfoDean.getNickName());
+                mTvMoney.setText("可用金额（元） "+(float)(userInfoDean.getRemainMoney() * 100 /1024/1024)/100);
+                break;
+            case 401:
+                break;
+        }
+    }
+
+    @Override
+    public void UploadAvator(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (!baseResult.getData().isItem1()){
+
+                    Toast.makeText(mActivity,"图片上传失败",Toast.LENGTH_SHORT).show();
+                }else {
+
+                    Toast.makeText(mActivity,"图片上传成功",Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post("");
+                }
+
+                break;
+
+            default:
+                Toast.makeText(mActivity,"修改失败",Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+
+
 }

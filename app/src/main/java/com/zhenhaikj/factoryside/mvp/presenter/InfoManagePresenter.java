@@ -55,4 +55,15 @@ public class InfoManagePresenter extends InfoManageContract.Presenter {
                 });
     }
 
+    @Override
+    public void UpdateSex(String UserId, String Sex) {
+        mModel.UpdateSex(UserId, Sex)
+                .subscribe(new BaseObserver<Data>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data> value) {
+                        mView.UpdateSex(value);
+                    }
+                });
+    }
+
 }

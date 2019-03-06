@@ -1,11 +1,12 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
@@ -14,7 +15,9 @@ import com.zhenhaikj.factoryside.mvp.adapter.BillAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.RechargeRecordAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
+import com.zhenhaikj.factoryside.mvp.utils.DataCleanManager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +41,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     ImageView mIconSearch;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.ll_clean)
+    LinearLayout mLlClean;
+    @BindView(R.id.ll_update)
+    LinearLayout mLlUpdate;
+    @BindView(R.id.tv_cache)
+    TextView mTvCache;
     private List<Address> billList = new ArrayList<>();
     private List<Address> rechargeRecordList = new ArrayList<>();
     private BillAdapter billAdapter;
@@ -59,6 +68,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initData() {
+        String resultCache = null;
+        try {
+            resultCache = DataCleanManager.getTotalCacheSize(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mTvCache.setText(resultCache);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -72,6 +88,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mLlClean.setOnClickListener(this);
     }
 
 
@@ -89,6 +106,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.icon_search:
                 finish();
                 break;
+            case R.id.ll_clean:
+                String resultCache = null;
+                try {
+                    resultCache = DataCleanManager.getTotalCacheSize(this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                mTvCache.setText(resultCache);
+                DataCleanManager.clearAllCache(this);
+                break;
         }
     }
 
@@ -98,4 +125,17 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
+    public File getDiskCacheDir(Context context, String uniqueName) {
+        String cachePath;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            cachePath = context.getExternalCacheDir().getPath();
+        } else {
+            cachePath = context.getCacheDir().getPath();
+        }
+        return new File(cachePath + File.separator + uniqueName);
+    }
+
+
 }

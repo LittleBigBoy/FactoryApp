@@ -117,4 +117,9 @@ public class ChageUserNameActivity extends BaseActivity<InfoManagePresenter, Inf
     public void UploadAvator(BaseResult<Data<String>> baseResult) {
 
     }
+
+    @Override
+    public void UpdateSex(BaseResult<Data> baseResult) {
+
+    }
 }
