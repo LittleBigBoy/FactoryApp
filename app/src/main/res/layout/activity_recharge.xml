@@ -7,10 +7,6 @@
 
     <include layout="@layout/toolbar" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#E6E6E6" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,19 +17,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="18dp"
-                android:text="在线充值"
-                android:textColor="#333333"
-                android:textSize="20sp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/red_round_shape"
                 android:orientation="horizontal">
 
@@ -193,7 +180,8 @@
                 android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants">
                 <androidx.recyclerview.widget.RecyclerView
-                    android:padding="20dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:id="@+id/rl_recharge_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -206,11 +194,12 @@
                 android:layout_height="wrap_content"
                 android:hint="任意金额"
                 android:maxLength="5"
+                android:textSize="16sp"
                 android:singleLine="true"
                 android:inputType="number"
                 android:background="@drawable/edit_shape"
                 android:padding="@dimen/dp_10"
-                android:layout_margin="20dp"/>
+                android:layout_margin="10dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -227,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:text="实际到账："
                     android:textColor="@color/black"
-                    android:textSize="16dp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_actual_arrival"
@@ -235,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:text="30.00"
                     android:textColor="#E83D27"
-                    android:textSize="16dp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -243,7 +232,7 @@
                     android:layout_marginRight="24dp"
                     android:text="元"
                     android:textColor="#E83D27"
-                    android:textSize="14dp" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -316,20 +305,26 @@
                     android:src="@drawable/pay_check_selector" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="19dp"
-                android:layout_marginTop="56dp"
-                android:layout_marginRight="19dp"
-                android:background="#F25037" />
 
+
+            <Button
+                android:id="@+id/bt_recharge"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_shape"
+                android:text="去充值"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="21dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="30dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -347,17 +342,6 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/bt_recharge"
-                android:layout_width="match_parent"
-                android:layout_height="49dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/btn_shape"
-                android:text="去充值"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
 
         </LinearLayout>
     </ScrollView>

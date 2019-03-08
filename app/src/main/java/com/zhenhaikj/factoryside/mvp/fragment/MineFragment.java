@@ -50,7 +50,6 @@ import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.MineContract;
 import com.zhenhaikj.factoryside.mvp.contract.PurchaseContract;
 import com.zhenhaikj.factoryside.mvp.model.MineModel;
-import com.zhenhaikj.factoryside.mvp.model.PurchaseModel;
 import com.zhenhaikj.factoryside.mvp.presenter.MinePresenter;
 import com.zhenhaikj.factoryside.mvp.presenter.PurchasePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
@@ -283,8 +282,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_to_be_returned:
                 bundle = new Bundle();
-                bundle.putString("title", "待返件");
-                bundle.putInt("position", position);
+                bundle.putString("title", "配件单");
+                bundle.putInt("position", 4);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
@@ -292,7 +291,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_to_be_confirmed:
                 bundle = new Bundle();
                 bundle.putString("title","待确认");
-                bundle.putInt("position", position);
+                bundle.putInt("position", 1);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
@@ -300,7 +299,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_complete:
                 bundle = new Bundle();
                 bundle.putString("title","已完成");
-                bundle.putInt("position", position);
+                bundle.putInt("position", 3);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);

@@ -10,14 +10,33 @@ import com.zhenhaikj.factoryside.mvp.contract.HomeContract;
 import com.zhenhaikj.factoryside.mvp.model.HomeModel;
 import com.zhenhaikj.factoryside.mvp.presenter.HomePresenter;
 
-public class TrackFragment extends BaseLazyFragment<HomePresenter, HomeModel> implements HomeContract.View {
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
+public class TrackFragment extends BaseLazyFragment{
 
+    private static final String ARG_PARAM1 = "param1";//
+    private static final String ARG_PARAM2 = "param2";//
+
+    private String mParam1;
+    private String mParam2;
+    public static TrackFragment newInstance(String param1, String param2) {
+        TrackFragment fragment = new TrackFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
     }
 
     @Override
@@ -40,8 +59,9 @@ public class TrackFragment extends BaseLazyFragment<HomePresenter, HomeModel> im
 
     }
 
-    @Override
-    public void success(BaseResult<HomeData> baseResult) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String name) {
 
     }
+
 }

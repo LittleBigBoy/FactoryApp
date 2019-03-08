@@ -4,19 +4,33 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
+import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
+import com.zhenhaikj.factoryside.mvp.fragment.MessageFragment;
+import com.zhenhaikj.factoryside.mvp.fragment.ReturnFragment;
+import com.zhenhaikj.factoryside.mvp.fragment.ShippingFragment;
+import com.zhenhaikj.factoryside.mvp.fragment.TrackFragment;
+import com.zhenhaikj.factoryside.mvp.widget.CustomViewPager;
+
+import java.util.ArrayList;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class WarrantyActivity extends BaseActivity implements View.OnClickListener {
+public class WarrantyActivity extends BaseActivity implements View.OnClickListener , ViewPager.OnPageChangeListener {
 
     @BindView(R.id.view)
     View mView;
@@ -120,30 +134,58 @@ public class WarrantyActivity extends BaseActivity implements View.OnClickListen
     TextView mConfirmMailingAccessoriesTv;
     @BindView(R.id.delayed_delivery_tv)
     TextView mDelayedDeliveryTv;
+    @BindView(R.id.ll_warranty)
+    ScrollView mLlWarranty;
+    @BindView(R.id.wp_warranty)
+    CustomViewPager mWpWarranty;
+    private String OrderId;
+    private WorkOrder.DataBean data;
+
+    private ArrayList<Fragment> mFragments;
+
 
     @Override
     protected int setLayoutId() {
         return R.layout.activity_warranty;
     }
-    @Override
-    protected void initImmersionBar() {
-        mImmersionBar = ImmersionBar.with(this);
+
+//    @Override
+//    protected void initImmersionBar() {
+//        mImmersionBar = ImmersionBar.with(this);
 //        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
-        mImmersionBar.statusBarView(mView);
-        mImmersionBar.keyboardEnable(true);
-        mImmersionBar.init();
-    }
+//        mImmersionBar.statusBarView(mView);
+//        mImmersionBar.keyboardEnable(true);
+//        mImmersionBar.init();
+//    }
+
     @Override
     protected void initData() {
+        mTvTitle.setText("质保单详情");
+        mTvTitle.setVisibility(View.VISIBLE);
+        OrderId = getIntent().getStringExtra("OrderId");
+
+        mFragments = new ArrayList<>();
+        mFragments.add(MessageFragment.newInstance("", ""));
+        mFragments.add(TrackFragment.newInstance("", ""));
+        mFragments.add(ShippingFragment.newInstance("", ""));
+        mFragments.add(ReturnFragment.newInstance("", ""));
     }
 
     @Override
     protected void initView() {
-
+        mWpWarranty.setAdapter(new MyAdapter(getSupportFragmentManager()));
+        mWpWarranty.setOffscreenPageLimit(4);
+        mWpWarranty.setScroll(false);
     }
 
     @Override
     protected void setListener() {
+        mIconBack.setOnClickListener(this);
+        mMessageTv.setOnClickListener(this);
+        mWorkOrderTrackingTv.setOnClickListener(this);
+        mShippingLogisticsTv.setOnClickListener(this);
+        mReturnLogisticsTv.setOnClickListener(this);
+        mWpWarranty.addOnPageChangeListener(this);
     }
 
 
@@ -161,7 +203,40 @@ public class WarrantyActivity extends BaseActivity implements View.OnClickListen
             case R.id.icon_search:
                 finish();
                 break;
+            case R.id.message_tv:
+                mLlWarranty.setVisibility(View.GONE);
+                mWpWarranty.setVisibility(View.VISIBLE);
+                mWpWarranty.setCurrentItem(0);
+                tabSelected(mMessageTv);
+                break;
+            case R.id.work_order_tracking_tv:
+                mLlWarranty.setVisibility(View.GONE);
+                mWpWarranty.setVisibility(View.VISIBLE);
+                mWpWarranty.setCurrentItem(1);
+                tabSelected(mWorkOrderTrackingTv);
+                break;
+            case R.id.shipping_logistics_tv:
+                mLlWarranty.setVisibility(View.GONE);
+                mWpWarranty.setVisibility(View.VISIBLE);
+                mWpWarranty.setCurrentItem(2);
+                tabSelected(mShippingLogisticsTv);
+                break;
+            case R.id.return_logistics_tv:
+                mLlWarranty.setVisibility(View.GONE);
+                mWpWarranty.setVisibility(View.VISIBLE);
+                mWpWarranty.setCurrentItem(3);
+                tabSelected(mReturnLogisticsTv);
+                break;
         }
+    }
+
+
+    private void tabSelected(TextView textView) {
+        mMessageTv.setSelected(false);
+        mWorkOrderTrackingTv.setSelected(false);
+        mShippingLogisticsTv.setSelected(false);
+        mReturnLogisticsTv.setSelected(false);
+        textView.setSelected(true);
     }
 
     @Override
@@ -170,4 +245,50 @@ public class WarrantyActivity extends BaseActivity implements View.OnClickListen
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        switch (position) {
+            case 0:
+                tabSelected(mMessageTv);
+                break;
+            case 1:
+                tabSelected(mWorkOrderTrackingTv);
+                break;
+            case 2:
+                tabSelected(mShippingLogisticsTv);
+                break;
+            case 3:
+                tabSelected(mReturnLogisticsTv);
+                break;
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    private class MyAdapter extends FragmentPagerAdapter {
+        MyAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.size();
+        }
+    }
+
+
 }

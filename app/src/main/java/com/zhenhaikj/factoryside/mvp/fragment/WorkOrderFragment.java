@@ -15,6 +15,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.activity.WarrantyActivity;
 import com.zhenhaikj.factoryside.mvp.activity.WorkOrderDetailsActivity;
 import com.zhenhaikj.factoryside.mvp.adapter.WorkOrderAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
@@ -221,9 +222,16 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
                         break;
                     case R.id.tv_see_detail:
-                        Intent intent=new Intent(mActivity,WorkOrderDetailsActivity.class);
-                        intent.putExtra("OrderID",workOrderList.get(position).getOrderID());
-                        startActivity(intent);
+                        if (mParam1=="质保单"){
+                            Intent intent1=new Intent(mActivity, WarrantyActivity.class);
+                            intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
+                            startActivity(intent1);
+                        }else {
+                            Intent intent=new Intent(mActivity,WorkOrderDetailsActivity.class);
+                            intent.putExtra("OrderID",workOrderList.get(position).getOrderID());
+                            startActivity(intent);
+                        }
+
                         break;
                     case R.id.iv_copy:
                          String id=workOrderList.get(position).getOrderID();
