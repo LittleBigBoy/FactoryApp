@@ -11,6 +11,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
@@ -180,5 +181,20 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
             case 401:
                 break;
         }
+    }
+
+    @Override
+    public void ApplyCustomService(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void ApproveOrderAccessory(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void ApproveBeyondMoney(BaseResult<Data<String>> baseResult) {
+
     }
 }

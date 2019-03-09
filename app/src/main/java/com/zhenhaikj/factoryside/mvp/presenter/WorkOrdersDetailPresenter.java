@@ -3,6 +3,7 @@ package com.zhenhaikj.factoryside.mvp.presenter;
 
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 
@@ -16,6 +17,39 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
                     @Override
                     protected void onHandleSuccess(BaseResult<WorkOrder.DataBean> value) {
                         mView.GetOrderInfo(value);
+                    }
+                });
+    }
+
+    @Override
+    public void ApplyCustomService(String OrderID) {
+        mModel.ApplyCustomService(OrderID)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.ApplyCustomService(value);
+                    }
+                });
+    }
+
+    @Override
+    public void ApproveOrderAccessory(String OrderID, String AccessoryApplyState) {
+        mModel.ApproveOrderAccessory(OrderID, AccessoryApplyState)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.ApproveOrderAccessory(value);
+                    }
+                });
+    }
+
+    @Override
+    public void ApproveBeyondMoney(String OrderID, String BeyondState) {
+        mModel.ApproveBeyondMoney(OrderID, BeyondState)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.ApproveBeyondMoney(value);
                     }
                 });
     }

@@ -189,7 +189,11 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
                 if (len > 1 && text.startsWith("0")) {
                     value=s.replace(0,1,"").toString();
                 }else{
-                    value=s.toString();
+                    if ("".equals(text)){
+                        value="0";
+                    }else{
+                        value=text;
+                    }
                 }
                 mTvActualArrival.setText(value);
             }
@@ -222,7 +226,7 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
 
                 break;
             case R.id.bt_recharge:
-                if (value==null){
+                if (value==null||"0".equals(value)){
                     ToastUtils.showShort("请选择或输入充值金额");
                     return;
                 }

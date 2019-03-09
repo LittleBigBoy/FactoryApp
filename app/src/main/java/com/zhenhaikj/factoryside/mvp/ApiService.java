@@ -287,14 +287,54 @@ public interface ApiService {
 
     /**
      * 充值信息
-     * @param UserID
-     * @param TotalAmount
+     * @param UserID 账号
+     * @param TotalAmount 金额
+     * @param Type  1余额 2 诚意金
      * @return
      */
     @FormUrlEncoded
     @POST("Pay/GetOrderStr")
     Observable<BaseResult<Data<String>>> GetOrderStr(@Field("UserID") String UserID,
-                                                @Field("TotalAmount") String TotalAmount);
+                                                     @Field("TotalAmount") String TotalAmount,
+                                                     @Field("Type") String Type);
+
+    /**
+     * 对某笔单子申请质保
+     * @param OrderID 订单id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/ApplyCustomService")
+    Observable<BaseResult<Data<String>>> ApplyCustomService(
+            @Field("OrderID") String OrderID
+    );
+
+    /**
+     * 审核远程费
+     * @param OrderID   订单id
+     * @param BeyondState   -1拒绝 1通过
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/ApproveBeyondMoney")
+    Observable<BaseResult<Data<String>>> ApproveBeyondMoney(
+            @Field("OrderID") String OrderID,
+            @Field("BeyondState") String BeyondState
+    );
+
+    /**
+     * 审核配件申请
+     * @param OrderID 订单id
+     * @param AccessoryApplyState  -1拒绝 1通过
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/ApproveOrderAccessory")
+    Observable<BaseResult<Data<String>>> ApproveOrderAccessory(
+            @Field("OrderID") String OrderID,
+            @Field("AccessoryApplyState") String AccessoryApplyState
+    );
+
     /*
     * 修改头像
     * */

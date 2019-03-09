@@ -44,16 +44,12 @@ import com.zhenhaikj.factoryside.mvp.activity.SettingActivity;
 import com.zhenhaikj.factoryside.mvp.activity.WalletActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
-import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.MineContract;
-import com.zhenhaikj.factoryside.mvp.contract.PurchaseContract;
 import com.zhenhaikj.factoryside.mvp.model.MineModel;
 import com.zhenhaikj.factoryside.mvp.presenter.MinePresenter;
-import com.zhenhaikj.factoryside.mvp.presenter.PurchasePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
-import com.zhenhaikj.factoryside.mvp.utils.SpUtils;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
 import org.greenrobot.eventbus.EventBus;
@@ -62,7 +58,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,8 +68,6 @@ import butterknife.BindView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-
-import static com.blankj.utilcode.util.PhoneUtils.call;
 
 public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View {
     private static final String ARG_PARAM1 = "param1";

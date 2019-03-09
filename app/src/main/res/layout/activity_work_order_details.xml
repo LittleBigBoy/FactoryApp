@@ -173,6 +173,104 @@
                         android:textColor="#7B7B7B"
                         android:textSize="15sp" />
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_approve_beyond_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:text="审核远程费："
+                        android:textColor="#7B7B7B"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/tv_reject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dp_10"
+                        android:layout_marginRight="20dp"
+                        android:text="拒绝"
+                        android:textColor="@color/white"
+                        android:background="@color/red"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_pass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dp_10"
+                        android:text="通过"
+                        android:textColor="@color/white"
+                        android:background="@color/ysf_blue_5e94e2"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_approve_order_accessory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:text="审核配件申请："
+                        android:textColor="#7B7B7B"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/tv_reject1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dp_10"
+                        android:layout_marginRight="20dp"
+                        android:text="拒绝"
+                        android:textColor="@color/white"
+                        android:background="@color/red"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_pass1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dp_10"
+                        android:text="通过"
+                        android:textColor="@color/white"
+                        android:background="@color/ysf_blue_5e94e2"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_apply_custom_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:text="申请质保："
+                        android:textColor="#7B7B7B"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/tv_apply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dp_10"
+                        android:layout_marginRight="20dp"
+                        android:text="申请质保"
+                        android:textColor="@color/white"
+                        android:background="@color/red"
+                        android:textSize="15sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
