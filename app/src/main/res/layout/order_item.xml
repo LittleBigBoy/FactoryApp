@@ -220,6 +220,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/dp_4"
             android:gravity="right"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/tv_complaint"
@@ -228,12 +229,9 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="投诉"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:background="@drawable/edit_shape"
-                android:paddingLeft="@dimen/dp_10"
-                android:paddingRight="@dimen/dp_10"
-                android:paddingTop="@dimen/dp_4"
-                android:paddingBottom="@dimen/dp_4"
+                android:padding="@dimen/dp_10"
                 android:textColor="#AAAAAA"/>
             <TextView
                 android:id="@+id/tv_leave_message"
@@ -243,12 +241,9 @@
                 android:gravity="center"
                 android:text="留言 2"
                 android:layout_marginLeft="@dimen/dp_10"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:background="@drawable/edit_shape"
-                android:paddingLeft="@dimen/dp_10"
-                android:paddingRight="@dimen/dp_10"
-                android:paddingTop="@dimen/dp_4"
-                android:paddingBottom="@dimen/dp_4"
+                android:padding="@dimen/dp_10"
                 android:textColor="#AAAAAA"/>
             <TextView
                 android:id="@+id/tv_see_detail"
@@ -258,12 +253,9 @@
                 android:gravity="center"
                 android:text="查看详情"
                 android:layout_marginLeft="@dimen/dp_10"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:background="@drawable/edit_shape"
-                android:paddingLeft="@dimen/dp_10"
-                android:paddingRight="@dimen/dp_10"
-                android:paddingTop="@dimen/dp_4"
-                android:paddingBottom="@dimen/dp_4"
+                android:padding="@dimen/dp_10"
                 android:textColor="@color/red"/>
         </LinearLayout>
     </LinearLayout>

@@ -112,7 +112,7 @@
                             android:layout_marginRight="20dp"
                             android:text="山东/聊城市/东昌府区/水城雅居一号楼一单元5楼东户"
                             android:textColor="#333333"
-                            android:textSize="15dp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -173,42 +173,7 @@
                         android:textColor="#7B7B7B"
                         android:textSize="15sp" />
                 </LinearLayout>
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/ll_approve_beyond_money"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="9dp"-->
-                    <!--android:layout_marginBottom="8dp"-->
-                    <!--android:gravity="center"-->
-                    <!--android:orientation="horizontal">-->
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginLeft="7dp"-->
-                        <!--android:text="审核远程费："-->
-                        <!--android:textColor="#7B7B7B"-->
-                        <!--android:textSize="15sp" />-->
-                    <!--<TextView-->
-                        <!--android:id="@+id/tv_reject"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="@dimen/dp_10"-->
-                        <!--android:layout_marginRight="20dp"-->
-                        <!--android:text="拒绝"-->
-                        <!--android:textColor="@color/white"-->
-                        <!--android:background="@color/red"-->
-                        <!--android:textSize="15sp" />-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/tv_pass"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="@dimen/dp_10"-->
-                        <!--android:text="通过"-->
-                        <!--android:textColor="@color/white"-->
-                        <!--android:background="@color/ysf_blue_5e94e2"-->
-                        <!--android:textSize="15sp" />-->
-                <!--</LinearLayout>-->
                 <!--<LinearLayout-->
                     <!--android:id="@+id/ll_approve_order_accessory"-->
                     <!--android:layout_width="match_parent"-->
@@ -432,6 +397,105 @@
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_approve_beyond_money"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="@dimen/dp_10"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="17dp"
+                    android:text="审核远程费："
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/tv_reject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10"
+                    android:layout_marginRight="30dp"
+                    android:text="拒绝"
+                    android:textColor="@color/white"
+                    android:background="@drawable/gray_round_shape"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_pass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="40dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10"
+                    android:text="通过"
+                    android:textColor="@color/white"
+                    android:background="@drawable/red_round_shape"
+                    android:textSize="15sp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#DCDCDC" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="已超出正常范围"
+                        android:textColor="#333"
+                        android:layout_marginLeft="17dp"
+                        android:layout_gravity="center"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/tv_range"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20"
+                        android:textColor="@color/red"
+                        android:layout_gravity="center"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="公里"
+                        android:textColor="#333"
+                        android:layout_gravity="center"
+                        android:textSize="15sp" />
+                        <ImageView
+                            android:id="@+id/iv_range_one"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@mipmap/tianjia"
+                            android:layout_marginRight="30dp"/>
+                        <ImageView
+                            android:id="@+id/iv_range_two"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@mipmap/tianjia"
+                            android:layout_marginRight="40dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -448,7 +512,7 @@
                     android:layout_marginBottom="16dp"
                     android:text="是否已发配件："
                     android:textColor="#333333"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_sent_out_accessories"
@@ -459,7 +523,7 @@
                     android:layout_marginBottom="16dp"
                     android:text="否"
                     android:textColor="#333333"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -629,7 +693,7 @@
                     android:layout_marginBottom="16dp"
                     android:text="故障描述："
                     android:textColor="#333333"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_fault_description"
@@ -640,7 +704,7 @@
                     android:layout_marginBottom="16dp"
                     android:text="洗衣机不通电"
                     android:textColor="#333333"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
         </LinearLayout>

@@ -15,6 +15,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.activity.AccessoriesListActivity;
+import com.zhenhaikj.factoryside.mvp.activity.CompletionOrderActivity;
+import com.zhenhaikj.factoryside.mvp.activity.RemoteBillActivity;
 import com.zhenhaikj.factoryside.mvp.activity.WarrantyActivity;
 import com.zhenhaikj.factoryside.mvp.activity.WorkOrderDetailsActivity;
 import com.zhenhaikj.factoryside.mvp.adapter.WorkOrderAdapter;
@@ -57,7 +60,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     private WorkOrderAdapter mWorkOrderAdapter;
     private List<WorkOrder.DataBean> workOrderList = new ArrayList<>();
     private String[] mTitleDataList = new String[]{
-            "所有工单", "待接单", "退单处理", "已完结", "配件单", "待支付",
+            "所有工单", "待接单", "已接单待预约","退单处理", "已完结", "配件单", "待支付",
             "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     };
     private static SPUtils spUtils;
@@ -174,6 +177,9 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
             case "待接单":
                 mPresenter.GetOrderInfoList(UserID,"1", Integer.toString(pageIndex), "3");
                 break;
+            case "已接单待预约":
+                mPresenter.GetOrderInfoList(UserID,"4", Integer.toString(pageIndex), "3");
+                break;
             case "退单处理":
                 mPresenter.GetOrderInfoList(UserID,"2", Integer.toString(pageIndex), "3");
                 break;
@@ -226,7 +232,19 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                             Intent intent1=new Intent(mActivity, WarrantyActivity.class);
                             intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
                             startActivity(intent1);
-                        }else {
+                        }else if (mParam1=="远程费单"){
+                            Intent intent1=new Intent(mActivity, RemoteBillActivity.class);
+                            intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
+                            startActivity(intent1);
+                        }else if (mParam1=="配件单"){
+                            Intent intent1=new Intent(mActivity, AccessoriesListActivity.class);
+                            intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
+                            startActivity(intent1);
+                        }else if (mParam1=="已完结"){
+                            Intent intent1=new Intent(mActivity, CompletionOrderActivity.class);
+                            intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
+                            startActivity(intent1);
+                        } else {
                             Intent intent=new Intent(mActivity,WorkOrderDetailsActivity.class);
                             intent.putExtra("OrderID",workOrderList.get(position).getOrderID());
                             startActivity(intent);

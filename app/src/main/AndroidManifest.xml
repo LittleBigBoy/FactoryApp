@@ -111,6 +111,9 @@
         <activity android:name=".mvp.activity.ActivityUiDialog" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.ChageUserNameActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.ChagePasswordActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.RemoteBillActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.AccessoriesListActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.CompletionOrderActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <!-- alipay sdk begin -->
 
         <activity

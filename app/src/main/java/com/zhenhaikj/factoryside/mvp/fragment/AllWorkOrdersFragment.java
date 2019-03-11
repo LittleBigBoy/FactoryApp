@@ -45,7 +45,7 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
     private String mParam1;
     private String mParam2;
     private String[] mTitleDataList = new String[]{
-            "所有工单","待接单", "退单处理", "已完结", "配件单", "待支付",
+            "所有工单","待接单","已接单待预约", "废除工单", "已完结", "配件单", "待支付",
             "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     };
     private CommonNavigator commonNavigator;
@@ -103,7 +103,7 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
     @Override
     protected void initData() {
         mWorkOrderFragmentList = new ArrayList<>();
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 12; i++) {
             mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i],""));
         }
         mViewPager.setOffscreenPageLimit(mTitleDataList.length);
@@ -122,6 +122,7 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
                 colorTransitionPagerTitleView.setNormalColor(Color.BLACK);
                 colorTransitionPagerTitleView.setSelectedColor(Color.RED);
                 colorTransitionPagerTitleView.setText(mTitleDataList[index]);
+                colorTransitionPagerTitleView.setTextSize(18);
                 colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
