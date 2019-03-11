@@ -3,6 +3,7 @@ package com.zhenhaikj.factoryside.mvp;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
+import com.zhenhaikj.factoryside.mvp.bean.Article;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.City;
@@ -347,6 +348,14 @@ public interface ApiService {
     Observable<BaseResult<Data>> UpdateSex(@Field("UserID") String UserID,
                                            @Field("Sex") String Sex);
 
+
+
+    /*获取文章
+    * 3系统消息 4平台政策 5平台新闻 6接单必读
+    * */
+    @FormUrlEncoded
+    @POST("Cms/GetListCategoryContentByCategoryID")
+    Observable<BaseResult<Article>> GetListCategoryContentByCategoryID(@Field("CategoryID") String CategoryID);
 
 
     /**

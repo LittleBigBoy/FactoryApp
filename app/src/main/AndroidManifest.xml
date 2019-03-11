@@ -114,6 +114,8 @@
         <activity android:name=".mvp.activity.RemoteBillActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.AccessoriesListActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.CompletionOrderActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.ArticleActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.WebActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <!-- alipay sdk begin -->
 
         <activity
