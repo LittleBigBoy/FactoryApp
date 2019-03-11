@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
@@ -158,7 +159,7 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {//发起质保
                         apply.dismiss();
-
+                        mPresenter.ApplyCustomService(OrderID);
                     }
 
                     @Override
@@ -172,13 +173,6 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     public void GetOrderInfo(BaseResult<WorkOrder.DataBean> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
@@ -188,7 +182,7 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
                 mTvAddress.setText(data.getAddress());
                 mTvTime.setText(data.getCreateDate());
                 mTvWorkOrderStatus.setText(data.getState());
-                mTvWorkOrderNumber.setText(data.getId());
+                mTvWorkOrderNumber.setText(data.getOrderID());
                 mTvWarrantyType.setText(data.getGuarantee());
                 mTvWorkOrderType.setText(data.getTypeName());
                 mTvRecoveryTime.setText(data.getRecycleOrderHour());
@@ -209,7 +203,14 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
 
     @Override
     public void ApplyCustomService(BaseResult<Data<String>> baseResult) {
-
+        switch(baseResult.getStatusCode()){
+            case 200:
+                ToastUtils.showShort("申请质保成功！");
+                finish();
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
@@ -168,7 +169,7 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-
+                        mPresenter.ApproveBeyondMoney(OrderID,"-1");
                     }
 
                     @Override
@@ -188,7 +189,7 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
                     @Override
                     public void onPositiveClick() {
                         pass.dismiss();
-
+                        mPresenter.ApproveBeyondMoney(OrderID,"1");
                     }
 
                     @Override
@@ -218,7 +219,7 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
                 mTvAddress.setText(data.getAddress());
                 mTvTime.setText(data.getCreateDate());
                 mTvWorkOrderStatus.setText(data.getState());
-                mTvWorkOrderNumber.setText(data.getId());
+                mTvWorkOrderNumber.setText(data.getOrderID());
                 mTvWarrantyType.setText(data.getGuarantee());
                 mTvWorkOrderType.setText(data.getTypeName());
                 mTvRecoveryTime.setText(data.getRecycleOrderHour());
@@ -249,6 +250,13 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
 
     @Override
     public void ApproveBeyondMoney(BaseResult<Data<String>> baseResult) {
-
+        switch(baseResult.getStatusCode()){
+            case 200:
+                ToastUtils.showShort("审核成功！");
+                finish();
+                break;
+            default:
+                break;
+        }
     }
 }

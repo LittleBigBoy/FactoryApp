@@ -6,8 +6,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.adapter.AccessoryDetailAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
@@ -18,6 +20,7 @@ import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,6 +88,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     LinearLayout mLlApproveBeyondMoney;
     private String OrderID;
     private WorkOrder.DataBean data;
+    private AccessoryDetailAdapter accessoryDetailAdapter;
 
     @Override
     protected int setLayoutId() {
@@ -165,7 +169,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-
+                        mPresenter.ApproveOrderAccessory(OrderID,"-1");
                     }
 
                     @Override
@@ -185,7 +189,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         pass.dismiss();
-
+                        mPresenter.ApproveOrderAccessory(OrderID,"1");
                     }
 
                     @Override
@@ -215,7 +219,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 mTvAddress.setText(data.getAddress());
                 mTvTime.setText(data.getCreateDate());
                 mTvWorkOrderStatus.setText(data.getState());
-                mTvWorkOrderNumber.setText(data.getId());
+                mTvWorkOrderNumber.setText(data.getOrderID());
                 mTvWarrantyType.setText(data.getGuarantee());
                 mTvWorkOrderType.setText(data.getTypeName());
                 mTvRecoveryTime.setText(data.getRecycleOrderHour());
@@ -228,6 +232,12 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 mTvSpecifyDoorToDoorTime.setText(data.getExtraTime());
                 mTvOrderSource.setText(data.getExpressNo());
                 mTvThirdParty.setText(data.getThirdPartyNo());
+                if (data.getOrderAccessroyDetail() == null) {
+                    return;
+                }
+                accessoryDetailAdapter = new AccessoryDetailAdapter(R.layout.item_accessories,data.getOrderAccessroyDetail());
+                mRvAccessories.setLayoutManager(new LinearLayoutManager(mActivity));
+                mRvAccessories.setAdapter(accessoryDetailAdapter);
                 break;
             case 401:
                 break;
@@ -241,7 +251,14 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
 
     @Override
     public void ApproveOrderAccessory(BaseResult<Data<String>> baseResult) {
-
+        switch(baseResult.getStatusCode()){
+            case 200:
+                ToastUtils.showShort("审核成功！");
+                finish();
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
