@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.bumptech.glide.Glide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
@@ -232,6 +233,15 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
                 mTvSpecifyDoorToDoorTime.setText(data.getExtraTime());
                 mTvOrderSource.setText(data.getExpressNo());
                 mTvThirdParty.setText(data.getThirdPartyNo());
+
+                mTvRange.setText(data.getBeyondDistance());
+                if (data.getOrderBeyondImg()==null){
+                    return;
+                }
+                if (data.getOrderBeyondImg().size()==2){
+                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderBeyondImg/"+data.getOrderBeyondImg().get(0)).into(mIvRangeOne);
+                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderBeyondImg/"+data.getOrderBeyondImg().get(1)).into(mIvRangeTwo);
+                 }
                 break;
             case 401:
                 break;
