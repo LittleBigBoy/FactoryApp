@@ -238,6 +238,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     private OnlineRecogParams apiParams;
     private String Num;
     private TextView tv_district;
+    String brand;
 
     @Override
     protected int setLayoutId() {
@@ -270,6 +271,10 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     protected void initView() {
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("上门维修");
+        mEtNum.setText("1");
+        mPresenter.GetFactoryBrand(userID);
+
+
     }
 
     @Override
@@ -382,7 +387,8 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 startActivity(new Intent(mActivity, BrandActivity.class));
                 break;
             case R.id.tv_choose_brand:
-                mPresenter.GetFactoryBrand(userID);
+                brandsAdapter = new BrandsAdapter(R.layout.category_item, brandList);
+                showPopWindow(mTvChooseBrand, brandsAdapter, brandList);
                 break;
             case R.id.tv_choose_category:
                 mPresenter.GetFactoryCategory("999");
@@ -804,8 +810,9 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     ToastUtils.showShort("你还没添加品牌，请先添加品牌！");
                     startActivity(new Intent(mActivity, BrandActivity.class));
                 } else {
-                    brandsAdapter = new BrandsAdapter(R.layout.category_item, brandList);
-                    showPopWindow(mTvChooseBrand, brandsAdapter, brandList);
+                    mTvChooseBrand.setText(brandList.get(0).getFBrandName());
+                    FBrandID = brandList.get(0).getFBrandID();
+                    BrandName = brandList.get(0).getFBrandName();
                 }
                 break;
             case 401:

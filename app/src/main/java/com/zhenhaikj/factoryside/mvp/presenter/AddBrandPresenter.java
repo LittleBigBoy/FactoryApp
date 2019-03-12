@@ -36,6 +36,17 @@ public class AddBrandPresenter extends AddBrandContract.Presenter {
                 });
     }
 
+    @Override
+    public void GetChildFactoryCategory(String ParentId) {
+        mModel.GetChildFactoryCategory(ParentId)
+                .subscribe(new BaseObserver<Data<List<Category>>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<List<Category>>> value) {
+                        mView.GetChildFactoryCategory(value);
+                    }
+                });
+    }
+
 //    @Override
 //    public void GetBrand(String UserId) {
 //        mModel.GetBrand(UserId)

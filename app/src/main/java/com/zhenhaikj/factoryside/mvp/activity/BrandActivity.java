@@ -80,6 +80,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     private PopupWindow popupWindow;
     private List<Category> categoryList;
     private QMUIPopup qmuiPopup;
+    private String categoryId;
 
 
     @Override
@@ -190,25 +191,25 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
                 Data data = baseResult.getData();
                 if (data.isItem1()) {
                     alertDialog.dismiss();
-                    MyUtils.showToast(mActivity, "添加品牌成功！");
-                    /*View dialog=LayoutInflater.from(mActivity).inflate(R.layout.dialog_choose_category,null);
+//                    MyUtils.showToast(mActivity, "添加品牌成功！");
+                    View dialog= LayoutInflater.from(mActivity).inflate(R.layout.dialog_choose_category,null);
                     tv_choose_category = dialog.findViewById(R.id.tv_choose_category);
                     btn_next = dialog.findViewById(R.id.btn_next);
                     tv_choose_category.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mPresenter.GetFactoryCategory();
+                            mPresenter.GetFactoryCategory("999");
                         }
                     });
                     btn_next.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             category = tv_choose_category.getText().toString();
-//                                mPresenter.AddFactoryBrand(userID,brandName);
+                            mPresenter.GetChildFactoryCategory(categoryId);
                         }
                     });
                     categoryDialog=new AlertDialog.Builder(mActivity).setView(dialog).create();
-                    categoryDialog.show();*/
+                    categoryDialog.show();
                 } else {
                     MyUtils.showToast(mActivity, "添加品牌失败！");
                 }
@@ -228,6 +229,17 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
                 break;
             case 401:
 //                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetChildFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+
+                break;
+            case 401:
                 break;
         }
     }
@@ -293,6 +305,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 popupWindow.dismiss();
                 tv_choose_category.setText(categoryList.get(position).getFCategoryName());
+                categoryId = categoryList.get(position).getFCategoryID();
             }
         });
         popupWindow = new PopupWindow(view, tv_choose_category.getWidth(), ViewGroup.LayoutParams.WRAP_CONTENT);

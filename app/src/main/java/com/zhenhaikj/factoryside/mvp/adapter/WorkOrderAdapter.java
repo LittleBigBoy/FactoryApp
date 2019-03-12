@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseViewHolder> {
-    public WorkOrderAdapter(int layoutResId, List<WorkOrder.DataBean> data) {
+    String name;
+    public WorkOrderAdapter(int layoutResId, List<WorkOrder.DataBean> data,String name) {
         super(layoutResId, data);
+        this.name=name;
     }
     @Override
     protected void convert(BaseViewHolder helper, WorkOrder.DataBean item) {
@@ -26,7 +28,12 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
                 .addOnClickListener(R.id.tv_complaint)
                 .addOnClickListener(R.id.tv_leave_message)
                 .addOnClickListener(R.id.tv_see_detail)
-                .addOnClickListener(R.id.iv_copy);
+                .addOnClickListener(R.id.iv_copy)
+                .addOnClickListener(R.id.tv_obsolete);
+        if ("待接单".equals(name)){
+            helper.setVisible(R.id.tv_obsolete,true);
+        }
+
     }
 
 }

@@ -37,6 +37,7 @@ import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.activity.AboutUsActivity;
 import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
 import com.zhenhaikj.factoryside.mvp.activity.BrandActivity;
+import com.zhenhaikj.factoryside.mvp.activity.ModelActivity;
 import com.zhenhaikj.factoryside.mvp.activity.OpinionActivity;
 import com.zhenhaikj.factoryside.mvp.activity.PersonalInformationActivity;
 import com.zhenhaikj.factoryside.mvp.activity.RechargeActivity;
@@ -118,6 +119,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     LinearLayout mLlAbout;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.ll_model_addition)
+    LinearLayout mLlModelAddition;
 
     private String mParam1;
     private String mParam2;
@@ -185,12 +188,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     protected void initData() {
 //        Glide.with(mActivity).load(R.drawable.avatar).apply(RequestOptions.circleCropTransform().placeholder(R.drawable.default_avatar).error(R.drawable.default_avatar)).into(mIvProfileImage);
         mRefreshLayout.setEnableLoadMore(false);
-        mPresenter.GetUserInfoList(userId,"1");
+        mPresenter.GetUserInfoList(userId, "1");
     }
 
     @Override
     protected void initView() {
-        SPUtils spUtils=SPUtils.getInstance("token");
+        SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
         userInfoDean = new UserInfo.UserInfoDean();
     }
@@ -217,12 +220,13 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mLlFeedback.setOnClickListener(this);
         mLlAbout.setOnClickListener(this);
         mIvProfileImage.setOnClickListener(this);
+        mLlModelAddition.setOnClickListener(this);
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        mPresenter.GetUserInfoList(userId,"1");
+        mPresenter.GetUserInfoList(userId, "1");
     }
 
     @Override
@@ -240,7 +244,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     @Override
                     public void onPositiveClick() {//拨打电话
                         dialog.dismiss();
-                        call("tel:"+"4006262365");
+                        call("tel:" + "4006262365");
                     }
 
                     @Override
@@ -252,22 +256,22 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_gift:
 //                startActivity(new Intent(mActivity,WalletActivity.class));
-                shareView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share,null);
+                shareView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share, null);
                 shareDialog = new AlertDialog.Builder(mActivity).setView(shareView).create();
                 shareDialog.show();
-                Window window=shareDialog.getWindow();
-                WindowManager.LayoutParams lp=window.getAttributes();
-                Display display=mActivity.getWindowManager().getDefaultDisplay();
-                lp.width=(int) (display.getWidth()*0.6);
+                Window window = shareDialog.getWindow();
+                WindowManager.LayoutParams lp = window.getAttributes();
+                Display display = mActivity.getWindowManager().getDefaultDisplay();
+                lp.width = (int) (display.getWidth() * 0.6);
                 window.setAttributes(lp);
                 window.setBackgroundDrawable(new ColorDrawable());
                 break;
             case R.id.tv_recharge:
-                startActivity(new Intent(mActivity,RechargeActivity.class));
+                startActivity(new Intent(mActivity, RechargeActivity.class));
                 break;
             case R.id.ll_all_order:
                 bundle = new Bundle();
-                bundle.putString("title","所有订单");
+                bundle.putString("title", "所有订单");
                 bundle.putInt("position", position);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
@@ -283,7 +287,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_to_be_confirmed:
                 bundle = new Bundle();
-                bundle.putString("title","待确认");
+                bundle.putString("title", "待确认");
                 bundle.putInt("position", 1);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
@@ -291,14 +295,14 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_complete:
                 bundle = new Bundle();
-                bundle.putString("title","已完成");
+                bundle.putString("title", "已完成");
                 bundle.putInt("position", 3);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
                 break;
             case R.id.ll_my_wallet:
-                startActivity(new Intent(mActivity,WalletActivity.class));
+                startActivity(new Intent(mActivity, WalletActivity.class));
                 break;
             case R.id.ll_service_phone:
                 final CommonDialog_Home dialog1 = new CommonDialog_Home(getActivity());
@@ -309,7 +313,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     @Override
                     public void onPositiveClick() {//拨打电话
                         dialog1.dismiss();
-                        call("tel:"+"4006262365");
+                        call("tel:" + "4006262365");
                     }
 
                     @Override
@@ -323,16 +327,16 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 startActivity(new Intent(mActivity, PersonalInformationActivity.class));
                 break;
             case R.id.ll_sub_account_management:
-                startActivity(new Intent(mActivity,WalletActivity.class));
+                startActivity(new Intent(mActivity, WalletActivity.class));
                 break;
             case R.id.ll_qr_code:
-                startActivity(new Intent(mActivity,WalletActivity.class));
+                startActivity(new Intent(mActivity, WalletActivity.class));
                 break;
             case R.id.ll_consume:
-                startActivity(new Intent(mActivity,WalletActivity.class));
+                startActivity(new Intent(mActivity, WalletActivity.class));
                 break;
             case R.id.ll_add_brand:
-                startActivity(new Intent(mActivity,BrandActivity.class));
+                startActivity(new Intent(mActivity, BrandActivity.class));
                 break;
             case R.id.ll_feedback:
                 startActivity(new Intent(mActivity, OpinionActivity.class));
@@ -341,47 +345,50 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 startActivity(new Intent(mActivity, AboutUsActivity.class));
                 break;
             case R.id.iv_profile_image:
-                if (requestPermissions()){
-                    showPopupWindow(101,102);
-                }else {
-                    requestPermissions(permissions.toArray(new String[permissions.size()]),10001);
+                if (requestPermissions()) {
+                    showPopupWindow(101, 102);
+                } else {
+                    requestPermissions(permissions.toArray(new String[permissions.size()]), 10001);
                 }
+                break;
+            case R.id.ll_model_addition:
+                startActivity(new Intent(mActivity, ModelActivity.class));
                 break;
         }
     }
 
-    public void showPopupWindow(final int code1,final int code2 ){
-        popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.camera_layout,null);
-        Button camera_btn= popupWindow_view.findViewById(R.id.camera_btn);
-        Button photo_btn= popupWindow_view.findViewById(R.id.photo_btn);
-        Button cancel_btn= popupWindow_view.findViewById(R.id.cancel_btn);
+    public void showPopupWindow(final int code1, final int code2) {
+        popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.camera_layout, null);
+        Button camera_btn = popupWindow_view.findViewById(R.id.camera_btn);
+        Button photo_btn = popupWindow_view.findViewById(R.id.photo_btn);
+        Button cancel_btn = popupWindow_view.findViewById(R.id.cancel_btn);
         camera_btn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                if (requestPermissions()){
-                    Intent intent=new Intent();
+                if (requestPermissions()) {
+                    Intent intent = new Intent();
                     intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
-                    String f=System.currentTimeMillis()+".jpg";
-                    String fileDir= Environment.getExternalStorageDirectory().getAbsolutePath()+"/xgy";
-                    filePath = Environment.getExternalStorageDirectory().getAbsoluteFile()+"/xgy/"+f;
-                    File dirfile=new File(fileDir);
-                    if (!dirfile.exists()){
+                    String f = System.currentTimeMillis() + ".jpg";
+                    String fileDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/xgy";
+                    filePath = Environment.getExternalStorageDirectory().getAbsoluteFile() + "/xgy/" + f;
+                    File dirfile = new File(fileDir);
+                    if (!dirfile.exists()) {
                         dirfile.mkdirs();
                     }
-                    File file=new File(filePath);
+                    File file = new File(filePath);
                     Uri fileUri;
-                    if (Build.VERSION.SDK_INT >= 24){
+                    if (Build.VERSION.SDK_INT >= 24) {
                         fileUri = FileProvider.getUriForFile(mActivity, "com.zhenhaikj.factoryside.fileProvider", file);
-                    }else {
-                        fileUri=Uri.fromFile(file);
+                    } else {
+                        fileUri = Uri.fromFile(file);
                     }
 
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT,fileUri);
-                    startActivityForResult(intent,code1);
-                }else {
-                    requestPermissions(permissions.toArray(new String[permissions.size()]),10001);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                    startActivityForResult(intent, code1);
+                } else {
+                    requestPermissions(permissions.toArray(new String[permissions.size()]), 10001);
                 }
                 mPopupWindow.dismiss();
             }
@@ -391,13 +398,13 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                if (requestPermissions()){
-                    Intent intent1=new Intent(Intent.ACTION_GET_CONTENT);
+                if (requestPermissions()) {
+                    Intent intent1 = new Intent(Intent.ACTION_GET_CONTENT);
                     intent1.addCategory(Intent.CATEGORY_OPENABLE);
                     intent1.setType("image/*");
-                    startActivityForResult(Intent.createChooser(intent1,"test"),code2);
+                    startActivityForResult(Intent.createChooser(intent1, "test"), code2);
                     mPopupWindow.dismiss();
-                }else {
+                } else {
                     requestPermissions(permissions.toArray(new String[permissions.size()]), 10002);
                 }
             }
@@ -409,7 +416,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             }
         });
 
-        mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mPopupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
         mPopupWindow.setFocusable(true);
@@ -417,13 +424,13 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                MyUtils.setWindowAlpa(mActivity,false);
+                MyUtils.setWindowAlpa(mActivity, false);
             }
         });
-        if (mPopupWindow !=null&&!mPopupWindow.isShowing()){
-            mPopupWindow.showAtLocation(popupWindow_view, Gravity.BOTTOM,0,0);
+        if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+            mPopupWindow.showAtLocation(popupWindow_view, Gravity.BOTTOM, 0, 0);
         }
-        MyUtils.setWindowAlpa(mActivity,true);
+        MyUtils.setWindowAlpa(mActivity, true);
     }
 
     //请求权限
@@ -452,33 +459,33 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         size = 0;
-        for (int i=0;i<grantResults.length;i++){
-            if (grantResults[i]==PackageManager.PERMISSION_GRANTED){
+        for (int i = 0; i < grantResults.length; i++) {
+            if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                 size++;
             }
         }
-        switch (requestCode){
+        switch (requestCode) {
             case 1001:
-                if (size ==grantResults.length){
-                    showPopupWindow(101,102);
-                }else {
-                    MyUtils.showToast(mActivity,"相关权限未开启");
+                if (size == grantResults.length) {
+                    showPopupWindow(101, 102);
+                } else {
+                    MyUtils.showToast(mActivity, "相关权限未开启");
                 }
                 break;
             case 1002:
-                if (size ==grantResults.length){
-                    showPopupWindow(201,202);
-                }else {
-                    MyUtils.showToast(mActivity,"相关权限未开启");
+                if (size == grantResults.length) {
+                    showPopupWindow(201, 202);
+                } else {
+                    MyUtils.showToast(mActivity, "相关权限未开启");
                 }
         }
     }
 
-    public void uploadImg(File f){
-        MultipartBody.Builder builder=new MultipartBody.Builder().setType(MultipartBody.FORM);
-        builder.addFormDataPart("img",f.getName(), RequestBody.create(MediaType.parse("img/png"),f));
-        builder.addFormDataPart("UserId",userId);
-        MultipartBody requestBody=builder.build();
+    public void uploadImg(File f) {
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        builder.addFormDataPart("img", f.getName(), RequestBody.create(MediaType.parse("img/png"), f));
+        builder.addFormDataPart("UserId", userId);
+        MultipartBody requestBody = builder.build();
         mPresenter.UploadAvator(requestBody);
     }
 
@@ -517,22 +524,21 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     }
 
 
-
     @Override
     public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                userInfoDean=baseResult.getData().getData().get(0);
-                if (userInfoDean.getAvator()==null){
+                userInfoDean = baseResult.getData().getData().get(0);
+                if (userInfoDean.getAvator() == null) {
                     return;
-                }else {
+                } else {
                     Glide.with(mActivity)
-                            .load(Config.HEAD_URL+userInfoDean.getAvator())
+                            .load(Config.HEAD_URL + userInfoDean.getAvator())
                             .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                             .into(mIvProfileImage);
                 }
                 mTvNickname.setText(userInfoDean.getNickName());
-                mTvMoney.setText("可用金额（元） "+(float)(userInfoDean.getRemainMoney() * 100 /1024/1024)/100);
+                mTvMoney.setText("可用金额（元） " + (float) (userInfoDean.getRemainMoney() * 100 / 1024 / 1024) / 100);
                 break;
             case 401:
                 break;
@@ -541,25 +547,24 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     public void UploadAvator(BaseResult<Data<String>> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if (!baseResult.getData().isItem1()){
+                if (!baseResult.getData().isItem1()) {
 
-                    Toast.makeText(mActivity,"图片上传失败",Toast.LENGTH_SHORT).show();
-                }else {
+                    Toast.makeText(mActivity, "图片上传失败", Toast.LENGTH_SHORT).show();
+                } else {
 
-                    Toast.makeText(mActivity,"图片上传成功",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, "图片上传成功", Toast.LENGTH_SHORT).show();
                     EventBus.getDefault().post("");
                 }
 
                 break;
 
             default:
-                Toast.makeText(mActivity,"修改失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "修改失败", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
-
 
 
 }

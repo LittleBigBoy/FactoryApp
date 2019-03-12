@@ -223,6 +223,18 @@
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
             <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_obsolete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="作废"
+                android:textSize="16sp"
+                android:background="@drawable/edit_shape"
+                android:padding="@dimen/dp_10"
+                android:textColor="#AAAAAA"/>
+            <TextView
                 android:id="@+id/tv_complaint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -232,6 +244,7 @@
                 android:textSize="16sp"
                 android:background="@drawable/edit_shape"
                 android:padding="@dimen/dp_10"
+                android:layout_marginLeft="10dp"
                 android:textColor="#AAAAAA"/>
             <TextView
                 android:id="@+id/tv_leave_message"

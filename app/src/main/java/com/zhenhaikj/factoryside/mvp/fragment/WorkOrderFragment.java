@@ -23,10 +23,12 @@ import com.zhenhaikj.factoryside.mvp.activity.WorkOrderDetailsActivity;
 import com.zhenhaikj.factoryside.mvp.adapter.WorkOrderAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.AllWorkOrdersContract;
 import com.zhenhaikj.factoryside.mvp.model.AllWorkOrdersModel;
 import com.zhenhaikj.factoryside.mvp.presenter.AllWorkOrdersPresenter;
+import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -215,7 +217,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     @Override
     protected void initView() {
         mRvWorkOrder.setLayoutManager(new LinearLayoutManager(mActivity));
-        mWorkOrderAdapter = new WorkOrderAdapter(R.layout.order_item, workOrderList);
+        mWorkOrderAdapter = new WorkOrderAdapter(R.layout.order_item, workOrderList,mParam1);
         mWorkOrderAdapter.setEmptyView(getEmptyView());
         mRvWorkOrder.setAdapter(mWorkOrderAdapter);
         mWorkOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -258,6 +260,13 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                         myClipboard.setPrimaryClip(myClip);
                         ToastUtils.showShort("复制成功");
                         break;
+                    case R.id.tv_obsolete:
+                        String orderId=workOrderList.get(position).getOrderID();
+                        mPresenter.UpdateOrderState(orderId,"-2");
+                        workOrderList.clear();
+                        getData();
+                        mRefreshLayout.finishRefresh();
+                        break;
                 }
             }
         });
@@ -292,6 +301,17 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                 break;
             case 401:
                 ToastUtils.showShort(baseResult.getInfo());
+                break;
+        }
+    }
+
+    @Override
+    public void UpdateOrderState(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                ToastUtils.showShort("取消成功");
+                break;
+            case 401:
                 break;
         }
     }

@@ -21,6 +21,7 @@ public interface AddBrandContract {
     interface Model extends BaseModel {
         Observable<BaseResult<Data>> AddFactoryBrand(String UserID, String FBrandName);
         Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory(String ParentID);
+        Observable<BaseResult<Data<List<Category>>>> GetChildFactoryCategory(String ParentId);
 //        Observable<BaseResult<List<ProductType>>> GetBrand(String UserId);
 //        Observable<BaseResult<Data<List<ProductType>>>> GetCategory(String ParentID);
         Observable<BaseResult<Data<List<ProductType>>>> GetProducttype();
@@ -30,6 +31,7 @@ public interface AddBrandContract {
     interface View extends BaseView {
         void AddFactoryBrand(BaseResult<Data> baseResult);
         void GetFactoryCategory(BaseResult<Data<List<Category>>> baseResult);
+        void GetChildFactoryCategory(BaseResult<Data<List<Category>>> baseResult);
 //        void GetBrand(BaseResult<List<ProductType>> baseResult);
 //        void GetCategory(BaseResult<Data<List<ProductType>>> baseResult);
         void GetProducttype(BaseResult<Data<List<ProductType>>> baseResult);
@@ -39,6 +41,7 @@ public interface AddBrandContract {
     abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void AddFactoryBrand(String UserID, String FBrandName);
         public abstract void GetFactoryCategory(String ParentID);
+        public abstract void GetChildFactoryCategory(String ParentId);
 //        public abstract void GetBrand(String UserId);
 //        public abstract void GetCategory(String ParentID);
         public abstract void GetProducttype();

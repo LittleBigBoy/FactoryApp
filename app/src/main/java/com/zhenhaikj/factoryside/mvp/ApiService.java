@@ -336,6 +336,18 @@ public interface ApiService {
             @Field("AccessoryApplyState") String AccessoryApplyState
     );
 
+
+    /*
+    * 取消订单
+    * */
+    @FormUrlEncoded
+    @POST("Order/UpdateOrderState")
+    Observable<BaseResult<Data<String>>> UpdateOrderState(
+            @Field("OrderID") String OrderID,
+            @Field("State") String State
+    );
+
+
     /*
     * 修改头像
     * */
