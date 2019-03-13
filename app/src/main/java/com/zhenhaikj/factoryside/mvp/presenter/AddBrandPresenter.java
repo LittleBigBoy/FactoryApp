@@ -92,8 +92,8 @@ public class AddBrandPresenter extends AddBrandContract.Presenter {
     }
 
     @Override
-    public void AddFactoryProducttype(String FProductTypeName, String FBrandID, String FBrandName, String FCategoryID, String FCategoryName) {
-        mModel.AddFactoryProducttype(FProductTypeName, FBrandID, FBrandName, FCategoryID, FCategoryName)
+    public void AddFactoryProducttype(String FProductTypeName, String FBrandID, String FBrandName, String FCategoryID, String FCategoryName,String InitPrice) {
+        mModel.AddFactoryProducttype(FProductTypeName, FBrandID, FBrandName, FCategoryID, FCategoryName,InitPrice)
                 .subscribe(new BaseObserver<Data>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data> value) {

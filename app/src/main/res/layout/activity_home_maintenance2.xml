@@ -92,6 +92,7 @@
                 android:background="@drawable/white_round_shape"
                 android:padding="@dimen/dp_10"
                 android:layout_margin="@dimen/dp_10"
+                android:visibility="gone"
                 android:layout_weight="1">
                 <LinearLayout
                     android:orientation="horizontal"
@@ -125,23 +126,50 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="分类："
+                        android:text="大类："
                         android:textSize="16sp"
                         android:textColor="#808080"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="12dp"
                         android:layout_gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/tv_category_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="12dp"
+                        android:singleLine="true"
+                        android:text="大类/小类"
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="小类："
+                        android:textSize="16sp"
+                        android:textColor="#808080"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:layout_gravity="center"/>
+
                     <TextView
                         android:id="@+id/tv_brand_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="海尔"
-                        android:textSize="16sp"
-                        android:textColor="#808080"
                         android:layout_centerVertical="true"
-                        android:singleLine="true"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="12dp"
-                        android:layout_gravity="center"/>
+                        android:singleLine="true"
+                        android:text="大类/小类"
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -158,6 +186,31 @@
                         android:layout_gravity="center"/>
                     <TextView
                         android:id="@+id/tv_brand_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="海尔"
+                        android:textSize="16sp"
+                        android:textColor="#808080"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:singleLine="true"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="服务价格："
+                        android:textSize="16sp"
+                        android:textColor="#808080"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:layout_gravity="center"/>
+                    <TextView
+                        android:id="@+id/tv_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="海尔"

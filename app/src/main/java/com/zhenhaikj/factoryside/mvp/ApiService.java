@@ -122,7 +122,8 @@ public interface ApiService {
             @Field("FBrandID") String FBrandID,
             @Field("FBrandName") String FBrandName,
             @Field("FCategoryID") String FCategoryID,
-            @Field("FCategoryName") String FCategoryName
+            @Field("FCategoryName") String FCategoryName,
+            @Field("InitPrice") String InitPrice
     );
 
     /**

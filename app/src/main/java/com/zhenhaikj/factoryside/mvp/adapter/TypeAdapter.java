@@ -18,8 +18,10 @@ public class TypeAdapter extends BaseQuickAdapter<ProductType,BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, ProductType item) {
         helper.setText(R.id.tv_brand,item.getFBrandName())
+                .setText(R.id.tv_category_name,item.getFParentCategoryName())
                 .setText(R.id.tv_brand_name,item.getFCategoryName())
                 .setText(R.id.tv_brand_number,item.getFProductTypeName())
+                .setText(R.id.tv_price,"￥"+item.getInitPrice())
                 .addOnClickListener(R.id.iv_delete)
                 .addOnClickListener(R.id.rl_brand);
     }

@@ -24,6 +24,7 @@ import com.zhenhaikj.factoryside.mvp.activity.BatchOrderActivity;
 import com.zhenhaikj.factoryside.mvp.activity.CustomerServiceActivity;
 import com.zhenhaikj.factoryside.mvp.activity.HomeInstallationActivity;
 import com.zhenhaikj.factoryside.mvp.activity.HomeMaintenanceActivity;
+import com.zhenhaikj.factoryside.mvp.activity.HomeMaintenanceActivity2;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
@@ -166,7 +167,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                         startActivity(new Intent(mActivity, HomeInstallationActivity.class));
                         break;
                     case 1:
-                        startActivity(new Intent(mActivity, HomeMaintenanceActivity.class));
+                        startActivity(new Intent(mActivity, HomeMaintenanceActivity2.class));
                         break;
                     case 2:
                         startActivity(new Intent(mActivity, CustomerServiceActivity.class));

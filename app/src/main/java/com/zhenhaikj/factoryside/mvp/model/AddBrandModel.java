@@ -69,8 +69,8 @@ public class AddBrandModel implements AddBrandContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data>> AddFactoryProducttype(String FProductTypeName, String FBrandID, String FBrandName, String FCategoryID, String FCategoryName) {
-        return ApiRetrofit.getDefault().AddFactoryProducttype(FProductTypeName, FBrandID, FBrandName, FCategoryID, FCategoryName)
+    public Observable<BaseResult<Data>> AddFactoryProducttype(String FProductTypeName, String FBrandID, String FBrandName, String FCategoryID, String FCategoryName,String InitPrice) {
+        return ApiRetrofit.getDefault().AddFactoryProducttype(FProductTypeName, FBrandID, FBrandName, FCategoryID, FCategoryName,InitPrice)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandModel> implements View.OnClickListener, AddBrandContract.View {
@@ -66,6 +68,8 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     ClearEditText mEtType;
     @BindView(R.id.btn_add)
     Button mBtnAdd;
+    @BindView(R.id.et_price)
+    ClearEditText mEtPrice;
     private SPUtils spUtils;
     private String userID;
     private List<Category> popularList;
@@ -85,6 +89,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     private BrandChooseAdapter brandsAdapter;
     private String BrandName;
     private String FBrandID;
+    private String InitPrice;
 
     @Override
     protected int setLayoutId() {
@@ -145,20 +150,25 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                 mPresenter.GetFactoryCategory("999");
                 break;
             case R.id.btn_add:
-                ProductTypeName=mEtType.getText().toString().trim();
-                if ("".equals(BrandName)){
+                ProductTypeName = mEtType.getText().toString().trim();
+                InitPrice = mEtPrice.getText().toString().trim();
+                if ("".equals(BrandName)) {
                     ToastUtils.showShort("请选择品牌！");
                     return;
                 }
-                if ("".equals(CategoryName)){
+                if ("".equals(CategoryName)) {
                     ToastUtils.showShort("请选择分类！");
                     return;
                 }
-                if ("".equals(ProductTypeName)){
+                if ("".equals(ProductTypeName)) {
                     ToastUtils.showShort("请输入型号！");
                     return;
                 }
-                mPresenter.AddFactoryProducttype(ProductTypeName,FBrandID,BrandName,SubCategoryID,SubCategoryName);
+                 if ("".equals(InitPrice)) {
+                    ToastUtils.showShort("请输入服务价格！");
+                    return;
+                }
+                mPresenter.AddFactoryProducttype(ProductTypeName, FBrandID, BrandName, SubCategoryID, SubCategoryName,InitPrice);
                 break;
         }
     }
@@ -188,7 +198,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                         showPopWindowGetCategory(mTvChooseCategory);
                     }
                 } else {
-                    ToastUtils.showShort( "获取分类失败！");
+                    ToastUtils.showShort("获取分类失败！");
                 }
                 break;
             default:
@@ -205,7 +215,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                 if (data.isItem1()) {
                     chooseList = data.getItem2();
                     if (chooseList.size() == 0) {
-                        ToastUtils.showShort( "无分类，请联系管理员添加！");
+                        ToastUtils.showShort("无分类，请联系管理员添加！");
                     } else {
                         rv_choose.setLayoutManager(new LinearLayoutManager(mActivity));
                         chooseAdapter = new CategoryAdapter(R.layout.item_choose, chooseList);
@@ -265,7 +275,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     public void AddFactoryProducttype(BaseResult<Data> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().isItem1()){
+                if (baseResult.getData().isItem1()) {
                     ToastUtils.showShort("添加成功！");
                     setResult(100);
                     finish();
@@ -341,6 +351,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
         }
         MyUtils.setWindowAlpa(mActivity, true);
     }
+
     public void showPopWindow(final TextView tv, BaseQuickAdapter adapter, final List list) {
 
         View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop, null);
@@ -387,5 +398,12 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
 //            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
         }
         MyUtils.setWindowAlpa(mActivity, true);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

@@ -33,7 +33,8 @@ public interface AddBrandContract {
                 String FBrandID,
                 String FBrandName,
                 String FCategoryID,
-                String FCategoryName
+                String FCategoryName,
+                String InitPrice
         );
     }
 
@@ -65,7 +66,8 @@ public interface AddBrandContract {
                 String FBrandID,
                 String FBrandName,
                 String FCategoryID,
-                String FCategoryName
+                String FCategoryName,
+                String InitPrice
         );
     }
 }
