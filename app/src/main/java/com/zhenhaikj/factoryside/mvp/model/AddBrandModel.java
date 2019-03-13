@@ -39,12 +39,13 @@ public class AddBrandModel implements AddBrandContract.Model {
                 .subscribeOn(Schedulers.io());
     }
 
-//    @Override
-//    public Observable<BaseResult<List<ProductType>>> GetBrand(String UserId) {
-//        return ApiRetrofit.getDefault().GetBrand(UserId)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io());
-//    }
+
+    @Override
+    public Observable<BaseResult<List<Brand>>> GetBrand(String UserId) {
+        return ApiRetrofit.getDefault().GetFactoryBrand(UserId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 //
 //    @Override
 //    public Observable<BaseResult<Data<List<ProductType>>>> GetCategory( String ParentID) {
@@ -61,8 +62,29 @@ public class AddBrandModel implements AddBrandContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<List<ProductType>>>> DeleteFactoryProducttype(String FProductTypeID) {
+    public Observable<BaseResult<Data>> DeleteFactoryProducttype(String FProductTypeID) {
         return ApiRetrofit.getDefault().DeleteFactoryProducttype(FProductTypeID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data>> AddFactoryProducttype(String FProductTypeName, String FBrandID, String FBrandName, String FCategoryID, String FCategoryName) {
+        return ApiRetrofit.getDefault().AddFactoryProducttype(FProductTypeName, FBrandID, FBrandName, FCategoryID, FCategoryName)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<List<ProductType>>> GetProductTypeByUserID(String UserID) {
+        return ApiRetrofit.getDefault().GetProductTypeByUserID(UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data>> DeleteFactoryBrand(String FBrandID) {
+        return ApiRetrofit.getDefault().DeleteFactoryBrand(FBrandID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

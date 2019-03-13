@@ -47,16 +47,16 @@ public class AddBrandPresenter extends AddBrandContract.Presenter {
                 });
     }
 
-//    @Override
-//    public void GetBrand(String UserId) {
-//        mModel.GetBrand(UserId)
-//                .subscribe(new BaseObserver<List<ProductType>>() {
-//                    @Override
-//                    protected void onHandleSuccess(BaseResult<List<ProductType>> value) {
-//                        mView.GetBrand(value);
-//                    }
-//                });
-//    }
+    @Override
+    public void GetBrand(String UserId) {
+        mModel.GetBrand(UserId)
+                .subscribe(new BaseObserver<List<Brand>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<List<Brand>> value) {
+                        mView.GetBrand(value);
+                    }
+                });
+    }
 //
 //    @Override
 //    public void GetCategory(String ParentID) {
@@ -83,10 +83,43 @@ public class AddBrandPresenter extends AddBrandContract.Presenter {
     @Override
     public void DeleteFactoryProducttype(String FProductTypeID) {
         mModel.DeleteFactoryProducttype(FProductTypeID)
-                .subscribe(new BaseObserver<Data<List<ProductType>>>() {
+                .subscribe(new BaseObserver<Data>() {
                     @Override
-                    protected void onHandleSuccess(BaseResult<Data<List<ProductType>>> value) {
+                    protected void onHandleSuccess(BaseResult<Data> value) {
                         mView.DeleteFactoryProducttype(value);
+                    }
+                });
+    }
+
+    @Override
+    public void AddFactoryProducttype(String FProductTypeName, String FBrandID, String FBrandName, String FCategoryID, String FCategoryName) {
+        mModel.AddFactoryProducttype(FProductTypeName, FBrandID, FBrandName, FCategoryID, FCategoryName)
+                .subscribe(new BaseObserver<Data>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data> value) {
+                        mView.AddFactoryProducttype(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetProductTypeByUserID(String UserID) {
+        mModel.GetProductTypeByUserID(UserID)
+                .subscribe(new BaseObserver<List<ProductType>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<List<ProductType>> value) {
+                        mView.GetProductTypeByUserID(value);
+                    }
+                });
+    }
+
+    @Override
+    public void DeleteFactoryBrand(String FBrandID) {
+        mModel.DeleteFactoryBrand(FBrandID)
+                .subscribe(new BaseObserver<Data>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data> value) {
+                        mView.DeleteFactoryBrand(value);
                     }
                 });
     }

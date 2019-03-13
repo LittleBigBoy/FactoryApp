@@ -30,7 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 
-public class ModelActivity extends BaseActivity<AddBrandPresenter, AddBrandModel> implements View.OnClickListener, AddBrandContract.View {
+public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBrandModel> implements View.OnClickListener, AddBrandContract.View {
 
 
     @BindView(R.id.view)
@@ -75,21 +75,16 @@ public class ModelActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
         SPUtils spUtils = SPUtils.getInstance("token");
         userID = spUtils.getString("userName");
         mPresenter.GetProductTypeByUserID(userID);
-        typeAdapter = new TypeAdapter(R.layout.item_type2, productTypeList);
+        typeAdapter = new TypeAdapter(R.layout.item_type_choose, productTypeList);
         mRlModel.setLayoutManager(new LinearLayoutManager(mActivity));
         mRlModel.setAdapter(typeAdapter);
-        typeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        typeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()) {
-                    case R.id.iv_delete:
-                        FProductTypeID = productTypeList.get(position).getFProductTypeID();
-                        mPresenter.DeleteFactoryProducttype(FProductTypeID);
-                        break;
-                    case R.id.rl_brand:
-
-                        break;
-                }
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent=new Intent(mActivity,HomeMaintenanceActivity2.class);
+                intent.putExtra("type",productTypeList.get(position));
+                setResult(100,intent);
+                finish();
             }
         });
 

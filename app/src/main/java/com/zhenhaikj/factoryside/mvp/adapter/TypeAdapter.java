@@ -10,8 +10,8 @@ import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 
 import java.util.List;
 
-public class BrandAdapter extends BaseQuickAdapter<ProductType,BaseViewHolder> {
-    public BrandAdapter(int layoutResId, List<ProductType> data) {
+public class TypeAdapter extends BaseQuickAdapter<ProductType,BaseViewHolder> {
+    public TypeAdapter(int layoutResId, List<ProductType> data) {
         super(layoutResId, data);
     }
 

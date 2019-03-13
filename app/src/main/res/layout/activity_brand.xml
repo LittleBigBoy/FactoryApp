@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text="点击加号添加品牌、分类及型号"
+            android:text="点击加号添加品牌"
             android:textColor="#7D7D7D"
             android:textSize="10sp" />
     </LinearLayout>

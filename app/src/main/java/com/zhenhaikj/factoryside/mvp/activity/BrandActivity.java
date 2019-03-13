@@ -13,14 +13,12 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
-import com.zhenhaikj.factoryside.mvp.adapter.BrandAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.BrandsAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
@@ -36,7 +34,6 @@ import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,9 +60,9 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     ImageView mIvAddBrand;
     @BindView(R.id.view)
     View mView;
-    private List<ProductType> brandList = new ArrayList<>();
+    private List<Brand> brandList = new ArrayList<>();
     private Brand brand;
-    private BrandAdapter brandAdapter;
+    private BrandsAdapter brandsAdapter;
     private String brandName;
     private EditText et_brandName;
     private Button btn_next;
@@ -81,6 +78,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     private List<Category> categoryList;
     private QMUIPopup qmuiPopup;
     private String categoryId;
+    private String fBrandID;
 
 
     @Override
@@ -100,22 +98,20 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     @Override
     protected void initData() {
         mTvTitle.setVisibility(View.VISIBLE);
-        mTvTitle.setText("添加品牌");
+        mTvTitle.setText("品牌列表");
 //        for (int i = 0; i < 36; i++) {
 //            brandList.add(new Brand());
 //        }
-        brandAdapter = new BrandAdapter(R.layout.item_brand, brandList);
+        brandsAdapter = new BrandsAdapter(R.layout.item_brand, brandList);
         mRlBrand.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRlBrand.setAdapter(brandAdapter);
-        brandAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        mRlBrand.setAdapter(brandsAdapter);
+        brandsAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.iv_delete:
-                        String id = brandAdapter.getData().get(position).getFProductTypeID();
-//                        Log.d(TAG,"........."+id);
-                        mPresenter.DeleteFactoryProducttype(id);
-                        mPresenter.GetProducttype();
+                        fBrandID = brandsAdapter.getData().get(position).getFBrandID();
+                        mPresenter.DeleteFactoryBrand(fBrandID);
                         break;
                     case R.id.rl_brand:
 
@@ -129,7 +125,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
 
         SPUtils spUtils = SPUtils.getInstance("token");
         userID = spUtils.getString("userName");
-        mPresenter.GetProducttype();
+        mPresenter.GetBrand(userID);
 
     }
 
@@ -157,6 +153,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
                 dialog = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand_name, null);
                 et_brandName = dialog.findViewById(R.id.et_enter);
                 btn_next = dialog.findViewById(R.id.btn_next);
+                btn_next.setText("添加");
                 btn_next.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -191,31 +188,14 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
                 Data data = baseResult.getData();
                 if (data.isItem1()) {
                     alertDialog.dismiss();
-//                    MyUtils.showToast(mActivity, "添加品牌成功！");
-                    View dialog= LayoutInflater.from(mActivity).inflate(R.layout.dialog_choose_category,null);
-                    tv_choose_category = dialog.findViewById(R.id.tv_choose_category);
-                    btn_next = dialog.findViewById(R.id.btn_next);
-                    tv_choose_category.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mPresenter.GetFactoryCategory("999");
-                        }
-                    });
-                    btn_next.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            category = tv_choose_category.getText().toString();
-                            mPresenter.GetChildFactoryCategory(categoryId);
-                        }
-                    });
-                    categoryDialog=new AlertDialog.Builder(mActivity).setView(dialog).create();
-                    categoryDialog.show();
+                    mPresenter.GetBrand(userID);
+                    ToastUtils.showShort( "添加品牌成功！");
                 } else {
-                    MyUtils.showToast(mActivity, "添加品牌失败！");
+                    ToastUtils.showShort( "添加品牌失败！");
                 }
                 break;
-            case 401:
-//                ToastUtils.showShort(baseResult.getData());
+            default:
+                ToastUtils.showShort("添加品牌失败！");
                 break;
         }
     }
@@ -249,7 +229,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
 //        switch (baseResult.getStatusCode()){
 //            case 200:
 //                brandList=baseResult.getData();
-//                brandAdapter.setNewData(brandList);
+//                brandsAdapter.setNewData(brandList);
 //                FBrandID=brandList.get(1).getFBrandID();
 //                mPresenter.GetCategory(FBrandID);
 //                break;
@@ -263,7 +243,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
 //        switch (baseResult.getStatusCode()){
 //            case 200:
 //                brandList=baseResult.getData().getItem2();
-//                brandAdapter.setNewData(brandList);
+//                brandsAdapter.setNewData(brandList);
 //                break;
 //            case 401:
 //                break;
@@ -272,10 +252,33 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
 
     @Override
     public void GetProducttype(BaseResult<Data<List<ProductType>>> baseResult) {
+
+    }
+
+    @Override
+    public void DeleteFactoryProducttype(BaseResult<Data> baseResult) {
+
+    }
+
+    @Override
+    public void DeleteFactoryBrand(BaseResult<Data> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                brandList = baseResult.getData().getItem2();
-                brandAdapter.setNewData(brandList);
+                ToastUtils.showShort("删除成功！");
+                mPresenter.GetBrand(userID);
+                break;
+            default:
+                ToastUtils.showShort("删除失败！");
+                break;
+        }
+    }
+
+    @Override
+    public void GetBrand(BaseResult<List<Brand>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                brandList = baseResult.getData();
+                brandsAdapter.setNewData(brandList);
                 break;
             case 401:
                 break;
@@ -283,14 +286,13 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     }
 
     @Override
-    public void DeleteFactoryProducttype(BaseResult<Data<List<ProductType>>> baseResult) {
-        switch (baseResult.getStatusCode()) {
-            case 200:
+    public void GetProductTypeByUserID(BaseResult<List<ProductType>> baseResult) {
 
-                break;
-            case 401:
-                break;
-        }
+    }
+
+    @Override
+    public void AddFactoryProducttype(BaseResult<Data> baseResult) {
+
     }
 
     public void showPopWindow() {

@@ -101,6 +101,31 @@ public interface ApiService {
     Observable<BaseResult<Data>> AddFactoryBrand(@Field("UserID") String UserID, @Field("FBrandName") String FBrandName);
 
     /**
+     * 添加型号
+     * {
+     *   "Id": 0,
+     *   "FProductTypeID": 0,
+     *   "FProductTypeName": "string",
+     *   "FBrandID": 0,
+     *   "FBrandName": "string",
+     *   "FCategoryID": 0,
+     *   "FCategoryName": "string",
+     *   "InitPrice": 0,
+     *   "IsUse": "string",
+     *   "Version": 0
+     * }
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/AddFactoryProducttype")
+    Observable<BaseResult<Data>> AddFactoryProducttype(
+            @Field("FProductTypeName") String FProductTypeName,
+            @Field("FBrandID") String FBrandID,
+            @Field("FBrandName") String FBrandName,
+            @Field("FCategoryID") String FCategoryID,
+            @Field("FCategoryName") String FCategoryName
+    );
+
+    /**
      * 获取品牌
      */
     @FormUrlEncoded
@@ -136,17 +161,31 @@ public interface ApiService {
     @POST("FactoryConfig/GetFactoryProducttype")
     Observable<BaseResult<Data<List<ProductType>>>> GetFactoryProducttype(@Field("FBrandID") String FBrandID, @Field("FCategoryID") String FCategoryID);
 
+    /**
+     * 获取型号by  UserID
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/GetProductTypeByUserID")
+    Observable<BaseResult<List<ProductType>>> GetProductTypeByUserID(@Field("UserID") String UserID);
+
 
     @POST("FactoryConfig/GetFactoryProducttype")
     Observable<BaseResult<Data<List<ProductType>>>> GetProducttype();
 
 
-    /*
+    /**
      *删除工厂产品型号
-     * */
+     */
     @FormUrlEncoded
     @POST("FactoryConfig/DeleteFactoryProducttype")
-    Observable<BaseResult<Data<List<ProductType>>>> DeleteFactoryProducttype(@Field("FProductTypeID") String FProductTypeID);
+    Observable<BaseResult<Data>> DeleteFactoryProducttype(@Field("FProductTypeID") String FProductTypeID);
+
+    /**
+     *删除工厂品牌
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/DeleteFactoryBrand")
+    Observable<BaseResult<Data>> DeleteFactoryBrand(@Field("FBrandID") String FBrandID);
 
     /**
      * 获取属性

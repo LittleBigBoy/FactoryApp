@@ -1,23 +1,17 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -45,7 +39,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.AccessoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.AreaAdapter;
-import com.zhenhaikj.factoryside.mvp.adapter.BrandsAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.BrandChooseAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CityAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.DistrictAdapter;
@@ -204,7 +198,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     private String Extra;//是否加急Y是N否
     private String ExtraTime;//加急时间
     private String ExtraFee;//加急费用
-    private BrandsAdapter brandsAdapter;
+    private BrandChooseAdapter brandsAdapter;
     private CategoryAdapter categoryAdapter;
     private ProductTypeAdapter productTypeAdapter;
     private AccessoryAdapter accessoryAdapter;
@@ -294,11 +288,11 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
         mIconSearch.setOnClickListener(this);
         mTvAddProduct.setOnClickListener(this);
 
-        mTvChooseBrand.setOnClickListener(this);
-        mTvChooseCategory.setOnClickListener(this);
-        mTvChooseType.setOnClickListener(this);
-        mTvChooseProperty.setVisibility(View.GONE);
-        mTvChooseProperty.setOnClickListener(this);
+        mLlChooseBrand.setOnClickListener(this);
+        mLlChooseCategory.setOnClickListener(this);
+        mLlChooseType.setOnClickListener(this);
+//        mLlChooseProperty.setVisibility(View.GONE);
+//        mLlChooseProperty.setOnClickListener(this);
 
         mTvAddress.setOnClickListener(this);
 
@@ -386,14 +380,14 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
             case R.id.tv_add_product:
                 startActivity(new Intent(mActivity, BrandActivity.class));
                 break;
-            case R.id.tv_choose_brand:
-                brandsAdapter = new BrandsAdapter(R.layout.category_item, brandList);
+            case R.id.ll_choose_brand:
+                brandsAdapter = new BrandChooseAdapter(R.layout.category_item, brandList);
                 showPopWindow(mTvChooseBrand, brandsAdapter, brandList);
                 break;
-            case R.id.tv_choose_category:
+            case R.id.ll_choose_category:
                 mPresenter.GetFactoryCategory("999");
                 break;
-            case R.id.tv_choose_type:
+            case R.id.ll_choose_type:
                 if (FBrandID == null) {
                     MyUtils.showToast(mActivity, "请选择品牌！");
                     return;

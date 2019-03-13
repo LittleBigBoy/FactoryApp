@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <RelativeLayout
+        android:id="@+id/rl_brand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/white_round_shape"
+        android:layout_margin="@dimen/dp_4"
+        android:elevation="5dp">
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_initials"-->
+            <!--android:layout_width="15dp"-->
+            <!--android:layout_height="14dp"-->
+            <!--android:background="@drawable/black_brank"-->
+            <!--android:text="H"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="12sp"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginTop="17dp"-->
+            <!--android:layout_marginBottom="17dp"-->
+            <!--android:layout_marginLeft="12dp"/>-->
+
+        <TextView
+            android:id="@+id/tv_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="海尔"
+            android:textSize="16sp"
+            android:textColor="#808080"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/tv_brand_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="洗衣机"
+            android:textSize="16sp"
+            android:textColor="#808080"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="80dp"/>
+        <TextView
+            android:id="@+id/tv_brand_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="YY-DFS-44478"
+            android:textSize="16sp"
+            android:textColor="#808080"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="45dp"/>
+
+        
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="55dp"
+            android:layout_height="35dp"
+            android:padding="@dimen/dp_10"
+            android:layout_gravity="center|right"
+            android:src="@mipmap/delete"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

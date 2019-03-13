@@ -1,5 +1,6 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,7 +9,10 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.gyf.barlibrary.ImmersionBar;
+import com.vondear.rxui.view.dialog.RxDialogScaleView;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
@@ -19,6 +23,8 @@ import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,6 +96,7 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
     LinearLayout mLlApproveBeyondMoney;
     private String OrderID;
     private WorkOrder.DataBean data;
+    private SimpleTarget<Bitmap> simpleTarget;
 
     @Override
     protected int setLayoutId() {
@@ -124,6 +131,8 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
         mLlContactCustomerService.setOnClickListener(this);
         mTvReject.setOnClickListener(this);
         mTvPass.setOnClickListener(this);
+        mIvRangeOne.setOnClickListener(this);
+        mIvRangeTwo.setOnClickListener(this);
     }
 
 
@@ -200,6 +209,50 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
                     }
                 }).show();
                 break;
+            case R.id.iv_range_one:
+                if (data.getOrderBeyondImg()==null){
+                    return;
+                }
+                if (data.getOrderBeyondImg().size()==0){
+                    return;
+                }
+                simpleTarget = new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
+                                                super Bitmap> transition) {
+                        RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
+                        rxDialogScaleView.setImage(resource);
+                        rxDialogScaleView.show();
+                    }
+                };
+
+                Glide.with(mActivity)
+                        .asBitmap()
+                        .load("http://47.96.126.145:8820/Pics/OrderByondImg/"+data.getOrderBeyondImg().get(0).getUrl())
+                        .into(simpleTarget);
+                break;
+            case R.id.iv_range_two:
+                if (data.getOrderBeyondImg()==null){
+                    return;
+                }
+                if (data.getOrderBeyondImg().size()<2){
+                    return;
+                }
+                simpleTarget = new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
+                            super Bitmap> transition) {
+                        RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
+                        rxDialogScaleView.setImage(resource);
+                        rxDialogScaleView.show();
+                    }
+                };
+
+                Glide.with(mActivity)
+                        .asBitmap()
+                        .load("http://47.96.126.145:8820/Pics/OrderByondImg/"+data.getOrderBeyondImg().get(1).getUrl())
+                        .into(simpleTarget);
+                break;
         }
     }
 
@@ -239,8 +292,8 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
                     return;
                 }
                 if (data.getOrderBeyondImg().size()==2){
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderBeyondImg/"+data.getOrderBeyondImg().get(0)).into(mIvRangeOne);
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderBeyondImg/"+data.getOrderBeyondImg().get(1)).into(mIvRangeTwo);
+                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/"+data.getOrderBeyondImg().get(0).getUrl()).into(mIvRangeOne);
+                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/"+data.getOrderBeyondImg().get(1).getUrl()).into(mIvRangeTwo);
                  }
                 break;
             case 401:

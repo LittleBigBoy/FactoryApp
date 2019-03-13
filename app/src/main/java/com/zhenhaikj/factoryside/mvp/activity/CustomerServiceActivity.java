@@ -35,7 +35,7 @@ import com.donkingliang.labels.LabelsView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.AreaAdapter;
-import com.zhenhaikj.factoryside.mvp.adapter.BrandsAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.BrandChooseAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CityAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.DistrictAdapter;
@@ -163,7 +163,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
 
     private LabelsView lv_popular;
     private ImageView iv_close;
-    private BrandsAdapter brandsAdapter;
+    private BrandChooseAdapter brandsAdapter;
     private CategoryAdapter chooseAdapter;
     private List<ProductType> productTypeList;
     private ProductTypeAdapter productTypeAdapter;
@@ -685,7 +685,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                     ToastUtils.showShort("你还没添加品牌，请先添加品牌！");
                     startActivity(new Intent(mActivity, BrandActivity.class));
                 } else {
-                    brandsAdapter = new BrandsAdapter(R.layout.category_item, brandList);
+                    brandsAdapter = new BrandChooseAdapter(R.layout.category_item, brandList);
                     showPopWindow(mTvChooseBrand, brandsAdapter, brandList);
                 }
                 break;
