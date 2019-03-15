@@ -21,6 +21,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_order_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -257,7 +258,7 @@
                         <!--android:layout_width="wrap_content"-->
                         <!--android:layout_height="wrap_content"-->
                         <!--android:layout_marginLeft="7dp"-->
-                        <!--android:text="申请质保："-->
+                        <!--android:text="发起质保："-->
                         <!--android:textColor="#7B7B7B"-->
                         <!--android:textSize="15sp" />-->
                     <!--<TextView-->
@@ -266,7 +267,7 @@
                         <!--android:layout_height="wrap_content"-->
                         <!--android:padding="@dimen/dp_10"-->
                         <!--android:layout_marginRight="20dp"-->
-                        <!--android:text="申请质保"-->
+                        <!--android:text="发起质保"-->
                         <!--android:textColor="@color/white"-->
                         <!--android:background="@color/red"-->
                         <!--android:textSize="15sp" />-->

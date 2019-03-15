@@ -340,7 +340,7 @@ public interface ApiService {
                                                      @Field("Type") String Type);
 
     /**
-     * 对某笔单子申请质保
+     * 对某笔单子发起质保
      * @param OrderID 订单id
      * @return
      */
@@ -374,6 +374,19 @@ public interface ApiService {
     Observable<BaseResult<Data<String>>> ApproveOrderAccessory(
             @Field("OrderID") String OrderID,
             @Field("AccessoryApplyState") String AccessoryApplyState
+    );
+
+    /**
+     * 审核服务申请
+     * @param OrderID 订单id
+     * @param State  -1拒绝 1通过
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/ApproveOrderService")
+    Observable<BaseResult<Data<String>>> ApproveOrderService(
+            @Field("OrderID") String OrderID,
+            @Field("State") String State
     );
 
 

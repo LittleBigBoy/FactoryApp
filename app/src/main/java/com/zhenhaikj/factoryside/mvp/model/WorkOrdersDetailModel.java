@@ -41,4 +41,11 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> ApproveOrderService(String OrderID, String State) {
+        return ApiRetrofit.getDefault().ApproveOrderService(OrderID, State)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

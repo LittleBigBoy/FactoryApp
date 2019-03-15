@@ -177,6 +177,7 @@ public class WorkOrder implements Serializable {
         private String AccessorySendState;
         private String AccessoryMoney;
         private String Service;
+        private String ServiceApplyState;
         private String ServiceMoney;
         private String ReturnAccessory;
         private String ReturnAccessoryMsg;
@@ -199,6 +200,14 @@ public class WorkOrder implements Serializable {
         private String page;
         private String limit;
         private String Version;
+
+        public String getServiceApplyState() {
+            return ServiceApplyState;
+        }
+
+        public void setServiceApplyState(String serviceApplyState) {
+            ServiceApplyState = serviceApplyState;
+        }
 
         public List<OrderBeyondImg> getOrderBeyondImg() {
             return OrderBeyondImg;

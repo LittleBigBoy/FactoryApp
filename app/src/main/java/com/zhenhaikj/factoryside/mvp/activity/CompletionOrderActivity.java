@@ -79,6 +79,8 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
     TextView mTvApply;
     @BindView(R.id.ll_apply_custom_service)
     LinearLayout mLlApplyCustomService;
+    @BindView(R.id.tv_order_state)
+    TextView mTvOrderState;
     private String OrderID;
     private WorkOrder.DataBean data;
 
@@ -177,6 +179,12 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
+                if("维修".equals(data.getTypeName())){
+                    mLlApplyCustomService.setVisibility(View.VISIBLE);
+                }else{
+                    mLlApplyCustomService.setVisibility(View.GONE);
+                }
+                mTvOrderState.setText(data.getState());
                 mTvName.setText(data.getUserName());
                 mTvPhone.setText(data.getPhone());
                 mTvAddress.setText(data.getAddress());
@@ -203,9 +211,9 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
 
     @Override
     public void ApplyCustomService(BaseResult<Data<String>> baseResult) {
-        switch(baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                ToastUtils.showShort("申请质保成功！");
+                ToastUtils.showShort("发起质保成功！");
                 finish();
                 break;
             default:
@@ -221,5 +229,17 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
     @Override
     public void ApproveBeyondMoney(BaseResult<Data<String>> baseResult) {
 
+    }
+
+    @Override
+    public void ApproveOrderService(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

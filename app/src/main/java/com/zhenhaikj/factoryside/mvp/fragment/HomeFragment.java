@@ -148,7 +148,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         for (int i = 0; i < 4; i++) {
             mMainMenus.add(new MenuItem(icons[i], names[i]));
         }
-        for (int i = 4; i < 15; i++) {
+        for (int i = 4; i < 16; i++) {
             mCommonMenus.add(new MenuItem(icons[i], names[i]));
         }
         mMainAdapter = new MenuAdapter2(R.layout.menu_item2, mMainMenus);

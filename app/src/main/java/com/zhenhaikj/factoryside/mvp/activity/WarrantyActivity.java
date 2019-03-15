@@ -11,11 +11,16 @@ import android.widget.TextView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
+import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
+import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.fragment.MessageFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.ReturnFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.ShippingFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.TrackFragment;
+import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
+import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenhaikj.factoryside.mvp.widget.CustomViewPager;
 
 import java.util.ArrayList;
@@ -30,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class WarrantyActivity extends BaseActivity implements View.OnClickListener , ViewPager.OnPageChangeListener {
+public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, WorkOrdersDetailModel> implements View.OnClickListener , ViewPager.OnPageChangeListener, WorkOrdersDetailContract.View {
 
     @BindView(R.id.view)
     View mView;
@@ -162,13 +167,14 @@ public class WarrantyActivity extends BaseActivity implements View.OnClickListen
     protected void initData() {
         mTvTitle.setText("质保单详情");
         mTvTitle.setVisibility(View.VISIBLE);
-        OrderId = getIntent().getStringExtra("OrderId");
+        OrderId = getIntent().getStringExtra("OrderID");
 
         mFragments = new ArrayList<>();
         mFragments.add(MessageFragment.newInstance("", ""));
         mFragments.add(TrackFragment.newInstance("", ""));
         mFragments.add(ShippingFragment.newInstance("", ""));
         mFragments.add(ReturnFragment.newInstance("", ""));
+        mPresenter.GetOrderInfo(OrderId);
     }
 
     @Override
@@ -271,6 +277,56 @@ public class WarrantyActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onPageScrollStateChanged(int state) {
+
+    }
+
+    @Override
+    public void GetOrderInfo(BaseResult<WorkOrder.DataBean> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                data = baseResult.getData();
+                mWorkOrderStatusTv.setText(data.getState());
+                mNameTv.setText(data.getUserName());
+                mPhoneTv.setText(data.getPhone());
+                mAddressTv.setText(data.getAddress());
+                mBillingTimeTv.setText(data.getCreateDate());
+                mWorkOrderNumberTv.setText(data.getId());
+                mWarrantyTypeTv.setText(data.getGuarantee());
+                mWorkOrderTypeTv.setText(data.getTypeName());
+//                mTvRecoveryTime.setText(data.getRecycleOrderHour());
+//                mTvSentOutAccessories.setText(data.getAccessorySendState());
+                mBrandTv.setText(data.getBrandName());
+                mCategoryTv.setText(data.getSubCategoryName());
+                mModelTv.setText(data.getProductType());
+                mRemarksTv.setText(data.getMemo());
+                mOrderQuantityTv.setText(data.getNum());
+
+//                mTvSpecifyDoorToDoorTime.setText(data.getExtraTime());
+//                mTvOrderSource.setText(data.getExpressNo());
+//                mTvThirdParty.setText(data.getThirdPartyNo());
+                break;
+            case 401:
+                break;
+        }
+    }
+
+    @Override
+    public void ApplyCustomService(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void ApproveOrderAccessory(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void ApproveBeyondMoney(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void ApproveOrderService(BaseResult<Data<String>> baseResult) {
 
     }
 

@@ -94,9 +94,14 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
     ImageView mIvRangeTwo;
     @BindView(R.id.ll_approve_beyond_money)
     LinearLayout mLlApproveBeyondMoney;
+    @BindView(R.id.tv_order_state)
+    TextView mTvOrderState;
+    @BindView(R.id.tv_status)
+    TextView mTvStatus;
     private String OrderID;
     private WorkOrder.DataBean data;
     private SimpleTarget<Bitmap> simpleTarget;
+    private Data<String> result;
 
     @Override
     protected int setLayoutId() {
@@ -179,7 +184,7 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID,"-1");
+                        mPresenter.ApproveBeyondMoney(OrderID, "-1");
                     }
 
                     @Override
@@ -199,7 +204,7 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
                     @Override
                     public void onPositiveClick() {
                         pass.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID,"1");
+                        mPresenter.ApproveBeyondMoney(OrderID, "1");
                     }
 
                     @Override
@@ -210,32 +215,10 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
                 }).show();
                 break;
             case R.id.iv_range_one:
-                if (data.getOrderBeyondImg()==null){
+                if (data.getOrderBeyondImg() == null) {
                     return;
                 }
-                if (data.getOrderBeyondImg().size()==0){
-                    return;
-                }
-                simpleTarget = new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
-                                                super Bitmap> transition) {
-                        RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
-                        rxDialogScaleView.setImage(resource);
-                        rxDialogScaleView.show();
-                    }
-                };
-
-                Glide.with(mActivity)
-                        .asBitmap()
-                        .load("http://47.96.126.145:8820/Pics/OrderByondImg/"+data.getOrderBeyondImg().get(0).getUrl())
-                        .into(simpleTarget);
-                break;
-            case R.id.iv_range_two:
-                if (data.getOrderBeyondImg()==null){
-                    return;
-                }
-                if (data.getOrderBeyondImg().size()<2){
+                if (data.getOrderBeyondImg().size() == 0) {
                     return;
                 }
                 simpleTarget = new SimpleTarget<Bitmap>() {
@@ -250,7 +233,29 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
 
                 Glide.with(mActivity)
                         .asBitmap()
-                        .load("http://47.96.126.145:8820/Pics/OrderByondImg/"+data.getOrderBeyondImg().get(1).getUrl())
+                        .load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl())
+                        .into(simpleTarget);
+                break;
+            case R.id.iv_range_two:
+                if (data.getOrderBeyondImg() == null) {
+                    return;
+                }
+                if (data.getOrderBeyondImg().size() < 2) {
+                    return;
+                }
+                simpleTarget = new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
+                            super Bitmap> transition) {
+                        RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
+                        rxDialogScaleView.setImage(resource);
+                        rxDialogScaleView.show();
+                    }
+                };
+
+                Glide.with(mActivity)
+                        .asBitmap()
+                        .load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(1).getUrl())
                         .into(simpleTarget);
                 break;
         }
@@ -268,6 +273,7 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
+                mTvOrderState.setText(data.getState());
                 mTvName.setText(data.getUserName());
                 mTvPhone.setText(data.getPhone());
                 mTvAddress.setText(data.getAddress());
@@ -288,13 +294,32 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
                 mTvThirdParty.setText(data.getThirdPartyNo());
 
                 mTvRange.setText(data.getBeyondDistance());
-                if (data.getOrderBeyondImg()==null){
+
+                if ("1".equals(data.getBeyondState())) {
+                    mTvPass.setVisibility(View.GONE);
+                    mTvReject.setVisibility(View.GONE);
+                    mTvStatus.setVisibility(View.VISIBLE);
+                    mTvStatus.setText("已审核通过");
+                } else if ("-1".equals(data.getBeyondState())) {
+                    mTvPass.setVisibility(View.GONE);
+                    mTvReject.setVisibility(View.GONE);
+                    mTvStatus.setVisibility(View.VISIBLE);
+                    mTvStatus.setText("已拒绝");
+                } else {
+                    mTvPass.setVisibility(View.VISIBLE);
+                    mTvReject.setVisibility(View.VISIBLE);
+                    mTvStatus.setVisibility(View.GONE);
+                }
+                if (data.getOrderBeyondImg() == null) {
                     return;
                 }
-                if (data.getOrderBeyondImg().size()==2){
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/"+data.getOrderBeyondImg().get(0).getUrl()).into(mIvRangeOne);
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/"+data.getOrderBeyondImg().get(1).getUrl()).into(mIvRangeTwo);
-                 }
+                if (data.getOrderBeyondImg().size() == 2) {
+                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl()).into(mIvRangeOne);
+                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(1).getUrl()).into(mIvRangeTwo);
+                } else {
+                    mIvRangeOne.setVisibility(View.GONE);
+                    mIvRangeTwo.setVisibility(View.GONE);
+                }
                 break;
             case 401:
                 break;
@@ -313,13 +338,23 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
 
     @Override
     public void ApproveBeyondMoney(BaseResult<Data<String>> baseResult) {
-        switch(baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                ToastUtils.showShort("审核成功！");
-                finish();
+                result = baseResult.getData();
+                if (result.isItem1()) {
+                    ToastUtils.showShort("审核成功！");
+                    mPresenter.GetOrderInfo(OrderID);
+                } else {
+                    ToastUtils.showShort("审核失败！" + result.getItem2());
+                }
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void ApproveOrderService(BaseResult<Data<String>> baseResult) {
+
     }
 }

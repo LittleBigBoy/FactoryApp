@@ -10,6 +10,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.AccessoryDetailAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.ServiceAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
@@ -86,9 +87,31 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     RecyclerView mRvAccessories;
     @BindView(R.id.ll_approve_beyond_money)
     LinearLayout mLlApproveBeyondMoney;
+    @BindView(R.id.tv_review_accessories)
+    TextView mTvReviewAccessories;
+    @BindView(R.id.tv_audit_service)
+    TextView mTvAuditService;
+    @BindView(R.id.tv_reject_service)
+    TextView mTvRejectService;
+    @BindView(R.id.tv_pass_service)
+    TextView mTvPassService;
+    @BindView(R.id.rv_service)
+    RecyclerView mRvService;
+    @BindView(R.id.ll_audit_service)
+    LinearLayout mLlAuditService;
+    @BindView(R.id.tv_status_accessory)
+    TextView mTvStatusAccessory;
+    @BindView(R.id.tv_status_service)
+    TextView mTvStatusService;
+    @BindView(R.id.tv_order_state)
+    TextView mTvOrderState;
     private String OrderID;
     private WorkOrder.DataBean data;
     private AccessoryDetailAdapter accessoryDetailAdapter;
+    private ServiceAdapter serviceAdapter;
+    private CommonDialog_Home reject;
+    private CommonDialog_Home pass;
+    private Data<String> result;
 
     @Override
     protected int setLayoutId() {
@@ -123,6 +146,8 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
         mLlContactCustomerService.setOnClickListener(this);
         mTvReject.setOnClickListener(this);
         mTvPass.setOnClickListener(this);
+        mTvPassService.setOnClickListener(this);
+        mTvRejectService.setOnClickListener(this);
     }
 
 
@@ -160,7 +185,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 }).show();
                 break;
             case R.id.tv_reject:
-                final CommonDialog_Home reject = new CommonDialog_Home(AccessoriesListActivity.this);
+                reject = new CommonDialog_Home(AccessoriesListActivity.this);
                 reject.setMessage("是否拒绝申请的配件")
 
                         //.setImageResId(R.mipmap.ic_launcher)
@@ -169,7 +194,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-                        mPresenter.ApproveOrderAccessory(OrderID,"-1");
+                        mPresenter.ApproveOrderAccessory(OrderID, "-1");
                     }
 
                     @Override
@@ -180,7 +205,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 }).show();
                 break;
             case R.id.tv_pass:
-                final CommonDialog_Home pass = new CommonDialog_Home(AccessoriesListActivity.this);
+                pass = new CommonDialog_Home(AccessoriesListActivity.this);
                 pass.setMessage("是否同意申请的配件")
 
                         //.setImageResId(R.mipmap.ic_launcher)
@@ -189,7 +214,48 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         pass.dismiss();
-                        mPresenter.ApproveOrderAccessory(OrderID,"1");
+                        mPresenter.ApproveOrderAccessory(OrderID, "1");
+                    }
+
+                    @Override
+                    public void onNegtiveClick() {//取消
+                        pass.dismiss();
+                        // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+                break;
+
+            case R.id.tv_reject_service:
+                reject = new CommonDialog_Home(AccessoriesListActivity.this);
+                reject.setMessage("是否拒绝申请的服务")
+
+                        //.setImageResId(R.mipmap.ic_launcher)
+                        .setTitle("提示")
+                        .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        reject.dismiss();
+                        mPresenter.ApproveOrderService(OrderID, "-1");
+                    }
+
+                    @Override
+                    public void onNegtiveClick() {//取消
+                        reject.dismiss();
+                        // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+                break;
+            case R.id.tv_pass_service:
+                pass = new CommonDialog_Home(AccessoriesListActivity.this);
+                pass.setMessage("是否同意申请的服务")
+
+                        //.setImageResId(R.mipmap.ic_launcher)
+                        .setTitle("提示")
+                        .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        pass.dismiss();
+                        mPresenter.ApproveOrderService(OrderID, "1");
                     }
 
                     @Override
@@ -214,6 +280,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
+                mTvOrderState.setText(data.getState());
                 mTvName.setText(data.getUserName());
                 mTvPhone.setText(data.getPhone());
                 mTvAddress.setText(data.getAddress());
@@ -232,12 +299,63 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 mTvSpecifyDoorToDoorTime.setText(data.getExtraTime());
                 mTvOrderSource.setText(data.getExpressNo());
                 mTvThirdParty.setText(data.getThirdPartyNo());
-                if (data.getOrderAccessroyDetail() == null) {
-                    return;
+
+                if ("1".equals(data.getAccessoryApplyState())) {
+                    mTvPass.setVisibility(View.GONE);
+                    mTvReject.setVisibility(View.GONE);
+                    mTvStatusAccessory.setVisibility(View.VISIBLE);
+                    mTvStatusAccessory.setText("已审核通过");
+                } else if ("-1".equals(data.getAccessoryApplyState())) {
+                    mTvPass.setVisibility(View.GONE);
+                    mTvReject.setVisibility(View.GONE);
+                    mTvStatusAccessory.setVisibility(View.VISIBLE);
+                    mTvStatusAccessory.setText("已拒绝");
+                } else {
+                    mTvPass.setVisibility(View.VISIBLE);
+                    mTvReject.setVisibility(View.VISIBLE);
+                    mTvStatusAccessory.setVisibility(View.GONE);
                 }
-                accessoryDetailAdapter = new AccessoryDetailAdapter(R.layout.item_accessories,data.getOrderAccessroyDetail());
-                mRvAccessories.setLayoutManager(new LinearLayoutManager(mActivity));
-                mRvAccessories.setAdapter(accessoryDetailAdapter);
+                if ("1".equals(data.getServiceApplyState())) {
+                    mTvPassService.setVisibility(View.GONE);
+                    mTvRejectService.setVisibility(View.GONE);
+                    mTvStatusService.setVisibility(View.VISIBLE);
+                    mTvStatusService.setText("已审核通过");
+                } else if ("-1".equals(data.getServiceApplyState())) {
+                    mTvPassService.setVisibility(View.GONE);
+                    mTvRejectService.setVisibility(View.GONE);
+                    mTvStatusService.setVisibility(View.VISIBLE);
+                    mTvStatusService.setText("已拒绝");
+                } else {
+                    mTvPassService.setVisibility(View.VISIBLE);
+                    mTvRejectService.setVisibility(View.VISIBLE);
+                    mTvStatusService.setVisibility(View.GONE);
+                }
+                if (data.getOrderServiceDetail() == null) {
+                    mLlAuditService.setVisibility(View.GONE);
+                } else {
+                    if (data.getOrderServiceDetail().size() == 0) {
+                        mLlAuditService.setVisibility(View.GONE);
+                    } else {
+                        mLlAuditService.setVisibility(View.VISIBLE);
+                        serviceAdapter = new ServiceAdapter(R.layout.item_accessories, data.getOrderServiceDetail());
+                        mRvService.setLayoutManager(new LinearLayoutManager(mActivity));
+                        mRvService.setAdapter(serviceAdapter);
+                    }
+
+                }
+                if (data.getOrderAccessroyDetail() == null) {
+                    mLlApproveBeyondMoney.setVisibility(View.GONE);
+                } else {
+                    if (data.getOrderAccessroyDetail().size() == 0) {
+                        mLlApproveBeyondMoney.setVisibility(View.GONE);
+                    } else {
+                        mLlApproveBeyondMoney.setVisibility(View.VISIBLE);
+                        accessoryDetailAdapter = new AccessoryDetailAdapter(R.layout.item_accessories, data.getOrderAccessroyDetail());
+                        mRvAccessories.setLayoutManager(new LinearLayoutManager(mActivity));
+                        mRvAccessories.setAdapter(accessoryDetailAdapter);
+                    }
+                }
+
                 break;
             case 401:
                 break;
@@ -251,10 +369,33 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
 
     @Override
     public void ApproveOrderAccessory(BaseResult<Data<String>> baseResult) {
-        switch(baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                ToastUtils.showShort("审核成功！");
-                finish();
+                result =baseResult.getData();
+                if (result.isItem1()){
+                    ToastUtils.showShort("审核成功！");
+                    mPresenter.GetOrderInfo(OrderID);
+                }else{
+                    ToastUtils.showShort("审核失败！"+result.getItem2());
+                }
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void ApproveOrderService(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                result =baseResult.getData();
+                if (result.isItem1()){
+                    ToastUtils.showShort("审核成功！");
+                    mPresenter.GetOrderInfo(OrderID);
+                }else{
+                    ToastUtils.showShort("审核失败！"+result.getItem2());
+                }
                 break;
             default:
                 break;
@@ -265,4 +406,6 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     public void ApproveBeyondMoney(BaseResult<Data<String>> baseResult) {
 
     }
+
+
 }

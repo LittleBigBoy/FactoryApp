@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
@@ -16,7 +15,6 @@ import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
-import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
 import androidx.appcompat.widget.Toolbar;
@@ -24,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPresenter,WorkOrdersDetailModel> implements View.OnClickListener,WorkOrdersDetailContract.View {
+public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPresenter, WorkOrdersDetailModel> implements View.OnClickListener, WorkOrdersDetailContract.View {
 
     @BindView(R.id.icon_back)
     ImageView mIconBack;
@@ -76,6 +74,8 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
     TextView mTvFaultDescription;
     @BindView(R.id.view)
     View mView;
+    @BindView(R.id.tv_order_state)
+    TextView mTvOrderState;
     private String OrderID;
     private WorkOrder.DataBean data;
 
@@ -83,6 +83,7 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
     protected int setLayoutId() {
         return R.layout.activity_work_order_details;
     }
+
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
@@ -91,11 +92,12 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
     }
+
     @Override
     protected void initData() {
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("订单详情");
-        OrderID =getIntent().getStringExtra("OrderID");
+        OrderID = getIntent().getStringExtra("OrderID");
         mPresenter.GetOrderInfo(OrderID);
     }
 
@@ -134,7 +136,7 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
                     @Override
                     public void onPositiveClick() {//拨打电话
                         dialog.dismiss();
-                        call("tel:"+"4006262365");
+                        call("tel:" + "4006262365");
                     }
 
                     @Override
@@ -158,7 +160,8 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
     public void GetOrderInfo(BaseResult<WorkOrder.DataBean> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                data =baseResult.getData();
+                data = baseResult.getData();
+                mTvOrderState.setText(data.getState());
                 mTvName.setText(data.getUserName());
                 mTvPhone.setText(data.getPhone());
                 mTvAddress.setText(data.getAddress());
@@ -195,6 +198,11 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
 
     @Override
     public void ApproveBeyondMoney(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void ApproveOrderService(BaseResult<Data<String>> baseResult) {
 
     }
 }

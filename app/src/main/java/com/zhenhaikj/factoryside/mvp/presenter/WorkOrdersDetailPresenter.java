@@ -53,4 +53,15 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
                     }
                 });
     }
+
+    @Override
+    public void ApproveOrderService(String OrderID, String State) {
+        mModel.ApproveOrderService(OrderID, State)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.ApproveOrderService(value);
+                    }
+                });
+    }
 }
