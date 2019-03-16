@@ -4,7 +4,9 @@ package com.zhenhaikj.factoryside.mvp.presenter;
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
+import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.contract.AddBrandContract;
@@ -28,9 +30,9 @@ public class AddBrandPresenter extends AddBrandContract.Presenter {
     @Override
     public void GetFactoryCategory(String ParentID) {
         mModel.GetFactoryCategory(ParentID)
-                .subscribe(new BaseObserver<Data<List<Category>>>() {
+                .subscribe(new BaseObserver<CategoryData>() {
                     @Override
-                    protected void onHandleSuccess(BaseResult<Data<List<Category>>> value) {
+                    protected void onHandleSuccess(BaseResult<CategoryData> value) {
                         mView.GetFactoryCategory(value);
                     }
                 });
@@ -39,9 +41,9 @@ public class AddBrandPresenter extends AddBrandContract.Presenter {
     @Override
     public void GetChildFactoryCategory(String ParentId) {
         mModel.GetChildFactoryCategory(ParentId)
-                .subscribe(new BaseObserver<Data<List<Category>>>() {
+                .subscribe(new BaseObserver<CategoryData>() {
                     @Override
-                    protected void onHandleSuccess(BaseResult<Data<List<Category>>> value) {
+                    protected void onHandleSuccess(BaseResult<CategoryData> value) {
                         mView.GetChildFactoryCategory(value);
                     }
                 });
@@ -92,23 +94,23 @@ public class AddBrandPresenter extends AddBrandContract.Presenter {
     }
 
     @Override
-    public void AddFactoryProducttype(String FProductTypeName, String FBrandID, String FBrandName, String FCategoryID, String FCategoryName,String InitPrice) {
-        mModel.AddFactoryProducttype(FProductTypeName, FBrandID, FBrandName, FCategoryID, FCategoryName,InitPrice)
+    public void AddBrandCategory(String BrandID, String Categorys) {
+        mModel.AddBrandCategory(BrandID,Categorys)
                 .subscribe(new BaseObserver<Data>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data> value) {
-                        mView.AddFactoryProducttype(value);
+                        mView.AddBrandCategory(value);
                     }
                 });
     }
 
     @Override
-    public void GetProductTypeByUserID(String UserID) {
-        mModel.GetProductTypeByUserID(UserID)
-                .subscribe(new BaseObserver<List<ProductType>>() {
+    public void GetBrandCategory(String UserID) {
+        mModel.GetBrandCategory(UserID)
+                .subscribe(new BaseObserver<List<BrandCategory>>() {
                     @Override
-                    protected void onHandleSuccess(BaseResult<List<ProductType>> value) {
-                        mView.GetProductTypeByUserID(value);
+                    protected void onHandleSuccess(BaseResult<List<BrandCategory>> value) {
+                        mView.GetBrandCategory(value);
                     }
                 });
     }

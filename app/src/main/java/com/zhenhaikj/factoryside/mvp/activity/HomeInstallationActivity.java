@@ -49,6 +49,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
@@ -786,12 +787,12 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
     }
 
     @Override
-    public void GetFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetFactoryCategory(BaseResult<CategoryData> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data<List<Category>> data = baseResult.getData();
-                if (data.isItem1()) {
-                    popularList = data.getItem2();
+                CategoryData data = baseResult.getData();
+                if ("0".equals(data.getCode())) {
+                    popularList = data.getData();
                     if (popularList.size() == 0) {
                         MyUtils.showToast(mActivity, "无分类，请联系管理员添加！");
                     } else {
@@ -809,12 +810,12 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
     }
 
     @Override
-    public void GetChildFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetChildFactoryCategory(BaseResult<CategoryData> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data<List<Category>> data = baseResult.getData();
-                if (data.isItem1()) {
-                    chooseList = data.getItem2();
+                CategoryData data = baseResult.getData();
+                if ("0".equals(data.getCode())) {
+                    chooseList = data.getData();
                     if (chooseList.size() == 0) {
                         MyUtils.showToast(mActivity, "无分类，请联系管理员添加！");
                     } else {

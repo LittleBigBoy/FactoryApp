@@ -6,6 +6,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Accessory;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
@@ -30,13 +31,13 @@ public class HomeMaintenanceModel implements HomeMaintenanceContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory(String ParentID) {
+    public Observable<BaseResult<CategoryData>> GetFactoryCategory(String ParentID) {
         return ApiRetrofit.getDefault().GetFactoryCategory(ParentID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
     @Override
-    public Observable<BaseResult<Data<List<Category>>>> GetChildFactoryCategory(String ParentID) {
+    public Observable<BaseResult<CategoryData>> GetChildFactoryCategory(String ParentID) {
         return ApiRetrofit.getDefault().GetChildFactoryCategory(ParentID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());

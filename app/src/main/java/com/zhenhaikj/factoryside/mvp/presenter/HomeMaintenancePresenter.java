@@ -9,6 +9,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Accessory;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
@@ -40,9 +41,9 @@ public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter 
     @Override
     public void GetFactoryCategory(String ParentID) {
         mModel.GetFactoryCategory(ParentID)
-                .subscribe(new BaseObserver<Data<List<Category>>>() {
+                .subscribe(new BaseObserver<CategoryData>() {
                     @Override
-                    protected void onHandleSuccess(BaseResult<Data<List<Category>>> value) {
+                    protected void onHandleSuccess(BaseResult<CategoryData> value) {
                         mView.GetFactoryCategory(value);
                     }
                 });
@@ -50,9 +51,9 @@ public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter 
     @Override
     public void GetChildFactoryCategory(String ParentID) {
         mModel.GetChildFactoryCategory(ParentID)
-                .subscribe(new BaseObserver<Data<List<Category>>>() {
+                .subscribe(new BaseObserver<CategoryData>() {
                     @Override
-                    protected void onHandleSuccess(BaseResult<Data<List<Category>>> value) {
+                    protected void onHandleSuccess(BaseResult<CategoryData> value) {
                         mView.GetChildFactoryCategory(value);
                     }
                 });

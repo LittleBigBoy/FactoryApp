@@ -23,7 +23,9 @@ import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
+import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.contract.AddBrandContract;
@@ -201,10 +203,10 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     }
 
     @Override
-    public void GetFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetFactoryCategory(BaseResult<CategoryData> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                categoryList = baseResult.getData().getItem2();
+                categoryList = baseResult.getData().getData();
                 showPopWindow();
                 break;
             case 401:
@@ -214,7 +216,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     }
 
     @Override
-    public void GetChildFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetChildFactoryCategory(BaseResult<CategoryData> baseResult) {
         switch (baseResult.getStatusCode()){
             case 200:
 
@@ -286,12 +288,12 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     }
 
     @Override
-    public void GetProductTypeByUserID(BaseResult<List<ProductType>> baseResult) {
+    public void GetBrandCategory(BaseResult<List<BrandCategory>> baseResult) {
 
     }
 
     @Override
-    public void AddFactoryProducttype(BaseResult<Data> baseResult) {
+    public void AddBrandCategory(BaseResult<Data> baseResult) {
 
     }
 

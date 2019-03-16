@@ -14,7 +14,9 @@ import com.zhenhaikj.factoryside.mvp.adapter.TypeAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
+import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.contract.AddBrandContract;
@@ -49,7 +51,7 @@ public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBran
     RecyclerView mRlModel;
     @BindView(R.id.iv_add_model)
     ImageView mIvAddModel;
-    private List<ProductType> productTypeList;
+    private List<BrandCategory> productTypeList;
     private TypeAdapter typeAdapter;
     private String userID;
     private String FProductTypeID;
@@ -74,7 +76,7 @@ public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBran
         mTvTitle.setText("型号列表");
         SPUtils spUtils = SPUtils.getInstance("token");
         userID = spUtils.getString("userName");
-        mPresenter.GetProductTypeByUserID(userID);
+        mPresenter.GetBrandCategory(userID);
         typeAdapter = new TypeAdapter(R.layout.item_type_choose, productTypeList);
         mRlModel.setLayoutManager(new LinearLayoutManager(mActivity));
         mRlModel.setAdapter(typeAdapter);
@@ -133,7 +135,7 @@ public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBran
     }
 
     @Override
-    public void GetFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetFactoryCategory(BaseResult<CategoryData> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
 
@@ -145,7 +147,7 @@ public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBran
     }
 
     @Override
-    public void GetChildFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetChildFactoryCategory(BaseResult<CategoryData> baseResult) {
 
     }
 
@@ -165,7 +167,7 @@ public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBran
         switch (baseResult.getStatusCode()) {
             case 200:
                 ToastUtils.showShort("删除成功！");
-                mPresenter.GetProductTypeByUserID(userID);
+                mPresenter.GetBrandCategory(userID);
                 break;
             default:
                 ToastUtils.showShort("删除失败！");
@@ -184,12 +186,12 @@ public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBran
     }
 
     @Override
-    public void AddFactoryProducttype(BaseResult<Data> baseResult) {
+    public void AddBrandCategory(BaseResult<Data> baseResult) {
 
     }
 
     @Override
-    public void GetProductTypeByUserID(BaseResult<List<ProductType>> baseResult) {
+    public void GetBrandCategory(BaseResult<List<BrandCategory>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
                 productTypeList = baseResult.getData();
@@ -204,6 +206,6 @@ public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBran
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mPresenter.GetProductTypeByUserID(userID);
+        mPresenter.GetBrandCategory(userID);
     }
 }

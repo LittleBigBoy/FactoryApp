@@ -5,7 +5,9 @@ import com.zhenhaikj.factoryside.mvp.bean.Accessory;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
+import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Course;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
@@ -101,29 +103,16 @@ public interface ApiService {
     Observable<BaseResult<Data>> AddFactoryBrand(@Field("UserID") String UserID, @Field("FBrandName") String FBrandName);
 
     /**
-     * 添加型号
-     * {
-     *   "Id": 0,
-     *   "FProductTypeID": 0,
-     *   "FProductTypeName": "string",
-     *   "FBrandID": 0,
-     *   "FBrandName": "string",
-     *   "FCategoryID": 0,
-     *   "FCategoryName": "string",
-     *   "InitPrice": 0,
-     *   "IsUse": "string",
-     *   "Version": 0
-     * }
+     * 添加品牌对应的分类BrandID,Categorys(逗号（,）分割)
+     * @param BrandID
+     * @param Categorys
+     * @return
      */
     @FormUrlEncoded
-    @POST("FactoryConfig/AddFactoryProducttype")
-    Observable<BaseResult<Data>> AddFactoryProducttype(
-            @Field("FProductTypeName") String FProductTypeName,
-            @Field("FBrandID") String FBrandID,
-            @Field("FBrandName") String FBrandName,
-            @Field("FCategoryID") String FCategoryID,
-            @Field("FCategoryName") String FCategoryName,
-            @Field("InitPrice") String InitPrice
+    @POST("FactoryConfig/AddBrandCategory")
+    Observable<BaseResult<Data>> AddBrandCategory(
+            @Field("BrandID") String BrandID,
+            @Field("Categorys") String Categorys
     );
 
     /**
@@ -142,7 +131,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("FactoryConfig/GetFactoryCategory")
-    Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory(@Field("ParentID") String ParentID);
+    Observable<BaseResult<CategoryData>> GetFactoryCategory(@Field("ParentID") String ParentID);
 
 //    @FormUrlEncoded
 //    @POST("FactoryConfig/GetFactoryCategory")
@@ -153,7 +142,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("FactoryConfig/GetFactoryCategory")
-    Observable<BaseResult<Data<List<Category>>>> GetChildFactoryCategory(@Field("ParentID") String ParentID);
+    Observable<BaseResult<CategoryData>> GetChildFactoryCategory(@Field("ParentID") String ParentID);
 
     /**
      * 获取型号
@@ -166,8 +155,8 @@ public interface ApiService {
      * 获取型号by  UserID
      */
     @FormUrlEncoded
-    @POST("FactoryConfig/GetProductTypeByUserID")
-    Observable<BaseResult<List<ProductType>>> GetProductTypeByUserID(@Field("UserID") String UserID);
+    @POST("FactoryConfig/GetBrandCategory")
+    Observable<BaseResult<List<BrandCategory>>> GetBrandCategory(@Field("UserID") String UserID);
 
 
     @POST("FactoryConfig/GetFactoryProducttype")

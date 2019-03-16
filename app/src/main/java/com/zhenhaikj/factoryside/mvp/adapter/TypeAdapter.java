@@ -5,25 +5,26 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
+import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
 import com.zhenhaikj.factoryside.mvp.bean.Product;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 
 import java.util.List;
 
-public class TypeAdapter extends BaseQuickAdapter<ProductType,BaseViewHolder> {
-    public TypeAdapter(int layoutResId, List<ProductType> data) {
+public class TypeAdapter extends BaseQuickAdapter<BrandCategory,BaseViewHolder> {
+    public TypeAdapter(int layoutResId, List<BrandCategory> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ProductType item) {
-        helper.setText(R.id.tv_brand,item.getFBrandName())
+    protected void convert(BaseViewHolder helper, BrandCategory item) {
+        /*helper.setText(R.id.tv_brand,item.getFBrandName())
                 .setText(R.id.tv_category_name,item.getFParentCategoryName())
                 .setText(R.id.tv_brand_name,item.getFCategoryName())
                 .setText(R.id.tv_brand_number,item.getFProductTypeName())
                 .setText(R.id.tv_price,"￥"+item.getInitPrice())
                 .addOnClickListener(R.id.iv_delete)
-                .addOnClickListener(R.id.rl_brand);
+                .addOnClickListener(R.id.rl_brand);*/
     }
 
 

@@ -3,7 +3,9 @@ package com.zhenhaikj.factoryside.mvp.model;
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
+import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.contract.AddBrandContract;
@@ -26,14 +28,14 @@ public class AddBrandModel implements AddBrandContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory(String ParentID) {
+    public Observable<BaseResult<CategoryData>> GetFactoryCategory(String ParentID) {
         return ApiRetrofit.getDefault().GetFactoryCategory(ParentID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Observable<BaseResult<Data<List<Category>>>> GetChildFactoryCategory(String ParentId) {
+    public Observable<BaseResult<CategoryData>> GetChildFactoryCategory(String ParentId) {
         return ApiRetrofit.getDefault().GetChildFactoryCategory(ParentId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
@@ -69,15 +71,15 @@ public class AddBrandModel implements AddBrandContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data>> AddFactoryProducttype(String FProductTypeName, String FBrandID, String FBrandName, String FCategoryID, String FCategoryName,String InitPrice) {
-        return ApiRetrofit.getDefault().AddFactoryProducttype(FProductTypeName, FBrandID, FBrandName, FCategoryID, FCategoryName,InitPrice)
+    public Observable<BaseResult<Data>> AddBrandCategory(String BrandID, String Categorys) {
+        return ApiRetrofit.getDefault().AddBrandCategory(BrandID,Categorys)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Observable<BaseResult<List<ProductType>>> GetProductTypeByUserID(String UserID) {
-        return ApiRetrofit.getDefault().GetProductTypeByUserID(UserID)
+    public Observable<BaseResult<List<BrandCategory>>> GetBrandCategory(String UserID) {
+        return ApiRetrofit.getDefault().GetBrandCategory(UserID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

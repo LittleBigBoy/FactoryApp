@@ -9,6 +9,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Accessory;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
@@ -23,8 +24,8 @@ import io.reactivex.Observable;
 public interface HomeMaintenanceContract {
     interface Model extends BaseModel {
         Observable<BaseResult<List<Brand>>> GetFactoryBrand(String UserID);
-        Observable<BaseResult<Data<List<Category>>>> GetFactoryCategory(String ParentID);
-        Observable<BaseResult<Data<List<Category>>>> GetChildFactoryCategory(String ParentID);
+        Observable<BaseResult<CategoryData>> GetFactoryCategory(String ParentID);
+        Observable<BaseResult<CategoryData>> GetChildFactoryCategory(String ParentID);
         Observable<BaseResult<Data<List<ProductType>>>> GetFactoryProducttype(String FBrandID, String FCategoryID);
         Observable<BaseResult<Accessory>> GetFactoryAccessory(String FProductTypeID);
         Observable<BaseResult<List<Province>>> GetProvince();
@@ -62,8 +63,8 @@ public interface HomeMaintenanceContract {
 
     interface View extends BaseView {
         void GetFactoryBrand(BaseResult<List<Brand>> baseResult);
-        void GetFactoryCategory(BaseResult<Data<List<Category>>> baseResult);
-        void GetChildFactoryCategory(BaseResult<Data<List<Category>>> baseResult);
+        void GetFactoryCategory(BaseResult<CategoryData> baseResult);
+        void GetChildFactoryCategory(BaseResult<CategoryData> baseResult);
         void GetFactoryProducttype(BaseResult<Data<List<ProductType>>> baseResult);
         void GetFactoryAccessory(BaseResult<Accessory> baseResult);
         void GetProvince(BaseResult<List<Province>> baseResult);

@@ -51,6 +51,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Accessory;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
@@ -752,12 +753,12 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     }
 
     @Override
-    public void GetFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetFactoryCategory(BaseResult<CategoryData> baseResult) {
 
     }
 
     @Override
-    public void GetChildFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetChildFactoryCategory(BaseResult<CategoryData> baseResult) {
 
     }
 

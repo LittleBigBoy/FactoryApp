@@ -23,7 +23,9 @@ import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
+import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
+import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.contract.AddBrandContract;
@@ -160,15 +162,15 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                     ToastUtils.showShort("请选择分类！");
                     return;
                 }
-                if ("".equals(ProductTypeName)) {
-                    ToastUtils.showShort("请输入型号！");
-                    return;
-                }
-                 if ("".equals(InitPrice)) {
-                    ToastUtils.showShort("请输入服务价格！");
-                    return;
-                }
-                mPresenter.AddFactoryProducttype(ProductTypeName, FBrandID, BrandName, SubCategoryID, SubCategoryName,InitPrice);
+//                if ("".equals(ProductTypeName)) {
+//                    ToastUtils.showShort("请输入型号！");
+//                    return;
+//                }
+//                 if ("".equals(InitPrice)) {
+//                    ToastUtils.showShort("请输入服务价格！");
+//                    return;
+//                }
+                mPresenter.AddBrandCategory(FBrandID, SubCategoryID);
                 break;
         }
     }
@@ -186,12 +188,12 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     }
 
     @Override
-    public void GetFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetFactoryCategory(BaseResult<CategoryData> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data<List<Category>> data = baseResult.getData();
-                if (data.isItem1()) {
-                    popularList = data.getItem2();
+                CategoryData data = baseResult.getData();
+                if ("0".equals(data.getCode())) {
+                    popularList = data.getData();
                     if (popularList.size() == 0) {
                         ToastUtils.showShort("无分类，请联系管理员添加！");
                     } else {
@@ -208,12 +210,12 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     }
 
     @Override
-    public void GetChildFactoryCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetChildFactoryCategory(BaseResult<CategoryData> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data<List<Category>> data = baseResult.getData();
-                if (data.isItem1()) {
-                    chooseList = data.getItem2();
+                CategoryData data = baseResult.getData();
+                if ("0".equals(data.getCode())) {
+                    chooseList = data.getData();
                     if (chooseList.size() == 0) {
                         ToastUtils.showShort("无分类，请联系管理员添加！");
                     } else {
@@ -272,7 +274,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
 
 
     @Override
-    public void AddFactoryProducttype(BaseResult<Data> baseResult) {
+    public void AddBrandCategory(BaseResult<Data> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
                 if (baseResult.getData().isItem1()) {
@@ -287,7 +289,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     }
 
     @Override
-    public void GetProductTypeByUserID(BaseResult<List<ProductType>> baseResult) {
+    public void GetBrandCategory(BaseResult<List<BrandCategory>> baseResult) {
 
     }
 
