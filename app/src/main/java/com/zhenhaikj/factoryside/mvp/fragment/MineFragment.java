@@ -4,6 +4,10 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -32,6 +36,8 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.yalantis.ucrop.UCrop;
+import com.yalantis.ucrop.UCropActivity;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.activity.AboutUsActivity;
@@ -58,6 +64,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -501,7 +508,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     Glide.with(mActivity).load(filePath).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(mIvProfileImage);
                     file = new File(filePath);
                 }
-                if (file != null) {
+                if (file!=null){
                     uploadImg(file);
                 }
                 break;
@@ -511,17 +518,21 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     Uri uri = data.getData();
                     Glide.with(mActivity).load(uri).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(mIvProfileImage);
                     file = new File(MyUtils.getRealPathFromUri(mActivity, uri));
+
                 }
-                if (file != null) {
-                    uploadImg(file);
+                if (file!=null){
+                uploadImg(file);
                 }
                 break;
+
+
 
             default:
                 break;
         }
 
     }
+
 
 
     @Override
@@ -565,6 +576,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
         }
     }
+
+
+
+
+
+
 
 
 }

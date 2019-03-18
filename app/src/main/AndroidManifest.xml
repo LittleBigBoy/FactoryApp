@@ -86,6 +86,8 @@
             </intent-filter>
         </activity>
 
+
+
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
@@ -156,6 +158,8 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
+
+
         <receiver
             android:name=".mvp.wxapi.AppRegister">
             <intent-filter>

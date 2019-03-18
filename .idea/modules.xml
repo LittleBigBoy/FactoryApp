@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/FactoryApp.iml" filepath="$PROJECT_DIR$/.idea/FactoryApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FactoryApp.iml" filepath="$PROJECT_DIR$/FactoryApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ImmersionBar/ImmersionBar.iml" filepath="$PROJECT_DIR$/ImmersionBar/ImmersionBar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SwipeBackLayout/SwipeBackLayout.iml" filepath="$PROJECT_DIR$/SwipeBackLayout/SwipeBackLayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-pickers/android-pickers.iml" filepath="$PROJECT_DIR$/android-pickers/android-pickers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/magicindicator/magicindicator.iml" filepath="$PROJECT_DIR$/magicindicator/magicindicator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/uiasr/uiasr.iml" filepath="$PROJECT_DIR$/uiasr/uiasr.iml" />
+      <module fileurl="file://$PROJECT_DIR$/uidialog/uidialog.iml" filepath="$PROJECT_DIR$/uidialog/uidialog.iml" />
     </modules>
   </component>
 </project>

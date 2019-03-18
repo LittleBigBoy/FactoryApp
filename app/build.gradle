@@ -176,4 +176,7 @@ dependencies {
 
     //UI库
     implementation "com.github.vondear.RxTool:RxUI:v2.2.7"
+
+    //头像裁剪
+    implementation 'com.yalantis:ucrop:1.4.1'
 }
