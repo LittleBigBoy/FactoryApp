@@ -14,7 +14,7 @@ import com.zhenhaikj.factoryside.mvp.adapter.TypeAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
-import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
+import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
@@ -51,7 +51,7 @@ public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBran
     RecyclerView mRlModel;
     @BindView(R.id.iv_add_model)
     ImageView mIvAddModel;
-    private List<BrandCategory> productTypeList;
+    private List<Category> productTypeList;
     private TypeAdapter typeAdapter;
     private String userID;
     private String FProductTypeID;
@@ -191,10 +191,10 @@ public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBran
     }
 
     @Override
-    public void GetBrandCategory(BaseResult<List<BrandCategory>> baseResult) {
+    public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                productTypeList = baseResult.getData();
+                productTypeList = baseResult.getData().getItem2();
                 typeAdapter.setNewData(productTypeList);
                 break;
             default:

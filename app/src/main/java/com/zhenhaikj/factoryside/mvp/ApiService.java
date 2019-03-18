@@ -5,7 +5,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Accessory;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
-import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
+import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
@@ -156,7 +156,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("FactoryConfig/GetBrandCategory")
-    Observable<BaseResult<List<BrandCategory>>> GetBrandCategory(@Field("UserID") String UserID);
+    Observable<BaseResult<Data<List<Category>>>> GetBrandCategory(@Field("UserID") String UserID);
 
 
     @POST("FactoryConfig/GetFactoryProducttype")
@@ -248,8 +248,6 @@ public interface ApiService {
                                                   @Field("CategoryName") String CategoryName,
                                                   @Field("SubCategoryID") String SubCategoryID,
                                                   @Field("SubCategoryName") String SubCategoryName,
-                                                  @Field("ProductTypeID") String FProductTypeID,
-                                                  @Field("ProductType") String ProductType,
                                                   @Field("ProvinceCode") String ProvinceCode,
                                                   @Field("CityCode") String CityCode,
                                                   @Field("AreaCode") String AreaCode,
@@ -279,8 +277,6 @@ public interface ApiService {
                                                          @Field("CategoryName") String CategoryName,
                                                          @Field("SubCategoryID") String SubCategoryID,
                                                          @Field("SubCategoryName") String SubCategoryName,
-                                                         @Field("ProductTypeID") String FProductTypeID,
-                                                         @Field("ProductType") String ProductType,
                                                          @Field("ProvinceCode") String ProvinceCode,
                                                          @Field("CityCode") String CityCode,
                                                          @Field("AreaCode") String AreaCode,

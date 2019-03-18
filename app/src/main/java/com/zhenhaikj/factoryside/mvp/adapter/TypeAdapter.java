@@ -5,26 +5,26 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
-import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
+import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.Product;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 
 import java.util.List;
 
-public class TypeAdapter extends BaseQuickAdapter<BrandCategory,BaseViewHolder> {
-    public TypeAdapter(int layoutResId, List<BrandCategory> data) {
+public class TypeAdapter extends BaseQuickAdapter<Category,BaseViewHolder> {
+    public TypeAdapter(int layoutResId, List<Category> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, BrandCategory item) {
-        /*helper.setText(R.id.tv_brand,item.getFBrandName())
-                .setText(R.id.tv_category_name,item.getFParentCategoryName())
-                .setText(R.id.tv_brand_name,item.getFCategoryName())
-                .setText(R.id.tv_brand_number,item.getFProductTypeName())
+    protected void convert(BaseViewHolder helper, Category item) {
+        helper.setText(R.id.tv_brand,item.getBrandName())
+                .setText(R.id.tv_category_name,item.getParentName())
+//                .setText(R.id.tv_brand_name,item.getFCategoryName())
+                .setText(R.id.tv_brand_number,item.getFCategoryName())
                 .setText(R.id.tv_price,"￥"+item.getInitPrice())
                 .addOnClickListener(R.id.iv_delete)
-                .addOnClickListener(R.id.rl_brand);*/
+                .addOnClickListener(R.id.rl_brand);
     }
 
 

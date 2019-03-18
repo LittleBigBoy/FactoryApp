@@ -23,7 +23,6 @@ import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
-import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
@@ -72,6 +71,8 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     Button mBtnAdd;
     @BindView(R.id.et_price)
     ClearEditText mEtPrice;
+    @BindView(R.id.lv_popular)
+    LabelsView mLvPopular;
     private SPUtils spUtils;
     private String userID;
     private List<Category> popularList;
@@ -89,9 +90,11 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     private String ProductTypeName;
     private List<Brand> brandList;
     private BrandChooseAdapter brandsAdapter;
-    private String BrandName;
+    private String BrandName="";
     private String FBrandID;
     private String InitPrice;
+    private List<Category> selectLabelDatas;
+    private String categorys="";
 
     @Override
     protected int setLayoutId() {
@@ -116,6 +119,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
 //        }
         spUtils = SPUtils.getInstance("token");
         userID = spUtils.getString("userName");
+        mPresenter.GetFactoryCategory("999");
     }
 
     @Override
@@ -149,19 +153,24 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                 mPresenter.GetBrand(userID);
                 break;
             case R.id.ll_choose_category:
-                mPresenter.GetFactoryCategory("999");
+
                 break;
             case R.id.btn_add:
-                ProductTypeName = mEtType.getText().toString().trim();
+//                ProductTypeName = mEtType.getText().toString().trim();
                 InitPrice = mEtPrice.getText().toString().trim();
                 if ("".equals(BrandName)) {
                     ToastUtils.showShort("请选择品牌！");
                     return;
                 }
-                if ("".equals(CategoryName)) {
+                selectLabelDatas =mLvPopular.getSelectLabelDatas();
+                if (selectLabelDatas.size()==0) {
                     ToastUtils.showShort("请选择分类！");
                     return;
                 }
+                for (int i = 0; i < selectLabelDatas.size(); i++) {
+                    categorys += selectLabelDatas.get(i).getFCategoryID()+",";
+                }
+                categorys=categorys.substring(0,categorys.lastIndexOf(","));
 //                if ("".equals(ProductTypeName)) {
 //                    ToastUtils.showShort("请输入型号！");
 //                    return;
@@ -170,7 +179,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
 //                    ToastUtils.showShort("请输入服务价格！");
 //                    return;
 //                }
-                mPresenter.AddBrandCategory(FBrandID, SubCategoryID);
+                mPresenter.AddBrandCategory(FBrandID, categorys);
                 break;
         }
     }
@@ -197,7 +206,12 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                     if (popularList.size() == 0) {
                         ToastUtils.showShort("无分类，请联系管理员添加！");
                     } else {
-                        showPopWindowGetCategory(mTvChooseCategory);
+                        mLvPopular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
+                            @Override
+                            public CharSequence getLabelText(TextView label, int position, Category data) {
+                                return data.getFCategoryName();
+                            }
+                        });
                     }
                 } else {
                     ToastUtils.showShort("获取分类失败！");
@@ -289,7 +303,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     }
 
     @Override
-    public void GetBrandCategory(BaseResult<List<BrandCategory>> baseResult) {
+    public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
 
     }
 

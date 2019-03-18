@@ -3,7 +3,7 @@ package com.zhenhaikj.factoryside.mvp.model;
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
-import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
+import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
@@ -78,7 +78,7 @@ public class AddBrandModel implements AddBrandContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<List<BrandCategory>>> GetBrandCategory(String UserID) {
+    public Observable<BaseResult<Data<List<Category>>>> GetBrandCategory(String UserID) {
         return ApiRetrofit.getDefault().GetBrandCategory(UserID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
