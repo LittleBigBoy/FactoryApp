@@ -574,6 +574,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             default:
                 Toast.makeText(mActivity, "修改失败", Toast.LENGTH_SHORT).show();
                 break;
+
         }
     }
 
