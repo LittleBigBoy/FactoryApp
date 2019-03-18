@@ -48,7 +48,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="大类："
+                    android:text="分类："
                     android:textSize="16sp"
                     android:textColor="#808080"
                     android:layout_centerVertical="true"
@@ -67,6 +67,7 @@
                     android:layout_gravity="center"/>
             </LinearLayout>
             <LinearLayout
+                android:visibility="gone"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

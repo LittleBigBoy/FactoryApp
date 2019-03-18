@@ -167,7 +167,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                         startActivity(new Intent(mActivity, HomeInstallationActivity.class));
                         break;
                     case 1:
-                        startActivity(new Intent(mActivity, HomeMaintenanceActivity.class));
+                        startActivity(new Intent(mActivity, HomeMaintenanceActivity2.class));
                         break;
                     case 2:
                         startActivity(new Intent(mActivity, CustomerServiceActivity.class));

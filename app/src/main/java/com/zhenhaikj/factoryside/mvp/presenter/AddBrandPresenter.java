@@ -4,7 +4,7 @@ package com.zhenhaikj.factoryside.mvp.presenter;
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
-import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
+import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
@@ -107,9 +107,9 @@ public class AddBrandPresenter extends AddBrandContract.Presenter {
     @Override
     public void GetBrandCategory(String UserID) {
         mModel.GetBrandCategory(UserID)
-                .subscribe(new BaseObserver<List<BrandCategory>>() {
+                .subscribe(new BaseObserver<Data<List<Category>>>() {
                     @Override
-                    protected void onHandleSuccess(BaseResult<List<BrandCategory>> value) {
+                    protected void onHandleSuccess(BaseResult<Data<List<Category>>> value) {
                         mView.GetBrandCategory(value);
                     }
                 });

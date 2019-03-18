@@ -23,7 +23,7 @@ import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
-import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
+import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
@@ -288,7 +288,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     }
 
     @Override
-    public void GetBrandCategory(BaseResult<List<BrandCategory>> baseResult) {
+    public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
 
     }
 

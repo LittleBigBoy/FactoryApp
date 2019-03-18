@@ -6,7 +6,7 @@ import com.zhenhaikj.factoryside.mvp.base.BasePresenter;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.base.BaseView;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
-import com.zhenhaikj.factoryside.mvp.bean.BrandCategory;
+import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
@@ -27,7 +27,7 @@ public interface AddBrandContract {
         Observable<BaseResult<List<Brand>>> GetBrand(String UserId);
 //        Observable<BaseResult<Data<List<ProductType>>>> GetCategory(String ParentID);
         Observable<BaseResult<Data<List<ProductType>>>> GetProducttype();
-        Observable<BaseResult<List<BrandCategory>>> GetBrandCategory(String UserID);
+        Observable<BaseResult<Data<List<Category>>>> GetBrandCategory(String UserID);
         Observable<BaseResult<Data>> DeleteFactoryProducttype(String FProductTypeID);
         Observable<BaseResult<Data>> DeleteFactoryBrand(String FBrandID);
         Observable<BaseResult<Data>> AddBrandCategory(
@@ -43,7 +43,7 @@ public interface AddBrandContract {
         void GetBrand(BaseResult<List<Brand>> baseResult);
 //        void GetCategory(BaseResult<Data<List<ProductType>>> baseResult);
         void GetProducttype(BaseResult<Data<List<ProductType>>> baseResult);
-        void GetBrandCategory(BaseResult<List<BrandCategory>> baseResult);
+        void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult);
         void DeleteFactoryProducttype(BaseResult<Data> baseResult);
         void DeleteFactoryBrand(BaseResult<Data> baseResult);
         void AddBrandCategory(BaseResult<Data> baseResult);

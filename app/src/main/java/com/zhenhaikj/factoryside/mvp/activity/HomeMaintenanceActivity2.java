@@ -239,7 +239,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private String Num;
     private TextView tv_district;
     String brand;
-    private ProductType productType;
+    private Category category;
 
     @Override
     protected int setLayoutId() {
@@ -421,7 +421,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 break;
 
             case R.id.btn_release:
-                if (productType == null) {
+                if (category == null) {
                     MyUtils.showToast(mActivity, "请选择型号！");
                     return;
                 }
@@ -434,7 +434,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     MyUtils.showToast(mActivity, "请输入维修数量！");
                     return;
                 }
-                OrderMoney=Double.parseDouble(productType.getInitPrice())*Double.parseDouble(Num)+"";
+                OrderMoney=Double.parseDouble(category.getInitPrice())*Double.parseDouble(Num)+"";
                 /*if (FAccessoryID == null) {
                     MyUtils.showToast(mActivity, "请选择属性！");
                     return;
@@ -496,7 +496,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     MyUtils.showToast(mActivity, "请输入故障描述！");
                     return;
                 }
-                mPresenter.AddOrder("1", "维修", userID, productType.getFBrandID(), productType.getFBrandName(), productType.getFParentCategoryID(),productType.getFParentCategoryName(), productType.getFCategoryID(), productType.getFCategoryName(), productType.getFProductTypeID(), productType.getFProductTypeName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
+                mPresenter.AddOrder("1", "维修", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
                 break;
 
             case R.id.ll_microphone:
@@ -553,14 +553,13 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         }
         if (requestCode == 100) {
             if (data != null) {
-                productType = (ProductType) data.getSerializableExtra("type");
-                if (productType != null) {
+                category = (Category) data.getSerializableExtra("type");
+                if (category != null) {
                     mLlProduct.setVisibility(View.VISIBLE);
-                    mTvBrand.setText(productType.getFBrandName());
-                    mTvBrandName.setText(productType.getFCategoryName());
-                    mTvBrandNumber.setText(productType.getFProductTypeName());
-                    mTvCategoryName.setText(productType.getFParentCategoryName());
-                    mTvPrice.setText("￥"+productType.getInitPrice());
+                    mTvBrand.setText(category.getBrandName());
+                    mTvBrandNumber.setText(category.getFCategoryName());
+                    mTvCategoryName.setText(category.getParentName());
+                    mTvPrice.setText("￥"+ category.getInitPrice());
                 } else {
                     mLlProduct.setVisibility(View.GONE);
                 }
