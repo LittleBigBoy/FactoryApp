@@ -1,73 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:layout_marginTop="@dimen/dp_10"
-       android:layout_marginLeft="10dp"
-       android:layout_marginRight="@dimen/dp_10"
-       android:orientation="horizontal">
-       <TextView
-           android:id="@+id/numbering_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="20040304"
-           android:textSize="12sp"/>
-       <TextView
-           android:id="@+id/time_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="2019-01"
-           android:textSize="12sp"
-           android:layout_marginLeft="10dp"/>
-       <TextView
-           android:id="@+id/recharge_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="3500.00"
-           android:textSize="12sp"
-           android:layout_marginLeft="10dp"/>
-       <TextView
-           android:id="@+id/other_payment_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="0.00"
-           android:textSize="12sp"
-           android:layout_marginLeft="10dp"/>
-       <TextView
-           android:id="@+id/service_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="0"
-           android:textSize="12sp"
-           android:layout_marginLeft="10dp"/>
-       <TextView
-           android:id="@+id/Margin_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="0"
-           android:textSize="12sp"
-           android:layout_marginLeft="10dp"/>
-       <TextView
-           android:id="@+id/installation_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="0"
-           android:textSize="12sp"
-           android:layout_marginLeft="10dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#eee" />
 
-       <TextView
-           android:id="@+id/maintain_tv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="-2981.00"
-           android:textSize="12sp"
-           android:layout_marginLeft="10dp"/>
-   </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="19dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2019-01"
+            android:textColor="#6A6969"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/recharge_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="充值"
+                android:textColor="#6A6969"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/recharge_money_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="+1500"
+                android:textColor="#029E35"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/expenditure_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="支出"
+                android:textColor="#6A6969"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/expenditure_money_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="-890"
+                android:textColor="#F91515"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

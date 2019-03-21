@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,32 +29,8 @@ import butterknife.ButterKnife;
 public class WalletActivity extends BaseActivity implements View.OnClickListener {
 
 
-    @BindView(R.id.money_tv)
-    TextView mMoneyTv;
-    @BindView(R.id.hide_iv)
-    ImageView mHideIv;
-    @BindView(R.id.available_tv)
-    TextView mAvailableTv;
-    @BindView(R.id.freeze_tv)
-    TextView mFreezeTv;
-    @BindView(R.id.gift_tv)
-    TextView mGiftTv;
-    @BindView(R.id.voucher_ll)
-    LinearLayout mVoucherLl;
-    @BindView(R.id.margin_ll)
-    LinearLayout mMarginLl;
-    @BindView(R.id.invoice_ll)
-    LinearLayout mInvoiceLl;
-    @BindView(R.id.bank_card_ll)
-    LinearLayout mBankCardLl;
-    @BindView(R.id.exchange_ll)
-    LinearLayout mExchangeLl;
-    @BindView(R.id.rechargerecord_rv)
-    RecyclerView mRechargerecordRv;
-    @BindView(R.id.bill_rv)
-    RecyclerView mBillRv;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.view)
+    View mView;
     @BindView(R.id.icon_back)
     ImageView mIconBack;
     @BindView(R.id.tv_title)
@@ -64,12 +41,38 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
     ImageView mIconSearch;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.money_tv)
+    TextView mMoneyTv;
+    @BindView(R.id.hide_iv)
+    ImageView mHideIv;
+    @BindView(R.id.ll_margin)
+    LinearLayout mLlMargin;
+    @BindView(R.id.available_tv)
+    TextView mAvailableTv;
+    @BindView(R.id.freeze_tv)
+    TextView mFreezeTv;
+    @BindView(R.id.gift_tv)
+    TextView mGiftTv;
     @BindView(R.id.recharge_tv)
     TextView mRechargeTv;
     @BindView(R.id.pay_the_deposi_tv)
     TextView mPayTheDeposiTv;
-    @BindView(R.id.view)
-    View mView;
+    @BindView(R.id.ll_invoice)
+    LinearLayout mLlInvoice;
+    @BindView(R.id.ll_recharge_record)
+    LinearLayout mLlRechargeRecord;
+    @BindView(R.id.rechargerecord_rv)
+    RecyclerView mRechargerecordRv;
+    @BindView(R.id.ll_monthly_bill)
+    LinearLayout mLlMonthlyBill;
+    @BindView(R.id.bill_rv)
+    RecyclerView mBillRv;
+    @BindView(R.id.ll_frozen_amount)
+    LinearLayout mLlFrozenAmount;
+    @BindView(R.id.frozen_amount_rv)
+    RecyclerView mFrozenAmountRv;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     private List<Address> billList = new ArrayList<>();
     private List<Address> rechargeRecordList = new ArrayList<>();
     private BillAdapter billAdapter;
@@ -79,6 +82,7 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
     protected int setLayoutId() {
         return R.layout.activity_wallet;
     }
+
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
@@ -113,6 +117,7 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mPayTheDeposiTv.setOnClickListener(this);
     }
 
 
@@ -129,6 +134,9 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.icon_search:
                 finish();
+                break;
+            case R.id.pay_the_deposi_tv:
+                startActivity(new Intent(mActivity,MarginActivity.class));
                 break;
         }
     }
