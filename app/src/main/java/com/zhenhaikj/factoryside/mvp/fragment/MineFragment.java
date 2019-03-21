@@ -196,6 +196,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //        Glide.with(mActivity).load(R.drawable.avatar).apply(RequestOptions.circleCropTransform().placeholder(R.drawable.default_avatar).error(R.drawable.default_avatar)).into(mIvProfileImage);
         mRefreshLayout.setEnableLoadMore(false);
         mPresenter.GetUserInfoList(userId, "1");
+
+
     }
 
     @Override
@@ -203,6 +205,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
         userInfoDean = new UserInfo.UserInfoDean();
+
     }
 
     @Override
@@ -539,17 +542,22 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                userInfoDean = baseResult.getData().getData().get(0);
-                if (userInfoDean.getAvator() == null) {
+                if (baseResult.getData().getData().isEmpty()){
                     return;
-                } else {
-                    Glide.with(mActivity)
-                            .load(Config.HEAD_URL + userInfoDean.getAvator())
-                            .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                            .into(mIvProfileImage);
+                }else {
+                    userInfoDean = baseResult.getData().getData().get(0);
+                    if (userInfoDean.getAvator() == null) {
+                        return;
+                    } else {
+                        Glide.with(mActivity)
+                             .load(Config.HEAD_URL + userInfoDean.getAvator())
+                             .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                             .into(mIvProfileImage);
+                    }
+                    mTvNickname.setText(userInfoDean.getNickName());
+                    mTvMoney.setText("可用金额（元） " + (float) (userInfoDean.getRemainMoney() * 100 / 1024 / 1024) / 100);
                 }
-                mTvNickname.setText(userInfoDean.getNickName());
-                mTvMoney.setText("可用金额（元） " + (float) (userInfoDean.getRemainMoney() * 100 / 1024 / 1024) / 100);
+
                 break;
             case 401:
                 break;
