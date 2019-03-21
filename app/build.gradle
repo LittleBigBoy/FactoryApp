@@ -179,4 +179,7 @@ dependencies {
 
     //头像裁剪
     implementation 'com.yalantis:ucrop:1.4.1'
+
+    //Zloading加载动画
+    implementation 'com.zyao89:zloading:1.2.0'
 }

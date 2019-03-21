@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -62,6 +63,8 @@ import com.zhenhaikj.factoryside.mvp.model.HomeMaintenanceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.HomeMaintenancePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -240,7 +243,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private TextView tv_district;
     String brand;
     private Category category;
-
+    ZLoadingDialog dialog = new ZLoadingDialog(this); //loading
     @Override
     protected int setLayoutId() {
         return R.layout.activity_home_maintenance2;
@@ -421,17 +424,21 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 break;
 
             case R.id.btn_release:
+                showLoading();
                 if (category == null) {
                     MyUtils.showToast(mActivity, "请选择型号！");
+                    cancleLoading();
                     return;
                 }
                 Num = mEtNum.getText().toString();
                 if (Num == null) {
                     MyUtils.showToast(mActivity, "请输入维修数量！");
+                    cancleLoading();
                     return;
                 }
                 if ("".equals(Num)) {
                     MyUtils.showToast(mActivity, "请输入维修数量！");
+                    cancleLoading();
                     return;
                 }
                 OrderMoney=Double.parseDouble(category.getInitPrice())*Double.parseDouble(Num)+"";
@@ -441,18 +448,22 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 }*/
                 if (ProvinceCode == null) {
                     MyUtils.showToast(mActivity, "请选择省！");
+                    cancleLoading();
                     return;
                 }
                 if (CityCode == null) {
                     MyUtils.showToast(mActivity, "请选择市！");
+                    cancleLoading();
                     return;
                 }
                 if (AreaCode == null) {
                     MyUtils.showToast(mActivity, "请选择区！");
+                    cancleLoading();
                     return;
                 }
                 if (DistrictCode == null) {
                     MyUtils.showToast(mActivity, "请选择街道、乡、镇");
+                    cancleLoading();
                 }
                 DetailAddress = mEtDetail.getText().toString();
                 Address = mTvPca.getText().toString() + DetailAddress;
@@ -462,41 +473,51 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 FaultDescription = mEtFaultDescription.getText().toString();
                 if (DetailAddress == null || "".equals(DetailAddress)) {
                     MyUtils.showToast(mActivity, "请输入详细地址！");
+                    cancleLoading();
                     return;
                 }
                 if (Name == null || "".equals(Name)) {
                     MyUtils.showToast(mActivity, "请输入客户姓名！");
+                    cancleLoading();
                     return;
                 }
                 if (Phone == null || "".equals(Phone)) {
                     MyUtils.showToast(mActivity, "请输入客户手机！");
+                    cancleLoading();
                     return;
                 }
                 if (!RegexUtils.isMobileExact(Phone)) {
                     MyUtils.showToast(mActivity, "手机号格式不正确！");
+                    cancleLoading();
                     return;
                 }
                 if (Guarantee == null || "".equals(Guarantee)) {
                     MyUtils.showToast(mActivity, "请选择保修期内或保修期外！");
+                    cancleLoading();
                     return;
                 }
                 if (RecycleOrderHour == null || "".equals(RecycleOrderHour)) {
                     MyUtils.showToast(mActivity, "请输入回收时间！");
+                    cancleLoading();
                     return;
                 }
                 if (!(Integer.parseInt(RecycleOrderHour) >= 12 || Integer.parseInt(RecycleOrderHour) <= 48)) {
                     MyUtils.showToast(mActivity, "回收时间需大于等于12小于等于48！");
+                    cancleLoading();
                     return;
                 }
                 if (AccessorySendState == null || "".equals(AccessorySendState)) {
                     MyUtils.showToast(mActivity, "请选择是否为已发配件！");
+                    cancleLoading();
                     return;
                 }
                 if (FaultDescription == null || "".equals(FaultDescription)) {
                     MyUtils.showToast(mActivity, "请输入故障描述！");
+                    cancleLoading();
                     return;
                 }
                 mPresenter.AddOrder("1", "维修", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
+
                 break;
 
             case R.id.ll_microphone:
@@ -947,10 +968,12 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     bundle.putString("title", "所有工单");
                     bundle.putInt("position", 0);
                     Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+                    cancleLoading();
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
                     ToastUtils.showShort(data.getItem2());
+                    cancleLoading();
                 }
                 break;
             case 401:
@@ -1026,5 +1049,22 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 ToastUtils.showShort("没有相关权限！");
             }
         }
+    }
+
+
+
+    public void showLoading(){
+        dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
+                .setLoadingColor(Color.BLACK)//颜色
+                .setHintText("发单中...")
+                .setHintTextSize(14) // 设置字体大小 dp
+                .setHintTextColor(Color.BLACK)  // 设置字体颜色
+                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                .setCanceledOnTouchOutside(false)//点击外部无法取消
+                .show();
+    }
+
+    public void cancleLoading(){
+        dialog.dismiss();
     }
 }
