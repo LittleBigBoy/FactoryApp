@@ -1,63 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
-    <ScrollView
+    <include layout="@layout/toolbar" />
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:orientation="horizontal"
+            android:paddingTop="25dp"
+            android:paddingBottom="65dp">
 
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/red"
-                android:paddingTop="25dp"
-                android:paddingBottom="65dp">
+                android:layout_weight="1"
+                android:gravity="center">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_unissued_ticket"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                    <TextView
-                        android:id="@+id/tv_withdrawal_margin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="未 开 发 票"
-                        android:textColor="#FF0000"
-                        android:textSize="14sp"
-                        android:padding="10dp"
-                        android:background="@drawable/white_round_shape"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                    <TextView
-                        android:id="@+id/tv_pay_the_deposit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="已 开 发 票"
-                        android:textColor="#FF0000"
-                        android:textSize="14sp"
-                        android:padding="10dp"
-                        android:background="@drawable/white_round_shape"/>
-                </LinearLayout>
+                    android:background="@drawable/white_round_shape"
+                    android:padding="10dp"
+                    android:text="未 开 发 票"
+                    android:textColor="@drawable/invoice_textcolor_selector"
+                    android:textSize="14sp" />
             </LinearLayout>
 
-            </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_ticket_has_been_issued"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/white_round_shape"
+                    android:padding="10dp"
+                    android:text="已 开 发 票"
+                    android:textColor="@drawable/invoice_textcolor_selector"
+                    android:textSize="14sp" />
+            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
-        </LinearLayout>
+
+        <com.zhenhaikj.factoryside.mvp.widget.CustomViewPager
+            android:id="@+id/viewpager_invoice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp" />
+
+    </RelativeLayout>
+</LinearLayout>
