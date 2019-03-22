@@ -4,11 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
@@ -35,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, WorkOrdersDetailModel> implements View.OnClickListener , ViewPager.OnPageChangeListener, WorkOrdersDetailContract.View {
+public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, WorkOrdersDetailModel> implements View.OnClickListener, ViewPager.OnPageChangeListener, WorkOrdersDetailContract.View {
 
     @BindView(R.id.view)
     View mView;
@@ -143,6 +144,8 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
     ScrollView mLlWarranty;
     @BindView(R.id.wp_warranty)
     CustomViewPager mWpWarranty;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     private String OrderId;
     private WorkOrder.DataBean data;
 
@@ -175,6 +178,13 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
         mFragments.add(ShippingFragment.newInstance("", ""));
         mFragments.add(ReturnFragment.newInstance("", ""));
         mPresenter.GetOrderInfo(OrderId);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                mPresenter.GetOrderInfo(OrderId);
+                mRefreshLayout.finishRefresh(3000);
+            }
+        });
     }
 
     @Override
@@ -282,6 +292,7 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
 
     @Override
     public void GetOrderInfo(BaseResult<WorkOrder.DataBean> baseResult) {
+        mRefreshLayout.finishRefresh();
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
@@ -327,6 +338,11 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
 
     @Override
     public void ApproveOrderService(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void AddOrUpdateExpressNo(BaseResult<Data<String>> baseResult) {
 
     }
 

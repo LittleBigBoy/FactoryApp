@@ -1,13 +1,19 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.AccessoryDetailAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ServiceAdapter;
@@ -18,6 +24,7 @@ import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
+import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
 import androidx.appcompat.widget.Toolbar;
@@ -105,6 +112,8 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     TextView mTvStatusService;
     @BindView(R.id.tv_order_state)
     TextView mTvOrderState;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     private String OrderID;
     private WorkOrder.DataBean data;
     private AccessoryDetailAdapter accessoryDetailAdapter;
@@ -112,6 +121,14 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     private CommonDialog_Home reject;
     private CommonDialog_Home pass;
     private Data<String> result;
+    private View expressno_view;
+    private AlertDialog expressno_dialog;
+    private Button btn_negtive;
+    private Button btn_positive;
+    private TextView tv_title;
+    private ClearEditText et_expressno;
+    private TextView tv_message;
+    private String expressno;
 
     @Override
     protected int setLayoutId() {
@@ -133,6 +150,13 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
         mTvTitle.setText("订单详情");
         OrderID = getIntent().getStringExtra("OrderID");
         mPresenter.GetOrderInfo(OrderID);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                mPresenter.GetOrderInfo(OrderID);
+                mRefreshLayout.finishRefresh(3000);
+            }
+        });
     }
 
     @Override
@@ -205,24 +229,35 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 }).show();
                 break;
             case R.id.tv_pass:
-                pass = new CommonDialog_Home(AccessoriesListActivity.this);
-                pass.setMessage("是否同意申请的配件")
-
-                        //.setImageResId(R.mipmap.ic_launcher)
-                        .setTitle("提示")
-                        .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                expressno_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_add_expressno,null);
+                btn_negtive =expressno_view.findViewById(R.id.negtive);
+                btn_positive =expressno_view.findViewById(R.id.positive);
+                tv_title =expressno_view.findViewById(R.id.title);
+                tv_message =expressno_view.findViewById(R.id.message);
+                et_expressno =expressno_view.findViewById(R.id.et_expressno);
+                expressno_dialog =new AlertDialog.Builder(mActivity)
+                        .setView(expressno_view)
+                        .create();
+                expressno_dialog.show();
+                tv_title.setText("提示");
+                tv_message.setText("是否同意申请的配件");
+                btn_negtive.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onPositiveClick() {
-                        pass.dismiss();
-                        mPresenter.ApproveOrderAccessory(OrderID, "1");
+                    public void onClick(View v) {
+                        expressno_dialog.dismiss();
                     }
-
+                });
+                btn_positive.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onNegtiveClick() {//取消
-                        pass.dismiss();
-                        // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                    public void onClick(View v) {
+                        expressno=et_expressno.getText().toString().trim();
+                        if ("".equals(expressno)){
+                            ToastUtils.showShort("请输入快递单号");
+                        }else{
+                            mPresenter.AddOrUpdateExpressNo(OrderID,expressno);
+                        }
                     }
-                }).show();
+                });
                 break;
 
             case R.id.tv_reject_service:
@@ -277,6 +312,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
 
     @Override
     public void GetOrderInfo(BaseResult<WorkOrder.DataBean> baseResult) {
+        mRefreshLayout.finishRefresh();
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
@@ -371,12 +407,12 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     public void ApproveOrderAccessory(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                result =baseResult.getData();
-                if (result.isItem1()){
+                result = baseResult.getData();
+                if (result.isItem1()) {
                     ToastUtils.showShort("审核成功！");
                     mPresenter.GetOrderInfo(OrderID);
-                }else{
-                    ToastUtils.showShort("审核失败！"+result.getItem2());
+                } else {
+                    ToastUtils.showShort("审核失败！" + result.getItem2());
                 }
 
                 break;
@@ -389,12 +425,12 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     public void ApproveOrderService(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                result =baseResult.getData();
-                if (result.isItem1()){
+                result = baseResult.getData();
+                if (result.isItem1()) {
                     ToastUtils.showShort("审核成功！");
                     mPresenter.GetOrderInfo(OrderID);
-                }else{
-                    ToastUtils.showShort("审核失败！"+result.getItem2());
+                } else {
+                    ToastUtils.showShort("审核失败！" + result.getItem2());
                 }
                 break;
             default:
@@ -407,5 +443,21 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
 
     }
 
-
+    @Override
+    public void AddOrUpdateExpressNo(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                result = baseResult.getData();
+                if (result.isItem1()) {
+                    ToastUtils.showShort("添加成功！");
+                    expressno_dialog.dismiss();
+                    mPresenter.ApproveOrderAccessory(OrderID,"1");
+                } else {
+                    ToastUtils.showShort("添加失败！" + result.getItem2());
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

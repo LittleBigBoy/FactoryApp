@@ -12,6 +12,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vondear.rxui.view.dialog.RxDialogScaleView;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
@@ -98,6 +101,8 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
     TextView mTvOrderState;
     @BindView(R.id.tv_status)
     TextView mTvStatus;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     private String OrderID;
     private WorkOrder.DataBean data;
     private SimpleTarget<Bitmap> simpleTarget;
@@ -123,6 +128,13 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
         mTvTitle.setText("订单详情");
         OrderID = getIntent().getStringExtra("OrderID");
         mPresenter.GetOrderInfo(OrderID);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                mPresenter.GetOrderInfo(OrderID);
+                mRefreshLayout.finishRefresh(3000);
+            }
+        });
     }
 
     @Override
@@ -270,6 +282,7 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
 
     @Override
     public void GetOrderInfo(BaseResult<WorkOrder.DataBean> baseResult) {
+        mRefreshLayout.finishRefresh();
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
@@ -355,6 +368,11 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
 
     @Override
     public void ApproveOrderService(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void AddOrUpdateExpressNo(BaseResult<Data<String>> baseResult) {
 
     }
 }

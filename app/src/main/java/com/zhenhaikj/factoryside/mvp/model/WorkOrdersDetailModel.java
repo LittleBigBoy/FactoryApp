@@ -48,4 +48,11 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> AddOrUpdateExpressNo(String OrderID, String ExpressNo) {
+        return ApiRetrofit.getDefault().AddOrUpdateExpressNo(OrderID, ExpressNo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

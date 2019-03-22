@@ -385,7 +385,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 finish();
                 break;
             case R.id.tv_add_product:
-                startActivity(new Intent(mActivity, BrandActivity.class));
+                startActivity(new Intent(mActivity, ModelActivity.class));
                 break;
             case R.id.ll_choose_type:
                 startActivityForResult(new Intent(mActivity, ModelChooseActivity.class), 100);

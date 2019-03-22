@@ -7,6 +7,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
@@ -76,6 +79,8 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
     View mView;
     @BindView(R.id.tv_order_state)
     TextView mTvOrderState;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     private String OrderID;
     private WorkOrder.DataBean data;
 
@@ -99,6 +104,13 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
         mTvTitle.setText("订单详情");
         OrderID = getIntent().getStringExtra("OrderID");
         mPresenter.GetOrderInfo(OrderID);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                mPresenter.GetOrderInfo(OrderID);
+                mRefreshLayout.finishRefresh(3000);
+            }
+        });
     }
 
     @Override
@@ -158,6 +170,7 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
 
     @Override
     public void GetOrderInfo(BaseResult<WorkOrder.DataBean> baseResult) {
+        mRefreshLayout.finishRefresh();
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
@@ -203,6 +216,12 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
 
     @Override
     public void ApproveOrderService(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void AddOrUpdateExpressNo(BaseResult<Data<String>> baseResult) {
+
 
     }
 }

@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
@@ -81,6 +84,8 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
     LinearLayout mLlApplyCustomService;
     @BindView(R.id.tv_order_state)
     TextView mTvOrderState;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     private String OrderID;
     private WorkOrder.DataBean data;
 
@@ -104,6 +109,13 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
         mTvTitle.setText("订单详情");
         OrderID = getIntent().getStringExtra("OrderID");
         mPresenter.GetOrderInfo(OrderID);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                mPresenter.GetOrderInfo(OrderID);
+                mRefreshLayout.finishRefresh(3000);
+            }
+        });
     }
 
     @Override
@@ -176,12 +188,13 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
 
     @Override
     public void GetOrderInfo(BaseResult<WorkOrder.DataBean> baseResult) {
+        mRefreshLayout.finishRefresh();
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
-                if("维修".equals(data.getTypeName())){
+                if ("维修".equals(data.getTypeName())) {
                     mLlApplyCustomService.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     mLlApplyCustomService.setVisibility(View.GONE);
                 }
                 mTvOrderState.setText(data.getState());
@@ -233,6 +246,11 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
 
     @Override
     public void ApproveOrderService(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void AddOrUpdateExpressNo(BaseResult<Data<String>> baseResult) {
 
     }
 

@@ -69,16 +69,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="热水器不通电"
+                    android:layout_weight="1"
+                    android:text=""
                     android:textSize="18sp"
                     android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/tv_warranty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:gravity="center"
                     android:text="质保"
                     android:paddingLeft="@dimen/dp_4"
@@ -89,9 +87,8 @@
                     android:textColor="@color/white"/>
                 <TextView
                     android:id="@+id/tv_status"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:gravity="right"
                     android:text="已预约上门时间"
                     android:visibility="visible"

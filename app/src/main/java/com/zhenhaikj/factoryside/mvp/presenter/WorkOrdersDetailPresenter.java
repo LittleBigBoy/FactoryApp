@@ -64,4 +64,14 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
                     }
                 });
     }
+
+    @Override
+    public void AddOrUpdateExpressNo(String OrderID, String ExpressNo) {
+        mModel.AddOrUpdateExpressNo(OrderID, ExpressNo).subscribe(new BaseObserver<Data<String>>() {
+            @Override
+            protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                mView.AddOrUpdateExpressNo(value);
+            }
+        });
+    }
 }

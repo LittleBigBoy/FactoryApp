@@ -373,6 +373,18 @@ public interface ApiService {
             @Field("OrderID") String OrderID,
             @Field("State") String State
     );
+    /**
+     * 工厂添加配件快递信息
+     * @param OrderID 订单id
+     * @param ExpressNo  快递单号
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/AddOrUpdateExpressNo")
+    Observable<BaseResult<Data<String>>> AddOrUpdateExpressNo(
+            @Field("OrderID") String OrderID,
+            @Field("ExpressNo") String ExpressNo
+    );
 
 
     /*
