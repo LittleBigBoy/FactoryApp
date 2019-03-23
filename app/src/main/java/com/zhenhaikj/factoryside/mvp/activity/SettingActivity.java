@@ -2,13 +2,17 @@ package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.BillAdapter;
@@ -47,10 +51,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     LinearLayout mLlUpdate;
     @BindView(R.id.tv_cache)
     TextView mTvCache;
+    @BindView(R.id.btn_sign_out_of_your_account)
+    Button mBtnSignOutOfYourAccount;
     private List<Address> billList = new ArrayList<>();
     private List<Address> rechargeRecordList = new ArrayList<>();
     private BillAdapter billAdapter;
     private RechargeRecordAdapter rechargeRecordAdapter;
+
+    private SPUtils spUtils;
+    private String userId;
 
     @Override
     protected int setLayoutId() {
@@ -82,13 +91,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     protected void initView() {
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("设置");
-
+        spUtils = SPUtils.getInstance("token");
+        userId = spUtils.getString("userName");
     }
 
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mLlClean.setOnClickListener(this);
+        mBtnSignOutOfYourAccount.setOnClickListener(this);
     }
 
 
@@ -115,6 +126,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 }
                 mTvCache.setText(resultCache);
                 DataCleanManager.clearAllCache(this);
+                break;
+            case R.id.btn_sign_out_of_your_account:
+                spUtils.put("isLogin", false);
+                startActivity(new Intent(mActivity, LoginActivity.class));
+                ActivityUtils.finishAllActivities();
                 break;
         }
     }

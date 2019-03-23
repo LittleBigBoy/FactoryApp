@@ -202,15 +202,13 @@ public class PersonalInformationActivity extends BaseActivity<InfoManagePresente
                 finish();
                 break;
             case R.id.btn_sign_out_of_your_account:
-                spUtils.put("isLogin", false);
-                startActivity(new Intent(mActivity, LoginActivity.class));
-                ActivityUtils.finishAllActivities();
+
                 break;
             case R.id.ll_nickname:
                 startActivity(new Intent(mActivity, ChageUserNameActivity.class));
                 break;
             case R.id.ll_password:
-                startActivity(new Intent(mActivity, ChagePasswordActivity.class));
+                startActivity(new Intent(mActivity, AccountAndSecurityActivity.class));
                 break;
             case R.id.ll_avatar:
                 if (requestPermissions()) {
