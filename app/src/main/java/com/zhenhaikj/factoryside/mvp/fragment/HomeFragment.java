@@ -86,6 +86,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     };
     private MenuAdapter2 mMainAdapter;
     private MenuAdapter mCommonAdapter;
+    private Intent intent;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -164,10 +165,15 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position) {
                     case 0:
-                        startActivity(new Intent(mActivity, HomeInstallationActivity.class));
+//                        startActivity(new Intent(mActivity, HomeInstallationActivity.class));
+                        intent=new Intent(mActivity, HomeMaintenanceActivity2.class);
+                        intent.putExtra("type",0);
+                        startActivity(intent);
                         break;
                     case 1:
-                        startActivity(new Intent(mActivity, HomeMaintenanceActivity2.class));
+                        intent=new Intent(mActivity, HomeMaintenanceActivity2.class);
+                        intent.putExtra("type",1);
+                        startActivity(intent);
                         break;
                     case 2:
                         startActivity(new Intent(mActivity, CustomerServiceActivity.class));

@@ -244,6 +244,8 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     String brand;
     private Category category;
     ZLoadingDialog dialog = new ZLoadingDialog(this); //loading
+    private int type;
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_home_maintenance2;
@@ -273,8 +275,18 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 
     @Override
     protected void initView() {
+        type =getIntent().getIntExtra("type",-1);
         mTvTitle.setVisibility(View.VISIBLE);
-        mTvTitle.setText("上门维修");
+        switch(type){
+            case 0:
+                mTvTitle.setText("上门安装");
+                break;
+            case 1:
+                mTvTitle.setText("上门维修");
+                break;
+            default:
+                break;
+        }
         mEtNum.setText("1");
         mPresenter.GetFactoryBrand(userID);
 
@@ -432,12 +444,12 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 }
                 Num = mEtNum.getText().toString();
                 if (Num == null) {
-                    MyUtils.showToast(mActivity, "请输入维修数量！");
+                    MyUtils.showToast(mActivity, "请输入数量！");
                     cancleLoading();
                     return;
                 }
                 if ("".equals(Num)) {
-                    MyUtils.showToast(mActivity, "请输入维修数量！");
+                    MyUtils.showToast(mActivity, "请输入数量！");
                     cancleLoading();
                     return;
                 }
@@ -512,11 +524,30 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     return;
                 }
                 if (FaultDescription == null || "".equals(FaultDescription)) {
-                    MyUtils.showToast(mActivity, "请输入故障描述！");
+                    switch(type){
+                        case 0:
+                            MyUtils.showToast(mActivity, "请输入备注！");
+                            break;
+                        case 1:
+                            MyUtils.showToast(mActivity, "请输入故障描述！");
+                            break;
+                        default:
+                            break;
+                    }
+
                     cancleLoading();
                     return;
                 }
-                mPresenter.AddOrder("1", "维修", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
+                switch(type){
+                    case 0:
+                        mPresenter.AddOrder("2", "安装", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
+                        break;
+                    case 1:
+                        mPresenter.AddOrder("1", "维修", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
+                        break;
+                    default:
+                        break;
+                }
 
                 break;
 
