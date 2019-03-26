@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -114,6 +117,10 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     TextView mTvOrderState;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.tv_accessory_memo)
+    TextView mTvAccessoryMemo;
+    @BindView(R.id.tv_accessory_sequency)
+    TextView mTvAccessorySequency;
     private String OrderID;
     private WorkOrder.DataBean data;
     private AccessoryDetailAdapter accessoryDetailAdapter;
@@ -127,6 +134,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     private Button btn_positive;
     private TextView tv_title;
     private EditText et_expressno;
+    private LinearLayout ll_scan;
     private TextView tv_message;
     private String expressno;
 
@@ -229,18 +237,25 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 }).show();
                 break;
             case R.id.tv_pass:
-                expressno_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_add_expressno,null);
-                btn_negtive =expressno_view.findViewById(R.id.negtive);
-                btn_positive =expressno_view.findViewById(R.id.positive);
-                tv_title =expressno_view.findViewById(R.id.title);
-                tv_message =expressno_view.findViewById(R.id.message);
-                et_expressno =expressno_view.findViewById(R.id.et_expressno);
-                expressno_dialog =new AlertDialog.Builder(mActivity)
+                expressno_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_add_expressno, null);
+                btn_negtive = expressno_view.findViewById(R.id.negtive);
+                btn_positive = expressno_view.findViewById(R.id.positive);
+                tv_title = expressno_view.findViewById(R.id.title);
+                tv_message = expressno_view.findViewById(R.id.message);
+                et_expressno = expressno_view.findViewById(R.id.et_expressno);
+                ll_scan = expressno_view.findViewById(R.id.ll_scan);
+                expressno_dialog = new AlertDialog.Builder(mActivity)
                         .setView(expressno_view)
                         .create();
                 expressno_dialog.show();
                 tv_title.setText("提示");
                 tv_message.setText("是否同意申请的配件");
+                ll_scan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        scan();
+                    }
+                });
                 btn_negtive.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -250,12 +265,12 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 btn_positive.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        expressno=et_expressno.getText().toString().trim();
-                        if ("".equals(expressno)){
-                            ToastUtils.showShort("请输入快递单号");
-                        }else{
-                            mPresenter.AddOrUpdateExpressNo(OrderID,expressno);
-                        }
+                        expressno = et_expressno.getText().toString().trim();
+//                        if ("".equals(expressno)){
+//                            ToastUtils.showShort("请输入快递单号");
+//                        }else{
+                        mPresenter.AddOrUpdateExpressNo(OrderID, expressno);
+//                        }
                     }
                 });
                 break;
@@ -303,6 +318,21 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
         }
     }
 
+    /**
+     * 扫描二维码
+     */
+    public void scan() {
+        IntentIntegrator integrator = new IntentIntegrator(AccessoriesListActivity.this);
+        // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+        integrator.setCaptureActivity(ScanActivity.class); //设置打开摄像头的Activity
+        integrator.setPrompt("请扫描快递码"); //底部的提示文字，设为""可以置空
+        integrator.setCameraId(0); //前置或者后置摄像头
+        integrator.setBeepEnabled(true); //扫描成功的「哔哔」声，默认开启
+        integrator.setBarcodeImageEnabled(true);
+        integrator.initiateScan();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -318,6 +348,8 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 data = baseResult.getData();
                 mTvOrderState.setText(data.getState());
                 mTvName.setText(data.getUserName());
+                mTvAccessoryMemo.setText("备注：" + data.getAccessoryMemo());
+                mTvAccessorySequency.setText("寄件类型：" + data.getAccessorySequencyStr());
                 mTvPhone.setText(data.getPhone());
                 mTvAddress.setText(data.getAddress());
                 mTvTime.setText(data.getCreateDate());
@@ -451,13 +483,23 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 if (result.isItem1()) {
                     ToastUtils.showShort("添加成功！");
                     expressno_dialog.dismiss();
-                    mPresenter.ApproveOrderAccessory(OrderID,"1");
+                    mPresenter.ApproveOrderAccessory(OrderID, "1");
                 } else {
                     ToastUtils.showShort("添加失败！" + result.getItem2());
                 }
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (scanResult != null) {
+            expressno = scanResult.getContents();
+            et_expressno.setText(expressno);
         }
     }
 }

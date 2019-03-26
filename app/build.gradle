@@ -182,4 +182,7 @@ dependencies {
 
     //Zloading加载动画
     implementation 'com.zyao89:zloading:1.2.0'
+
+    //扫描条形码
+    implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
 }
