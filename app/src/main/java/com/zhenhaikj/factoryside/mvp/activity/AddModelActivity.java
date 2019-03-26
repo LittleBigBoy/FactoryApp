@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -31,7 +32,6 @@ import com.zhenhaikj.factoryside.mvp.contract.AddBrandContract;
 import com.zhenhaikj.factoryside.mvp.model.AddBrandModel;
 import com.zhenhaikj.factoryside.mvp.presenter.AddBrandPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
-import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 
 import java.util.List;
 
@@ -66,11 +66,11 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     @BindView(R.id.ll_choose_category)
     LinearLayout mLlChooseCategory;
     @BindView(R.id.et_type)
-    ClearEditText mEtType;
+    EditText mEtType;
     @BindView(R.id.btn_add)
     Button mBtnAdd;
     @BindView(R.id.et_price)
-    ClearEditText mEtPrice;
+    EditText mEtPrice;
     @BindView(R.id.lv_popular)
     LabelsView mLvPopular;
     private SPUtils spUtils;

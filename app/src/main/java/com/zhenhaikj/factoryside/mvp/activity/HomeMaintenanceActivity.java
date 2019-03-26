@@ -61,7 +61,6 @@ import com.zhenhaikj.factoryside.mvp.contract.HomeMaintenanceContract;
 import com.zhenhaikj.factoryside.mvp.model.HomeMaintenanceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.HomeMaintenancePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
-import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,7 +158,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     @BindView(R.id.ll_choose_type)
     LinearLayout mLlChooseType;
     @BindView(R.id.et_num)
-    ClearEditText mEtNum;
+    EditText mEtNum;
     private PopupWindow popupWindow;
     private List<Province> provinceList;
     private List<City> cityList;

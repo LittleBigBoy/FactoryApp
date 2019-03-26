@@ -59,7 +59,6 @@ import com.zhenhaikj.factoryside.mvp.contract.HomeInstallationContract;
 import com.zhenhaikj.factoryside.mvp.model.HomeInstallationModel;
 import com.zhenhaikj.factoryside.mvp.presenter.HomeInstallationPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
-import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +106,7 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
     @BindView(R.id.ll_choose_type)
     LinearLayout mLlChooseType;
     @BindView(R.id.et_num)
-    ClearEditText mEtNum;
+    EditText mEtNum;
     @BindView(R.id.iv_add_name)
     ImageView mIvAddName;
     @BindView(R.id.tv_name)
@@ -139,7 +138,7 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
     @BindView(R.id.tv_pca)
     TextView mTvPca;
     @BindView(R.id.et_detail)
-    ClearEditText mEtDetail;
+    EditText mEtDetail;
     @BindView(R.id.iv_microphone)
     ImageView mIvMicrophone;
     @BindView(R.id.ll_microphone)
@@ -151,7 +150,7 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
     @BindView(R.id.tv_expedited)
     TextView mTvExpedited;
     @BindView(R.id.et_fault_description)
-    ClearEditText mEtFaultDescription;
+    EditText mEtFaultDescription;
     @BindView(R.id.btn_release)
     Button mBtnRelease;
 

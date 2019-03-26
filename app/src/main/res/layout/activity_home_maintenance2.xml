@@ -241,7 +241,7 @@
                     android:textColor="#898989"
                     android:textSize="16sp" />
 
-                <com.zhenhaikj.factoryside.mvp.widget.ClearEditText
+                <EditText
                     android:id="@+id/et_num"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -312,7 +312,7 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <com.zhenhaikj.factoryside.mvp.widget.ClearEditText
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_marginTop="5dp"
@@ -354,7 +354,7 @@
                         android:textColor="#898989"
                         android:textSize="16sp" />
 
-                    <com.zhenhaikj.factoryside.mvp.widget.ClearEditText
+                    <EditText
                         android:id="@+id/et_name"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
@@ -400,7 +400,7 @@
                         android:textColor="#898989"
                         android:textSize="16sp" />
 
-                    <com.zhenhaikj.factoryside.mvp.widget.ClearEditText
+                    <EditText
                         android:id="@+id/et_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
@@ -488,7 +488,7 @@
                         android:background="@drawable/gray_shape"
                         android:orientation="horizontal">
 
-                        <com.zhenhaikj.factoryside.mvp.widget.ClearEditText
+                        <EditText
                             android:id="@+id/et_detail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -855,7 +855,7 @@
                     android:textColor="#898989"
                     android:textSize="16sp" />
 
-                <com.zhenhaikj.factoryside.mvp.widget.ClearEditText
+                <EditText
                     android:id="@+id/et_fault_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

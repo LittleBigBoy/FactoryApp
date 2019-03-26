@@ -56,7 +56,6 @@ import com.zhenhaikj.factoryside.mvp.contract.CustomerServiceContract;
 import com.zhenhaikj.factoryside.mvp.model.CustomerServiceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.CustomerServicePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
-import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +100,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
     @BindView(R.id.ll_choose_type)
     LinearLayout mLlChooseType;
     @BindView(R.id.et_num)
-    ClearEditText mEtNum;
+    EditText mEtNum;
     @BindView(R.id.iv_add_name)
     ImageView mIvAddName;
     @BindView(R.id.et_name)
@@ -113,7 +112,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
     @BindView(R.id.tv_pca)
     TextView mTvPca;
     @BindView(R.id.et_detail)
-    ClearEditText mEtDetail;
+    EditText mEtDetail;
     @BindView(R.id.iv_microphone)
     ImageView mIvMicrophone;
     @BindView(R.id.ll_microphone)
@@ -129,7 +128,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
     @BindView(R.id.et_recovery_time)
     EditText mEtRecoveryTime;
     @BindView(R.id.et_fault_description)
-    ClearEditText mEtFaultDescription;
+    EditText mEtFaultDescription;
     @BindView(R.id.btn_add)
     Button mBtnAdd;
     private PopupWindow popupWindow;

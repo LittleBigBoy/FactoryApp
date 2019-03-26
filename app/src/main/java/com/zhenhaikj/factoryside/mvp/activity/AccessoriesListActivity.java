@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +25,6 @@ import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
-import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
 import androidx.appcompat.widget.Toolbar;
@@ -126,7 +126,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     private Button btn_negtive;
     private Button btn_positive;
     private TextView tv_title;
-    private ClearEditText et_expressno;
+    private EditText et_expressno;
     private TextView tv_message;
     private String expressno;
 

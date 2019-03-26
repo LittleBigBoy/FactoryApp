@@ -92,7 +92,7 @@
                 app:lineMargin="10dp"
                 app:wordMargin="10dp"
                 app:selectType="MULTI" />
-                <com.zhenhaikj.factoryside.mvp.widget.ClearEditText
+                <EditText
                     android:id="@+id/et_type"
                     android:visibility="gone"
                     android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                     android:textColor="#333333"
                     android:textColorHint="#898989"
                     android:textSize="15sp" />
-                <com.zhenhaikj.factoryside.mvp.widget.ClearEditText
+                <EditText
                     android:id="@+id/et_price"
                     android:visibility="gone"
                     android:layout_width="match_parent"

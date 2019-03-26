@@ -62,7 +62,6 @@ import com.zhenhaikj.factoryside.mvp.contract.HomeMaintenanceContract;
 import com.zhenhaikj.factoryside.mvp.model.HomeMaintenanceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.HomeMaintenancePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
-import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
@@ -113,21 +112,21 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     @BindView(R.id.ll_product)
     LinearLayout mLlProduct;
     @BindView(R.id.et_num)
-    ClearEditText mEtNum;
+    EditText mEtNum;
     @BindView(R.id.tv_choose_property)
     TextView mTvChooseProperty;
     @BindView(R.id.et_name)
-    ClearEditText mEtName;
+    EditText mEtName;
     @BindView(R.id.iv_add_name)
     ImageView mIvAddName;
     @BindView(R.id.et_phone)
-    ClearEditText mEtPhone;
+    EditText mEtPhone;
     @BindView(R.id.tv_address)
     TextView mTvAddress;
     @BindView(R.id.tv_pca)
     TextView mTvPca;
     @BindView(R.id.et_detail)
-    ClearEditText mEtDetail;
+    EditText mEtDetail;
     @BindView(R.id.iv_microphone)
     ImageView mIvMicrophone;
     @BindView(R.id.ll_microphone)
@@ -159,7 +158,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     @BindView(R.id.tv_expedited)
     TextView mTvExpedited;
     @BindView(R.id.et_fault_description)
-    ClearEditText mEtFaultDescription;
+    EditText mEtFaultDescription;
     @BindView(R.id.btn_release)
     Button mBtnRelease;
     @BindView(R.id.tv_category_name)
