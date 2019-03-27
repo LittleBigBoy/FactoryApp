@@ -347,7 +347,18 @@ public interface ApiService {
             @Field("OrderID") String OrderID,
             @Field("BeyondState") String BeyondState
     );
-
+    /**
+     * 工厂投诉
+     * @param OrderID 订单id
+     * @param Content  投诉原因
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/FactoryComplaint")
+    Observable<BaseResult<Data<String>>> FactoryComplaint(
+            @Field("OrderID") String OrderID,
+            @Field("Content") String Content
+    );
     /**
      * 审核配件申请
      * @param OrderID 订单id

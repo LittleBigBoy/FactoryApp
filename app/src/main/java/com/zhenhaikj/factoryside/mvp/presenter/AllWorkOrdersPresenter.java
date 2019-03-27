@@ -30,4 +30,15 @@ public class AllWorkOrdersPresenter extends AllWorkOrdersContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void FactoryComplaint(String OrderID, String Content) {
+        mModel.FactoryComplaint(OrderID, Content)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.FactoryComplaint(value);
+                    }
+                });
+    }
 }

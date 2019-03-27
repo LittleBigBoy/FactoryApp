@@ -1,9 +1,13 @@
 package com.zhenhaikj.factoryside.mvp.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.SPUtils;
@@ -42,6 +46,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.widget.TextView;
 
 public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, AllWorkOrdersModel> implements AllWorkOrdersContract.View {
     private static final String ARG_PARAM1 = "param1";//
@@ -67,6 +72,13 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     };
     private static SPUtils spUtils;
     private String UserID;
+    private View complaint_view;
+    private Button btn_negtive;
+    private Button btn_positive;
+    private EditText et_content;
+    private AlertDialog complaint_dialog;
+    private String content;
+    private TextView title;
 
     public WorkOrderFragment() {
         // Required empty public constructor
@@ -222,10 +234,36 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
         mRvWorkOrder.setAdapter(mWorkOrderAdapter);
         mWorkOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
                 switch (view.getId()){
                     case R.id.tv_complaint:
-
+                        complaint_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_complaint, null);
+                        title = complaint_view.findViewById(R.id.title);
+                        btn_negtive = complaint_view.findViewById(R.id.negtive);
+                        btn_positive = complaint_view.findViewById(R.id.positive);
+                        et_content = complaint_view.findViewById(R.id.et_content);
+                        title.setText("投诉");
+                        complaint_dialog = new AlertDialog.Builder(mActivity)
+                                .setView(complaint_view)
+                                .create();
+                        complaint_dialog.show();
+                        btn_negtive.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                complaint_dialog.dismiss();
+                            }
+                        });
+                        btn_positive.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                content = et_content.getText().toString().trim();
+                        if ("".equals(content)){
+                            MyUtils.showToast(mActivity,"请输入投诉原因");
+                        }else{
+                                mPresenter.FactoryComplaint(workOrderList.get(position).getOrderID(), content);
+                        }
+                            }
+                        });
                         break;
                     case R.id.tv_leave_message:
 
@@ -281,6 +319,23 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 
+    }
+
+    @Override
+    public void FactoryComplaint(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
+                    ToastUtils.showShort(data.getItem2());
+                    complaint_dialog.dismiss();
+                } else {
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
