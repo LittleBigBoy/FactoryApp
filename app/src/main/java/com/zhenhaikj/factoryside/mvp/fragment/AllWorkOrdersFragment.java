@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.MyPagerAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
-import com.zhenhaikj.factoryside.R;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -40,12 +40,14 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
     ViewPager mViewPager;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.title)
+    android.widget.TextView mTitle;
 
 
     private String mParam1;
     private String mParam2;
     private String[] mTitleDataList = new String[]{
-            "所有工单","待接单","已接单待预约", "废除工单", "已完结", "配件单", "待支付",
+            "待接单","已接单待预约", "废除工单", "已完结", "配件单", "待确认",
             "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     };
     private CommonNavigator commonNavigator;
@@ -103,7 +105,7 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
     @Override
     protected void initData() {
         mWorkOrderFragmentList = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 11; i++) {
             mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i],""));
         }
         mViewPager.setOffscreenPageLimit(mTitleDataList.length);
@@ -127,6 +129,7 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
                     @Override
                     public void onClick(View view) {
                         mViewPager.setCurrentItem(index);
+                        mTitle.setText(mTitleDataList[index]);
                     }
                 });
                 return colorTransitionPagerTitleView;
@@ -142,6 +145,22 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
         });
         mMagicIndicator.setBackgroundResource(R.color.gray_four);
         mMagicIndicator.setNavigator(commonNavigator);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mTitle.setText(mTitleDataList[position]);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         ViewPagerHelper.bind(mMagicIndicator, mViewPager);
     }
 

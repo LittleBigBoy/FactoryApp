@@ -76,12 +76,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     private Integer[] icons = new Integer[]{
             R.mipmap.installation, R.mipmap.home_maintenance, R.mipmap.customer_service_order, R.mipmap.batch_order,
-            R.mipmap.all,R.drawable.waiting_order,R.drawable.waiting_order, R.drawable.return_order_processing, R.drawable.finished, R.drawable.accessory_list, R.drawable.to_be_paid,
+            R.drawable.waiting_order,R.drawable.waiting_order, R.drawable.return_order_processing, R.drawable.finished, R.drawable.accessory_list, R.drawable.to_be_paid,
             R.drawable.remote_bill, R.drawable.warranty, R.drawable.undone, R.drawable.cost_change, R.drawable.leave_a_message
     };
     private String[] names = new String[]{
             "上门安装", "上门维修", "客户送修单", "批量发单",
-            "所有","待接单", "已接单待预约","退单处理", "已完结", "配件单", "待支付",
+            "待接单", "已接单待预约","退单处理", "已完结", "配件单", "待确认",
             "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     };
     private MenuAdapter2 mMainAdapter;
@@ -149,7 +149,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         for (int i = 0; i < 4; i++) {
             mMainMenus.add(new MenuItem(icons[i], names[i]));
         }
-        for (int i = 4; i < 16; i++) {
+        for (int i = 4; i < 15; i++) {
             mCommonMenus.add(new MenuItem(icons[i], names[i]));
         }
         mMainAdapter = new MenuAdapter2(R.layout.menu_item2, mMainMenus);

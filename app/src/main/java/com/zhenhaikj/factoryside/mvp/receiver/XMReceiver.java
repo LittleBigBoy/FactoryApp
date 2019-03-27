@@ -20,7 +20,7 @@ public class XMReceiver extends XMPushMessageReceiver {
     @Override
     public void onRecive(Context context, Intent intent) {
         super.onRecive(context, intent);
-        openAssetMusics(context,"new_messsage_voice.mp3");
+//        openAssetMusics(context,"new_messsage_voice.mp3");
     }
 
     @Override
@@ -36,19 +36,19 @@ public class XMReceiver extends XMPushMessageReceiver {
     @Override
     public void onNotificationMessageArrived(Context context, MiPushMessage miPushMessage) {
         super.onNotificationMessageArrived(context, miPushMessage);
-        openAssetMusics(context,"new_messsage_voice.mp3");
+//        openAssetMusics(context,"new_messsage_voice.mp3");
     }
 
     @Override
     public void onCommandResult(Context context, MiPushCommandMessage miPushCommandMessage) {
         super.onCommandResult(context, miPushCommandMessage);
-        openAssetMusics(context,"new_messsage_voice.mp3");
+//        openAssetMusics(context,"new_messsage_voice.mp3");
     }
 
     @Override
     public void onReceiveMessage(Context context, MiPushMessage miPushMessage) {
         super.onReceiveMessage(context, miPushMessage);
-        openAssetMusics(context,"new_messsage_voice.mp3");
+//        openAssetMusics(context,"new_messsage_voice.mp3");
     }
 
     @Override

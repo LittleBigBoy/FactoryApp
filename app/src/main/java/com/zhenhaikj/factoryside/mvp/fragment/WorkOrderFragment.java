@@ -67,7 +67,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     private WorkOrderAdapter mWorkOrderAdapter;
     private List<WorkOrder.DataBean> workOrderList = new ArrayList<>();
     private String[] mTitleDataList = new String[]{
-            "所有工单", "待接单", "已接单待预约","退单处理", "已完结", "配件单", "待支付",
+             "待接单", "已接单待预约","退单处理", "已完结", "配件单", "待确认",
             "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     };
     private static SPUtils spUtils;
@@ -126,7 +126,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
         return R.layout.fragment_work_order_page;
     }
 
-    //"所有工单","待接单", "退单处理", "已完结", "配件单", "待支付",
+    //"所有工单","待接单", "退单处理", "已完结", "配件单", "待确认",
 //        "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     @Override
     protected void initData() {
@@ -178,7 +178,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 3、退单处理
 4、已完结
 5、配件单
-6、待支付
+6、待确认
 7、远程费单
 8、质保单
 9、未完成单
@@ -204,7 +204,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
             case "配件单":
                 mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
                 break;
-            case "待支付":
+            case "待确认":
                 mPresenter.GetOrderInfoList(UserID,"6", Integer.toString(pageIndex), "3");
                 break;
             case "远程费单":
