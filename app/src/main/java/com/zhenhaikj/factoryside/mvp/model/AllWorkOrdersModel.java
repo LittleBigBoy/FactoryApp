@@ -33,4 +33,11 @@ public class AllWorkOrdersModel implements AllWorkOrdersContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword, String UserID) {
+        return ApiRetrofit.getDefault().EnSureOrder(OrderID, PayPassword,UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

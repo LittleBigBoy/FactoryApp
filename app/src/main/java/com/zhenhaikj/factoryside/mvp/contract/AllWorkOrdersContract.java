@@ -16,17 +16,20 @@ public interface AllWorkOrdersContract {
         Observable<BaseResult<WorkOrder>> GetOrderInfoList(String UserID,String state, String page, String limit);
         Observable<BaseResult<Data<String>>> UpdateOrderState(String OrderID, String Content);
         Observable<BaseResult<Data<String>>> FactoryComplaint(String OrderID, String Content);
+        Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword,String UserID);
     }
 
     interface View extends BaseView {
         void GetOrderInfoList(BaseResult<WorkOrder> baseResult);
         void UpdateOrderState(BaseResult<Data<String>> baseResult);
         void FactoryComplaint(BaseResult<Data<String>> baseResult);
+        void EnSureOrder(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetOrderInfoList(String UserID,String state, String page,String limit);
         public abstract void UpdateOrderState(String OrderID,String Content);
         public abstract void FactoryComplaint(String OrderID,String Content);
+        public abstract void EnSureOrder(String OrderID, String PayPassword,String UserID);
     }
 }

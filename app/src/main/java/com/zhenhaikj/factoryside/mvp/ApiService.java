@@ -360,6 +360,20 @@ public interface ApiService {
             @Field("Content") String Content
     );
     /**
+     * 工厂确认订单 结算
+     * @param OrderID 订单id
+     * @param PayPassword  投诉原因
+     * @param UserID  投诉原因
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/EnSureOrder")
+    Observable<BaseResult<Data<String>>> EnSureOrder(
+            @Field("OrderID") String OrderID,
+            @Field("PayPassword") String PayPassword,
+            @Field("UserID") String UserID
+    );
+    /**
      * 审核配件申请
      * @param OrderID 订单id
      * @param AccessoryApplyState  -1拒绝 1通过

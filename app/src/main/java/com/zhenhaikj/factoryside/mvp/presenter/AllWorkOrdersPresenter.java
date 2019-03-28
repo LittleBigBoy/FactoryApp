@@ -41,4 +41,15 @@ public class AllWorkOrdersPresenter extends AllWorkOrdersContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void EnSureOrder(String OrderID, String PayPassword, String UserID) {
+        mModel.EnSureOrder(OrderID, PayPassword,UserID)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.EnSureOrder(value);
+                    }
+                });
+    }
 }

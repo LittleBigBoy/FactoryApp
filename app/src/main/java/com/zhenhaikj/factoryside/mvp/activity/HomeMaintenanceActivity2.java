@@ -287,7 +287,16 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 break;
         }
         mEtNum.setText("1");
-        mPresenter.GetFactoryBrand(userID);
+
+        //默认保内
+        mCbUnderWarranty.setChecked(true);
+        mCbOutsideTheWarranty.setChecked(false);
+        Guarantee = "Y";
+        //已发配件默认否
+        mCbYes.setChecked(false);
+        mCbNo.setChecked(true);
+        AccessorySendState = "N";
+//        mPresenter.GetFactoryBrand(userID);
 
 
     }
