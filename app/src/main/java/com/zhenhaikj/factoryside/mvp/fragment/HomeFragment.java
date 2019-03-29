@@ -81,8 +81,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     };
     private String[] names = new String[]{
             "上门安装", "上门维修", "客户送修单", "批量发单",
-            "待接单", "已接单待预约","退单处理", "已完结", "配件单", "待确认",
-            "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
+            "待接单","待审核", "待确认", "已完成", "质保单","所有工单","退单处理"
     };
     private MenuAdapter2 mMainAdapter;
     private MenuAdapter mCommonAdapter;
@@ -149,7 +148,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         for (int i = 0; i < 4; i++) {
             mMainMenus.add(new MenuItem(icons[i], names[i]));
         }
-        for (int i = 4; i < 15; i++) {
+        for (int i = 4; i < 11; i++) {
             mCommonMenus.add(new MenuItem(icons[i], names[i]));
         }
         mMainAdapter = new MenuAdapter2(R.layout.menu_item2, mMainMenus);

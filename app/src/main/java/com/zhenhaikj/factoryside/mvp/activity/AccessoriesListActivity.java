@@ -360,8 +360,8 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 mTvRecoveryTime.setText(data.getRecycleOrderHour());
                 mTvSentOutAccessories.setText(data.getAccessorySendState());
                 mTvBrand.setText(data.getBrandName());
-                mTvCategory.setText(data.getSubCategoryName());
-                mTvModel.setText(data.getProductType());
+                mTvCategory.setText(data.getCategoryName());
+                mTvModel.setText(data.getSubCategoryName());
                 mTvFaultDescription.setText(data.getMemo());
 
                 mTvSpecifyDoorToDoorTime.setText(data.getExtraTime());
@@ -423,7 +423,11 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                         mRvAccessories.setAdapter(accessoryDetailAdapter);
                     }
                 }
-
+                if (data.getBeyondState()!=null){
+                    mLlApproveBeyondMoney.setVisibility(View.VISIBLE);
+                }else{
+                    mLlApproveBeyondMoney.setVisibility(View.GONE);
+                }
                 break;
             case 401:
                 break;

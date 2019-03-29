@@ -54,8 +54,7 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
 
 
     private String[] mTitleDataList = new String[]{
-             "待接单", "已接单待预约","退单处理", "已完结", "配件单", "待确认",
-            "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
+            "待接单","待审核", "待确认", "已完成", "质保单","所有工单","退单处理"
     };
 
     private CommonNavigator commonNavigator;
@@ -86,7 +85,7 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
         bundle = getIntent().getExtras();
         mTvTitle.setText(bundle.getString("title"));
         mWorkOrderFragmentList = new ArrayList<>();
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 7; i++) {
             mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i], ""));
         }
         mViewPager.setOffscreenPageLimit(mTitleDataList.length);

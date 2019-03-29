@@ -625,7 +625,116 @@
                     </RelativeLayout>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/ll_approve_beyond_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="17dp"
+                            android:text="审核远程费："
+                            android:textColor="#333333"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:id="@+id/tv_reject_beyond"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingRight="@dimen/dp_10"
+                            android:layout_marginRight="30dp"
+                            android:text="拒绝"
+                            android:textColor="@color/white"
+                            android:background="@drawable/gray_round_shape"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_pass_beyond"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="40dp"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingRight="@dimen/dp_10"
+                            android:text="通过"
+                            android:textColor="@color/white"
+                            android:background="@drawable/red_round_shape"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:id="@+id/tv_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="40dp"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingRight="@dimen/dp_10"
+                            android:text="通过"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#DCDCDC" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="已超出正常范围"
+                            android:textColor="#333"
+                            android:layout_marginLeft="17dp"
+                            android:layout_gravity="center"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:id="@+id/tv_range"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="20"
+                            android:textColor="@color/red"
+                            android:layout_gravity="center"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="公里"
+                            android:textColor="#333"
+                            android:layout_gravity="center"
+                            android:textSize="15sp" />
+                        <ImageView
+                            android:id="@+id/iv_range_one"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@mipmap/tianjia"
+                            android:layout_marginRight="30dp"/>
+                        <ImageView
+                            android:id="@+id/iv_range_two"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@mipmap/tianjia"
+                            android:layout_marginRight="40dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
