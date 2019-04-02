@@ -616,7 +616,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="是否已发配件"
+                    android:text="是否已签收产品"
                     android:textColor="#898989"
                     android:textSize="15sp" />
 

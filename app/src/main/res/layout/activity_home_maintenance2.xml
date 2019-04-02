@@ -322,8 +322,7 @@
                     android:background="@drawable/gray_shape"
                     android:padding="11dp"
                     android:hint="粘贴信息到下面文本框，自动识别是否保内或保外保内热水器储水式40-60升， 朱先生， 18000000000， 浙江省宁波市江北区同济路169号， 正海科技，12345697， 请尽快"
-                    android:text="粘贴信息到下面文本框，自动识别是否保内或保外保内热水器储水式40-60升， 朱先生， 18000000000， 浙江省宁波市江北区同济路169号， 正海科技，12345697， 请尽快"
-                    android:textColorHint="#ACACAC"
+                    android:textColorHint="#808080"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_12" />
 

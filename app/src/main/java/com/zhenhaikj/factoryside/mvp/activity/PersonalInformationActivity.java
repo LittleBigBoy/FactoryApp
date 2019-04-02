@@ -379,16 +379,16 @@ public class PersonalInformationActivity extends BaseActivity<InfoManagePresente
                 mTvName.setText(userInfoDean.getTrueName());
                 mTvPhone.setText(userInfoDean.getPhone());
 //                Log.d(TAG,"......"+userInfoDean.getSex());
-                if (userInfoDean.getSex().equals("男")){
-                    mIvMale.setSelected(true);
-                    mIvFemale.setSelected(false);
-                }else if(userInfoDean.getSex().equals("女")){
-                    mIvFemale.setSelected(true);
-                    mIvMale.setSelected(false);
-                }else {
-                    mIvMale.setSelected(false);
-                    mIvFemale.setSelected(false);
-                }
+//                if (userInfoDean.getSex().equals("男")){
+//                    mIvMale.setSelected(true);
+//                    mIvFemale.setSelected(false);
+//                }else if(userInfoDean.getSex().equals("女")){
+//                    mIvFemale.setSelected(true);
+//                    mIvMale.setSelected(false);
+//                }else {
+//                    mIvMale.setSelected(false);
+//                    mIvFemale.setSelected(false);
+//                }
                 break;
             case 401:
                 break;

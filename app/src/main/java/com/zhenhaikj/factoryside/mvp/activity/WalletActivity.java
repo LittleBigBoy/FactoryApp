@@ -119,6 +119,7 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
         mIconBack.setOnClickListener(this);
         mPayTheDeposiTv.setOnClickListener(this);
         mLlInvoice.setOnClickListener(this);
+        mRechargeTv.setOnClickListener(this);
     }
 
 
@@ -141,6 +142,9 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.ll_invoice:
                 startActivity(new Intent(mActivity,InvoiceActivity.class));
+                break;
+            case R.id.recharge_tv:
+                startActivity(new Intent(mActivity,RechargeActivity.class));
                 break;
         }
     }
