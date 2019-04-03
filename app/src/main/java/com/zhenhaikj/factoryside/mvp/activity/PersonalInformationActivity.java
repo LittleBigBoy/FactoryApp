@@ -418,7 +418,7 @@ public class PersonalInformationActivity extends BaseActivity<InfoManagePresente
                 } else {
 
                     Toast.makeText(this, "图片上传成功", Toast.LENGTH_SHORT).show();
-                    EventBus.getDefault().post("");
+                    EventBus.getDefault().post("GetUserInfoList");
                 }
 
                 break;

@@ -577,7 +577,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 } else {
 
                     Toast.makeText(mActivity, "图片上传成功", Toast.LENGTH_SHORT).show();
-                    EventBus.getDefault().post("");
+                    EventBus.getDefault().post("GetUserInfoList");
                 }
 
                 break;
