@@ -298,7 +298,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        getData();
+//        getData();
     }
 
     @Override

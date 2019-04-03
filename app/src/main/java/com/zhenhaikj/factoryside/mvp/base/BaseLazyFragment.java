@@ -100,7 +100,11 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, mRootView);
         if (!EventBus.getDefault().isRegistered(this)){
-            EventBus.getDefault().register(this);
+            try {
+                EventBus.getDefault().register(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         if (isLazyLoad()) {
             mIsPrepare = true;

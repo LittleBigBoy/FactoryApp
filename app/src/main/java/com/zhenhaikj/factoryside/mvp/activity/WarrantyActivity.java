@@ -191,7 +191,7 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
     @Override
     protected void initView() {
         mWpWarranty.setAdapter(new MyAdapter(getSupportFragmentManager()));
-        mWpWarranty.setOffscreenPageLimit(4);
+        mWpWarranty.setOffscreenPageLimit(mFragments.size());
         mWpWarranty.setScroll(false);
     }
 

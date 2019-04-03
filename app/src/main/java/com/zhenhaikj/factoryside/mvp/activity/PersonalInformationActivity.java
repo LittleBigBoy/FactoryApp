@@ -166,6 +166,9 @@ public class PersonalInformationActivity extends BaseActivity<InfoManagePresente
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String message) {
+        if (!"GetUserInfoList".equals(message)){
+            return;
+        }
         mPresenter.GetUserInfoList(userId, "1");
     }
 

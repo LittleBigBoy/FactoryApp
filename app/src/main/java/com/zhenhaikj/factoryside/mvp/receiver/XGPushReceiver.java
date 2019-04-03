@@ -48,7 +48,7 @@ public class XGPushReceiver extends XGPushBaseReceiver {
     @Override
     public void onNotifactionShowedResult(Context context, XGPushShowedResult xgPushShowedResult) {
 //        openAssetMusics(context,"new_order_voice.mp3");
-        EventBus.getDefault().post("");
+        EventBus.getDefault().post("update");
     }
     /**
      * 打开assets下的音乐mp3文件

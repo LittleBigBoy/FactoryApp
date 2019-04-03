@@ -23,7 +23,7 @@ public class XMReceiver extends XMPushMessageReceiver {
     public void onRecive(Context context, Intent intent) {
         super.onRecive(context, intent);
 //        openAssetMusics(context,"new_messsage_voice.mp3");
-        EventBus.getDefault().post("");
+        EventBus.getDefault().post("update");
     }
 
     @Override
@@ -40,21 +40,21 @@ public class XMReceiver extends XMPushMessageReceiver {
     public void onNotificationMessageArrived(Context context, MiPushMessage miPushMessage) {
         super.onNotificationMessageArrived(context, miPushMessage);
 //        openAssetMusics(context,"new_messsage_voice.mp3");
-        EventBus.getDefault().post("");
+        EventBus.getDefault().post("update");
     }
 
     @Override
     public void onCommandResult(Context context, MiPushCommandMessage miPushCommandMessage) {
         super.onCommandResult(context, miPushCommandMessage);
 //        openAssetMusics(context,"new_messsage_voice.mp3");
-        EventBus.getDefault().post("");
+        EventBus.getDefault().post("update");
     }
 
     @Override
     public void onReceiveMessage(Context context, MiPushMessage miPushMessage) {
         super.onReceiveMessage(context, miPushMessage);
 //        openAssetMusics(context,"new_messsage_voice.mp3");
-        EventBus.getDefault().post("");
+        EventBus.getDefault().post("update");
     }
 
     @Override

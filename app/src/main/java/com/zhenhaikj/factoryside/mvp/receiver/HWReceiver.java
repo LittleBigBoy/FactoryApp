@@ -23,14 +23,14 @@ public class HWReceiver extends PushReceiver {
     @Override
     public boolean onPushMsg(Context context, byte[] arg1, Bundle arg2) {
 //        openAssetMusics(context,"new_messsage_voice.mp3");
-        EventBus.getDefault().post("");
+        EventBus.getDefault().post("update");
         return super.onPushMsg(context, arg1, arg2);
     }
 
     @Override
     public void onPushMsg(Context context, byte[] arg1, String arg2) {
 //        openAssetMusics(context,"new_order_voice.mp3");
-        EventBus.getDefault().post("");
+        EventBus.getDefault().post("update");
         super.onPushMsg(context, arg1, arg2);
     }
 

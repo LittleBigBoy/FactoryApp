@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void initView() {
         viewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
-        viewPager.setOffscreenPageLimit(5);
+        viewPager.setOffscreenPageLimit(mFragments.size());
         viewPager.setScroll(false);
         ll_home.setSelected(true);
     }

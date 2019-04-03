@@ -236,6 +236,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
+        if (!"GetUserInfoList".equals(name)){
+            return;
+        }
         mPresenter.GetUserInfoList(userId, "1");
     }
 
