@@ -362,16 +362,26 @@ public interface ApiService {
     /**
      * 工厂确认订单 结算
      * @param OrderID 订单id
-     * @param PayPassword  投诉原因
-     * @param UserID  投诉原因
+     * @param PayPassword  支付密码
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/FactoryEnsureOrder")
+    Observable<BaseResult<Data<String>>> FactoryEnsureOrder(
+            @Field("OrderID") String OrderID,
+            @Field("PayPassword") String PayPassword
+    );
+  /**
+     * 用户确认订单 结算
+     * @param OrderID 订单id
+     * @param PayPassword  支付密码
      * @return
      */
     @FormUrlEncoded
     @POST("Order/EnSureOrder")
     Observable<BaseResult<Data<String>>> EnSureOrder(
             @Field("OrderID") String OrderID,
-            @Field("PayPassword") String PayPassword,
-            @Field("UserID") String UserID
+            @Field("PayPassword") String PayPassword
     );
     /**
      * 审核配件申请

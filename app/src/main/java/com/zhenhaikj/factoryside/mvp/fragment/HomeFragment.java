@@ -81,7 +81,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     };
     private String[] names = new String[]{
             "上门安装", "上门维修", "客户送修单", "批量发单",
-            "待接单","待审核", "待确认", "已完成", "质保单","所有工单","退单处理"
+            "待接单","待审核", "待支付", "已完成", "质保单","所有工单","退单处理"
     };
     private MenuAdapter2 mMainAdapter;
     private MenuAdapter mCommonAdapter;

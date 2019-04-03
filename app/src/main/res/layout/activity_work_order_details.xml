@@ -652,7 +652,48 @@
                         android:textColor="#333333"
                         android:textSize="15dp" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
+                    <Button
+                        android:id="@+id/negtive"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="工厂确认"
+                        android:textColor="@color/red"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:id="@+id/column_line"
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:background="#E4E4E4" />
+
+                    <Button
+                        android:id="@+id/positive"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="用户确认"
+                        android:textColor="@color/red"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>

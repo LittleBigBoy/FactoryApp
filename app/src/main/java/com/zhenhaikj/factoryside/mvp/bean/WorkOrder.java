@@ -174,7 +174,7 @@ public class WorkOrder implements Serializable {
         private String AccessorySequency;
         private String AccessoryMemo;;
         private String AccessoryApplyState;
-        private String AccessoryState;
+        private String AccessoryState="0";
         private String AccessorySendState;
         private String AccessoryMoney;
         private String Service;
@@ -514,13 +514,13 @@ public class WorkOrder implements Serializable {
                     status="申请废除工单";
                     break;
                 case "-1":
-                    status="废除工单";
+                    status="退单处理";
                     break;
                 case "0":
                     status="待审核";
                     break;
                 case "1":
-                    status="已审核派单中";
+                    status="待接单";
                     break;
                 case "2":
                     status="已接单待联系客户";
@@ -538,7 +538,7 @@ public class WorkOrder implements Serializable {
                     status="待评价";
                     break;
                 case "7":
-                    status="结束";
+                    status="已完成";
                     break;
             }
             return status;
@@ -689,6 +689,9 @@ public class WorkOrder implements Serializable {
         }
         public String getAccessorySequencyStr() {
             String AccessorySequencyStr="";
+            if (AccessoryState==null){
+                return "";
+            }
             switch(AccessoryState){
                 case "0":
                     AccessorySequencyStr="厂家自购件";

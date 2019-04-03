@@ -297,7 +297,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_to_be_confirmed:
                 bundle = new Bundle();
-                bundle.putString("title", "待确认");
+                bundle.putString("title", "待支付");
                 bundle.putInt("position", 1);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);

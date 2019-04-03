@@ -67,7 +67,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     private WorkOrderAdapter mWorkOrderAdapter;
     private List<WorkOrder.DataBean> workOrderList = new ArrayList<>();
     private String[] mTitleDataList = new String[]{
-            "待接单","待审核", "待确认", "已完成", "质保单","所有工单","退单处理"
+            "待接单","待审核", "待支付", "已完成", "质保单","所有工单","退单处理"
     };
     private static SPUtils spUtils;
     private String UserID;
@@ -125,7 +125,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
         return R.layout.fragment_work_order_page;
     }
 
-    //"所有工单","待接单", "退单处理", "已完结", "配件单", "待确认",
+    //"所有工单","待接单", "退单处理", "已完结", "配件单", "待支付",
 //        "远程费单", "质保单", "未完成单", "费用变更", "留言工单"
     @Override
     protected void initData() {
@@ -177,7 +177,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 3、退单处理
 4、已完结
 5、配件单
-6、待确认
+6、待支付
 7、远程费单
 8、质保单
 9、未完成单
@@ -191,7 +191,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
             case "待审核":
                 mPresenter.GetOrderInfoList(UserID,"1", Integer.toString(pageIndex), "3");
                 break;
-            case "待确认":
+            case "待支付":
                 mPresenter.GetOrderInfoList(UserID,"2", Integer.toString(pageIndex), "3");
                 break;
             case "已完成":
@@ -298,7 +298,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-
+        getData();
     }
 
     @Override
@@ -320,6 +320,22 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
     @Override
     public void EnSureOrder(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
+                    ToastUtils.showShort(data.getItem2());
+                } else {
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void FactoryEnsureOrder(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
                 Data<String> data = baseResult.getData();

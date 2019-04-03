@@ -375,4 +375,36 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
     public void AddOrUpdateExpressNo(BaseResult<Data<String>> baseResult) {
 
     }
+
+    @Override
+    public void EnSureOrder(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
+                    ToastUtils.showShort(data.getItem2());
+                } else {
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void FactoryEnsureOrder(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
+                    ToastUtils.showShort(data.getItem2());
+                } else {
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

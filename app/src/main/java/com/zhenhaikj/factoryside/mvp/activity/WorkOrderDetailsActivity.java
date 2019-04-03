@@ -2,10 +2,12 @@ package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -81,6 +83,12 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
     TextView mTvOrderState;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.negtive)
+    Button mNegtive;
+    @BindView(R.id.column_line)
+    View mColumnLine;
+    @BindView(R.id.positive)
+    Button mPositive;
     private String OrderID;
     private WorkOrder.DataBean data;
 
@@ -122,6 +130,9 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mLlContactCustomerService.setOnClickListener(this);
+
+        mPositive.setOnClickListener(this);
+        mNegtive.setOnClickListener(this);
     }
 
 
@@ -138,6 +149,12 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
                 break;
             case R.id.icon_search:
                 finish();
+                break;
+            case R.id.negtive:
+                mPresenter.FactoryEnsureOrder(OrderID,"888888");
+                break;
+            case R.id.positive:
+                mPresenter.EnSureOrder(OrderID,"888888");
                 break;
             case R.id.ll_contact_customer_service:
                 final CommonDialog_Home dialog = new CommonDialog_Home(WorkOrderDetailsActivity.this);
@@ -223,5 +240,37 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
     public void AddOrUpdateExpressNo(BaseResult<Data<String>> baseResult) {
 
 
+    }
+
+    @Override
+    public void EnSureOrder(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
+                    ToastUtils.showShort(data.getItem2());
+                } else {
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void FactoryEnsureOrder(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
+                    ToastUtils.showShort(data.getItem2());
+                } else {
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

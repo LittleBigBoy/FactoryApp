@@ -211,7 +211,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:textSize="11sp"
-                            android:text="待确认"
+                            android:text="待支付"
                             android:textColor="#808080" />
                     </LinearLayout>
                     <View

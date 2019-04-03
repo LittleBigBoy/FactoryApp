@@ -10,6 +10,8 @@ import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.IOException;
 
 public class XGPushReceiver extends XGPushBaseReceiver {
@@ -46,6 +48,7 @@ public class XGPushReceiver extends XGPushBaseReceiver {
     @Override
     public void onNotifactionShowedResult(Context context, XGPushShowedResult xgPushShowedResult) {
 //        openAssetMusics(context,"new_order_voice.mp3");
+        EventBus.getDefault().post("");
     }
     /**
      * 打开assets下的音乐mp3文件

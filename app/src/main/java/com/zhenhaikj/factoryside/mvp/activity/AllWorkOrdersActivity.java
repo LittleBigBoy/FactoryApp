@@ -54,7 +54,7 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
 
 
     private String[] mTitleDataList = new String[]{
-            "待接单","待审核", "待确认", "已完成", "质保单","所有工单","退单处理"
+            "待接单","待审核", "待支付", "已完成", "质保单","所有工单","退单处理"
     };
 
     private CommonNavigator commonNavigator;

@@ -19,6 +19,9 @@ public interface WorkOrdersDetailContract {
         Observable<BaseResult<Data<String>>> ApproveBeyondMoney(String OrderID,String BeyondState);
         Observable<BaseResult<Data<String>>> ApproveOrderService(String OrderID,String State);
         Observable<BaseResult<Data<String>>> AddOrUpdateExpressNo(String OrderID,String ExpressNo);
+
+        Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword);
+        Observable<BaseResult<Data<String>>> FactoryEnsureOrder(String OrderID, String PayPassword);
     }
 
     interface View extends BaseView {
@@ -47,6 +50,9 @@ public interface WorkOrdersDetailContract {
          */
         void ApproveOrderService(BaseResult<Data<String>> baseResult);
         void AddOrUpdateExpressNo(BaseResult<Data<String>> baseResult);
+
+        void EnSureOrder(BaseResult<Data<String>> baseResult);
+        void FactoryEnsureOrder(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -56,5 +62,8 @@ public interface WorkOrdersDetailContract {
         public abstract void ApproveBeyondMoney(String OrderID,String BeyondState);
         public abstract void ApproveOrderService(String OrderID,String State);
         public abstract void AddOrUpdateExpressNo(String OrderID,String ExpressNo);
+
+        public abstract void EnSureOrder(String OrderID, String PayPassword);
+        public abstract void FactoryEnsureOrder(String OrderID, String PayPassword);
     }
 }

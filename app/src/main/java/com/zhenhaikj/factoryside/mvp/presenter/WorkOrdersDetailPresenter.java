@@ -74,4 +74,24 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
             }
         });
     }
+    @Override
+    public void EnSureOrder(String OrderID, String PayPassword) {
+        mModel.EnSureOrder(OrderID, PayPassword)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.EnSureOrder(value);
+                    }
+                });
+    }
+    @Override
+    public void FactoryEnsureOrder(String OrderID, String PayPassword) {
+        mModel.FactoryEnsureOrder(OrderID, PayPassword)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.FactoryEnsureOrder(value);
+                    }
+                });
+    }
 }
