@@ -24,8 +24,6 @@ import butterknife.BindView;
 public class NoticeFragment extends BaseLazyFragment implements View.OnClickListener{
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
-    @BindView(R.id.ll_announcement)
-    LinearLayout mLlAnnouncement;
     @BindView(R.id.ll_platform_policy)
     LinearLayout mLlPlatformPolicy;
     @BindView(R.id.ll_news)
@@ -72,7 +70,6 @@ public class NoticeFragment extends BaseLazyFragment implements View.OnClickList
 
     @Override
     protected void setListener() {
-        mLlAnnouncement.setOnClickListener(this);
         mLlPlatformPolicy.setOnClickListener(this);
         mLlNews.setOnClickListener(this);
         mLlOrderMustRead.setOnClickListener(this);
@@ -88,10 +85,10 @@ public class NoticeFragment extends BaseLazyFragment implements View.OnClickList
     public void onClick(View v) {
         intent = new Intent(mActivity, ArticleActivity.class);
         switch (v.getId()){
-            case R.id.ll_announcement:
-                intent.putExtra("CategoryId","3");
-                intent.putExtra("title","系统消息");
-                break;
+//            case R.id.ll_announcement:
+//                intent.putExtra("CategoryId","3");
+//                intent.putExtra("title","系统消息");
+//                break;
             case R.id.ll_platform_policy:
                 intent.putExtra("CategoryId","4");
                 intent.putExtra("title","平台政策");

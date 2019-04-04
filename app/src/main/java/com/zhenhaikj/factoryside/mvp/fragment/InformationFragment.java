@@ -1,22 +1,34 @@
 package com.zhenhaikj.factoryside.mvp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.activity.ArticleActivity;
+import com.zhenhaikj.factoryside.mvp.activity.OrderMessageActivity;
+import com.zhenhaikj.factoryside.mvp.activity.TransactionMessageActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
-import com.zhenhaikj.factoryside.mvp.base.BaseResult;
-import com.zhenhaikj.factoryside.mvp.bean.HomeData;
-import com.zhenhaikj.factoryside.mvp.contract.HomeContract;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class InformationFragment extends BaseLazyFragment implements HomeContract.View {
+import butterknife.BindView;
+
+public class InformationFragment extends BaseLazyFragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
+    @BindView(R.id.ll_work_order_message)
+    LinearLayout mLlWorkOrderMessage;
+    @BindView(R.id.ll_transaction_news)
+    LinearLayout mLlTransactionNews;
+    @BindView(R.id.ll_announcement)
+    LinearLayout mLlAnnouncement;
 
     private String mParam1;
     private String mParam2;
+
     public static InformationFragment newInstance(String param1, String param2) {
         InformationFragment fragment = new InformationFragment();
         Bundle args = new Bundle();
@@ -25,6 +37,7 @@ public class InformationFragment extends BaseLazyFragment implements HomeContrac
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,15 +64,31 @@ public class InformationFragment extends BaseLazyFragment implements HomeContrac
 
     @Override
     protected void setListener() {
-
+        mLlAnnouncement.setOnClickListener(this);
+        mLlWorkOrderMessage.setOnClickListener(this);
+        mLlTransactionNews.setOnClickListener(this);
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 
     }
 
     @Override
-    public void success(BaseResult<HomeData> baseResult) {
-
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ll_announcement:
+                Intent intent = new Intent(mActivity, ArticleActivity.class);
+                intent.putExtra("CategoryId","3");
+                intent.putExtra("title","系统消息");
+                startActivity(intent);
+                break;
+            case R.id.ll_work_order_message:
+                startActivity(new Intent(getActivity(), OrderMessageActivity.class));
+                break;
+            case R.id.ll_transaction_news:
+                startActivity(new Intent(getActivity(), TransactionMessageActivity.class));
+                break;
+        }
     }
 }

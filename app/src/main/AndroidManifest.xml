@@ -129,6 +129,10 @@
         <activity android:name=".mvp.activity.PaymentPasswordActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.PayPasswordActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.ScanActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.OrderMessageActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.TransactionMessageActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.ShippingAddressActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.AddAddressActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <!-- alipay sdk begin -->
 
         <activity

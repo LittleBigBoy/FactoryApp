@@ -189,6 +189,7 @@ public class PersonalInformationActivity extends BaseActivity<InfoManagePresente
         mLlAvatar.setOnClickListener(this);
         mLlFemale.setOnClickListener(this);
         mLlMale.setOnClickListener(this);
+        mLlRecipientAddress.setOnClickListener(this);
     }
 
 
@@ -229,6 +230,9 @@ public class PersonalInformationActivity extends BaseActivity<InfoManagePresente
                 mIvMale.setSelected(true);
                 mIvFemale.setSelected(false);
                 mPresenter.UpdateSex(userId,"男");
+                break;
+            case R.id.ll_recipient_address:
+                startActivity(new Intent(mActivity,ShippingAddressActivity.class));
                 break;
         }
     }

@@ -13,6 +13,8 @@ import com.zhenhaikj.factoryside.mvp.bean.Course;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
+import com.zhenhaikj.factoryside.mvp.bean.Message;
+import com.zhenhaikj.factoryside.mvp.bean.MessageData;
 import com.zhenhaikj.factoryside.mvp.bean.Product;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
@@ -461,6 +463,18 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api.php")
     Observable<BaseResult<HomeData>> getHome(@Field("userid") String userid);
+
+
+    /*获取消息*/
+
+    @FormUrlEncoded
+    @POST("Cms/GetListmessageByType")
+    Observable<BaseResult<MessageData<List<Message>>>> GetListmessageByType(@Field("UserID") String UserID,
+                                                                            @Field("Type") String Type,
+                                                                            @Field("SubType") String SubType,
+                                                                            @Field("limit") String limit,
+                                                                            @Field("page") String page);
+
 
     /**
      * 获取学院数据

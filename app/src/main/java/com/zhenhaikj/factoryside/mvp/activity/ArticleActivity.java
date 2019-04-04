@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ArticleActivity extends BaseActivity<ArticlePresenter, ArticleModel> implements ArticleContract.View {
+public class ArticleActivity extends BaseActivity<ArticlePresenter, ArticleModel> implements ArticleContract.View ,View.OnClickListener{
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -66,7 +66,7 @@ public class ArticleActivity extends BaseActivity<ArticlePresenter, ArticleModel
 
     @Override
     protected void setListener() {
-
+        mIconBack.setOnClickListener(this);
     }
 
     @Override
@@ -95,6 +95,15 @@ public class ArticleActivity extends BaseActivity<ArticlePresenter, ArticleModel
                 });
                 break;
             case 401:
+                break;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.icon_back:
+                finish();
                 break;
         }
     }
