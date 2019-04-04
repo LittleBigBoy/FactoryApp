@@ -33,6 +33,7 @@ import butterknife.ButterKnife;
 
 public class OrderMessageActivity extends BaseActivity<MessagePresenter, MessageModel> implements View.OnClickListener, MessageContract.View {
 
+
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -55,8 +56,6 @@ public class OrderMessageActivity extends BaseActivity<MessagePresenter, Message
     RelativeLayout mRlNewMessage;
     @BindView(R.id.rv_ordermessage)
     RecyclerView mRvOrdermessage;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.tv_old_number)
     TextView mTvOldNumber;
     @BindView(R.id.textView3)
@@ -67,8 +66,8 @@ public class OrderMessageActivity extends BaseActivity<MessagePresenter, Message
     RelativeLayout mRlOldMessage;
     @BindView(R.id.rv_ordermessage_historical)
     RecyclerView mRvOrdermessageHistorical;
-    @BindView(R.id.refreshLayout_historical)
-    SmartRefreshLayout mRefreshLayoutHistorical;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     private int pageIndex = 1;
     private String userId;
 

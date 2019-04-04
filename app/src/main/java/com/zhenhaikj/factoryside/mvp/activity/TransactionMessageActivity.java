@@ -33,6 +33,7 @@ import butterknife.ButterKnife;
 
 public class TransactionMessageActivity extends BaseActivity<MessagePresenter, MessageModel> implements View.OnClickListener, MessageContract.View {
 
+    SmartRefreshLayout mRefreshLayoutHistorical;
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -55,8 +56,6 @@ public class TransactionMessageActivity extends BaseActivity<MessagePresenter, M
     RelativeLayout mRlNewMessage;
     @BindView(R.id.rv_transactionmessage)
     RecyclerView mRvTransactionmessage;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.tv_old_number)
     TextView mTvOldNumber;
     @BindView(R.id.textView3)
@@ -67,8 +66,8 @@ public class TransactionMessageActivity extends BaseActivity<MessagePresenter, M
     RelativeLayout mRlOldMessage;
     @BindView(R.id.rv_transactionmessage_historical)
     RecyclerView mRvTransactionmessageHistorical;
-    @BindView(R.id.refreshLayout_historical)
-    SmartRefreshLayout mRefreshLayoutHistorical;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     private ArrayList<Message> messagesList = new ArrayList<>();
     private MessageAdapter messageAdapter;
 
