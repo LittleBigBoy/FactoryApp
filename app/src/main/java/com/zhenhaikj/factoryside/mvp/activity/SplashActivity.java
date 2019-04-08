@@ -72,7 +72,7 @@ public class SplashActivity extends AppCompatActivity {
         userName = spUtils.getString("userName");
         passWord = spUtils.getString("passWord");
         isLogin = spUtils.getBoolean("isLogin");
-        if (userName!=null&&passWord!=null&&isLogin){
+        if (userName!=null&&isLogin){
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
         }else{
             startActivity(new Intent(SplashActivity.this, LoginActivity.class));

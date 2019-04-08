@@ -39,4 +39,26 @@ public class LoginModel implements LoginContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<String>> ValidateUserName(String userName) {
+        return ApiRetrofit.getDefault().ValidateUserName(userName)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> GetCode(String mobile, String type) {
+        return ApiRetrofit.getDefault().GetCode(mobile,type,"factory")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+
+    }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> LoginOnMessage(String mobile, String code) {
+        return ApiRetrofit.getDefault().LoginOnMessage(mobile,code,"6")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

@@ -52,4 +52,36 @@ public class LoginPresenter extends LoginContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void ValidateUserName(String userName) {
+        mModel.ValidateUserName(userName)
+                .subscribe(new BaseObserver<String>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<String> value) {
+                        mView.ValidateUserName(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetCode(String mobile, String type) {
+        mModel.GetCode(mobile, type)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.GetCode(value);
+                    }
+                });
+    }
+
+    @Override
+    public void LoginOnMessage(String mobile, String code) {
+        mModel.LoginOnMessage(mobile,code).subscribe(new BaseObserver<Data<String>>() {
+            @Override
+            protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                mView.LoginOnMessage(value);
+            }
+        });
+    }
 }

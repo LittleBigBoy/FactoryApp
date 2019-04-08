@@ -43,6 +43,15 @@ public interface ApiService {
     @POST("Message/Send")
     Observable<BaseResult<Data<String>>> GetCode(@Field("mobile") String mobile, @Field("type") String type, @Field("roleType") String roleType);
 
+
+    /*短信登陆*/
+    /*短信登陆*/
+    @FormUrlEncoded
+    @POST("Account/LoginOnMessage")
+    Observable<BaseResult<Data<String>>> LoginOnMessage(@Field("mobile") String mobile,
+                                                        @Field("code") String code,
+                                                        @Field("roleType") String roleType);
+
     /**
      * 注册
      */
