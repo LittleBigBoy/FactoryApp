@@ -554,4 +554,10 @@ public interface ApiService {
                                                                             @Field("page") String page);
 
 
+    @FormUrlEncoded
+    @POST("Account/AddOpinion")
+    Observable<BaseResult<Data<String>>> AddOpinion(@Field("UserID") String UserID,
+                                                    @Field("BackType") String BackType,
+                                                    @Field("Content") String Content);
+
 }

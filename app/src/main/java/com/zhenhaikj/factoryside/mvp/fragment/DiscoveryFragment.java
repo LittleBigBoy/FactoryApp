@@ -9,27 +9,21 @@ import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
 
-import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 public class DiscoveryFragment extends BaseLazyFragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    @BindView(R.id.magic_indicator)
-    MagicIndicator mMagicIndicator;
-    @BindView(R.id.view_pager)
-    ViewPager mViewPager;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
     @BindView(R.id.title)
     TextView mTitle;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
 
     private String mParam1;
@@ -86,7 +80,7 @@ public class DiscoveryFragment extends BaseLazyFragment implements View.OnClickL
 
     @Override
     protected int setLayoutId() {
-        return R.layout.fragment_all_work_order;
+        return R.layout.fragment_discovery;
     }
 
     @Override
