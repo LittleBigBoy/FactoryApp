@@ -114,6 +114,7 @@
         android:layout_height="1dp"
         android:background="#eee"/>
     <LinearLayout
+        android:id="@+id/ll_pick_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -184,12 +185,30 @@
             android:textSize="14sp"/>
 
         <Switch
-            android:id="@+id/switcher_accept_the_repair_work_order"
+            android:id="@+id/switcher_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
             android:switchMinWidth="2dp"
             android:thumb="@drawable/thumb"
             android:track="@drawable/track" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp_10"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:textColor="@color/red"
+            android:text="删除收货地址"
+            android:textSize="14sp"/>
     </LinearLayout>
 </LinearLayout>

@@ -476,7 +476,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:text="收件地址"
+                            android:text="我的收货地址"
                             android:textColor="#858585"
                             android:textSize="14sp" />
 
@@ -485,6 +485,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="未填写"
+                            android:visibility="gone"
                             android:textColor="#858585"
                             android:textSize="14sp" />
 

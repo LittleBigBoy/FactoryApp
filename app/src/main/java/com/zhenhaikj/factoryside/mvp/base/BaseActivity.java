@@ -15,6 +15,8 @@ import com.zhenhaikj.factoryside.mvp.utils.HandleBackUtil;
 import com.zhenhaikj.factoryside.mvp.utils.TUtil;
 import com.gyf.barlibrary.ImmersionBar;
 
+import org.greenrobot.eventbus.EventBus;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -47,7 +49,11 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //竖屏
         setContentView(setLayoutId());
         this.mActivity=this;
-
+        try {
+            EventBus.getDefault().register(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         mSwipeBackLayout=getSwipeBackLayout();
         // 设置滑动方向，可设置EDGE_LEFT, EDGE_RIGHT, EDGE_ALL, EDGE_BOTTOM
         mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
@@ -91,6 +97,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         this.imm = null;
         if (mImmersionBar != null)
             mImmersionBar.destroy();  //在BaseActivity里销毁
+        EventBus.getDefault().unregister(this);
     }
 
     protected abstract int setLayoutId();

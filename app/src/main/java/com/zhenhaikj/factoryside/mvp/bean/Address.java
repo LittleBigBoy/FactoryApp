@@ -3,77 +3,138 @@ package com.zhenhaikj.factoryside.mvp.bean;
 import java.io.Serializable;
 
 public class Address implements Serializable {
-    private String id;
-    private String uid;
-    private String username;
-    private String telphone;
-    private String shengfen;
-    private String address;
-    private String status;
 
-    public String getIs_default() {
-        return is_default;
-    }
+    /**
+     * Id : 12
+     * AccountAdressID : 12
+     * UserID : 18767773654
+     * Province : 内蒙古自治区
+     * City : 通辽市
+     * Area : 奈曼旗
+     * District : 土城子镇
+     * Address : 内蒙古自治区通辽市奈曼旗土城子镇咯
+     * IsDefault : 0
+     * IsUse : Y
+     * UserName : 正海科技
+     * Phone : 180 7420 8209
+     * Version : 0
+     */
 
-    public void setIs_default(String is_default) {
-        this.is_default = is_default;
-    }
-
-    private String is_default;
+    private String Id;
+    private String AccountAdressID;
+    private String UserID;
+    private String Province;
+    private String City;
+    private String Area;
+    private String District;
+    private String Address;
+    private String IsDefault;
+    private String IsUse;
+    private String UserName;
+    private String Phone;
+    private String Version;
 
     public String getId() {
-        return id;
+        return Id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String Id) {
+        this.Id = Id;
     }
 
-    public String getUid() {
-        return uid;
+    public String getAccountAdressID() {
+        return AccountAdressID;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setAccountAdressID(String AccountAdressID) {
+        this.AccountAdressID = AccountAdressID;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserID() {
+        return UserID;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserID(String UserID) {
+        this.UserID = UserID;
     }
 
-    public String getTelphone() {
-        return telphone;
+    public String getProvince() {
+        return Province;
     }
 
-    public void setTelphone(String telphone) {
-        this.telphone = telphone;
+    public void setProvince(String Province) {
+        this.Province = Province;
     }
 
-    public String getShengfen() {
-        return shengfen;
+    public String getCity() {
+        return City;
     }
 
-    public void setShengfen(String shengfen) {
-        this.shengfen = shengfen;
+    public void setCity(String City) {
+        this.City = City;
+    }
+
+    public String getArea() {
+        return Area;
+    }
+
+    public void setArea(String Area) {
+        this.Area = Area;
+    }
+
+    public String getDistrict() {
+        return District;
+    }
+
+    public void setDistrict(String District) {
+        this.District = District;
     }
 
     public String getAddress() {
-        return address;
+        return Address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddress(String Address) {
+        this.Address = Address;
     }
 
-    public String getStatus() {
-        return status;
+    public String getIsDefault() {
+        return IsDefault;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setIsDefault(String IsDefault) {
+        this.IsDefault = IsDefault;
+    }
+
+    public String getIsUse() {
+        return IsUse;
+    }
+
+    public void setIsUse(String IsUse) {
+        this.IsUse = IsUse;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String UserName) {
+        this.UserName = UserName;
+    }
+
+    public String getPhone() {
+        return Phone;
+    }
+
+    public void setPhone(String Phone) {
+        this.Phone = Phone;
+    }
+
+    public String getVersion() {
+        return Version;
+    }
+
+    public void setVersion(String Version) {
+        this.Version = Version;
     }
 }

@@ -83,11 +83,10 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="#EEE"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:layout_marginLeft="10dp"/>
 
         <TextView
+            android:id="@+id/tv_edit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="编辑"

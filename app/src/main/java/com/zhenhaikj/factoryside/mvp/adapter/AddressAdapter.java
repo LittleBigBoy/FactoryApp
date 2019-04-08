@@ -14,7 +14,7 @@ public class AddressAdapter extends BaseQuickAdapter<Address,BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, Address item) {
         // 加载网络图片
-        helper.setText(R.id.name,item.getUsername());
+        /*helper.setText(R.id.name,item.getUsername());
         helper.setText(R.id.phone,item.getTelphone());
         helper.setText(R.id.address,item.getAddress());
         helper.addOnClickListener(R.id.edit_ll);
@@ -24,6 +24,6 @@ public class AddressAdapter extends BaseQuickAdapter<Address,BaseViewHolder> {
             helper.setChecked(R.id.check,true);
         }else{
             helper.setChecked(R.id.check,false);
-        }
+        }*/
     }
 }

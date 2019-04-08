@@ -6,13 +6,30 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.AddressAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ShippingAddressAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
+import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
+import com.zhenhaikj.factoryside.mvp.bean.Area;
+import com.zhenhaikj.factoryside.mvp.bean.Brand;
+import com.zhenhaikj.factoryside.mvp.bean.City;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.District;
+import com.zhenhaikj.factoryside.mvp.bean.Province;
+import com.zhenhaikj.factoryside.mvp.contract.AddressContract;
+import com.zhenhaikj.factoryside.mvp.model.AddressModel;
+import com.zhenhaikj.factoryside.mvp.presenter.AddressPresenter;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,7 +37,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ShippingAddressActivity extends BaseActivity implements View.OnClickListener {
+public class ShippingAddressActivity extends BaseActivity<AddressPresenter, AddressModel> implements View.OnClickListener, AddressContract.View {
 
 
     @BindView(R.id.view)
@@ -37,7 +54,10 @@ public class ShippingAddressActivity extends BaseActivity implements View.OnClic
     Toolbar mToolbar;
     @BindView(R.id.rv_address)
     RecyclerView mRvAddress;
-    private ArrayList<Address> addressList = new ArrayList<>();
+    private List<Address> addressList = new ArrayList<>();
+    private SPUtils spUtils;
+    private String userId;
+    private ShippingAddressAdapter addressAdapter;
 
     @Override
     protected int setLayoutId() {
@@ -46,12 +66,29 @@ public class ShippingAddressActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initData() {
-        for (int i = 0; i < 10; i++) {
-            addressList.add(new Address());
-        }
-        ShippingAddressAdapter addressAdapter = new ShippingAddressAdapter(R.layout.item_address, addressList);
+//        for (int i = 0; i < 10; i++) {
+//            addressList.add(new Address());
+//        }
+        addressAdapter = new ShippingAddressAdapter(R.layout.item_address, addressList);
         mRvAddress.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvAddress.setAdapter(addressAdapter);
+        addressAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch(view.getId()){
+                    case R.id.tv_edit:
+                        Intent intent=new Intent(mActivity,AddAddressActivity.class);
+                        intent.putExtra("address",addressList.get(position));
+                        startActivity(intent);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        spUtils = SPUtils.getInstance("token");
+        userId = spUtils.getString("userName");
+        mPresenter.GetAccountAddress(userId);
     }
 
     @Override
@@ -85,5 +122,60 @@ public class ShippingAddressActivity extends BaseActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void AddAccountAddress(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void UpdateAccountAddress(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void DeleteAccountAddress(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void GetAccountAddress(BaseResult<List<Address>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                addressList = baseResult.getData();
+                addressAdapter.setNewData(addressList);
+                break;
+            default:
+                ToastUtils.showShort("获取失败");
+                break;
+        }
+    }
+
+    @Override
+    public void GetProvince(BaseResult<List<Province>> baseResult) {
+
+    }
+
+    @Override
+    public void GetCity(BaseResult<Data<List<City>>> baseResult) {
+
+    }
+
+    @Override
+    public void GetArea(BaseResult<Data<List<Area>>> baseResult) {
+
+    }
+
+    @Override
+    public void GetDistrict(BaseResult<Data<List<District>>> baseResult) {
+
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String message) {
+        if (!"address".equals(message)){
+            return;
+        }
+        mPresenter.GetAccountAddress(userId);
     }
 }

@@ -2,20 +2,18 @@ package com.zhenhaikj.factoryside.mvp;
 
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
+import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
-import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
-import com.zhenhaikj.factoryside.mvp.bean.Course;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
 import com.zhenhaikj.factoryside.mvp.bean.Message;
 import com.zhenhaikj.factoryside.mvp.bean.MessageData;
-import com.zhenhaikj.factoryside.mvp.bean.Product;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
@@ -462,12 +460,13 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/AddAccountAddress")
     Observable<BaseResult<Data<String>>> AddAccountAddress(
-                                            @Field("AccountID") String UserID,
+                                            @Field("UserID") String UserID,
                                             @Field("Province") String Province,
                                             @Field("City") String City,
                                             @Field("Area") String Area,
+                                            @Field("District") String District,
                                             @Field("Address") String Address,
-                                            @Field("Default") String Default,
+                                            @Field("IsDefault") String Default,
                                             @Field("UserName") String UserName,
                                             @Field("Phone") String Phone
     );
@@ -487,27 +486,38 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/UpdateAccountAddress")
     Observable<BaseResult<Data<String>>> UpdateAccountAddress(
-            @Field("ID") String ID,
-            @Field("AccountID") String UserID,
+            @Field("AccountAdressID") String ID,
+            @Field("UserID") String UserID,
             @Field("Province") String Province,
             @Field("City") String City,
             @Field("Area") String Area,
+            @Field("District") String District,
             @Field("Address") String Address,
-            @Field("Default") String Default,
+            @Field("IsDefault") String Default,
             @Field("UserName") String UserName,
             @Field("Phone") String Phone
     );
     /**
      * 删除收货地址
      * @param ID
-     * @param AccountID
      * @return
      */
     @FormUrlEncoded
     @POST("Account/DeleteAccountAddress")
     Observable<BaseResult<Data<String>>> DeleteAccountAddress(
-                                            @Field("ID") String ID,
-                                           @Field("AccountID") String AccountID);
+                                            @Field("AccountAdressID") String ID
+                                           );
+
+    /**
+     * 获取收货地址列表
+     * @param UserID
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Account/GetAccountAddress")
+    Observable<BaseResult<List<Address>>> GetAccountAddress(
+            @Field("UserID") String UserID
+    );
     /*获取文章
     * 3系统消息 4平台政策 5平台新闻 6接单必读
     * */
