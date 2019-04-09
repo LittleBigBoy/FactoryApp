@@ -14,6 +14,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
@@ -26,6 +27,7 @@ import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenhaikj.factoryside.mvp.widget.CustomViewPager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -377,6 +379,16 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
             default:
                 break;
         }
+    }
+
+    @Override
+    public void UpdateIsReturnByOrderID(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void GetAccountAddress(BaseResult<List<Address>> baseResult) {
+
     }
 
     private class MyAdapter extends FragmentPagerAdapter {

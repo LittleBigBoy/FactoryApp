@@ -2,9 +2,12 @@ package com.zhenhaikj.factoryside.mvp.model;
 
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -64,6 +67,19 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
     @Override
     public Observable<BaseResult<Data<String>>> FactoryEnsureOrder(String OrderID, String PayPassword) {
         return ApiRetrofit.getDefault().FactoryEnsureOrder(OrderID, PayPassword)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> UpdateIsReturnByOrderID(String OrderID, String IsReturn, String AddressBack, String PostPayType) {
+        return ApiRetrofit.getDefault().UpdateIsReturnByOrderID(OrderID, IsReturn,AddressBack,PostPayType)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<BaseResult<List<Address>>> GetAccountAddress(String UserId) {
+        return ApiRetrofit.getDefault().GetAccountAddress(UserId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

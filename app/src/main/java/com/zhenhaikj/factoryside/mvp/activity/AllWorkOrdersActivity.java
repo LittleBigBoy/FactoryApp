@@ -104,6 +104,7 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
                 colorTransitionPagerTitleView.setNormalColor(Color.BLACK);
                 colorTransitionPagerTitleView.setSelectedColor(Color.RED);
                 colorTransitionPagerTitleView.setText(mTitleDataList[index]);
+                colorTransitionPagerTitleView.setTextSize(18);
                 colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -141,6 +142,7 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
         mViewPager.setCurrentItem(bundle.getInt("position"));
         commonNavigator.onPageSelected(bundle.getInt("position"));
         mMagicIndicator.setNavigator(commonNavigator);
+        mMagicIndicator.setBackgroundColor(Color.WHITE);
         ViewPagerHelper.bind(mMagicIndicator, mViewPager);
     }
 

@@ -3,9 +3,12 @@ package com.zhenhaikj.factoryside.mvp.presenter;
 
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
+
+import java.util.List;
 
 public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presenter {
 
@@ -91,6 +94,27 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
                         mView.FactoryEnsureOrder(value);
+                    }
+                });
+    }
+
+    @Override
+    public void UpdateIsReturnByOrderID(String OrderID, String IsReturn, String AddressBack, String PostPayType) {
+        mModel.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.UpdateIsReturnByOrderID(value);
+                    }
+                });
+    }
+    @Override
+    public void GetAccountAddress(String UserId) {
+        mModel.GetAccountAddress(UserId)
+                .subscribe(new BaseObserver<List<Address>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<List<Address>> value) {
+                        mView.GetAccountAddress(value);
                     }
                 });
     }

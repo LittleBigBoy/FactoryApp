@@ -142,7 +142,7 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
                 return indicator;
             }
         });
-        mMagicIndicator.setBackgroundResource(R.color.gray_four);
+        mMagicIndicator.setBackgroundColor(Color.WHITE);
         mMagicIndicator.setNavigator(commonNavigator);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

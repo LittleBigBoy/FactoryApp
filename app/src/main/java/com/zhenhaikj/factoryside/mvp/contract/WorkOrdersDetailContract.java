@@ -5,8 +5,11 @@ import com.zhenhaikj.factoryside.mvp.base.BaseModel;
 import com.zhenhaikj.factoryside.mvp.base.BasePresenter;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.base.BaseView;
+import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -22,6 +25,8 @@ public interface WorkOrdersDetailContract {
 
         Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword);
         Observable<BaseResult<Data<String>>> FactoryEnsureOrder(String OrderID, String PayPassword);
+        Observable<BaseResult<Data<String>>> UpdateIsReturnByOrderID(String OrderID, String IsReturn,String AddressBack,String PostPayType);
+        Observable<BaseResult<List<Address>>> GetAccountAddress(String UserId);
     }
 
     interface View extends BaseView {
@@ -53,6 +58,8 @@ public interface WorkOrdersDetailContract {
 
         void EnSureOrder(BaseResult<Data<String>> baseResult);
         void FactoryEnsureOrder(BaseResult<Data<String>> baseResult);
+        void UpdateIsReturnByOrderID(BaseResult<Data<String>> baseResult);
+        void GetAccountAddress(BaseResult<List<Address>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -65,5 +72,7 @@ public interface WorkOrdersDetailContract {
 
         public abstract void EnSureOrder(String OrderID, String PayPassword);
         public abstract void FactoryEnsureOrder(String OrderID, String PayPassword);
+        public abstract void UpdateIsReturnByOrderID(String OrderID, String IsReturn,String AddressBack,String PostPayType);
+        public abstract void GetAccountAddress(String UserId);
     }
 }

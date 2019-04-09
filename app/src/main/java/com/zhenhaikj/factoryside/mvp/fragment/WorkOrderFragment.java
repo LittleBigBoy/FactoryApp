@@ -253,24 +253,32 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
                         break;
                     case R.id.tv_see_detail:
+//                        if (mParam1=="质保单"){
+//                            Intent intent1=new Intent(mActivity, WarrantyActivity.class);
+//                            intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
+//                            startActivity(intent1);
+//                        }else if (mParam1=="待审核"){
+//                            Intent intent1=new Intent(mActivity, AccessoriesListActivity.class);
+//                            intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
+//                            startActivity(intent1);
+//                        }else if (mParam1=="已完成"){
+//                            Intent intent1=new Intent(mActivity, CompletionOrderActivity.class);
+//                            intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
+//                            startActivity(intent1);
+//                        } else {
+//                            Intent intent=new Intent(mActivity,WorkOrderDetailsActivity.class);
+//                            intent.putExtra("OrderID",workOrderList.get(position).getOrderID());
+//                            startActivity(intent);
+//                        }
                         if (mParam1=="质保单"){
                             Intent intent1=new Intent(mActivity, WarrantyActivity.class);
                             intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
                             startActivity(intent1);
-                        }else if (mParam1=="待审核"){
+                        }else{
                             Intent intent1=new Intent(mActivity, AccessoriesListActivity.class);
                             intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
                             startActivity(intent1);
-                        }else if (mParam1=="已完成"){
-                            Intent intent1=new Intent(mActivity, CompletionOrderActivity.class);
-                            intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
-                            startActivity(intent1);
-                        } else {
-                            Intent intent=new Intent(mActivity,WorkOrderDetailsActivity.class);
-                            intent.putExtra("OrderID",workOrderList.get(position).getOrderID());
-                            startActivity(intent);
                         }
-
                         break;
                     case R.id.iv_copy:
                          String id=workOrderList.get(position).getOrderID();

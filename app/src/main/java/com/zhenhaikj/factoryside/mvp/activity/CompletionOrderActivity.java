@@ -14,12 +14,15 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
+
+import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
@@ -284,6 +287,16 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
             default:
                 break;
         }
+    }
+
+    @Override
+    public void UpdateIsReturnByOrderID(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void GetAccountAddress(BaseResult<List<Address>> baseResult) {
+
     }
 
     @Override

@@ -19,12 +19,15 @@ import com.vondear.rxui.view.dialog.RxDialogScaleView;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -406,5 +409,15 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
             default:
                 break;
         }
+    }
+
+    @Override
+    public void UpdateIsReturnByOrderID(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void GetAccountAddress(BaseResult<List<Address>> baseResult) {
+
     }
 }

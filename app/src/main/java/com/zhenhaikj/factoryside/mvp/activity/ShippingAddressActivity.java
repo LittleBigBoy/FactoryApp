@@ -57,6 +57,7 @@ public class ShippingAddressActivity extends BaseActivity<AddressPresenter, Addr
     private List<Address> addressList = new ArrayList<>();
     private SPUtils spUtils;
     private String userId;
+    private String type;
     private ShippingAddressAdapter addressAdapter;
 
     @Override
@@ -69,6 +70,7 @@ public class ShippingAddressActivity extends BaseActivity<AddressPresenter, Addr
 //        for (int i = 0; i < 10; i++) {
 //            addressList.add(new Address());
 //        }
+        type=getIntent().getStringExtra("type");
         addressAdapter = new ShippingAddressAdapter(R.layout.item_address, addressList);
         mRvAddress.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvAddress.setAdapter(addressAdapter);
@@ -86,6 +88,17 @@ public class ShippingAddressActivity extends BaseActivity<AddressPresenter, Addr
                 }
             }
         });
+        if (type!=null){
+            addressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    Intent intent=new Intent();
+                    intent.putExtra("address",addressList.get(position));
+                    setResult(100,intent);
+                    finish();
+                }
+            });
+        }
         spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
         mPresenter.GetAccountAddress(userId);

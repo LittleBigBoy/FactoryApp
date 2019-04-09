@@ -527,6 +527,24 @@ public interface ApiService {
     Observable<BaseResult<List<Address>>> GetAccountAddress(
             @Field("UserID") String UserID
     );
+
+    /**
+     * 旧件是否需要返件
+     * @param OrderID
+     * @param IsReturn
+     * @param AddressBack
+     * @param PostPayType
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/UpdateIsReturnByOrderID")
+    Observable<BaseResult<Data<String>>> UpdateIsReturnByOrderID(
+            @Field("OrderID") String OrderID,
+            @Field("IsReturn") String IsReturn,
+            @Field("AddressBack") String AddressBack,
+            @Field("PostPayType") String PostPayType
+    );
+
     /*获取文章
     * 3系统消息 4平台政策 5平台新闻 6接单必读
     * */

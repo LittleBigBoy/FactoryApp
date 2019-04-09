@@ -192,15 +192,54 @@ public class WorkOrder implements Serializable {
         private String AppointmentMessage;
         private String AppointmentState;
         private String  IsPressFactory ;
+
+        private String  IsReturn ;
+        private String  AddressBack ;
+        private String  PostPayType ;
+
         private List<GAccessory> OrderAccessroyDetail; //所选配件详情
         private List<GService> OrderServiceDetail;  //所选配件详情
         private List<ReturnaccessoryImg> ReturnaccessoryImg;//返件图片
         private List<OrderImg> OrderImg;//返回服务图片
         private List<OrderBeyondImg> OrderBeyondImg;//远程费图片
+        private List<SendOrderBean> SendOrderList;
         private String Distance;//返回距离
         private String page;
         private String limit;
         private String Version;
+
+        public List<SendOrderBean> getSendOrderList() {
+            return SendOrderList;
+        }
+
+        public void setSendOrderList(List<SendOrderBean> sendOrderList) {
+            SendOrderList = sendOrderList;
+        }
+
+        public String getIsReturn() {
+            return IsReturn;
+        }
+
+        public void setIsReturn(String isReturn) {
+            IsReturn = isReturn;
+        }
+
+        public String getAddressBack() {
+            return AddressBack;
+        }
+
+        public void setAddressBack(String addressBack) {
+            AddressBack = addressBack;
+        }
+
+        public String getPostPayType() {
+            return PostPayType;
+        }
+
+        public void setPostPayType(String postPayType) {
+            PostPayType = postPayType;
+        }
+
         public String getAccessoryMemo() {
             return AccessoryMemo==null?"":AccessoryMemo;
         }

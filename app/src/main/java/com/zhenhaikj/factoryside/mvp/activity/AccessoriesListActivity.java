@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -28,12 +29,16 @@ import com.zhenhaikj.factoryside.mvp.adapter.AccessoryDetailAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ServiceAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
+import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -142,6 +147,64 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     ImageView mIvRangeOne;
     @BindView(R.id.iv_range_two)
     ImageView mIvRangeTwo;
+    @BindView(R.id.iv_n)
+    ImageView mIvN;
+    @BindView(R.id.ll_n)
+    LinearLayout mLlN;
+    @BindView(R.id.iv_y)
+    ImageView mIvY;
+    @BindView(R.id.ll_y)
+    LinearLayout mLlY;
+    @BindView(R.id.iv_pay)
+    ImageView mIvPay;
+    @BindView(R.id.ll_pay)
+    LinearLayout mLlPay;
+    @BindView(R.id.iv_pay2)
+    ImageView mIvPay2;
+    @BindView(R.id.ll_pay2)
+    LinearLayout mLlPay2;
+    @BindView(R.id.ll_address_info)
+    LinearLayout mLlAddressInfo;
+    @BindView(R.id.tv_modify)
+    TextView mTvModify;
+    @BindView(R.id.tv_submit)
+    TextView mTvSubmit;
+    @BindView(R.id.ll_old_accessory)
+    LinearLayout mLlOldAccessory;
+    @BindView(R.id.tv_addressback)
+    TextView mTvAddressback;
+    @BindView(R.id.tv_select_time)
+    TextView mTvSelectTime;
+    @BindView(R.id.tv_apply)
+    TextView mTvApply;
+    @BindView(R.id.ll_apply_custom_service)
+    LinearLayout mLlApplyCustomService;
+    @BindView(R.id.iv_bar_code)
+    ImageView mIvBarCode;
+    @BindView(R.id.ll_bar_code)
+    LinearLayout mLlBarCode;
+    @BindView(R.id.iv_machine)
+    ImageView mIvMachine;
+    @BindView(R.id.ll_machine)
+    LinearLayout mLlMachine;
+    @BindView(R.id.iv_fault_location)
+    ImageView mIvFaultLocation;
+    @BindView(R.id.ll_fault_location)
+    LinearLayout mLlFaultLocation;
+    @BindView(R.id.iv_new_and_old_accessories)
+    ImageView mIvNewAndOldAccessories;
+    @BindView(R.id.ll_new_and_old_accessories)
+    LinearLayout mLlNewAndOldAccessories;
+    @BindView(R.id.ll_return_information)
+    LinearLayout mLlReturnInformation;
+    @BindView(R.id.negtive)
+    Button mNegtive;
+    @BindView(R.id.column_line)
+    View mColumnLine;
+    @BindView(R.id.positive)
+    Button mPositive;
+    @BindView(R.id.ll_confirm)
+    LinearLayout mLlConfirm;
     private String OrderID;
     private WorkOrder.DataBean data;
     private AccessoryDetailAdapter accessoryDetailAdapter;
@@ -159,6 +222,12 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     private TextView tv_message;
     private String expressno;
     private SimpleTarget<Bitmap> simpleTarget;
+    private String IsReturn;
+    private String PostPayType;
+    private String AddressBack = "";
+    private List<Address> addressList;
+    private String userId;
+    private Address address;
 
     @Override
     protected int setLayoutId() {
@@ -179,7 +248,10 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("订单详情");
         OrderID = getIntent().getStringExtra("OrderID");
+        SPUtils spUtils = SPUtils.getInstance("token");
+        userId = spUtils.getString("userName");
         mPresenter.GetOrderInfo(OrderID);
+        mPresenter.GetAccountAddress(userId);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -191,9 +263,29 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
 
     @Override
     protected void initView() {
-
+        mIvY.setSelected(true);
+        mIvN.setSelected(false);
+        mIvPay.setSelected(true);
+        mIvPay2.setSelected(false);
+        IsReturn = "1";
+        PostPayType = "1";
     }
+    public void scaleview(String url) {
+        simpleTarget = new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
+                    super Bitmap> transition) {
+                RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
+                rxDialogScaleView.setImage(resource);
+                rxDialogScaleView.show();
+            }
+        };
 
+        Glide.with(mActivity)
+                .asBitmap()
+                .load(url)
+                .into(simpleTarget);
+    }
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
@@ -206,6 +298,21 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
         mTvRejectBeyond.setOnClickListener(this);
         mTvPassBeyond.setOnClickListener(this);
         mIvRangeOne.setOnClickListener(this);
+
+        mLlY.setOnClickListener(this);
+        mLlN.setOnClickListener(this);
+        mLlPay.setOnClickListener(this);
+        mLlPay2.setOnClickListener(this);
+        mTvModify.setOnClickListener(this);
+        mTvSubmit.setOnClickListener(this);
+
+        mTvApply.setOnClickListener(this);
+        mIvBarCode.setOnClickListener(this);
+        mIvMachine.setOnClickListener(this);
+        mIvFaultLocation.setOnClickListener(this);
+        mIvNewAndOldAccessories.setOnClickListener(this);
+        mNegtive.setOnClickListener(this);
+        mPositive.setOnClickListener(this);
     }
 
 
@@ -217,6 +324,73 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_apply:
+                final CommonDialog_Home apply = new CommonDialog_Home(mActivity);
+                apply.setMessage("是否要发起质保")
+                        //.setImageResId(R.mipmap.ic_launcher)
+                        .setTitle("提示")
+                        .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {//发起质保
+                        apply.dismiss();
+                        mPresenter.ApplyCustomService(OrderID);
+                    }
+
+                    @Override
+                    public void onNegtiveClick() {//取消
+                        apply.dismiss();
+                        // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+                break;
+            case R.id.negtive:
+                mPresenter.FactoryEnsureOrder(OrderID,"888888");
+                break;
+            case R.id.positive:
+                mPresenter.EnSureOrder(OrderID,"888888");
+                break;
+            case R.id.iv_bar_code:
+                scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(0).getUrl());
+                break;
+            case R.id.iv_machine:
+                scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(1).getUrl());
+                break;
+            case R.id.iv_fault_location:
+                scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(2).getUrl());
+                break;
+            case R.id.iv_new_and_old_accessories:
+                scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(3).getUrl());
+                break;
+            case R.id.ll_y:
+                mIvY.setSelected(true);
+                mIvN.setSelected(false);
+                mLlAddressInfo.setVisibility(View.VISIBLE);
+                IsReturn = "1";
+                break;
+            case R.id.ll_n:
+                mIvY.setSelected(false);
+                mIvN.setSelected(true);
+                mLlAddressInfo.setVisibility(View.GONE);
+                IsReturn = "2";
+                break;
+            case R.id.ll_pay:
+                mIvPay.setSelected(true);
+                mIvPay2.setSelected(false);
+                PostPayType = "1";
+                break;
+            case R.id.ll_pay2:
+                mIvPay.setSelected(false);
+                mIvPay2.setSelected(true);
+                PostPayType = "2";
+                break;
+            case R.id.tv_modify:
+                Intent intent = new Intent(mActivity, ShippingAddressActivity.class);
+                intent.putExtra("type", "0");
+                startActivityForResult(intent, 100);
+                break;
+            case R.id.tv_submit:
+                mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+                break;
             case R.id.iv_range_one:
                 if (data.getOrderBeyondImg() == null) {
                     return;
@@ -285,7 +459,17 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 }).show();
                 break;
             case R.id.tv_pass:
-                if ("0".equals(data.getAccessoryState())){
+                if ("1".equals(IsReturn)) {
+                    if ("".equals(AddressBack)) {
+                        MyUtils.showToast(mActivity, "请添加旧件寄送地址");
+                        return;
+                    } else {
+                        mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+                    }
+                } else {
+                    mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+                }
+                if ("0".equals(data.getAccessoryState())) {
                     expressno_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_add_expressno, null);
                     btn_negtive = expressno_view.findViewById(R.id.negtive);
                     btn_positive = expressno_view.findViewById(R.id.positive);
@@ -315,13 +499,13 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                         @Override
                         public void onClick(View v) {
                             expressno = et_expressno.getText().toString().trim();
-                            if ("".equals(expressno)){
-                                expressno="123";
+                            if ("".equals(expressno)) {
+                                expressno = "123";
                             }
                             mPresenter.AddOrUpdateExpressNo(OrderID, expressno);
                         }
                     });
-                }else{
+                } else {
                     mPresenter.ApproveOrderAccessory(OrderID, "1");
                 }
 
@@ -491,9 +675,11 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 }
                 if (data.getOrderAccessroyDetail() == null) {
                     mLlApproveAccessory.setVisibility(View.GONE);
+                    mLlOldAccessory.setVisibility(View.GONE);
                 } else {
                     if (data.getOrderAccessroyDetail().size() == 0) {
                         mLlApproveAccessory.setVisibility(View.GONE);
+                        mLlOldAccessory.setVisibility(View.GONE);
                     } else {
 
                         if ("1".equals(data.getAccessoryApplyState())) {
@@ -501,17 +687,44 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                             mTvReject.setVisibility(View.GONE);
                             mTvStatusAccessory.setVisibility(View.VISIBLE);
                             mTvStatusAccessory.setText("已审核通过");
+                            if (data.getIsReturn() != null) {
+                                if ("1".equals(data.getIsReturn())) {
+                                    mTvAddressback.setText(data.getAddressBack());
+                                    mLlAddressInfo.setVisibility(View.VISIBLE);
+                                    mLlY.setVisibility(View.VISIBLE);
+                                    mIvY.setVisibility(View.GONE);
+                                    mLlN.setVisibility(View.GONE);
+                                    mTvModify.setVisibility(View.GONE);
+                                    if ("1".equals(data.getPostPayType())) {
+                                        mLlPay.setVisibility(View.VISIBLE);
+                                        mIvPay.setVisibility(View.GONE);
+                                        mLlPay2.setVisibility(View.GONE);
+                                    } else {
+                                        mLlPay.setVisibility(View.GONE);
+                                        mIvPay2.setVisibility(View.GONE);
+                                        mLlPay2.setVisibility(View.VISIBLE);
+                                    }
+                                } else {
+                                    mLlAddressInfo.setVisibility(View.GONE);
+                                    mLlY.setVisibility(View.GONE);
+                                    mIvN.setVisibility(View.GONE);
+                                    mLlN.setVisibility(View.VISIBLE);
+                                }
+                            }
                         } else if ("-1".equals(data.getAccessoryApplyState())) {
                             mTvPass.setVisibility(View.GONE);
                             mTvReject.setVisibility(View.GONE);
                             mTvStatusAccessory.setVisibility(View.VISIBLE);
                             mTvStatusAccessory.setText("已拒绝");
+                            mLlOldAccessory.setVisibility(View.GONE);
                         } else {
                             mTvPass.setVisibility(View.VISIBLE);
                             mTvReject.setVisibility(View.VISIBLE);
                             mTvStatusAccessory.setVisibility(View.GONE);
                         }
+
                         mLlApproveAccessory.setVisibility(View.VISIBLE);
+                        mLlOldAccessory.setVisibility(View.VISIBLE);
                         accessoryDetailAdapter = new AccessoryDetailAdapter(R.layout.item_accessories, data.getOrderAccessroyDetail());
                         mRvAccessories.setLayoutManager(new LinearLayoutManager(mActivity));
                         mRvAccessories.setAdapter(accessoryDetailAdapter);
@@ -545,10 +758,39 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 if (data.getOrderBeyondImg().size() == 1) {
                     Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl()).into(mIvRangeOne);
 //                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(1).getUrl()).into(mIvRangeTwo);
+                    mIvRangeOne.setVisibility(View.VISIBLE);
                     mIvRangeTwo.setVisibility(View.GONE);
                 } else {
                     mIvRangeOne.setVisibility(View.GONE);
                     mIvRangeTwo.setVisibility(View.GONE);
+                }
+                if ("服务完成".equals(data.getState())||"待评价".equals(data.getState())||"已完成".equals(data.getState())) {
+                    if ("已完成".equals(data.getState())){
+                        mLlApplyCustomService.setVisibility(View.VISIBLE);
+                    }else{
+                        mLlApplyCustomService.setVisibility(View.GONE);
+                    }
+                    if ("服务完成".equals(data.getState())){
+                        if ("".equals(data.getReturnAccessoryMsg())||data.getReturnAccessoryMsg()==null){
+                            mLlConfirm.setVisibility(View.GONE);
+                        }else{
+                            mLlConfirm.setVisibility(View.VISIBLE);
+                        }
+                    }else{
+                        mLlConfirm.setVisibility(View.GONE);
+                    }
+                    mLlReturnInformation.setVisibility(View.VISIBLE);
+                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(0).getUrl()).into(mIvBarCode);
+                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(1).getUrl()).into(mIvMachine);
+                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(2).getUrl()).into(mIvFaultLocation);
+                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(3).getUrl()).into(mIvNewAndOldAccessories);
+                } else {
+                    mLlReturnInformation.setVisibility(View.GONE);
+                    mLlApplyCustomService.setVisibility(View.GONE);
+                    mLlConfirm.setVisibility(View.GONE);
+                }
+                if (data.getSendOrderList().size()!=0){
+                    mTvSelectTime.setText(data.getSendOrderList().get(0).getServiceDate()+"-"+data.getSendOrderList().get(0).getServiceDate2());
                 }
                 break;
             case 401:
@@ -558,7 +800,14 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
 
     @Override
     public void ApplyCustomService(BaseResult<Data<String>> baseResult) {
-
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                ToastUtils.showShort("发起质保成功！");
+                finish();
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -638,6 +887,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 Data<String> data = baseResult.getData();
                 if (data.isItem1()) {
                     ToastUtils.showShort(data.getItem2());
+                    mPresenter.GetOrderInfo(OrderID);
                 } else {
                     ToastUtils.showShort(data.getItem2());
                 }
@@ -654,6 +904,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 Data<String> data = baseResult.getData();
                 if (data.isItem1()) {
                     ToastUtils.showShort(data.getItem2());
+                    mPresenter.GetOrderInfo(OrderID);
                 } else {
                     ToastUtils.showShort(data.getItem2());
                 }
@@ -664,12 +915,64 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     }
 
     @Override
+    public void UpdateIsReturnByOrderID(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
+//                    ToastUtils.showShort(data.getItem2());
+                } else {
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void GetAccountAddress(BaseResult<List<Address>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                addressList = baseResult.getData();
+                if (addressList.size() != 0) {
+                    for (int i = 0; i < addressList.size(); i++) {
+                        if ("1".equals(addressList.get(i).getIsDefault())) {
+                            AddressBack = addressList.get(i).getAddress() + "(" + addressList.get(i).getUserName() + "收)" + addressList.get(i).getPhone();
+                            mTvAddressback.setText(AddressBack);
+                            mTvModify.setText("修改地址");
+                        }
+                    }
+                } else {
+                    AddressBack = "";
+                    mTvAddressback.setText(AddressBack);
+                    mTvModify.setText("添加地址");
+                }
+                break;
+            default:
+                ToastUtils.showShort("获取失败");
+                break;
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (scanResult != null) {
-            expressno = scanResult.getContents();
-            et_expressno.setText(expressno);
+        if (requestCode == IntentIntegrator.REQUEST_CODE) {
+            IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (scanResult != null) {
+                expressno = scanResult.getContents();
+                et_expressno.setText(expressno);
+            }
+        }
+        if (requestCode == 100) {
+            if (data != null) {
+                address = (Address) data.getSerializableExtra("address");
+                if (address != null) {
+                    AddressBack = address.getAddress() + "(" + address.getUserName() + "收)" + address.getPhone();
+                    mTvAddressback.setText(AddressBack);
+                }
+            }
         }
     }
 }

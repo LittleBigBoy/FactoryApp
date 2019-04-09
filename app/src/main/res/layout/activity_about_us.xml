@@ -11,14 +11,14 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="85dp"
-        android:src="@drawable/start_icon"
+        android:src="@drawable/icon"
         android:layout_marginTop="30dp"/>
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="吉米人工厂端"
+        android:text="西瓜鱼"
         android:textColor="#333333"
         android:textSize="19sp"
         android:gravity="center"

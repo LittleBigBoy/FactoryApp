@@ -157,7 +157,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:textSize="11sp"
-                            android:text="全部订单"
+                            android:text="所有工单"
                             android:textColor="#808080" />
                     </LinearLayout>
                     <View
@@ -184,7 +184,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:textSize="11sp"
-                            android:text="待返件"
+                            android:text="待审核"
                             android:textColor="#808080" />
                     </LinearLayout>
                     <View

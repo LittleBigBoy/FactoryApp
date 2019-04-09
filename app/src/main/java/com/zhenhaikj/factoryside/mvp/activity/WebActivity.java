@@ -18,7 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class WebActivity extends BaseActivity {
+public class WebActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -99,7 +99,7 @@ public class WebActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
-
+        mIconBack.setOnClickListener(this);
     }
 
     @Override
@@ -107,5 +107,16 @@ public class WebActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.icon_back:
+                finish();
+                break;
+            default:
+                break;
+        }
     }
 }
