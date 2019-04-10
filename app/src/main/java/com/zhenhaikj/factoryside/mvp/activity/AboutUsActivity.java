@@ -86,6 +86,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mTvOpinion.setOnClickListener(this);
+        mTvUserAgreement.setOnClickListener(this);
     }
 
 
@@ -105,6 +106,13 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.tv_opinion:
                 startActivity(new Intent(mActivity,OpinionActivity.class));
+                break;
+            case R.id.tv_user_Agreement:
+                Intent intent=new Intent(mActivity,WebActivity.class);
+                intent.putExtra("Url","http://47.96.126.145:8080/Agreement");
+                intent.putExtra("title","用户协议");
+                startActivity(intent);
+                break;
         }
     }
 

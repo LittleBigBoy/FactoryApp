@@ -23,6 +23,8 @@ import com.tencent.android.tpush.XGPushManager;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -101,6 +103,15 @@ public class MyApplication extends MultiDexApplication {
         // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
         // 调试时，将第三个参数改为true
         Bugly.init(this, "f916d84816", true);
+
+        UMConfigure.init(this,"5cac29a83fc195f908001564"
+                ,"umeng", UMConfigure.DEVICE_TYPE_PHONE,"");//58edcfeb310c93091c000be2 5965ee00734be40b580001a0
+        //微信
+        PlatformConfig.setWeixin("wxd6509c9c912f0015", "dac072c98881a324665bfbaa7f7e7c76");
+        //新浪
+        PlatformConfig.setSinaWeibo("3639937394", "18ba4336bf8cae28d71360ac264065f2","http://sns.whalecloud.com");
+        //QQ
+        PlatformConfig.setQQZone("1108693935", "U3MEougrEC2VG3r6");
     }
 
     /**

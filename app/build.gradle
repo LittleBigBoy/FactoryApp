@@ -171,11 +171,12 @@ dependencies {
     implementation project(':core')
     implementation project(':uiasr')
     implementation project(':uidialog')
+
     //基础工具库
-    implementation "com.github.vondear.RxTool:RxKit:v2.2.7"
+    implementation 'com.github.vondear.RxTool:RxKit:v2.2.7'
 
     //UI库
-    implementation "com.github.vondear.RxTool:RxUI:v2.2.7"
+    implementation 'com.github.vondear.RxTool:RxUI:v2.2.7'
 
     //头像裁剪
     implementation 'com.yalantis:ucrop:1.4.1'
@@ -185,4 +186,11 @@ dependencies {
 
     //扫描条形码
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
+    implementation files('libs/umeng-common-2.0.2.jar')
+    implementation files('libs/umeng-share-core-6.9.4.jar')
+    implementation files('libs/umeng-share-QQ-simplify-6.9.4.jar')
+    implementation files('libs/umeng-share-sina-simplify-6.9.4.jar')
+    implementation files('libs/umeng-share-wechat-simplify-6.9.4.jar')
+    implementation files('libs/umeng-shareboard-widget-6.9.4.jar')
+    implementation files('libs/umeng-sharetool-6.9.4.jar')
 }

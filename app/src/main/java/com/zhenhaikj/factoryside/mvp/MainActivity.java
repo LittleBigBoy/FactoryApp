@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.umeng.socialize.UMShareAPI;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.fragment.AllWorkOrdersFragment;
@@ -18,6 +19,8 @@ import com.zhenhaikj.factoryside.mvp.fragment.HomeFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.MineFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.NewsFragment;
 import com.zhenhaikj.factoryside.mvp.widget.CustomViewPager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -244,5 +247,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        UMShareAPI.get(this).release();
     }
 }
