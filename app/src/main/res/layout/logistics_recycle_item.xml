@@ -7,18 +7,11 @@
 
     <!--左边 时间-->
     <LinearLayout
-        android:layout_width="85dp"
+        android:layout_width="60dp"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="06-01"
-            android:textColor="#858585"
-            android:textSize="15sp" />
+
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
@@ -26,7 +19,8 @@
             android:gravity="center"
             android:text="14:29"
             android:textColor="#CCCCCC"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <!--中间 时间轴-->
@@ -44,25 +38,40 @@
             android:id="@+id/iv_status"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:background="@drawable/blue_dot"
+            android:background="@drawable/red_bot"
             android:layout_centerInParent="true" />
 
 
     </RelativeLayout>
 
-    <!--右边 信息-->
-    <TextView
-        android:id="@+id/tv_status"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/rl_left"
-        android:autoLink="email|phone|web"
-        android:textSize="13sp"
-        android:text="正在派送途中,请您准备签收(派件人:张小建,电话:18513394441)"
-        android:textColor="#808080" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="5dp"
+            android:text="06-01"
+            android:textColor="#858585"
+            android:textSize="15sp" />
+        <!--右边 信息-->
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:autoLink="email|phone|web"
+            android:textSize="13sp"
+            android:text="正在派送途中,请您准备签收(派件人:张小建,电话:18513394441)"
+            android:textColor="#808080"
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+
+
 
     <TextView
         android:layout_width="match_parent"

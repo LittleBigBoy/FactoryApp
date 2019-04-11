@@ -1,5 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,9 +11,8 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.adapter.MyPagerAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
@@ -25,7 +26,15 @@ import com.zhenhaikj.factoryside.mvp.fragment.ShippingFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.TrackFragment;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
-import com.zhenhaikj.factoryside.mvp.widget.CustomViewPager;
+
+import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,16 +156,21 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
     @BindView(R.id.ll_warranty)
     ScrollView mLlWarranty;
     @BindView(R.id.wp_warranty)
-    CustomViewPager mWpWarranty;
+    ViewPager mWpWarranty;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.work_order_detail_tv)
     TextView mWorkOrderDetailTv;
+    @BindView(R.id.magic_indicator)
+    MagicIndicator mMagicIndicator;
     private String OrderId;
     private WorkOrder.DataBean data;
 
     private ArrayList<Fragment> mFragments;
-
+    private CommonNavigator commonNavigator;
+    private String[] mTitleDataList = new String[]{
+            "详情","留言", "工单跟踪", "寄件物流", "返件物流"
+    };
 
     @Override
     protected int setLayoutId() {
@@ -192,13 +206,51 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
 //                mRefreshLayout.finishRefresh(3000);
 //            }
 //        });
+        mWpWarranty.setOffscreenPageLimit(mTitleDataList.length);
+        mWpWarranty.setAdapter(new MyPagerAdapter(getSupportFragmentManager(),mTitleDataList,mFragments));
+        commonNavigator = new CommonNavigator(mActivity);
+        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
+
+            @Override
+            public int getCount() {
+                return mTitleDataList == null ? 0 : mTitleDataList.length;
+            }
+
+            @Override
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
+                colorTransitionPagerTitleView.setNormalColor(Color.BLACK);
+                colorTransitionPagerTitleView.setSelectedColor(Color.RED);
+                colorTransitionPagerTitleView.setText(mTitleDataList[index]);
+                colorTransitionPagerTitleView.setTextSize(18);
+                colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mWpWarranty.setCurrentItem(index);
+//                        mTitle.setText(mTitleDataList[index]);
+                    }
+                });
+                return colorTransitionPagerTitleView;
+            }
+
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                LinePagerIndicator indicator = new LinePagerIndicator(context);
+                indicator.setMode(LinePagerIndicator.MODE_WRAP_CONTENT);
+                indicator.setColors(Color.RED);
+                return indicator;
+            }
+        });
+        mMagicIndicator.setBackgroundColor(Color.WHITE);
+        mMagicIndicator.setNavigator(commonNavigator);
+
+        ViewPagerHelper.bind(mMagicIndicator, mWpWarranty);
     }
 
     @Override
     protected void initView() {
         mWpWarranty.setAdapter(new MyAdapter(getSupportFragmentManager()));
         mWpWarranty.setOffscreenPageLimit(mFragments.size());
-        mWpWarranty.setScroll(false);
 
         mWpWarranty.setCurrentItem(0);
         tabSelected(mWorkOrderDetailTv);

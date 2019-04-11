@@ -16,6 +16,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Message;
 import com.zhenhaikj.factoryside.mvp.bean.MessageData;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
+import com.zhenhaikj.factoryside.mvp.bean.Track;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 
@@ -571,11 +572,15 @@ public interface ApiService {
                                                                             @Field("limit") String limit,
                                                                             @Field("page") String page);
 
-
+    /*意见反馈*/
     @FormUrlEncoded
     @POST("Account/AddOpinion")
     Observable<BaseResult<Data<String>>> AddOpinion(@Field("UserID") String UserID,
                                                     @Field("BackType") String BackType,
                                                     @Field("Content") String Content);
 
+    /*工单跟踪*/
+    @FormUrlEncoded
+    @POST("Order/GetOrderRecordByOrderID")
+    Observable<BaseResult<List<Track>>> GetOrderRecordByOrderID(@Field("OrderID") String OrderID);
 }

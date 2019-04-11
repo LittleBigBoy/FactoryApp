@@ -9,13 +9,17 @@
     <include layout="@layout/toolbar" />
 
 
-
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/magic_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="#F25037"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:visibility="gone">
         <TextView
             android:id="@+id/work_order_detail_tv"
             android:layout_width="wrap_content"
@@ -98,7 +102,7 @@
             android:textSize="16sp" />
     </LinearLayout>
 
-    <com.zhenhaikj.factoryside.mvp.widget.CustomViewPager
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
