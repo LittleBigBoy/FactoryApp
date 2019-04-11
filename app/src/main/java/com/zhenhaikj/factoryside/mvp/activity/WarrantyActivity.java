@@ -19,6 +19,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.fragment.MessageFragment;
+import com.zhenhaikj.factoryside.mvp.fragment.OrderDetailFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.ReturnFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.ShippingFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.TrackFragment;
@@ -149,6 +150,8 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
     CustomViewPager mWpWarranty;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.work_order_detail_tv)
+    TextView mWorkOrderDetailTv;
     private String OrderId;
     private WorkOrder.DataBean data;
 
@@ -171,23 +174,24 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
 
     @Override
     protected void initData() {
-        mTvTitle.setText("质保单详情");
+        mTvTitle.setText("工单详情");
         mTvTitle.setVisibility(View.VISIBLE);
         OrderId = getIntent().getStringExtra("OrderID");
 
         mFragments = new ArrayList<>();
-        mFragments.add(MessageFragment.newInstance("", ""));
-        mFragments.add(TrackFragment.newInstance("", ""));
-        mFragments.add(ShippingFragment.newInstance("", ""));
-        mFragments.add(ReturnFragment.newInstance("", ""));
-        mPresenter.GetOrderInfo(OrderId);
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                mPresenter.GetOrderInfo(OrderId);
-                mRefreshLayout.finishRefresh(3000);
-            }
-        });
+        mFragments.add(OrderDetailFragment.newInstance(OrderId, ""));
+        mFragments.add(MessageFragment.newInstance(OrderId, ""));
+        mFragments.add(TrackFragment.newInstance(OrderId, ""));
+        mFragments.add(ShippingFragment.newInstance(OrderId, ""));
+        mFragments.add(ReturnFragment.newInstance(OrderId, ""));
+//        mPresenter.GetOrderInfo(OrderId);
+//        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+//            @Override
+//            public void onRefresh(RefreshLayout refreshlayout) {
+//                mPresenter.GetOrderInfo(OrderId);
+//                mRefreshLayout.finishRefresh(3000);
+//            }
+//        });
     }
 
     @Override
@@ -195,11 +199,15 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
         mWpWarranty.setAdapter(new MyAdapter(getSupportFragmentManager()));
         mWpWarranty.setOffscreenPageLimit(mFragments.size());
         mWpWarranty.setScroll(false);
+
+        mWpWarranty.setCurrentItem(0);
+        tabSelected(mWorkOrderDetailTv);
     }
 
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mWorkOrderDetailTv.setOnClickListener(this);
         mMessageTv.setOnClickListener(this);
         mWorkOrderTrackingTv.setOnClickListener(this);
         mShippingLogisticsTv.setOnClickListener(this);
@@ -219,31 +227,24 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
             case R.id.icon_back:
                 finish();
                 break;
-            case R.id.icon_search:
-                finish();
+            case R.id.work_order_detail_tv:
+                mWpWarranty.setCurrentItem(0);
+                tabSelected(mWorkOrderDetailTv);
                 break;
             case R.id.message_tv:
-                mLlWarranty.setVisibility(View.GONE);
-                mWpWarranty.setVisibility(View.VISIBLE);
-                mWpWarranty.setCurrentItem(0);
+                mWpWarranty.setCurrentItem(1);
                 tabSelected(mMessageTv);
                 break;
             case R.id.work_order_tracking_tv:
-                mLlWarranty.setVisibility(View.GONE);
-                mWpWarranty.setVisibility(View.VISIBLE);
-                mWpWarranty.setCurrentItem(1);
+                mWpWarranty.setCurrentItem(2);
                 tabSelected(mWorkOrderTrackingTv);
                 break;
             case R.id.shipping_logistics_tv:
-                mLlWarranty.setVisibility(View.GONE);
-                mWpWarranty.setVisibility(View.VISIBLE);
-                mWpWarranty.setCurrentItem(2);
+                mWpWarranty.setCurrentItem(3);
                 tabSelected(mShippingLogisticsTv);
                 break;
             case R.id.return_logistics_tv:
-                mLlWarranty.setVisibility(View.GONE);
-                mWpWarranty.setVisibility(View.VISIBLE);
-                mWpWarranty.setCurrentItem(3);
+                mWpWarranty.setCurrentItem(4);
                 tabSelected(mReturnLogisticsTv);
                 break;
         }
@@ -251,6 +252,7 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
 
 
     private void tabSelected(TextView textView) {
+        mWorkOrderDetailTv.setSelected(false);
         mMessageTv.setSelected(false);
         mWorkOrderTrackingTv.setSelected(false);
         mShippingLogisticsTv.setSelected(false);
@@ -274,15 +276,18 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
     public void onPageSelected(int position) {
         switch (position) {
             case 0:
-                tabSelected(mMessageTv);
+                tabSelected(mWorkOrderDetailTv);
                 break;
             case 1:
-                tabSelected(mWorkOrderTrackingTv);
+                tabSelected(mMessageTv);
                 break;
             case 2:
-                tabSelected(mShippingLogisticsTv);
+                tabSelected(mWorkOrderTrackingTv);
                 break;
             case 3:
+                tabSelected(mShippingLogisticsTv);
+                break;
+            case 4:
                 tabSelected(mReturnLogisticsTv);
                 break;
         }

@@ -16,10 +16,21 @@
         android:background="#F25037"
         android:orientation="horizontal"
         android:gravity="center">
-
+        <TextView
+            android:id="@+id/work_order_detail_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:background="@drawable/warranty_background_selector"
+            android:gravity="center"
+            android:text="详   情"
+            android:textColor="@drawable/warranty_textcolor_selector"
+            android:textSize="16sp" />
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
             android:gravity="center">
 
             <TextView
@@ -91,9 +102,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:id="@+id/wp_warranty"
-        android:visibility="gone"/>
+        android:id="@+id/wp_warranty"/>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:visibility="gone"
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

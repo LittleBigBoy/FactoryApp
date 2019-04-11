@@ -270,15 +270,15 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 //                            intent.putExtra("OrderID",workOrderList.get(position).getOrderID());
 //                            startActivity(intent);
 //                        }
-                        if (mParam1=="质保单"){
+//                        if (mParam1=="质保单"){
                             Intent intent1=new Intent(mActivity, WarrantyActivity.class);
                             intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
                             startActivity(intent1);
-                        }else{
-                            Intent intent1=new Intent(mActivity, AccessoriesListActivity.class);
-                            intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
-                            startActivity(intent1);
-                        }
+//                        }else{
+//                            Intent intent1=new Intent(mActivity, AccessoriesListActivity.class);
+//                            intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
+//                            startActivity(intent1);
+//                        }
                         break;
                     case R.id.iv_copy:
                          String id=workOrderList.get(position).getOrderID();
