@@ -158,6 +158,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private View btn_share_two;
     private ShareAction mShareAction;
     private CustomShareListener mShareListener;
+    private SPUtils spUtils;
+    private String userID;
 
 
     public MineFragment() {
@@ -230,9 +232,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                             Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
 
                         } else {
-                            UMWeb web = new UMWeb("http://www.jmiren.com/");
+                            UMWeb web = new UMWeb("http://47.96.126.145:8080/sign?phone="+ userID);
                             web.setTitle("西瓜鱼");
-                            web.setDescription("分享测试测试测试");
+                            web.setDescription("注册送西瓜币了！！！！");
                             web.setThumb(new UMImage(mActivity, R.drawable.icon));
                             new ShareAction(mActivity).withMedia(web)
                                     .setPlatform(share_media)
@@ -241,7 +243,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                         }
                     }
                 });
-
+        spUtils = SPUtils.getInstance("token");
+        userID = spUtils.getString("userName");
 
     }
 
