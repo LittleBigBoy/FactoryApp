@@ -479,16 +479,19 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 }).show();
                 break;
             case R.id.tv_pass:
-                if ("1".equals(IsReturn)) {
-                    if ("".equals(AddressBack)) {
-                        MyUtils.showToast(mActivity, "请添加旧件寄送地址");
-                        return;
+                if (!"2".equals(data.getTypeID())){
+                    if ("1".equals(IsReturn)) {
+                        if ("".equals(AddressBack)) {
+                            MyUtils.showToast(mActivity, "请添加旧件寄送地址");
+                            return;
+                        } else {
+                            mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+                        }
                     } else {
                         mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
                     }
-                } else {
-                    mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
                 }
+
                 if ("0".equals(data.getAccessoryState())) {
                     expressno_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_add_expressno, null);
                     btn_negtive = expressno_view.findViewById(R.id.negtive);
@@ -803,6 +806,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/FinishOrder/" + data.getOrderImg().get(1).getUrl()).into(mIvMachine);
                         Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/FinishOrder/" + data.getOrderImg().get(2).getUrl()).into(mIvFaultLocation);
                         Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/FinishOrder/" + data.getOrderImg().get(3).getUrl()).into(mIvNewAndOldAccessories);
+                        mLlOldAccessory.setVisibility(View.GONE);
                     }
                 } else {
                     mLlReturnInformation.setVisibility(View.GONE);
