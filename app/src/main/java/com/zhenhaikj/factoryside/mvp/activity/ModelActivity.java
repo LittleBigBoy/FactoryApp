@@ -85,8 +85,8 @@ public class ModelActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.iv_delete:
-//                        FProductTypeID = productTypeList.get(position).getFProductTypeID();
-//                        mPresenter.DeleteFactoryProducttype(FProductTypeID);
+                        FProductTypeID = productTypeList.get(position).getFCategoryID();
+                        mPresenter.DeleteFactoryProducttype(FProductTypeID);
                         break;
                     case R.id.rl_brand:
 
