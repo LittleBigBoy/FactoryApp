@@ -19,13 +19,11 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vondear.rxui.view.dialog.RxDialogScaleView;
 import com.zhenhaikj.factoryside.R;
-import com.zhenhaikj.factoryside.mvp.activity.AccessoriesListActivity;
 import com.zhenhaikj.factoryside.mvp.activity.ScanActivity;
 import com.zhenhaikj.factoryside.mvp.activity.ShippingAddressActivity;
 import com.zhenhaikj.factoryside.mvp.adapter.AccessoryDetailAdapter;
@@ -41,9 +39,6 @@ import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -52,12 +47,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresenter, WorkOrdersDetailModel> implements View.OnClickListener, WorkOrdersDetailContract.View{
+public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresenter, WorkOrdersDetailModel> implements View.OnClickListener, WorkOrdersDetailContract.View {
 
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
+    @BindView(R.id.tv_beyond_money)
+    TextView mTvBeyondMoney;
+    @BindView(R.id.tv_accessory_money)
+    TextView mTvAccessoryMoney;
+    @BindView(R.id.tv_service_money)
+    TextView mTvServiceMoney;
+    @BindView(R.id.tv_order_money)
+    TextView mTvOrderMoney;
 
     private String mParam1;
     private String mParam2;
@@ -257,6 +259,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_accessories_list;
@@ -277,7 +280,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         mView.setVisibility(View.GONE);
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("订单详情");
-        OrderID =mParam1;
+        OrderID = mParam1;
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
         mPresenter.GetOrderInfo(OrderID);
@@ -300,6 +303,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         IsReturn = "1";
         PostPayType = "1";
     }
+
     public void scaleview(String url) {
         simpleTarget = new SimpleTarget<Bitmap>() {
             @Override
@@ -316,6 +320,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 .load(url)
                 .into(simpleTarget);
     }
+
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
@@ -346,7 +351,6 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     }
 
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -370,10 +374,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 }).show();
                 break;
             case R.id.negtive:
-                mPresenter.FactoryEnsureOrder(OrderID,"888888");
+                mPresenter.FactoryEnsureOrder(OrderID, "888888");
                 break;
             case R.id.positive:
-                mPresenter.EnSureOrder(OrderID,"888888");
+                mPresenter.EnSureOrder(OrderID, "888888");
                 break;
             case R.id.iv_bar_code:
                 scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(0).getUrl());
@@ -479,7 +483,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 }).show();
                 break;
             case R.id.tv_pass:
-                if (!"2".equals(data.getTypeID())){
+                if (!"2".equals(data.getTypeID())) {
                     if ("1".equals(IsReturn)) {
                         if ("".equals(AddressBack)) {
                             MyUtils.showToast(mActivity, "请添加旧件寄送地址");
@@ -640,6 +644,12 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 data = baseResult.getData();
                 mTvOrderState.setText(data.getState());
                 mTvName.setText(data.getUserName());
+
+                mTvBeyondMoney.setText("￥" + data.getBeyondMoney() + "");
+                mTvAccessoryMoney.setText("￥" + data.getAccessoryMoney());
+                mTvServiceMoney.setText("￥" + data.getServiceMoney());
+                mTvOrderMoney.setText("￥" + data.getOrderMoney() + "");
+
                 mTvAccessoryMemo.setText("备注：" + data.getAccessoryMemo());
                 mTvAccessorySequency.setText("寄件类型：" + data.getAccessorySequencyStr());
                 mTvPhone.setText(data.getPhone());
@@ -780,23 +790,27 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     mIvRangeOne.setVisibility(View.GONE);
                     mIvRangeTwo.setVisibility(View.GONE);
                 }
-                if ("服务完成".equals(data.getState())||"待评价".equals(data.getState())||"已完成".equals(data.getState())) {
-                    if ("已完成".equals(data.getState())){
+                if ("服务完成".equals(data.getState()) || "待评价".equals(data.getState()) || "已完成".equals(data.getState())) {
+                    if ("已完成".equals(data.getState())) {
                         mLlApplyCustomService.setVisibility(View.VISIBLE);
-                    }else{
+                    } else {
                         mLlApplyCustomService.setVisibility(View.GONE);
                     }
-                    if ("服务完成".equals(data.getState())){
-                        if ("".equals(data.getReturnAccessoryMsg())||data.getReturnAccessoryMsg()==null){
-                            mLlConfirm.setVisibility(View.GONE);
-                        }else{
+                    if ("服务完成".equals(data.getState())) {
+                        if ("1".equals(data.getIsReturn())) {
+                            if ("".equals(data.getReturnAccessoryMsg()) || data.getReturnAccessoryMsg() == null) {
+                                mLlConfirm.setVisibility(View.GONE);
+                            } else {
+                                mLlConfirm.setVisibility(View.VISIBLE);
+                            }
+                        } else {
                             mLlConfirm.setVisibility(View.VISIBLE);
                         }
-                    }else{
+                    } else {
                         mLlConfirm.setVisibility(View.GONE);
                     }
                     mLlReturnInformation.setVisibility(View.VISIBLE);
-                    if ("1".equals(data.getTypeID())||"3".equals(data.getTypeID())) {//维修
+                    if ("1".equals(data.getTypeID()) || "3".equals(data.getTypeID())) {//维修
                         Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(0).getUrl()).into(mIvBarCode);
                         Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(1).getUrl()).into(mIvMachine);
                         Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(2).getUrl()).into(mIvFaultLocation);
@@ -813,8 +827,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     mLlApplyCustomService.setVisibility(View.GONE);
                     mLlConfirm.setVisibility(View.GONE);
                 }
-                if (data.getSendOrderList().size()!=0){
-                    mTvSelectTime.setText(data.getSendOrderList().get(0).getServiceDate()+"-"+data.getSendOrderList().get(0).getServiceDate2());
+                if (data.getSendOrderList().size() != 0) {
+                    mTvSelectTime.setText(data.getSendOrderList().get(0).getServiceDate() + "-" + data.getSendOrderList().get(0).getServiceDate2());
                 }
                 break;
             case 401:
@@ -978,6 +992,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 break;
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
