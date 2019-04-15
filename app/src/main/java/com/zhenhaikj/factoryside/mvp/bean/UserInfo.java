@@ -53,9 +53,9 @@ public class UserInfo implements Serializable {
          * CreateDate : 2019-02-21T05:17:47.560Z
          * LastLoginDate : 2019-02-21T05:17:47.560Z
          * LoginCount : 0
-         * RemainMoney : 0
-         * TotalMoney : 0
-         * FrozenMoney : 0
+         * RemainMoney : 0  保持金钱
+         * TotalMoney : 0   总钱
+         * FrozenMoney : 0  冻结的钱
          * Type : string
          * TopRank : string
          * IsUse : string
@@ -71,8 +71,8 @@ public class UserInfo implements Serializable {
          * CityCode : string
          * AreaCode : string
          * Address : string
-         * DepositMoney : 0
-         * DepositFrozenMoney : 0
+         * DepositMoney : 0  存钱
+         * DepositFrozenMoney : 0  存入冻结的钱
          * Skills : string
          * IfAuth : string
          * AuthMessage : string

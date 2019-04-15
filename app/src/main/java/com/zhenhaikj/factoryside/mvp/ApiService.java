@@ -5,6 +5,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Accessory;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
+import com.zhenhaikj.factoryside.mvp.bean.Bill;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
@@ -306,6 +307,12 @@ public interface ApiService {
     Observable<BaseResult<UserInfo>> GetUserInfoList(@Field("UserID") String UserID,
                                                      @Field("limit") String limit);
 
+
+    /*获取用户账单*/
+    @FormUrlEncoded
+    @POST("Account/AccountBill")
+    Observable<BaseResult<Data<Bill>>> AccountBill(@Field("UserID") String UserID,
+                                                   @Field("state") String state);
 
     /*修改昵称*/
     @FormUrlEncoded

@@ -21,7 +21,9 @@ public class TrackAdapter extends BaseQuickAdapter<Track, LayoutParamsViewHolder
 
     @Override
     protected void convert(LayoutParamsViewHolder helper, Track item) {
-        helper.setText(R.id.tv_date,item.getCreateDate())
+        StringBuilder stringBuilder = new StringBuilder(item.getCreateDate());
+        String time = "" + stringBuilder.replace(10, 11, " "); //去掉T
+        helper.setText(R.id.tv_date,time)
         .setText(R.id.tv_status,item.getStateName());
         int position=helper.getAdapterPosition();
         if (position==0){

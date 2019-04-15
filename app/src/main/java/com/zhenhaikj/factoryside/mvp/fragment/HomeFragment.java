@@ -76,12 +76,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     private Integer[] icons = new Integer[]{
             R.mipmap.installation, R.mipmap.home_maintenance, R.mipmap.customer_service_order, R.mipmap.batch_order,
-            R.drawable.waiting_order,R.drawable.waiting_order, R.drawable.return_order_processing, R.drawable.finished, R.drawable.accessory_list, R.drawable.to_be_paid,
-            R.drawable.remote_bill, R.drawable.warranty, R.drawable.undone, R.drawable.cost_change, R.drawable.leave_a_message
+            R.drawable.cost_change, R.drawable.waiting_order,R.drawable.waiting_order, R.drawable.return_order_processing, R.drawable.finished, R.drawable.accessory_list, R.drawable.to_be_paid,
+            R.drawable.remote_bill, R.drawable.warranty, R.drawable.undone,  R.drawable.leave_a_message
     };
     private String[] names = new String[]{
             "上门安装", "上门维修", "客户送修单", "批量发单",
-            "待接单","待审核", "待支付", "已完成", "质保单","所有工单","退单处理"
+            "所有工单","待接单","待审核", "待支付", "已完成", "质保单","退单处理"
     };
     private MenuAdapter2 mMainAdapter;
     private MenuAdapter mCommonAdapter;
