@@ -26,18 +26,34 @@
                 android:layout_height="30dp"
                 android:src="@drawable/xiaoxi" />
         </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="工单消息"
-            android:textColor="#6a6a6a"
-            android:textSize="16sp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"/>
-        <TextView
+        <LinearLayout
+            android:id="@+id/ll_workmessage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="工单消息"
+                android:textColor="#333"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_work_order_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="您的最新的工单状态在这里展示....."
+                android:textColor="#808080"
+                android:textSize="12sp" />
+        </LinearLayout>
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
@@ -68,18 +84,35 @@
                 android:layout_height="30dp"
                 android:src="@drawable/jiaoyi" />
         </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="交易消息"
-            android:textColor="#6a6a6a"
-            android:textSize="16sp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"/>
-        <TextView
+        <LinearLayout
+            android:id="@+id/ll_transactionmessage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="交易信息"
+                android:textColor="#333"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_trading_information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="交易、充值、提现、扣款等消息展示在这里...... "
+                android:textColor="#808080"
+                android:textSize="12sp" />
+        </LinearLayout>
+
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
@@ -109,18 +142,32 @@
                 android:layout_height="30dp"
                 android:src="@drawable/xitong" />
         </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="系统消息"
-            android:textColor="#6a6a6a"
-            android:textSize="16sp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"/>
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="系统消息"
+                android:textColor="#333"
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:id="@+id/tv_system_information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="系统推送的消息..."
+                android:textColor="#808080"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"/>
+        </LinearLayout>
+
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"

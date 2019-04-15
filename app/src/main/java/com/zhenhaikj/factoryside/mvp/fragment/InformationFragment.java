@@ -2,21 +2,35 @@ package com.zhenhaikj.factoryside.mvp.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.activity.ArticleActivity;
 import com.zhenhaikj.factoryside.mvp.activity.OrderMessageActivity;
 import com.zhenhaikj.factoryside.mvp.activity.TransactionMessageActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
+import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Article;
+import com.zhenhaikj.factoryside.mvp.bean.Message;
+import com.zhenhaikj.factoryside.mvp.bean.MessageData;
+import com.zhenhaikj.factoryside.mvp.contract.ArticleContract;
+import com.zhenhaikj.factoryside.mvp.model.ArticleModel;
+import com.zhenhaikj.factoryside.mvp.presenter.ArticlePresenter;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.BindView;
+import java.util.List;
 
-public class InformationFragment extends BaseLazyFragment implements View.OnClickListener {
+import butterknife.BindView;
+import q.rorbin.badgeview.QBadgeView;
+
+public class InformationFragment extends BaseLazyFragment<ArticlePresenter, ArticleModel> implements View.OnClickListener, ArticleContract.View {
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
     @BindView(R.id.ll_work_order_message)
@@ -25,9 +39,23 @@ public class InformationFragment extends BaseLazyFragment implements View.OnClic
     LinearLayout mLlTransactionNews;
     @BindView(R.id.ll_announcement)
     LinearLayout mLlAnnouncement;
-
+    @BindView(R.id.tv_work_order_message)
+    TextView mTvWorkOrderMessage;
+    @BindView(R.id.ll_workmessage)
+    LinearLayout mLlWorkmessage;
+    @BindView(R.id.tv_trading_information)
+    TextView mTvTradingInformation;
+    @BindView(R.id.ll_transactionmessage)
+    LinearLayout mLlTransactionmessage;
+    @BindView(R.id.tv_system_information)
+    TextView mTvSystemInformation;
+    private QBadgeView workqBadgeView;
+    private QBadgeView transactionqBadgeView;
     private String mParam1;
     private String mParam2;
+
+    private SPUtils spUtils = SPUtils.getInstance("token");
+    private String userId= spUtils.getString("userName");
 
     public static InformationFragment newInstance(String param1, String param2) {
         InformationFragment fragment = new InformationFragment();
@@ -45,6 +73,7 @@ public class InformationFragment extends BaseLazyFragment implements View.OnClic
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -54,7 +83,18 @@ public class InformationFragment extends BaseLazyFragment implements View.OnClic
 
     @Override
     protected void initData() {
+        workqBadgeView = new QBadgeView(mActivity);
+        workqBadgeView.bindTarget(mLlWorkmessage);
+        workqBadgeView.setBadgeGravity(Gravity.CENTER | Gravity.END);
 
+
+        transactionqBadgeView = new QBadgeView(mActivity);
+        transactionqBadgeView.bindTarget(mLlTransactionmessage);
+        transactionqBadgeView.setBadgeGravity(Gravity.CENTER | Gravity.END);
+
+
+        mPresenter.GetOrderMessageList(userId, "0", "99", "1");
+        mPresenter.GetTransactionMessageList(userId, "0", "99", "1");
     }
 
     @Override
@@ -71,16 +111,24 @@ public class InformationFragment extends BaseLazyFragment implements View.OnClic
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
+        switch (name) {
+            case "transaction_num":
+                mPresenter.GetTransactionMessageList(userId, "0", "99", "1");
+                break;
+            case "order_num":
+                mPresenter.GetOrderMessageList(userId, "0", "99", "1");
+                break;
+        }
 
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_announcement:
                 Intent intent = new Intent(mActivity, ArticleActivity.class);
-                intent.putExtra("CategoryId","3");
-                intent.putExtra("title","系统消息");
+                intent.putExtra("CategoryId", "3");
+                intent.putExtra("title", "系统消息");
                 startActivity(intent);
                 break;
             case R.id.ll_work_order_message:
@@ -90,5 +138,56 @@ public class InformationFragment extends BaseLazyFragment implements View.OnClic
                 startActivity(new Intent(getActivity(), TransactionMessageActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void GetListCategoryContentByCategoryID(BaseResult<Article> baseResult) {
+
+    }
+
+    @Override
+    public void GetOrderMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().getCount()==0){
+                    workqBadgeView.setVisibility(View.INVISIBLE);
+                    return;
+                }else if (baseResult.getData().getCount()>=99){
+                    workqBadgeView.setVisibility(View.VISIBLE);
+                    workqBadgeView.setBadgeNumber(99);
+                }else {
+                    workqBadgeView.setVisibility(View.VISIBLE);
+                    workqBadgeView.setBadgeNumber(baseResult.getData().getCount());
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void GetTransactionMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().getCount()==0){
+                    transactionqBadgeView.setVisibility(View.INVISIBLE);
+                    return;
+                }else if (baseResult.getData().getCount()>=99){
+                    transactionqBadgeView.setVisibility(View.VISIBLE);
+                    transactionqBadgeView.setBadgeNumber(99);
+                }else {
+                    transactionqBadgeView.setVisibility(View.VISIBLE);
+                    transactionqBadgeView.setBadgeNumber(baseResult.getData().getCount());
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

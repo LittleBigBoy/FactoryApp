@@ -20,7 +20,7 @@ public class Message implements Serializable {
      */
 
     private int Id;
-    private int MessageID;
+    private String MessageID;
     private String UserID;
     private String Nowtime;
     private String Content;
@@ -30,6 +30,7 @@ public class Message implements Serializable {
     private int page;
     private int limit;
     private int Version;
+    private String IsLook;
 
     public int getId() {
         return Id;
@@ -39,12 +40,12 @@ public class Message implements Serializable {
         this.Id = Id;
     }
 
-    public int getMessageID() {
+    public String getMessageID() {
         return MessageID;
     }
 
-    public void setMessageID(int MessageID) {
-        this.MessageID = MessageID;
+    public void setMessageID(String messageID) {
+        MessageID = messageID;
     }
 
     public String getUserID() {
@@ -117,5 +118,13 @@ public class Message implements Serializable {
 
     public void setVersion(int Version) {
         this.Version = Version;
+    }
+
+    public String getIsLook() {
+        return IsLook;
+    }
+
+    public void setIsLook(String isLook) {
+        IsLook = isLook;
     }
 }

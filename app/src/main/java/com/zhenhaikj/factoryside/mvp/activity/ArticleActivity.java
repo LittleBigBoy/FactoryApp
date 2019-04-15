@@ -12,6 +12,8 @@ import com.zhenhaikj.factoryside.mvp.adapter.ArticleAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
+import com.zhenhaikj.factoryside.mvp.bean.Message;
+import com.zhenhaikj.factoryside.mvp.bean.MessageData;
 import com.zhenhaikj.factoryside.mvp.contract.ArticleContract;
 import com.zhenhaikj.factoryside.mvp.model.ArticleModel;
 import com.zhenhaikj.factoryside.mvp.presenter.ArticlePresenter;
@@ -97,6 +99,16 @@ public class ArticleActivity extends BaseActivity<ArticlePresenter, ArticleModel
             case 401:
                 break;
         }
+    }
+
+    @Override
+    public void GetOrderMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
+
+    }
+
+    @Override
+    public void GetTransactionMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
+
     }
 
     @Override

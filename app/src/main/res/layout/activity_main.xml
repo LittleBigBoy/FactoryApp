@@ -59,7 +59,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/img_message_invisible"
+                    android:layout_width="40dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"
+                    android:gravity="center" />
                 <ImageView
                     android:id="@+id/img_message"
                     android:layout_width="25dp"
@@ -67,7 +76,7 @@
                     android:layout_gravity="center"
                     android:background="@drawable/tab_menu_message"
                     android:gravity="center" />
-
+                </FrameLayout>
                 <TextView
                     android:id="@+id/tv_message"
                     android:layout_width="wrap_content"

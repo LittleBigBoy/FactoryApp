@@ -571,13 +571,23 @@ public interface ApiService {
 
     /*获取消息*/
 
+    /*获取个人消息  1.交易消息类型  2.订单消息类型*/
     @FormUrlEncoded
     @POST("Cms/GetListmessageByType")
-    Observable<BaseResult<MessageData<List<Message>>>> GetListmessageByType(@Field("UserID") String UserID,
-                                                                            @Field("Type") String Type,
-                                                                            @Field("SubType") String SubType,
-                                                                            @Field("limit") String limit,
-                                                                            @Field("page") String page);
+    Observable<BaseResult<MessageData<List<Message>>>> GetMessageList(@Field("UserID") String UserID,
+                                                                      @Field("Type") String Type,
+                                                                      @Field("SubType") String SubType,
+                                                                      @Field("limit") String limit,
+                                                                      @Field("page") String page,
+                                                                      @Field("IsLook") String IsLook);
+
+
+    /*更新消息状态点击后*/
+    @FormUrlEncoded
+    @POST("Cms/AddOrUpdatemessage")
+    Observable<BaseResult<Data<String>>> AddOrUpdatemessage(@Field("MessageID") String MessageID,
+                                                            @Field("IsLook") String IsLook);
+
 
     /*意见反馈*/
     @FormUrlEncoded

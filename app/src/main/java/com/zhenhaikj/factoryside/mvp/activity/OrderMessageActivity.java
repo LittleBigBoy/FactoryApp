@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -15,11 +16,14 @@ import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.MessageAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.Message;
 import com.zhenhaikj.factoryside.mvp.bean.MessageData;
 import com.zhenhaikj.factoryside.mvp.contract.MessageContract;
 import com.zhenhaikj.factoryside.mvp.model.MessageModel;
 import com.zhenhaikj.factoryside.mvp.presenter.MessagePresenter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +76,9 @@ public class OrderMessageActivity extends BaseActivity<MessagePresenter, Message
     private String userId;
 
     private ArrayList<Message> messagesList = new ArrayList<>();
+    private ArrayList<Message> readList = new ArrayList<>();
     private MessageAdapter messageAdapter;
+    private MessageAdapter messagereadAdapter;
 
     @Override
     protected int setLayoutId() {
@@ -85,11 +91,18 @@ public class OrderMessageActivity extends BaseActivity<MessagePresenter, Message
         messageAdapter = new MessageAdapter(R.layout.item_message, messagesList);
         mRvOrdermessage.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvOrdermessage.setAdapter(messageAdapter);
+        mRvOrdermessage.setHasFixedSize(true);
+        mRvOrdermessage.setNestedScrollingEnabled(false);
 
-
+        messagereadAdapter =new MessageAdapter(R.layout.item_message,readList);
+        mRvOrdermessageHistorical.setNestedScrollingEnabled(false);
+        mRvOrdermessageHistorical.setHasFixedSize(true);
+        mRvOrdermessageHistorical.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRvOrdermessageHistorical.setAdapter(messagereadAdapter);
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
-        mPresenter.GetListmessageByType(userId, "2", "0", "10", "1");
+        mPresenter.GetMessageList(userId, "2", "0", "999", "1");
+        mPresenter.GetReadMessageList(userId,"2","0","999","1");
     }
 
     @Override
@@ -111,7 +124,7 @@ public class OrderMessageActivity extends BaseActivity<MessagePresenter, Message
                 }*/
                 pageIndex = 1;
                 //list.clear();
-                mPresenter.GetListmessageByType(userId, "2", "0", "10", Integer.toString(pageIndex));
+                mPresenter.GetMessageList(userId, "2", "0", "999", Integer.toString(pageIndex));
                 messageAdapter.notifyDataSetChanged();
                 refreshlayout.finishRefresh();
             }
@@ -119,13 +132,23 @@ public class OrderMessageActivity extends BaseActivity<MessagePresenter, Message
         //没满屏时禁止上拉
         mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
         //上拉加载更多
-        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+//                pageIndex++;
+//                mPresenter.GetListmessageByType(userId, "2", "0", "10", Integer.toString(pageIndex));
+//                messageAdapter.notifyDataSetChanged();
+//                refreshLayout.finishLoadMore();
+//            }
+//        });
+
+        messageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                pageIndex++;
-                mPresenter.GetListmessageByType(userId, "2", "0", "10", Integer.toString(pageIndex));
-                messageAdapter.notifyDataSetChanged();
-                refreshLayout.finishLoadMore();
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.ll_order_message:
+                        mPresenter.AddOrUpdatemessage(((Message)adapter.getData().get(position)).getMessageID(),"2");
+                }
             }
         });
     }
@@ -146,27 +169,73 @@ public class OrderMessageActivity extends BaseActivity<MessagePresenter, Message
         }
     }
 
+
     @Override
-    public void GetListmessageByType(BaseResult<MessageData<List<Message>>> baseResult) {
-        switch (baseResult.getStatusCode()) {
+    public void GetMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
+        switch (baseResult.getStatusCode()){
             case 200:
-                if (baseResult.getData().getData() == null) {
-                    if (pageIndex == 1) {
-                        messagesList.clear();
-                        messageAdapter.notifyDataSetChanged();
+                if (baseResult.getData().getData()==null){
+
+                    mTvMessageNumber.setText("暂无新消息");
+                    mRlNewMessage.setVisibility(View.GONE);
+                    return;
+
+                }else {
+                    messagesList.clear();
+                    messagesList.addAll(baseResult.getData().getData());
+                    if (baseResult.getData().getData().size()>99){
+                        mTvMessageNumber.setText("您有99+条新消息");
+                    }else if (baseResult.getData().getData().size()==0){
+                        mTvMessageNumber.setText("暂无新消息");
+                        mRlNewMessage.setVisibility(View.GONE);
+                    }else {
+                        mTvMessageNumber.setText("您有"+baseResult.getData().getData().size()+"条新消息");
                     }
-                } else {
-                    if (pageIndex == 1) {
-                        messagesList.clear();
-                        messagesList.addAll(baseResult.getData().getData());
-                        messageAdapter.notifyDataSetChanged();
-                    } else {
-                        messagesList.addAll(baseResult.getData().getData());
-                        messageAdapter.setNewData(messagesList);
-                    }
+
+                    messageAdapter.notifyDataSetChanged();
+                }
+
+
+
+                if (baseResult.getData().getCount()==0){
+
+                    EventBus.getDefault().post("orderempty");
+
                 }
                 break;
-            case 401:
+        }
+    }
+
+    @Override
+    public void GetReadMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().getData()==null){
+                    mRlOldMessage.setVisibility(View.GONE);
+                    return;
+
+                }else {
+                    messagereadAdapter.setNewData(baseResult.getData().getData());
+                    messagereadAdapter.notifyDataSetChanged();
+                }
+
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void AddOrUpdatemessage(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+
+                    EventBus.getDefault().post("order_num");
+                    mPresenter.GetMessageList(userId, "2","0", "999", "1");
+                    mPresenter.GetReadMessageList(userId, "2","0", "999", "1");
+                }
                 break;
         }
     }

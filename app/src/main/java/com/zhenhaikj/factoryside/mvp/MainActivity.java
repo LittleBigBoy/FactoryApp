@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,20 +10,30 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.umeng.socialize.UMShareAPI;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
+import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Message;
+import com.zhenhaikj.factoryside.mvp.bean.MessageData;
+import com.zhenhaikj.factoryside.mvp.contract.MainContract;
 import com.zhenhaikj.factoryside.mvp.fragment.AllWorkOrdersFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.DiscoveryFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.HomeFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.MineFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.NewsFragment;
+import com.zhenhaikj.factoryside.mvp.model.MainModel;
+import com.zhenhaikj.factoryside.mvp.presenter.MainPresenter;
 import com.zhenhaikj.factoryside.mvp.widget.CustomViewPager;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -30,12 +41,13 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import q.rorbin.badgeview.QBadgeView;
 
 /**
  * Created by geyifeng on 2017/5/8.
  */
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
+public class MainActivity extends BaseActivity<MainPresenter, MainModel> implements View.OnClickListener, ViewPager.OnPageChangeListener, MainContract.View {
 
     @BindView(R.id.viewPager)
     CustomViewPager viewPager;
@@ -71,8 +83,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     TextView mTvMessage;
     @BindView(R.id.ll_message)
     LinearLayout ll_message;
+    @BindView(R.id.img_message_invisible)
+    ImageView mImgMessageInvisible;
     private ArrayList<Fragment> mFragments;
     private long mExittime;
+    private QBadgeView qBadgeView;
+    SPUtils spUtils = SPUtils.getInstance("token");
+    String userID = spUtils.getString("userName");
 
     @Override
     protected int setLayoutId() {
@@ -84,11 +101,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setSwipeBackEnable(false);
         mFragments = new ArrayList<>();
         mFragments.add(HomeFragment.newInstance("", ""));
-        mFragments.add(NewsFragment.newInstance("",""));
+        mFragments.add(NewsFragment.newInstance("", ""));
         mFragments.add(AllWorkOrdersFragment.newInstance("", ""));
         mFragments.add(DiscoveryFragment.newInstance("", ""));
         mFragments.add(MineFragment.newInstance("", ""));
-        startService(new Intent(mActivity,LogcatScannerService.class));
+        startService(new Intent(mActivity, LogcatScannerService.class));
+
+        qBadgeView = new QBadgeView(mActivity);
+        qBadgeView.bindTarget(mImgMessageInvisible);
+        qBadgeView.setBadgeGravity(Gravity.END | Gravity.TOP);
+        qBadgeView.setBadgeTextSize(0, false);
+
+        mPresenter.GetMessageList(userID, "0", "999", "0");
+        mPresenter.GetTransactionMessageList(userID, "0", "999", "0");
     }
 
     @Override
@@ -194,6 +219,52 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ButterKnife.bind(this);
     }
 
+    @Override
+    public void GetMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().getCount() == 0) {
+                    qBadgeView.hide(true);
+
+                } else {
+                    qBadgeView.setBadgeNumber(1);
+
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void GetTransactionMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().getCount() == 0) {
+                    qBadgeView.hide(true);
+                } else {
+                    qBadgeView.setBadgeNumber(1);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String message) {
+        switch (message) {
+            case "orderempty":
+                mPresenter.GetMessageList(userID, "0", "999", "1");
+                break;
+            case "transactionempty":
+                mPresenter.GetTransactionMessageList(userID, "0", "999", "1");
+                break;
+        }
+
+
+    }
+
     private class MyAdapter extends FragmentPagerAdapter {
         MyAdapter(FragmentManager fm) {
             super(fm);
@@ -226,19 +297,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onPause() {
         super.onPause();
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         /*  两秒之内再按一下退出*/
         //判断用户是否点击了返回键
-        if (keyCode==KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             //与上次点击返回键作差
-            if ((System.currentTimeMillis()- mExittime)>2000){
+            if ((System.currentTimeMillis() - mExittime) > 2000) {
                 //大于2秒认为是误操作
-                Toast.makeText(this,"再按一次退出程序",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 //并记录记录下本次点击返回键的时刻
-                mExittime =System.currentTimeMillis();
-            }else {
+                mExittime = System.currentTimeMillis();
+            } else {
                 //小于2秒 则用户希望退出
                 System.exit(0);
             }

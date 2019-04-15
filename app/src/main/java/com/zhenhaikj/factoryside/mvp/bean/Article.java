@@ -13,7 +13,7 @@ public class Article implements Serializable {
 
     private String code;
     private String msg;
-    private String count;
+    private int count;
     private List<DataBean> data;
 
     public String getCode() {
@@ -32,11 +32,11 @@ public class Article implements Serializable {
         this.msg = msg;
     }
 
-    public String getCount() {
+    public int getCount() {
         return count;
     }
 
-    public void setCount(String count) {
+    public void setCount(int count) {
         this.count = count;
     }
 

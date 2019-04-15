@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -15,11 +16,14 @@ import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.MessageAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.Message;
 import com.zhenhaikj.factoryside.mvp.bean.MessageData;
 import com.zhenhaikj.factoryside.mvp.contract.MessageContract;
 import com.zhenhaikj.factoryside.mvp.model.MessageModel;
 import com.zhenhaikj.factoryside.mvp.presenter.MessagePresenter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +59,7 @@ public class TransactionMessageActivity extends BaseActivity<MessagePresenter, M
     @BindView(R.id.rl_new_message)
     RelativeLayout mRlNewMessage;
     @BindView(R.id.rv_transactionmessage)
-    RecyclerView mRvTransactionmessage;
+    RecyclerView mRvTransactionmessage;//未读
     @BindView(R.id.tv_old_number)
     TextView mTvOldNumber;
     @BindView(R.id.textView3)
@@ -65,11 +69,13 @@ public class TransactionMessageActivity extends BaseActivity<MessagePresenter, M
     @BindView(R.id.rl_old_message)
     RelativeLayout mRlOldMessage;
     @BindView(R.id.rv_transactionmessage_historical)
-    RecyclerView mRvTransactionmessageHistorical;
+    RecyclerView mRvTransactionmessageHistorical;//已读
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
     private ArrayList<Message> messagesList = new ArrayList<>();
+    private List<Message> readlist=new ArrayList<>();//已读
     private MessageAdapter messageAdapter;
+    private MessageAdapter messagereadAdapter;
 
     private int pageIndex = 1;
     private String userId;
@@ -86,10 +92,19 @@ public class TransactionMessageActivity extends BaseActivity<MessagePresenter, M
         messageAdapter = new MessageAdapter(R.layout.item_message, messagesList);
         mRvTransactionmessage.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvTransactionmessage.setAdapter(messageAdapter);
+        mRvTransactionmessage.setHasFixedSize(true);
+        mRvTransactionmessage.setNestedScrollingEnabled(false);
+
+
+        mRvTransactionmessageHistorical.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRvTransactionmessageHistorical.setHasFixedSize(true);
+        mRvTransactionmessageHistorical.setNestedScrollingEnabled(false);
+        messagereadAdapter=new MessageAdapter(R.layout.item_message,readlist);
 
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
-        mPresenter.GetListmessageByType(userId, "1", "0", "10", "1");
+        mPresenter.GetMessageList(userId, "1","0", "999", "1");
+        mPresenter.GetReadMessageList(userId, "1","0", "999", "1");
 
     }
 
@@ -113,7 +128,7 @@ public class TransactionMessageActivity extends BaseActivity<MessagePresenter, M
                 }*/
                 pageIndex = 1;
                 //list.clear();
-                mPresenter.GetListmessageByType(userId, "1", "0", "10", Integer.toString(pageIndex));
+                mPresenter.GetMessageList(userId, "1","0",  "999", Integer.toString(pageIndex));
                 messageAdapter.notifyDataSetChanged();
                 refreshlayout.finishRefresh();
             }
@@ -121,13 +136,28 @@ public class TransactionMessageActivity extends BaseActivity<MessagePresenter, M
         //没满屏时禁止上拉
         mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
         //上拉加载更多
-        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+//                pageIndex++;
+//                mPresenter.GetListmessageByType(userId, "1", "0", "10", Integer.toString(pageIndex));
+//                messageAdapter.notifyDataSetChanged();
+//                refreshLayout.finishLoadMore();
+//            }
+//        });
+
+        messageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                pageIndex++;
-                mPresenter.GetListmessageByType(userId, "1", "0", "10", Integer.toString(pageIndex));
-                messageAdapter.notifyDataSetChanged();
-                refreshLayout.finishLoadMore();
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+                switch (view.getId()){
+                    case R.id.ll_order_message:
+                        mPresenter.AddOrUpdatemessage(((Message)adapter.getData().get(position)).getMessageID(),"2");
+
+
+                        break;
+
+                }
             }
         });
     }
@@ -149,27 +179,74 @@ public class TransactionMessageActivity extends BaseActivity<MessagePresenter, M
     }
 
     @Override
-    public void GetListmessageByType(BaseResult<MessageData<List<Message>>> baseResult) {
+    public void GetMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().getData() == null) {
-                    if (pageIndex == 1) {
-                        messagesList.clear();
-                        messageAdapter.notifyDataSetChanged();
-                    } else {
-                        if (pageIndex == 1) {
-                            messagesList.clear();
-                            messagesList.addAll(baseResult.getData().getData());
-                            messageAdapter.notifyDataSetChanged();
-                        } else {
-                            messagesList.addAll(baseResult.getData().getData());
-                            messageAdapter.setNewData(messagesList);
-                        }
+                if (baseResult.getData().getData()==null){
 
+                    mTvMessageNumber.setText("暂无新消息");
+                    mRlNewMessage.setVisibility(View.GONE);
+                    return;
+
+                }else {
+                    messagesList.clear();
+                    messagesList.addAll(baseResult.getData().getData());
+
+                    if (baseResult.getData().getData().size()>99){
+                        mTvMessageNumber.setText("您有99+条新消息");
+                    }else if (baseResult.getData().getData().size()==0){
+                        mTvMessageNumber.setText("暂无新消息");
+                        mRlNewMessage.setVisibility(View.GONE);
+
+                    }else {
+                        mTvMessageNumber.setText("您有"+baseResult.getData().getData().size()+"条新消息");
                     }
+
+                    messageAdapter.notifyDataSetChanged();
+                }
+                if (baseResult.getData().getCount()==0){
+
+                    EventBus.getDefault().post("transactionempty");
+
+                }
+
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void GetReadMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().getData()==null){
+                    mRlOldMessage.setVisibility(View.GONE);
+                    return;
+
+                }else {
+                    messagereadAdapter.setNewData(baseResult.getData().getData());
+                    messagereadAdapter.notifyDataSetChanged();
+                }
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void AddOrUpdatemessage(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+                    EventBus.getDefault().post("transaction_num");
+                    mPresenter.GetMessageList(userId, "1","0", "999", "1");
+                    mPresenter.GetReadMessageList(userId, "1","0", "999", "1");
                 }
                 break;
-            case 401:
+            default:
                 break;
         }
     }

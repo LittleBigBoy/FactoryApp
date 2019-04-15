@@ -193,4 +193,7 @@ dependencies {
     implementation files('libs/umeng-share-wechat-simplify-6.9.4.jar')
     implementation files('libs/umeng-shareboard-widget-6.9.4.jar')
     implementation files('libs/umeng-sharetool-6.9.4.jar')
+
+    /*badgeview*/
+    implementation 'q.rorbin:badgeview:1.1.3'
 }
