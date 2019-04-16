@@ -19,6 +19,7 @@ import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.bean.Track;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
+import com.zhenhaikj.factoryside.mvp.bean.WXpayInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 
 import java.util.List;
@@ -340,6 +341,26 @@ public interface ApiService {
     Observable<BaseResult<Data<String>>> GetOrderStr(@Field("UserID") String UserID,
                                                      @Field("TotalAmount") String TotalAmount,
                                                      @Field("Type") String Type);
+    /**
+     * 充值信息
+     * @param UserID 账号
+     * @param TotalAmount 金额
+     * @param Type  1余额 2 诚意金
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Pay/GetWXOrderStr")
+    Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(@Field("UserID") String UserID,
+                                                          @Field("TotalAmount") String TotalAmount,
+                                                          @Field("Type") String Type);
+    /**
+     * 微信人工回调OutTradeNo
+     * @param OutTradeNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Pay/WXNotifyManual")
+    Observable<BaseResult<Data<String>>> WXNotifyManual(@Field("OutTradeNo") String OutTradeNo);
 
     /**
      * 对某笔单子发起质保
