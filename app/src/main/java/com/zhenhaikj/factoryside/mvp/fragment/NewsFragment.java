@@ -1,10 +1,15 @@
 package com.zhenhaikj.factoryside.mvp.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
@@ -28,7 +33,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
@@ -38,10 +42,16 @@ public class NewsFragment extends BaseLazyFragment implements View.OnClickListen
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.magic_news)
     MagicIndicator mMagicNews;
-//    @BindView(R.id.toolbar_news)
+    //    @BindView(R.id.toolbar_news)
 //    Toolbar mToolbarNews;
     @BindView(R.id.view_pager_news)
     ViewPager mViewPagerNews;
+    @BindView(R.id.iv_close)
+    ImageView mIvClose;
+    @BindView(R.id.tv_open)
+    TextView mTvOpen;
+    @BindView(R.id.ll_system_notification)
+    LinearLayout mLlSystemNotification;
 
 
     private String mParam1;
@@ -104,15 +114,15 @@ public class NewsFragment extends BaseLazyFragment implements View.OnClickListen
     @Override
     protected void initData() {
         mNewsList = new ArrayList<>();
-        int i=0;
-        mNewsList.add(InformationFragment.newInstance(mTitleDataList[i],""));
-        int a=1;
-        mNewsList.add(NoticeFragment.newInstance(mTitleDataList[a],""));
+        int i = 0;
+        mNewsList.add(InformationFragment.newInstance(mTitleDataList[i], ""));
+        int a = 1;
+        mNewsList.add(NoticeFragment.newInstance(mTitleDataList[a], ""));
 //        for (int i = 0; i < 2; i++) {
 //            mNewsList.add(MessageFragment.newInstance(mTitleDataList[i],""));
 //        }
         mViewPagerNews.setOffscreenPageLimit(mTitleDataList.length);
-        mViewPagerNews.setAdapter(new MyPagerAdapter(this.getFragmentManager(),mTitleDataList,mNewsList));
+        mViewPagerNews.setAdapter(new MyPagerAdapter(this.getFragmentManager(), mTitleDataList, mNewsList));
         commonNavigator = new CommonNavigator(mActivity);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
 
@@ -164,7 +174,8 @@ public class NewsFragment extends BaseLazyFragment implements View.OnClickListen
 
     @Override
     protected void setListener() {
-
+        mTvOpen.setOnClickListener(this);
+        mIvClose.setOnClickListener(this);
     }
 
     @Override
@@ -174,10 +185,30 @@ public class NewsFragment extends BaseLazyFragment implements View.OnClickListen
                 break;
             case R.id.normal_dfh_ll:
                 break;
+            case R.id.tv_open:
+                toSelfSetting(mActivity);
+                break;
+            case R.id.iv_close:
+                mLlSystemNotification.setVisibility(View.GONE);
+                break;
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(UpdateEvent event) {
+    }
+
+    public static void toSelfSetting(Context context) {
+        Intent mIntent = new Intent();
+        mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= 9) {
+            mIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+            mIntent.setData(Uri.fromParts("package", context.getPackageName(), null));
+        } else if (Build.VERSION.SDK_INT <= 8) {
+            mIntent.setAction(Intent.ACTION_VIEW);
+            mIntent.setClassName("com.android.settings", "com.android.setting.InstalledAppDetails");
+            mIntent.putExtra("com.android.settings.ApplicationPkgName", context.getPackageName());
+        }
+        context.startActivity(mIntent);
     }
 }
