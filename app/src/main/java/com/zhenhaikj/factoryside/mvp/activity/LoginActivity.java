@@ -172,7 +172,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 startActivity(intent);
                 break;
             case R.id.tv_register:
-                startActivity(new Intent(mActivity, RegisterActivity.class));
+                startActivity(new Intent(mActivity, RegisterNewActivity.class));
                 break;
             case R.id.tv_change:
                 if (mLlCode.getVisibility()==View.GONE){

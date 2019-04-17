@@ -60,7 +60,11 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("Account/Reg")
-    Observable<BaseResult<Data<String>>> Reg(@Field("mobile") String mobile, @Field("type") String type, @Field("code") String code, @Field("roleType") String roleType);
+    Observable<BaseResult<Data<String>>> Reg(@Field("mobile") String mobile,
+                                             @Field("type") String type,
+                                             @Field("code") String code,
+                                             @Field("roleType") String roleType,
+                                             @Field("password") String password);
 
     /*
      *新增获取更新推送账户的token以及tags， 工厂的type是6 师傅的type是7 ， createtime可以不传 UserID为登录用户名

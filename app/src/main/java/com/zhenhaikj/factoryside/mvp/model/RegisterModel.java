@@ -14,14 +14,14 @@ public class RegisterModel implements RegisterContract.Model {
 
 
     @Override
-    public Observable<BaseResult<Data<String>>> Reg(String userName, String code) {
-        return ApiRetrofit.getDefault().Reg(userName,"Reg",code,"factory")
+    public Observable<BaseResult<Data<String>>> Reg(String userName, String code,String password) {
+        return ApiRetrofit.getDefault().Reg(userName,"Reg",code,"factory",password)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> GetCode(String userName) {
+    public Observable<BaseResult<Data<String>>> GetCode(String userName,String type) {
         return ApiRetrofit.getDefault().GetCode(userName,"Reg","factory")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());

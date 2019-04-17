@@ -10,8 +10,8 @@ import com.zhenhaikj.factoryside.mvp.contract.RegisterContract;
 public class RegisterPresenter extends RegisterContract.Presenter {
 
     @Override
-    public void Reg(String userName, String code) {
-        mModel.Reg(userName,code)
+    public void Reg(String userName, String code,String password) {
+        mModel.Reg(userName,code,password)
                 .subscribe(new BaseObserver<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
@@ -21,8 +21,8 @@ public class RegisterPresenter extends RegisterContract.Presenter {
     }
 
     @Override
-    public void GetCode(String userName) {
-        mModel.GetCode(userName)
+    public void GetCode(String userName,String type) {
+        mModel.GetCode(userName,type)
                 .subscribe(new BaseObserver<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {

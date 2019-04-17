@@ -115,7 +115,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                     ToastUtils.showShort("请输入验证码！");
                     return;
                 }
-                mPresenter.Reg(userName, code);
+//                mPresenter.Reg(userName, code);
                 break;
             case R.id.tv_get_verification_code:
                 userName = mEtUsername.getText().toString();
@@ -225,7 +225,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 if ("true".equals(baseResult.getData())){
                     TimeCount time = new TimeCount(60000, 1000);
                     time.start();
-                    mPresenter.GetCode(userName);
+//                    mPresenter.GetCode(userName);
                 }else{
                     ToastUtils.showShort("手机号已经注册！");
                 }
