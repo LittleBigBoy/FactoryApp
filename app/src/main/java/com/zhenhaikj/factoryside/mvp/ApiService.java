@@ -346,13 +346,15 @@ public interface ApiService {
      * @param UserID 账号
      * @param TotalAmount 金额
      * @param Type  1余额 2 诚意金
+     * @param Style  工厂传factory
      * @return
      */
     @FormUrlEncoded
     @POST("Pay/GetWXOrderStr")
     Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(@Field("UserID") String UserID,
                                                           @Field("TotalAmount") String TotalAmount,
-                                                          @Field("Type") String Type);
+                                                          @Field("Type") String Type,
+                                                          @Field("Style") String Style);
     /**
      * 微信人工回调OutTradeNo
      * @param OutTradeNo
