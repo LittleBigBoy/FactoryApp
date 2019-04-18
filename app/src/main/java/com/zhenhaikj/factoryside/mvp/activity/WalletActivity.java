@@ -183,7 +183,7 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
                 String format = String.format("%.2f", userInfo.getTotalMoney() - userInfo.getFrozenMoney());
                 mAvailableTv.setText(format);
                 mFreezeTv.setText(userInfo.getFrozenMoney().toString());
-                mTvMargin.setText("保证金："+userInfo.getRemainMoney()+"元");
+                mTvMargin.setText("保证金："+userInfo.getDepositMoney()+"元");
                 break;
         }
     }

@@ -37,6 +37,8 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -211,6 +213,13 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     protected void initData() {
 //        Glide.with(mActivity).load(R.drawable.avatar).apply(RequestOptions.circleCropTransform().placeholder(R.drawable.default_avatar).error(R.drawable.default_avatar)).into(mIvProfileImage);
         mRefreshLayout.setEnableLoadMore(false);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mPresenter.GetUserInfoList(userId, "1");
+                mRefreshLayout.finishRefresh(1000);
+            }
+        });
         mPresenter.GetUserInfoList(userId, "1");
 
         UMShareConfig config = new UMShareConfig();
@@ -623,7 +632,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                              .into(mIvProfileImage);
                     }
                     mTvNickname.setText(userInfoDean.getNickName());
-                    mTvMoney.setText("可用金额（元） " + (float) (userInfoDean.getRemainMoney() * 100 / 1024 / 1024) / 100);
+                    mTvMoney.setText("可用金额（元） " + (userInfoDean.getTotalMoney()-userInfoDean.getFrozenMoney()));
                 }
 
                 break;

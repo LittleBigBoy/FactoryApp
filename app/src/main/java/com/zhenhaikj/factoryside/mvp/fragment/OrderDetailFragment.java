@@ -657,7 +657,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 //                mTvServiceMoney.setVisibility(View.GONE);
 
                 if (data.getAccessoryMoney()!=null&&!"0.00".equals(data.getAccessoryMoney())){
-                    mTvOrderMoney.setText("￥" + data.getAccessoryMoney() + "");
+                    mTvOrderMoney.setText("￥" + (Double.parseDouble(data.getAccessoryMoney())+Double.parseDouble(data.getBeyondMoney())+Double.parseDouble(data.getPostMoney())) + "");
                 }else{
                     mTvOrderMoney.setText("￥" + data.getOrderMoney() + "");
                 }
