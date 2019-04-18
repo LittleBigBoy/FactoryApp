@@ -60,6 +60,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     TextView mTvServiceMoney;
     @BindView(R.id.tv_order_money)
     TextView mTvOrderMoney;
+    @BindView(R.id.tv_post_money)
+    TextView mTvPostMoney;
+    @BindView(R.id.ll_post_money)
+    LinearLayout mLlPostMoney;
 
     private String mParam1;
     private String mParam2;
@@ -648,7 +652,22 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 mTvBeyondMoney.setText("￥" + data.getBeyondMoney() + "");
                 mTvAccessoryMoney.setText("￥" + data.getAccessoryMoney());
                 mTvServiceMoney.setText("￥" + data.getServiceMoney());
-                mTvOrderMoney.setText("￥" + data.getOrderMoney() + "");
+//                mTvBeyondMoney.setVisibility(View.GONE);
+//                mTvAccessoryMoney.setVisibility(View.GONE);
+//                mTvServiceMoney.setVisibility(View.GONE);
+
+                if (data.getAccessoryMoney()!=null&&!"0.00".equals(data.getAccessoryMoney())){
+                    mTvOrderMoney.setText("￥" + data.getAccessoryMoney() + "");
+                }else{
+                    mTvOrderMoney.setText("￥" + data.getOrderMoney() + "");
+                }
+                if (!"0.00".equals(data.getPostMoney())&&data.getPostMoney()!=null){
+                    mLlPostMoney.setVisibility(View.VISIBLE);
+                    mTvPostMoney.setText("￥" +data.getPostMoney());
+                }else{
+                    mLlPostMoney.setVisibility(View.GONE);
+                }
+
 
                 mTvAccessoryMemo.setText("备注：" + data.getAccessoryMemo());
                 mTvAccessorySequency.setText("寄件类型：" + data.getAccessorySequencyStr());

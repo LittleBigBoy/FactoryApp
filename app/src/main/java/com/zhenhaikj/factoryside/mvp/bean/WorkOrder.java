@@ -207,6 +207,15 @@ public class WorkOrder implements Serializable {
         private String page;
         private String limit;
         private String Version;
+        private String PostMoney;
+
+        public String getPostMoney() {
+            return PostMoney;
+        }
+
+        public void setPostMoney(String postMoney) {
+            PostMoney = postMoney;
+        }
 
         public List<SendOrderBean> getSendOrderList() {
             return SendOrderList;
