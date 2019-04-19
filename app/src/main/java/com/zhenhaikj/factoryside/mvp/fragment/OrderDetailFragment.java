@@ -849,6 +849,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 if (data.getSendOrderList().size() != 0) {
                     mTvSelectTime.setText(data.getSendOrderList().get(0).getServiceDate() + "-" + data.getSendOrderList().get(0).getServiceDate2());
                 }
+                if ("2".equals(data.getTypeID())){
+                    mLlOldAccessory.setVisibility(View.GONE);
+                }
                 break;
             case 401:
                 break;
