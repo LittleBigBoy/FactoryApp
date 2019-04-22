@@ -32,7 +32,6 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
     private LinearLayout mTitleContainer;
     private LinearLayout mIndicatorContainer;
     private IPagerIndicator mIndicator;
-
     private CommonNavigatorAdapter mAdapter;
     private NavigatorHelper mNavigatorHelper;
 

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.flyco.tablayout.SlidingTabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.MyPagerAdapter;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,8 +48,11 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
     ImageView mIconSearch;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.magic_indicator)
-    MagicIndicator mMagicIndicator;
+   /* @BindView(R.id.magic_indicator)
+    MagicIndicator mMagicIndicator;*/
+     @BindView(R.id.tab_receiving_layout)
+     SlidingTabLayout mTabReceivingLayout;
+
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
     @BindView(R.id.view)
@@ -57,8 +63,9 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
             "所有工单","待接单","待审核", "待支付", "已完成", "质保单","退单处理"
     };
 
-    private CommonNavigator commonNavigator;
-    private ArrayList<Fragment> mWorkOrderFragmentList;
+    //private CommonNavigator commonNavigator;
+    private MyPagerAdapter mAdapter;
+    private ArrayList<Fragment> mWorkOrderFragmentList=new ArrayList<>();;
     private Bundle bundle;
 
     @Override
@@ -80,11 +87,22 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
     }
     @Override
     protected void initView() {
+
+        for (int i = 0; i < 7; i++) {
+            mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i], ""));
+        }
+        mAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.setOffscreenPageLimit(mWorkOrderFragmentList.size());
+        mTabReceivingLayout.setViewPager(mViewPager);
+
+
         setSwipeBackEnable(false);
         mTvTitle.setVisibility(View.VISIBLE);
         bundle = getIntent().getExtras();
         mTvTitle.setText(bundle.getString("title"));
-        mWorkOrderFragmentList = new ArrayList<>();
+        mViewPager.setCurrentItem(bundle.getInt("position"));
+      /*    mWorkOrderFragmentList = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i], ""));
         }
@@ -143,7 +161,7 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
         commonNavigator.onPageSelected(bundle.getInt("position"));
         mMagicIndicator.setNavigator(commonNavigator);
         mMagicIndicator.setBackgroundColor(Color.WHITE);
-        ViewPagerHelper.bind(mMagicIndicator, mViewPager);
+        ViewPagerHelper.bind(mMagicIndicator, mViewPager);*/
     }
 
     @Override
@@ -174,5 +192,27 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return mWorkOrderFragmentList.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mTitleDataList[position];
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mWorkOrderFragmentList.get(position);
+        }
     }
 }

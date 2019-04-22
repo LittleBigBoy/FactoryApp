@@ -37,6 +37,7 @@ public class Config {
 
     public static final String APP_ID = "wxae66509b894c60cf";
 
+    public static  final int ORDER_READ=99;
 
     static HttpLoggingInterceptor loggingInterceptor;
     private static SPUtils spUtils;

@@ -1,58 +1,55 @@
 package com.zhenhaikj.factoryside.mvp.fragment;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
+import com.blankj.utilcode.util.SPUtils;
+import com.flyco.tablayout.SlidingTabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
-import com.zhenhaikj.factoryside.mvp.adapter.MyPagerAdapter;
+import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
+import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.RedPointData;
+import com.zhenhaikj.factoryside.mvp.contract.RedPointContract;
 import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
-
-import net.lucode.hackware.magicindicator.MagicIndicator;
-import net.lucode.hackware.magicindicator.ViewPagerHelper;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
-
+import com.zhenhaikj.factoryside.mvp.model.RedPointModel;
+import com.zhenhaikj.factoryside.mvp.presenter.RedPointPresenter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
-public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnClickListener {
+public class AllWorkOrdersFragment extends BaseLazyFragment<RedPointPresenter, RedPointModel> implements View.OnClickListener, RedPointContract.View {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    @BindView(R.id.magic_indicator)
-    MagicIndicator mMagicIndicator;
+/*    @BindView(R.id.magic_indicator)
+    MagicIndicator mMagicIndicator;*/
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.title)
     android.widget.TextView mTitle;
-
+    @BindView(R.id.tab_receiving_layout)
+    SlidingTabLayout mTabReceivingLayout;
 
     private String mParam1;
     private String mParam2;
     private String[] mTitleDataList = new String[]{
             "所有工单","待接单","待审核", "待支付", "已完成", "质保单","退单处理"
     };
-    private CommonNavigator commonNavigator;
-    private List<Fragment> mWorkOrderFragmentList;
-
-
+   // private CommonNavigator commonNavigator;
+    private List<Fragment> mWorkOrderFragmentList=new ArrayList<>();
+    private MyPagerAdapter mAdapter;
+    SPUtils spUtils = SPUtils.getInstance("token");
+    private String userid;
     public AllWorkOrdersFragment() {
         // Required empty public constructor
     }
@@ -103,12 +100,19 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
 
     @Override
     protected void initData() {
-        mWorkOrderFragmentList = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i],""));
+
+        for (String title:mTitleDataList){
+            mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(title,""));
         }
-        mViewPager.setOffscreenPageLimit(mTitleDataList.length);
-        mViewPager.setAdapter(new MyPagerAdapter(getFragmentManager(),mTitleDataList,mWorkOrderFragmentList));
+
+        mAdapter = new MyPagerAdapter(getFragmentManager());
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.setOffscreenPageLimit(mWorkOrderFragmentList.size());
+        mTabReceivingLayout.setViewPager(mViewPager);
+
+        userid=spUtils.getString("userName");
+        mPresenter.FactoryGetOrderRed(userid);
+      /*  mViewPager.setAdapter(new MyPagerAdapter(getFragmentManager(),mTitleDataList,mWorkOrderFragmentList));
         commonNavigator = new CommonNavigator(mActivity);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
 
@@ -160,7 +164,7 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
 
             }
         });
-        ViewPagerHelper.bind(mMagicIndicator, mViewPager);
+        ViewPagerHelper.bind(mMagicIndicator, mViewPager);*/
     }
 
     @Override
@@ -185,6 +189,59 @@ public class AllWorkOrdersFragment extends BaseLazyFragment implements View.OnCl
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(UpdateEvent event) {
+    public void Event(Integer num) {
+        switch (num){
+            case Config.ORDER_READ:
+               mPresenter.FactoryGetOrderRed(userid);
+                break;
+        }
+    }
+
+
+    @Override
+    public void FactoryGetOrderRed(BaseResult<RedPointData> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData()!=null){
+                    String data=baseResult.getData().getData();
+                    for (int i =0;i<data.length();i++){
+                        char c=baseResult.getData().getData().charAt(i);
+                        if (c!='n'){
+                            mTabReceivingLayout.showDot(i);
+                        }else {
+                            mTabReceivingLayout.hideMsg(i);
+                        }
+                    }
+                }
+                else {
+                    return;
+                }
+                break;
+            default:
+                break;
+        }
+
+    }
+
+
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return mWorkOrderFragmentList.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mTitleDataList[position];
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mWorkOrderFragmentList.get(position);
+        }
     }
 }

@@ -17,6 +17,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Message;
 import com.zhenhaikj.factoryside.mvp.bean.MessageData;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
+import com.zhenhaikj.factoryside.mvp.bean.RedPointData;
 import com.zhenhaikj.factoryside.mvp.bean.Track;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WXpayInfo;
@@ -627,4 +628,17 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Order/GetOrderRecordByOrderID")
     Observable<BaseResult<List<Track>>> GetOrderRecordByOrderID(@Field("OrderID") String OrderID);
+
+
+    /*tablayout显示未读小红点*/
+    @FormUrlEncoded
+    @POST("Order/FactoryGetOrderRed")
+    Observable<BaseResult<RedPointData>> FactoryGetOrderRed(@Field("UserID") String UserID);
+
+    /*更新工单消息为已读*/
+    @FormUrlEncoded
+    @POST("Order/UpdateOrderFIsLook")
+    Observable<BaseResult<Data<String>>> UpdateOrderFIsLook(@Field("OrderID") String OrderID,
+                                                            @Field("IsLook") String IsLook,
+                                                            @Field("FIsLook") String FIsLook);
 }

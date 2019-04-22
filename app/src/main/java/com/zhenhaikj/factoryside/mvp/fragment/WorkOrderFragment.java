@@ -19,6 +19,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.activity.AccessoriesListActivity;
 import com.zhenhaikj.factoryside.mvp.activity.CompletionOrderActivity;
 import com.zhenhaikj.factoryside.mvp.activity.RemoteBillActivity;
@@ -30,10 +31,12 @@ import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.AllWorkOrdersContract;
+import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
 import com.zhenhaikj.factoryside.mvp.model.AllWorkOrdersModel;
 import com.zhenhaikj.factoryside.mvp.presenter.AllWorkOrdersPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -271,6 +274,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 //                            startActivity(intent);
 //                        }
 //                        if (mParam1=="质保单"){
+                             mPresenter.UpdateOrderFIsLook(workOrderList.get(position).getOrderID(),"2","2");
                             Intent intent1=new Intent(mActivity, WarrantyActivity.class);
                             intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
                             startActivity(intent1);
@@ -355,6 +359,20 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void UpdateOrderFIsLook(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+                    EventBus.getDefault().post(Config.ORDER_READ);
+                }
+
+                break;
+                default:
+                    break;
         }
     }
 

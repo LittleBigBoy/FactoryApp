@@ -46,4 +46,11 @@ public class AllWorkOrdersModel implements AllWorkOrdersContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> UpdateOrderFIsLook(String OrderID, String IsLook, String FIsLook) {
+        return ApiRetrofit.getDefault().UpdateOrderFIsLook(OrderID, IsLook,FIsLook)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

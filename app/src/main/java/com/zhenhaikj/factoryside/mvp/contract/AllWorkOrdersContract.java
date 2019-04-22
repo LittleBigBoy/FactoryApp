@@ -18,6 +18,7 @@ public interface AllWorkOrdersContract {
         Observable<BaseResult<Data<String>>> FactoryComplaint(String OrderID, String Content);
         Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword);
         Observable<BaseResult<Data<String>>> FactoryEnsureOrder(String OrderID, String PayPassword);
+        Observable<BaseResult<Data<String>>> UpdateOrderFIsLook(String OrderID, String IsLook,String FIsLook);
     }
 
     interface View extends BaseView {
@@ -26,6 +27,7 @@ public interface AllWorkOrdersContract {
         void FactoryComplaint(BaseResult<Data<String>> baseResult);
         void EnSureOrder(BaseResult<Data<String>> baseResult);
         void FactoryEnsureOrder(BaseResult<Data<String>> baseResult);
+        void UpdateOrderFIsLook(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -34,5 +36,6 @@ public interface AllWorkOrdersContract {
         public abstract void FactoryComplaint(String OrderID,String Content);
         public abstract void EnSureOrder(String OrderID, String PayPassword);
         public abstract void FactoryEnsureOrder(String OrderID, String PayPassword);
+        public abstract void UpdateOrderFIsLook(String OrderID, String IsLook,String FIsLook);
     }
 }

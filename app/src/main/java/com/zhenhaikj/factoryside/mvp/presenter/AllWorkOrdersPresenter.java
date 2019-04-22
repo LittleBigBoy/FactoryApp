@@ -62,4 +62,15 @@ public class AllWorkOrdersPresenter extends AllWorkOrdersContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void UpdateOrderFIsLook(String OrderID, String IsLook, String FIsLook) {
+        mModel.UpdateOrderFIsLook(OrderID, IsLook,FIsLook)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.UpdateOrderFIsLook(value);
+                    }
+                });
+    }
 }

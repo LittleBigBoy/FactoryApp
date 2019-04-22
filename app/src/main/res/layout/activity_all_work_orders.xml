@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <include layout="@layout/toolbar"/>
-    <net.lucode.hackware.magicindicator.MagicIndicator
+  <!--  <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/magic_indicator"
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="40dp" />-->
+
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/tab_receiving_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        tl:tl_divider_color="#1A000000"
+        tl:tl_divider_padding="10dp"
+        tl:tl_textsize="17sp"
+        tl:tl_indicator_color="@color/tab_red"
+        tl:tl_indicator_height="1dp"
+        tl:tl_tab_padding="20dp"
+        tl:tl_textSelectColor="@color/tab_red"
+        tl:tl_textUnselectColor="@color/black"
+        tl:tl_underline_color="#1A000000"
+        tl:tl_underline_height="1dp"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
