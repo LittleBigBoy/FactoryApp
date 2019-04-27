@@ -100,7 +100,7 @@ public class TransactionMessageActivity extends BaseActivity<MessagePresenter, M
         mRvTransactionmessageHistorical.setHasFixedSize(true);
         mRvTransactionmessageHistorical.setNestedScrollingEnabled(false);
         messagereadAdapter=new MessageAdapter(R.layout.item_message,readlist);
-
+        mRvTransactionmessageHistorical.setAdapter(messagereadAdapter);
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
         mPresenter.GetMessageList(userId, "1","0", "999", "1");

@@ -36,7 +36,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-public class MessageFragment extends BaseLazyFragment implements HomeContract.View {
+public class MessageFragment extends BaseLazyFragment {
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
 
@@ -83,8 +83,4 @@ public class MessageFragment extends BaseLazyFragment implements HomeContract.Vi
 
     }
 
-    @Override
-    public void success(BaseResult<HomeData> baseResult) {
-
-    }
 }

@@ -7,7 +7,7 @@ android {
         applicationId "com.zhenhaikj.factoryside"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 2
+        versionCode 4
         versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -59,6 +59,12 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+    //指定jdk版本
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 repositories {
     maven { url 'http://repo1.maven.org/maven2' }
@@ -78,8 +84,8 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.0.0'
 
     //注解
-    implementation 'com.jakewharton:butterknife:9.0.0-rc1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
 
     //侧滑返回
 

@@ -3,6 +3,7 @@ package com.zhenhaikj.factoryside.mvp.model;
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.HomeContract;
 
 import io.reactivex.Observable;
@@ -17,4 +18,12 @@ public class HomeModel implements HomeContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<UserInfo>> GetUserInfoList(String UserId, String limit) {
+        return ApiRetrofit.getDefault().GetUserInfoList(UserId,limit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
 }

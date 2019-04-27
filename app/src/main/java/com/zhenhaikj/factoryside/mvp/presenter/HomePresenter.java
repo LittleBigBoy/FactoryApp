@@ -1,6 +1,8 @@
 package com.zhenhaikj.factoryside.mvp.presenter;
 
 
+import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.HomeContract;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
@@ -37,6 +39,17 @@ public class HomePresenter extends HomeContract.Presenter {
                     @Override
                     public void onComplete() {
 
+                    }
+                });
+    }
+
+    @Override
+    public void GetUserInfoList(String UserId, String limit) {
+        mModel.GetUserInfoList(UserId, limit)
+                .subscribe(new BaseObserver<UserInfo>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<UserInfo> value) {
+                        mView.GetUserInfoList(value);
                     }
                 });
     }

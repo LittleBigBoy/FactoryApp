@@ -13,7 +13,7 @@ import com.zhenhaikj.factoryside.mvp.presenter.HomePresenter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class ReturnFragment extends BaseLazyFragment<HomePresenter, HomeModel> implements HomeContract.View {
+public class ReturnFragment extends BaseLazyFragment {
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
 
@@ -57,10 +57,6 @@ public class ReturnFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
 
     }
 
-    @Override
-    public void success(BaseResult<HomeData> baseResult) {
-
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
