@@ -119,7 +119,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
 //        }
         spUtils = SPUtils.getInstance("token");
         userID = spUtils.getString("userName");
-        mPresenter.GetFactoryCategory("999");
+//        mPresenter.GetFactoryCategory("999");
     }
 
     @Override
@@ -153,7 +153,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                 mPresenter.GetBrand(userID);
                 break;
             case R.id.ll_choose_category:
-
+                mPresenter.GetFactoryCategory("999");
                 break;
             case R.id.btn_add:
 //                ProductTypeName = mEtType.getText().toString().trim();
@@ -162,7 +162,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                     ToastUtils.showShort("请选择品牌！");
                     return;
                 }
-                selectLabelDatas =mLvPopular.getSelectLabelDatas();
+                /*selectLabelDatas =mLvPopular.getSelectLabelDatas();
                 if (selectLabelDatas.size()==0) {
                     ToastUtils.showShort("请选择分类！");
                     return;
@@ -170,7 +170,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                 for (int i = 0; i < selectLabelDatas.size(); i++) {
                     categorys += selectLabelDatas.get(i).getFCategoryID()+",";
                 }
-                categorys=categorys.substring(0,categorys.lastIndexOf(","));
+                categorys=categorys.substring(0,categorys.lastIndexOf(","));*/
 //                if ("".equals(ProductTypeName)) {
 //                    ToastUtils.showShort("请输入型号！");
 //                    return;
@@ -179,7 +179,11 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
 //                    ToastUtils.showShort("请输入服务价格！");
 //                    return;
 //                }
-                mPresenter.AddBrandCategory(FBrandID, categorys);
+                if ("".equals(SubCategoryID)) {
+                    ToastUtils.showShort("请选择分类！");
+                    return;
+                }
+                mPresenter.AddBrandCategory(FBrandID, SubCategoryID);
                 break;
         }
     }
@@ -206,12 +210,13 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                     if (popularList.size() == 0) {
                         ToastUtils.showShort("无分类，请联系管理员添加！");
                     } else {
-                        mLvPopular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
-                            @Override
-                            public CharSequence getLabelText(TextView label, int position, Category data) {
-                                return data.getFCategoryName();
-                            }
-                        });
+//                        mLvPopular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
+//                            @Override
+//                            public CharSequence getLabelText(TextView label, int position, Category data) {
+//                                return data.getFCategoryName();
+//                            }
+//                        });
+                        showPopWindowGetCategory(mTvChooseCategory);
                     }
                 } else {
                     ToastUtils.showShort("获取分类失败！");

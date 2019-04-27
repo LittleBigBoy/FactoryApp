@@ -445,7 +445,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 
             case R.id.btn_release:
                 showLoading();
-                /*if (category == null) {
+                if (category == null) {
                     MyUtils.showToast(mActivity, "请选择型号！");
                     cancleLoading();
                     return;
@@ -462,10 +462,10 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     return;
                 }
                 OrderMoney=Double.parseDouble(category.getInitPrice())*Double.parseDouble(Num)+"";
-//                if (FAccessoryID == null) {
-//                    MyUtils.showToast(mActivity, "请选择属性！");
-//                    return;
-//                }
+                /*if (FAccessoryID == null) {
+                    MyUtils.showToast(mActivity, "请选择属性！");
+                    return;
+                }*/
                 if (ProvinceCode == null) {
                     MyUtils.showToast(mActivity, "请选择省！");
                     cancleLoading();
@@ -545,17 +545,13 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 
                     cancleLoading();
                     return;
-                }*/
+                }
                 switch(type){
                     case 0:
-//                        mPresenter.AddOrder("2", "安装", "17681886869", "77", "虾米", "250", "冰箱", "251", "单门 容积X≤100", "360000", "360100", "360102", "360102001", "江西省南昌市东湖区公园街道叠山路110号戴家巷社区 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
-                        mPresenter.AddOrder("2", "安装", "18767773654", "75", "格力", "250", "冰箱", "251", "单门 容积X≤100", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", Guarantee, "N", "N", "0", "0", "1");
-//                        mPresenter.AddOrder("2", "安装", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
+                        mPresenter.AddOrder("2", "安装", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
                         break;
                     case 1:
-//                        mPresenter.AddOrder("1", "维修", "17681886869", "77", "虾米", "250", "冰箱", "251", "单门 容积X≤100", "360000", "360100", "360102", "360102001", "江西省南昌市东湖区公园街道叠山路110号戴家巷社区 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
-                        mPresenter.AddOrder("1", "维修", "18767773654", "75", "格力", "250", "冰箱", "251", "单门 容积X≤100", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", Guarantee, "N", "N", "0", "0", "1");
-//                        mPresenter.AddOrder("1", "维修", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
+                        mPresenter.AddOrder("1", "维修", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
                         break;
                     default:
                         break;
