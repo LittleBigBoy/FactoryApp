@@ -13,12 +13,18 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.BillAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.RechargeRecordAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
+import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.contract.LoginContract;
+import com.zhenhaikj.factoryside.mvp.model.LoginModel;
+import com.zhenhaikj.factoryside.mvp.presenter.LoginPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.DataCleanManager;
 
 import java.io.File;
@@ -30,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class SettingActivity extends BaseActivity implements View.OnClickListener {
+public class SettingActivity extends BaseActivity <LoginPresenter, LoginModel> implements View.OnClickListener, LoginContract.View {
 
 
     @BindView(R.id.view)
@@ -128,9 +134,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 DataCleanManager.clearAllCache(this);
                 break;
             case R.id.btn_sign_out_of_your_account:
-                spUtils.put("isLogin", false);
-                startActivity(new Intent(mActivity, LoginActivity.class));
-                ActivityUtils.finishAllActivities();
+                mPresenter.LoginOut(userId);
                 break;
         }
     }
@@ -154,4 +158,50 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
 
+    @Override
+    public void Login(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void GetUserInfo(BaseResult<String> baseResult) {
+
+    }
+
+    @Override
+    public void AddAndUpdatePushAccount(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void ValidateUserName(BaseResult<String> baseResult) {
+
+    }
+
+    @Override
+    public void GetCode(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void LoginOnMessage(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void LoginOut(BaseResult<Data<String>> baseResult) {
+        switch(baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+                    spUtils.put("isLogin", false);
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                    ActivityUtils.finishAllActivities();
+                }else{
+                    ToastUtils.showShort("退出失败");
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

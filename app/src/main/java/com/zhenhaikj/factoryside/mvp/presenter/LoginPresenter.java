@@ -84,4 +84,13 @@ public class LoginPresenter extends LoginContract.Presenter {
             }
         });
     }
+    @Override
+    public void LoginOut(String UserID) {
+        mModel.LoginOut(UserID).subscribe(new BaseObserver<Data<String>>() {
+            @Override
+            protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                mView.LoginOut(value);
+            }
+        });
+    }
 }

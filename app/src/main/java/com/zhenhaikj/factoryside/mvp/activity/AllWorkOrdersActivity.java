@@ -8,12 +8,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.adapter.MyPagerAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
+import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.RedPointData;
+import com.zhenhaikj.factoryside.mvp.contract.RedPointContract;
 import com.zhenhaikj.factoryside.mvp.fragment.WorkOrderFragment;
+import com.zhenhaikj.factoryside.mvp.model.RedPointModel;
+import com.zhenhaikj.factoryside.mvp.presenter.RedPointPresenter;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -23,6 +30,9 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerInd
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -35,7 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickListener {
+public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPointModel> implements View.OnClickListener, RedPointContract.View {
 
 
     @BindView(R.id.icon_back)
@@ -67,6 +77,8 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
     private MyPagerAdapter mAdapter;
     private ArrayList<Fragment> mWorkOrderFragmentList=new ArrayList<>();;
     private Bundle bundle;
+    private SPUtils spUtils;
+    private String userid;
 
     @Override
     protected int setLayoutId() {
@@ -102,6 +114,9 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
         bundle = getIntent().getExtras();
         mTvTitle.setText(bundle.getString("title"));
         mViewPager.setCurrentItem(bundle.getInt("position"));
+        spUtils= SPUtils.getInstance("token");
+        userid=spUtils.getString("userName");
+        mPresenter.FactoryGetOrderRed(userid);
       /*    mWorkOrderFragmentList = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i], ""));
@@ -174,7 +189,14 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
     public void onBackPressed() {
         super.onBackPressed();
     }
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(Integer num) {
+        switch (num){
+            case Config.ORDER_READ:
+               mPresenter.FactoryGetOrderRed(userid);
+                break;
+        }
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -192,6 +214,30 @@ public class AllWorkOrdersActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void FactoryGetOrderRed(BaseResult<RedPointData> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData()!=null){
+                    String data=baseResult.getData().getData();
+                    for (int i =0;i<data.length();i++){
+                        char c=baseResult.getData().getData().charAt(i);
+                        if (c!='n'){
+                            mTabReceivingLayout.showDot(i);
+                        }else {
+                            mTabReceivingLayout.hideMsg(i);
+                        }
+                    }
+                }
+                else {
+                    return;
+                }
+                break;
+            default:
+                break;
+        }
     }
 
 

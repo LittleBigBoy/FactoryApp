@@ -10,10 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.umeng.socialize.UMShareAPI;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Message;
@@ -157,8 +159,14 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 tabSelected(ll_message);
                 break;
             case R.id.ll_category:
-                viewPager.setCurrentItem(2);
-                tabSelected(ll_category);
+//                viewPager.setCurrentItem(2);
+//                tabSelected(ll_category);
+                Bundle bundle = new Bundle();
+                bundle.putString("title", "所有工单");
+                bundle.putInt("position", 0);
+                intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+                intent.putExtras(bundle);
+                ActivityUtils.startActivity(intent);
                 break;
 
             case R.id.ll_car:

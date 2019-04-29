@@ -61,4 +61,10 @@ public class LoginModel implements LoginContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+    @Override
+    public Observable<BaseResult<Data<String>>> LoginOut(String UserID) {
+        return ApiRetrofit.getDefault().LoginOut(UserID,"6")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

@@ -641,4 +641,11 @@ public interface ApiService {
     Observable<BaseResult<Data<String>>> UpdateOrderFIsLook(@Field("OrderID") String OrderID,
                                                             @Field("IsLook") String IsLook,
                                                             @Field("FIsLook") String FIsLook);
+
+    /**
+     * 退出登录
+     */
+    @FormUrlEncoded
+    @POST("Account/LoginOut")
+    Observable<BaseResult<Data<String>>> LoginOut(@Field("UserID") String UserID,@Field("Type") String type);
 }

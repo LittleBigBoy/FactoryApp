@@ -190,11 +190,12 @@ public class AllWorkOrdersFragment extends BaseLazyFragment<RedPointPresenter, R
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(Integer num) {
-        switch (num){
-            case Config.ORDER_READ:
-               mPresenter.FactoryGetOrderRed(userid);
-                break;
-        }
+//        switch (num){
+//            case Config.ORDER_READ:
+//               userid=spUtils.getString("userName");
+//               mPresenter.FactoryGetOrderRed(userid);
+//                break;
+//        }
     }
 
 
