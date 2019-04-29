@@ -461,7 +461,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     cancleLoading();
                     return;
                 }
-                OrderMoney=Double.parseDouble(category.getInitPrice())*Double.parseDouble(Num)+"";
+
                 /*if (FAccessoryID == null) {
                     MyUtils.showToast(mActivity, "请选择属性！");
                     return;
@@ -548,9 +548,11 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 }
                 switch(type){
                     case 0:
+                        OrderMoney=Double.parseDouble(category.getInstallPrice())*Double.parseDouble(Num)+"";
                         mPresenter.AddOrder("2", "安装", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
                         break;
                     case 1:
+                        OrderMoney=Double.parseDouble(category.getInitPrice())*Double.parseDouble(Num)+"";
                         mPresenter.AddOrder("1", "维修", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
                         break;
                     default:

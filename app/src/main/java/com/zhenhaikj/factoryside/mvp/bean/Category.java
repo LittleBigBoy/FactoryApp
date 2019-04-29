@@ -29,9 +29,18 @@ public class Category implements Serializable {
     private String BrandName;
     private String IsUse;
     private String InitPrice;
+    private String InstallPrice;
     private String page;
     private String limit;
     private String Version;
+
+    public String getInstallPrice() {
+        return InstallPrice;
+    }
+
+    public void setInstallPrice(String installPrice) {
+        this.InstallPrice = installPrice;
+    }
 
     public String getId() {
         return Id;
