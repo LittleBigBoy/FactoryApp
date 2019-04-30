@@ -20,7 +20,7 @@
             android:textSize="20sp"
             android:gravity="center"
             android:layout_gravity="center"
-            android:layout_marginBottom="7dp"/>
+            android:layout_marginBottom="7dp" />
         <ImageView
             android:id="@+id/iv_service"
             android:layout_width="20dp"
@@ -73,11 +73,10 @@
                         android:background="@drawable/white_round_shape"
                         android:layout_marginLeft="@dimen/dp_10"
                         android:layout_marginRight="@dimen/dp_10"
-                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:paddingBottom="26dp"
                         android:orientation="horizontal"
-                        android:paddingTop="@dimen/dp_10">
+                        android:paddingTop="26dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -108,21 +107,27 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="#D50014"
                                     android:textSize="10sp"
-                                    android:text="已实名认证"/>
+                                    android:text="已实名认证"
+                                    android:layout_gravity="center"/>
                                 <ImageView
                                     android:id="@+id/iv_verified"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:src="@mipmap/yirenzheng"
-                                    android:layout_marginLeft="4dp"/>
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_gravity="center"/>
                             </LinearLayout>
 
                         </LinearLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                           android:layout_marginLeft="36dp"
+                           android:layout_marginRight="20dp"
                             android:orientation="vertical">
                             <TextView
                                 android:layout_width="wrap_content"

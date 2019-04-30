@@ -1,11 +1,16 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +31,7 @@ import com.zhenhaikj.factoryside.mvp.contract.LoginContract;
 import com.zhenhaikj.factoryside.mvp.model.LoginModel;
 import com.zhenhaikj.factoryside.mvp.presenter.LoginPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.DataCleanManager;
+import com.zhenhaikj.factoryside.mvp.widget.CustomDialog;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -63,9 +69,12 @@ public class SettingActivity extends BaseActivity <LoginPresenter, LoginModel> i
     private List<Address> rechargeRecordList = new ArrayList<>();
     private BillAdapter billAdapter;
     private RechargeRecordAdapter rechargeRecordAdapter;
+    private View shareView;
+    private AlertDialog shareDialog;
 
     private SPUtils spUtils;
     private String userId;
+    private CustomDialog serviceDialog;
 
     @Override
     protected int setLayoutId() {
@@ -106,6 +115,7 @@ public class SettingActivity extends BaseActivity <LoginPresenter, LoginModel> i
         mIconBack.setOnClickListener(this);
         mLlClean.setOnClickListener(this);
         mBtnSignOutOfYourAccount.setOnClickListener(this);
+        mLlUpdate.setOnClickListener(this);
     }
 
 
@@ -136,8 +146,41 @@ public class SettingActivity extends BaseActivity <LoginPresenter, LoginModel> i
             case R.id.btn_sign_out_of_your_account:
                 mPresenter.LoginOut(userId);
                 break;
+            case R.id.ll_update:
+//                showService();
+                shareView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_update, null);
+                shareDialog = new AlertDialog.Builder(mActivity).setView(shareView).create();
+                shareDialog.show();
+                Window window = shareDialog.getWindow();
+                WindowManager.LayoutParams lp = window.getAttributes();
+//                Display display = mActivity.getWindowManager().getDefaultDisplay();
+//                lp.width = (int) (display.getWidth() * 0.6);
+                window.setAttributes(lp);
+                window.setBackgroundDrawable(new ColorDrawable());
+                break;
         }
     }
+
+    private void showService() {
+        serviceDialog = new CustomDialog(getBaseContext());
+        serviceDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+        serviceDialog.show();
+        /*serviceDialog.setNoOnclickListener("取消", new CustomDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                serviceDialog.dismiss();
+            }
+        });
+
+        rv_service = serviceDialog.findViewById(R.id.rv_service);
+        for (int i = 0; i < 10; i++) {
+            ServiceList.add(new Product());
+        }
+        ServiceAdapter serviceAdapter = new ServiceAdapter(R.layout.item_service, ServiceList);
+        rv_service.setLayoutManager(new LinearLayoutManager(mActivity));
+        rv_service.setAdapter(serviceAdapter);*/
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

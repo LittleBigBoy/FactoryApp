@@ -15,8 +15,7 @@
     </style>
 
     <!--Activity退出动画-->
-    <style
-        name="HoloThemeActivityAnimation" parent="@android:style/Animation.Activity">
+    <style name="HoloThemeActivityAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
         <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
         <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
@@ -28,6 +27,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">false</item>
     </style>
+
     <style name="popwindow_anim_style">
         <item name="android:windowEnterAnimation">@anim/anim_enter_bottom</item>
         <!-- 指定显示的动画xml -->
@@ -39,6 +39,7 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/gray_one</item>
     </style>
+
     <style name="style1">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#0A9D00</item>
@@ -49,6 +50,7 @@
         <item name="android:textColor">@color/gray_one</item>
         <item name="android:textStyle">normal</item>
     </style>
+
     <style name="style3">
         <item name="android:textSize">30sp</item>
         <item name="android:textColor">#0A9D00</item>
@@ -61,6 +63,7 @@
         <item name="android:height">19dp</item>
 
     </style>
+
     <style name="ThemeSplash" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="android:background">@drawable/splash</item>
@@ -96,5 +99,11 @@
         <item name="android:windowIsFloating">true</item>
         <!--是否模糊-->
         <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="myTranslucent" parent="AppTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">false</item>
     </style>
 </resources>
