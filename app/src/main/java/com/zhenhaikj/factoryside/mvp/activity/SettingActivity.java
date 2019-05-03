@@ -20,6 +20,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
+import com.tencent.bugly.beta.Beta;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.BillAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.RechargeRecordAdapter;
@@ -148,15 +149,16 @@ public class SettingActivity extends BaseActivity <LoginPresenter, LoginModel> i
                 break;
             case R.id.ll_update:
 //                showService();
-                shareView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_update, null);
-                shareDialog = new AlertDialog.Builder(mActivity).setView(shareView).create();
-                shareDialog.show();
-                Window window = shareDialog.getWindow();
-                WindowManager.LayoutParams lp = window.getAttributes();
-//                Display display = mActivity.getWindowManager().getDefaultDisplay();
-//                lp.width = (int) (display.getWidth() * 0.6);
-                window.setAttributes(lp);
-                window.setBackgroundDrawable(new ColorDrawable());
+//                shareView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_update, null);
+//                shareDialog = new AlertDialog.Builder(mActivity).setView(shareView).create();
+//                shareDialog.show();
+//                Window window = shareDialog.getWindow();
+//                WindowManager.LayoutParams lp = window.getAttributes();
+////                Display display = mActivity.getWindowManager().getDefaultDisplay();
+////                lp.width = (int) (display.getWidth() * 0.6);
+//                window.setAttributes(lp);
+//                window.setBackgroundDrawable(new ColorDrawable());
+                Beta.checkUpgrade();
                 break;
         }
     }

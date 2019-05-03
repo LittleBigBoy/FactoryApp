@@ -2,8 +2,10 @@ package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +26,6 @@ public class UpgradeActivity  extends Activity {
     private Button start;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.myTranslucent);
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_upgrade);
@@ -90,6 +91,14 @@ public class UpgradeActivity  extends Activity {
 
             }
         });
+        //窗口对齐屏幕宽度
+        Window win = this.getWindow();
+        win.getDecorView().setPadding(0, 0, 0, 0);
+        WindowManager.LayoutParams lp = win.getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.gravity = Gravity.CENTER;//设置对话框置顶显示
+        win.setAttributes(lp);
     }
 
     @Override

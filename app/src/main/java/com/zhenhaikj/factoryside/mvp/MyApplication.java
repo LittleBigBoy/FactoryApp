@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.qiyukf.unicorn.api.StatusBarNotificationConfig;
 import com.qiyukf.unicorn.api.YSFOptions;
@@ -184,6 +185,7 @@ public class MyApplication extends MultiDexApplication {
          * true表示初始化时自动检查升级; false表示不会自动检查升级,需要手动调用Beta.checkUpgrade()方法;
          */
         Beta.autoCheckUpgrade = true;
+        Beta.enableNotification =true;
 
         /**
          * 设置升级检查周期为60s(默认检查周期为0s)，60s内SDK不重复向后台请求策略);
@@ -219,7 +221,7 @@ public class MyApplication extends MultiDexApplication {
         /**
          * 只允许在MainActivity上显示更新弹窗，其他activity上不显示弹窗; 不设置会默认所有activity都可以显示弹窗;
          */
-//        Beta.canShowUpgradeActs.add(MainActivity.class);
+        Beta.canShowUpgradeActs.add(MainActivity.class);
 
         /**
          * 设置Wifi下自动下载
@@ -232,7 +234,7 @@ public class MyApplication extends MultiDexApplication {
             @Override
             public void onUpgrade(int ret, UpgradeInfo strategy, boolean isManual, boolean isSilence) {
                 if (strategy != null) {
-                    Log.e("bugly", "需要更新,存在更新策略");
+//                    Log.e("bugly", "需要更新,存在更新策略");
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
                             Intent i = new Intent();
@@ -243,7 +245,8 @@ public class MyApplication extends MultiDexApplication {
                     }, 3000);
 
                 } else {
-                    Log.e("bugly", "不需要更新,没有更新策略");
+//                    Log.e("bugly", "不需要更新,没有更新策略");
+                    ToastUtils.showShort("已经是最新版本");
                 }
             }
         };
@@ -252,17 +255,17 @@ public class MyApplication extends MultiDexApplication {
         Beta.upgradeStateListener = new UpgradeStateListener() {
             @Override
             public void onUpgradeSuccess(boolean isManual) {
-                Toast.makeText(getApplicationContext(),"UPGRADE_SUCCESS",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),"UPGRADE_SUCCESS",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onUpgradeFailed(boolean isManual) {
-                Toast.makeText(getApplicationContext(),"UPGRADE_FAILED",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),"UPGRADE_FAILED",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onUpgrading(boolean isManual) {
-                Toast.makeText(getApplicationContext(),"UPGRADE_CHECKING",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),"UPGRADE_CHECKING",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -272,7 +275,7 @@ public class MyApplication extends MultiDexApplication {
 
             @Override
             public void onUpgradeNoVersion(boolean isManual) {
-                Toast.makeText(getApplicationContext(),"UPGRADE_NO_VERSION",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),"UPGRADE_NO_VERSION",Toast.LENGTH_SHORT).show();
             }
         };
 
