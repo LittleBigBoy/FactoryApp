@@ -115,7 +115,9 @@ public class MyApplication extends MultiDexApplication {
         CrashReport.initCrashReport(context, "e1a0d72980", true, strategy);*/
 
 
-        initUpgradeDialog();
+//        initUpgradeDialog();
+        Beta.canShowUpgradeActs.add(MainActivity.class);
+
 
         // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
         // 调试时，将第三个参数改为true

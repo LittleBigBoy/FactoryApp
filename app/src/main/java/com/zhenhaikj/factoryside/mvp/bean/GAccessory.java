@@ -34,8 +34,17 @@ public class GAccessory implements Serializable {
     private String Relation;
     private String Price;
     private String DiscountPrice;
+    private String State;
     private String IsUse;
     private String Version;
+
+    public String getState() {
+        return State;
+    }
+
+    public void setState(String state) {
+        State = state;
+    }
 
     public String getId() {
         return Id;
