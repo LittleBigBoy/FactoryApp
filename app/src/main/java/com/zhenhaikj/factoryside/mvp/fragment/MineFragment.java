@@ -632,7 +632,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                              .into(mIvProfileImage);
                     }
                     mTvNickname.setText(userInfoDean.getTrueName());
-                    mTvMoney.setText("可用金额（元） " + (userInfoDean.getTotalMoney()-userInfoDean.getFrozenMoney()));
+                    String format = String.format("%.2f", userInfoDean.getTotalMoney()-userInfoDean.getFrozenMoney());
+                    mTvMoney.setText("可用金额（元） " + format);
                 }
 
                 break;

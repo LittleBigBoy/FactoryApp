@@ -52,8 +52,6 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
     TextView mMoneyTv;
     @BindView(R.id.hide_iv)
     ImageView mHideIv;
-    @BindView(R.id.ll_margin)
-    LinearLayout mLlMargin;
     @BindView(R.id.available_tv)
     TextView mAvailableTv;
     @BindView(R.id.freeze_tv)
@@ -179,11 +177,14 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
         switch (baseResult.getStatusCode()) {
             case 200:
                 userInfo = baseResult.getData().getData().get(0);
-                mMoneyTv.setText(userInfo.getTotalMoney().toString());
+                String TotalMoney = String.format("%.2f", userInfo.getTotalMoney());
+                mMoneyTv.setText(TotalMoney);
                 String format = String.format("%.2f", userInfo.getTotalMoney() - userInfo.getFrozenMoney());
                 mAvailableTv.setText(format);
-                mFreezeTv.setText(userInfo.getFrozenMoney().toString());
-                mTvMargin.setText("保证金："+userInfo.getDepositMoney()+"元");
+                String FrozenMoney = String.format("%.2f", userInfo.getFrozenMoney());
+                mFreezeTv.setText(FrozenMoney);
+                String DepositMoney = String.format("%.2f", userInfo.getDepositMoney());
+                mTvMargin.setText(DepositMoney);
                 break;
         }
     }

@@ -60,7 +60,7 @@
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginTop="20dp"
                                     android:layout_weight="1"
-                                    android:text="总资产（元）"
+                                    android:text="可用余额"
                                     android:textColor="#737373"
                                     android:textSize="16sp" />
 
@@ -71,7 +71,7 @@
                                     android:orientation="horizontal">
 
                                     <TextView
-                                        android:id="@+id/money_tv"
+                                        android:id="@+id/available_tv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="20dp"
@@ -88,29 +88,7 @@
                                         android:src="@drawable/eye" />
                                 </LinearLayout>
 
-                                <LinearLayout
-                                    android:id="@+id/ll_margin"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="20dp"
-                                    android:layout_marginTop="5dp"
-                                    android:orientation="horizontal">
 
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:src="@mipmap/baozheng" />
-
-                                    <TextView
-                                        android:id="@+id/tv_margin"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="5dp"
-                                        android:text="保证金：1000 元"
-                                        android:textColor="#737373"
-                                        android:textSize="10sp" />
-                                </LinearLayout>
                             </LinearLayout>
 
                             <LinearLayout
@@ -130,12 +108,12 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="可用余额："
+                                        android:text="总金额："
                                         android:textColor="#ADADAD"
                                         android:textSize="14sp" />
 
                                     <TextView
-                                        android:id="@+id/available_tv"
+                                        android:id="@+id/money_tv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="535.9"
@@ -186,12 +164,13 @@
                                     android:layout_marginTop="5dp"
                                     android:layout_marginRight="15dp"
                                     android:layout_weight="1"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="赠送余额："
+                                        android:text="保证金："
                                         android:textColor="#ADADAD"
                                         android:textSize="14sp" />
 
@@ -206,6 +185,35 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
+                                        android:text="元"
+                                        android:textColor="#ADADAD"
+                                        android:textSize="14sp" />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="保证金："
+                                        android:textColor="#ADADAD"
+                                        android:textSize="14sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_margin"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="1410.4"
+                                        android:textColor="@color/black"
+                                        android:textSize="14sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:text="元"
                                         android:textColor="#ADADAD"
                                         android:textSize="14sp" />

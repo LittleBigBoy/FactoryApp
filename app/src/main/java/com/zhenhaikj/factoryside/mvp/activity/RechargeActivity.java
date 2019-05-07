@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
@@ -26,16 +25,15 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhenhaikj.factoryside.R;
-import com.zhenhaikj.factoryside.mvp.Constants;
 import com.zhenhaikj.factoryside.mvp.adapter.FaceValueAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.FaceValue;
 import com.zhenhaikj.factoryside.mvp.bean.PayResult;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WXpayInfo;
 import com.zhenhaikj.factoryside.mvp.contract.RechargeContract;
-import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
 import com.zhenhaikj.factoryside.mvp.model.RechargeModel;
 import com.zhenhaikj.factoryside.mvp.presenter.RechargePresenter;
 
@@ -87,16 +85,25 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
     LinearLayout mLlWxpay;
     @BindView(R.id.et_any_amount)
     EditText mEtAnyAmount;
+    @BindView(R.id.tv_frozen_amount)
+    TextView mTvFrozenAmount;
+    @BindView(R.id.tv_available)
+    TextView mTvAvailable;
+    @BindView(R.id.ll_margin)
+    LinearLayout mLlMargin;
+    @BindView(R.id.tv_margin)
+    TextView mTvMargin;
     private List<FaceValue> faceValueList = new ArrayList<>();
     private FaceValueAdapter faceValueAdapter;
     private String[] faceValues = new String[]{"100", "300", "500", "1000", "2000", "3000"};
     private String value;
     private IWXAPI api;
-    private int payway=1;
+    private int payway = 1;
     private SPUtils spUtils;
     private String userID;
     private String orderinfo;
     private WXpayInfo wXpayInfo;
+    private UserInfo.UserInfoDean userInfo = new UserInfo.UserInfoDean();
 
     @Override
     protected int setLayoutId() {
@@ -119,13 +126,13 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
         api = WXAPIFactory.createWXAPI(this, "wxd6509c9c912f0015");
         // 将该app注册到微信
         api.registerApp("wxd6509c9c912f0015");
-
+        mPresenter.GetUserInfoList(userID, "1");
 
         mIvAplipay.setSelected(true);//默认选中支付宝
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("在线充值");
         for (int i = 0; i < faceValues.length; i++) {
-            faceValueList.add(new FaceValue(faceValues[i],false));
+            faceValueList.add(new FaceValue(faceValues[i], false));
         }
         faceValueList.get(0).setSelect(true);
         value = faceValueList.get(0).getValue();
@@ -138,10 +145,10 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 mEtAnyAmount.clearFocus();
                 mEtAnyAmount.setText("");
-                for (int i = 0; i <faceValueList.size() ; i++) {
-                    if (i==position){
+                for (int i = 0; i < faceValueList.size(); i++) {
+                    if (i == position) {
                         faceValueList.get(i).setSelect(true);
-                    }else{
+                    } else {
                         faceValueList.get(i).setSelect(false);
                     }
                 }
@@ -167,12 +174,12 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
         mEtAnyAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    for (int i = 0; i <faceValueList.size() ; i++) {
+                if (hasFocus) {
+                    for (int i = 0; i < faceValueList.size(); i++) {
                         faceValueList.get(i).setSelect(false);
                     }
                     faceValueAdapter.notifyDataSetChanged();
-                    value="0";
+                    value = "0";
                     mTvActualArrival.setText(value);
                 }
             }
@@ -193,12 +200,12 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
                 String text = s.toString();
                 int len = s.toString().length();
                 if (len > 1 && text.startsWith("0")) {
-                    value=s.replace(0,1,"").toString();
-                }else{
-                    if ("".equals(text)){
-                        value="0";
-                    }else{
-                        value=text;
+                    value = s.replace(0, 1, "").toString();
+                } else {
+                    if ("".equals(text)) {
+                        value = "0";
+                    } else {
+                        value = text;
                     }
                 }
                 mTvActualArrival.setText(value);
@@ -219,12 +226,12 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
                 finish();
                 break;
             case R.id.ll_alipay:
-                payway =1;
+                payway = 1;
                 mIvAplipay.setSelected(true);
                 mIvWechat.setSelected(false);
                 break;
             case R.id.ll_wxpay:
-                payway =2;
+                payway = 2;
                 mIvAplipay.setSelected(false);
                 mIvWechat.setSelected(true);
                 break;
@@ -232,26 +239,26 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
 
                 break;
             case R.id.bt_recharge:
-                if (value==null||"0".equals(value)){
+                if (value == null || "0".equals(value)) {
                     ToastUtils.showShort("请选择或输入充值金额");
                     return;
                 }
-                switch (payway){
+                switch (payway) {
                     case 1:
-                        mPresenter.GetOrderStr(userID,value);
+                        mPresenter.GetOrderStr(userID, value);
 //                        alipay();
                         break;
                     case 2:
-                        mPresenter.GetWXOrderStr(userID,value);
+                        mPresenter.GetWXOrderStr(userID, value);
 //                        WXpay();
                         break;
                 }
                 break;
         }
     }
+
     /**
      * 支付宝支付业务
-     *
      */
     public void alipay() {
 
@@ -285,15 +292,15 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
     /**
      * 微信支付
      */
-    public void WXpay(){
+    public void WXpay() {
         PayReq req = new PayReq();
-        req.appId			= wXpayInfo.getAppid();
-        req.partnerId		= wXpayInfo.getPartnerid();
-        req.prepayId		= wXpayInfo.getPrepayid();
-        req.nonceStr		= wXpayInfo.getNoncestr();
-        req.timeStamp		= wXpayInfo.getTimestamp();
-        req.packageValue	=  wXpayInfo.getPackageX();
-        req.sign			= wXpayInfo.getSign();
+        req.appId = wXpayInfo.getAppid();
+        req.partnerId = wXpayInfo.getPartnerid();
+        req.prepayId = wXpayInfo.getPrepayid();
+        req.nonceStr = wXpayInfo.getNoncestr();
+        req.timeStamp = wXpayInfo.getTimestamp();
+        req.packageValue = wXpayInfo.getPackageX();
+        req.sign = wXpayInfo.getSign();
         //req.extData			= "app data"; // optional
         api.sendReq(req);
     }
@@ -332,11 +339,12 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
 
     /**
      * 微信支付结果
+     *
      * @param resp
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(BaseResp resp) {
-        switch (resp.errCode){
+        switch (resp.errCode) {
             case 0:
                 mPresenter.WXNotifyManual(wXpayInfo.getOut_trade_no());
                 ToastUtils.showShort("支付成功");
@@ -352,14 +360,14 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
 
     @Override
     public void GetOrderStr(BaseResult<Data<String>> baseResult) {
-        switch(baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().isItem1()){
-                    orderinfo =baseResult.getData().getItem2();
-                    if (!"".equals(orderinfo)){
+                if (baseResult.getData().isItem1()) {
+                    orderinfo = baseResult.getData().getItem2();
+                    if (!"".equals(orderinfo)) {
                         alipay();
                     }
-                }else{
+                } else {
                     ToastUtils.showShort("获取支付信息失败！");
                 }
                 break;
@@ -371,14 +379,14 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
 
     @Override
     public void GetWXOrderStr(BaseResult<Data<WXpayInfo>> baseResult) {
-        switch(baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().isItem1()){
+                if (baseResult.getData().isItem1()) {
                     wXpayInfo = baseResult.getData().getItem2();
-                    if (wXpayInfo!=null){
+                    if (wXpayInfo != null) {
                         WXpay();
                     }
-                }else{
+                } else {
                     ToastUtils.showShort("获取支付信息失败！");
                 }
                 break;
@@ -391,5 +399,29 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
     @Override
     public void WXNotifyManual(BaseResult<Data<String>> baseResult) {
 
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                userInfo = baseResult.getData().getData().get(0);
+                String TotalMoney = String.format("%.2f", userInfo.getTotalMoney());
+                mTvMoney.setText(TotalMoney);
+                String format = String.format("%.2f", userInfo.getTotalMoney() - userInfo.getFrozenMoney());
+                mTvAvailable.setText(format);
+                String FrozenMoney = String.format("%.2f", userInfo.getFrozenMoney());
+                mTvFrozenAmount.setText(FrozenMoney);
+                String DepositMoney = String.format("%.2f", userInfo.getDepositMoney());
+                mTvMargin.setText(DepositMoney);
+                break;
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

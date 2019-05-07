@@ -1,15 +1,12 @@
 package com.zhenhaikj.factoryside.mvp.presenter;
 
-
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
-import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WXpayInfo;
-import com.zhenhaikj.factoryside.mvp.contract.RechargeContract;
+import com.zhenhaikj.factoryside.mvp.contract.MarginContract;
 
-public class RechargePresenter extends RechargeContract.Presenter {
-
+public class MarginPresenter extends MarginContract.Presenter {
 
     @Override
     public void GetOrderStr(String userid, String TotalAmount) {
@@ -21,6 +18,7 @@ public class RechargePresenter extends RechargeContract.Presenter {
                     }
                 });
     }
+
     @Override
     public void GetWXOrderStr(String userid, String TotalAmount) {
         mModel.GetWXOrderStr(userid, TotalAmount)
@@ -38,17 +36,6 @@ public class RechargePresenter extends RechargeContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
                         mView.WXNotifyManual(value);
-                    }
-                });
-    }
-
-    @Override
-    public void GetUserInfoList(String UserId, String limit) {
-        mModel.GetUserInfoList(UserId, limit)
-                .subscribe(new BaseObserver<UserInfo>() {
-                    @Override
-                    protected void onHandleSuccess(BaseResult<UserInfo> value) {
-                        mView.GetUserInfoList(value);
                     }
                 });
     }
