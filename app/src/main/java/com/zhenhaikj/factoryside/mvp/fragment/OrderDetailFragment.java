@@ -245,6 +245,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private List<Address> addressList;
     private String userId;
     private Address address;
+    private double Service_range = 15;//正常距离
+    private Double distance;
 
     public static OrderDetailFragment newInstance(String param1, String param2) {
         OrderDetailFragment fragment = new OrderDetailFragment();
@@ -802,7 +804,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 } else {
                     mLlApproveBeyondMoney.setVisibility(View.GONE);
                 }
-                mTvRange.setText(data.getBeyondDistance());
+                distance = Double.parseDouble(data.getBeyondDistance());
+                mTvRange.setText(String.format("%.2f", distance - Service_range));
 
                 if ("1".equals(data.getBeyondState())) {
                     mTvPassBeyond.setVisibility(View.GONE);

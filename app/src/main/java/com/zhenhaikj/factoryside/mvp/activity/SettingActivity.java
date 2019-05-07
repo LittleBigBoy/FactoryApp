@@ -145,6 +145,9 @@ public class SettingActivity extends BaseActivity <LoginPresenter, LoginModel> i
                 DataCleanManager.clearAllCache(this);
                 break;
             case R.id.btn_sign_out_of_your_account:
+                spUtils.put("isLogin", false);
+                startActivity(new Intent(mActivity, LoginActivity.class));
+                ActivityUtils.finishAllActivities();
                 mPresenter.LoginOut(userId);
                 break;
             case R.id.ll_update:
