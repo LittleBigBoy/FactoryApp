@@ -109,7 +109,7 @@ public class WorkOrder implements Serializable {
          * Service : string
          * ServiceMoney : 0
          * ReturnAccessory : string
-         * ReturnAccessoryMsg : string
+         * ReturnAccessoryMsg : string   返件单号
          * ApplyCancel : string
          * UpdateTime : 2019-02-27T01:45:22.583Z
          * OrderPayStr : string

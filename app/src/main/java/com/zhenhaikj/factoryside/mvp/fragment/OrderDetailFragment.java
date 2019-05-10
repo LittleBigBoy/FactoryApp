@@ -549,11 +549,44 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     btn_positive.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            expressno = et_expressno.getText().toString().trim();
+                            expressno = et_expressno.getText().toString();
                             if ("".equals(expressno)) {
                                 expressno = "123";
                             }
                             mPresenter.AddOrUpdateExpressNo(OrderID, expressno);
+                        }
+                    });
+                }else if ("1".equals(data.getAccessoryState())) {
+                    expressno_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_home, null);
+                    btn_negtive = expressno_view.findViewById(R.id.negtive);
+                    btn_positive = expressno_view.findViewById(R.id.positive);
+                    tv_title = expressno_view.findViewById(R.id.title);
+                    tv_message = expressno_view.findViewById(R.id.message);
+//                    et_expressno = expressno_view.findViewById(R.id.et_expressno);
+//                    ll_scan = expressno_view.findViewById(R.id.ll_scan);
+                    expressno_dialog = new AlertDialog.Builder(mActivity)
+                            .setView(expressno_view)
+                            .create();
+                    expressno_dialog.show();
+                    tv_title.setText("提示");
+                    tv_message.setText("是否同意申请的配件");
+//                    ll_scan.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            scan();
+//                        }
+//                    });
+                    btn_negtive.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            expressno_dialog.dismiss();
+                        }
+                    });
+                    btn_positive.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            expressno_dialog.dismiss();
+                            mPresenter.ApproveOrderAccessory(OrderID, "1");
                         }
                     });
                 } else {

@@ -14,6 +14,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.FrozenMoney;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
+import com.zhenhaikj.factoryside.mvp.bean.Logistics;
 import com.zhenhaikj.factoryside.mvp.bean.Message;
 import com.zhenhaikj.factoryside.mvp.bean.MessageData;
 import com.zhenhaikj.factoryside.mvp.bean.MonthBill;
@@ -479,6 +480,15 @@ public interface ApiService {
             @Field("ExpressNo") String ExpressNo
     );
 
+
+    /**
+     * 快递信息
+     * @param ExpressNo  快递单号
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/GetExpressInfo")
+    Observable<BaseResult<Data<List<Logistics>>>> GetExpressInfo(@Field("ExpressNo") String ExpressNo);
 
     /*
     * 取消订单

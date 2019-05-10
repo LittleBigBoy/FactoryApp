@@ -42,6 +42,25 @@
                 android:singleLine="true"
                 android:textSize="14sp"
                 android:textColor="#AAAAAA"/>
+            <TextView
+                android:id="@+id/tv_remind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:singleLine="true"
+                android:textSize="12sp"
+                android:layout_gravity="center"
+                android:textColor="@color/red" />
+            <TextView
+                android:id="@+id/tv_remind_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:singleLine="true"
+                android:textSize="12sp"
+                android:layout_gravity="center"
+                android:textColor="@color/red"
+                android:layout_marginLeft="5dp"/>
             <ImageView
                 android:id="@+id/iv_copy"
                 android:layout_width="30dp"

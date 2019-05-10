@@ -73,6 +73,7 @@ public class TrackFragment extends BaseLazyFragment<TrackPresenter, TrackModel> 
         adapter = new TrackAdapter(R.layout.logistics_recycle_item,list);
         mTrackRv.setLayoutManager(new LinearLayoutManager(mActivity));
         mTrackRv.setAdapter(adapter);
+        adapter.setEmptyView(getEmptyView());
     }
 
     @Override

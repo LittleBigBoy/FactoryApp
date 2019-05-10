@@ -37,6 +37,43 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
         if ("待接单".equals(name)){
             helper.setVisible(R.id.tv_obsolete,true);
         }
+//        if ("0".equals(item.getBeyondState())){
+//            helper.setText(R.id.tv_remind,"远程费待审核");
+//        }else {
+//            helper.setText(R.id.tv_remind,"");
+//        }
+        if (item.getBeyondState()==null){
+            helper.setText(R.id.tv_remind,"");
+        }else if ("0".equals(item.getBeyondState())) {
+            helper.setText(R.id.tv_remind,"远程费待审核");
+        } else if ("1".equals(item.getBeyondState())) {
+            helper.setText(R.id.tv_remind,"远程费审核通过");
+
+        } else {
+            helper.setText(R.id.tv_remind,"远程费已拒");
+        }
+
+//        if ("0".equals(item.getAccessoryApplyState())){
+//            helper.setText(R.id.tv_remind_two,"配件待审核");
+//        }else {
+//            helper.setText(R.id.tv_remind_two,"");
+//        }
+        if(item.getAccessoryApplyState()==null){
+            helper.setText(R.id.tv_remind_two,"");
+        } else if ("0".equals(item.getAccessoryApplyState())) {
+            helper.setText(R.id.tv_remind_two,"配件待审核");
+        } else if ("1".equals(item.getAccessoryApplyState())) {
+            helper.setText(R.id.tv_remind_two,"配件审核通过");
+        } else {
+            helper.setText(R.id.tv_remind_two,"配件已拒");
+        }
+
+//        if ("质保单".equals(name)){
+//            if (!"".equals(item.getAppointmentMessage())){
+//                helper.setVisible(R.id.tv_remind,true);
+//                helper.setText(R.id.tv_remind,item.getAppointmentMessage());
+//            }
+//        }
 
     }
 

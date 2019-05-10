@@ -21,9 +21,15 @@ import com.zhenhaikj.factoryside.mvp.activity.HomeInstallationActivity;
 import com.zhenhaikj.factoryside.mvp.activity.HomeMaintenanceActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
+import com.zhenhaikj.factoryside.mvp.bean.Logistics;
+import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
+import com.zhenhaikj.factoryside.mvp.contract.ExpressInfoContract;
 import com.zhenhaikj.factoryside.mvp.contract.HomeContract;
+import com.zhenhaikj.factoryside.mvp.model.ExpressInfoModel;
 import com.zhenhaikj.factoryside.mvp.model.HomeModel;
+import com.zhenhaikj.factoryside.mvp.presenter.ExpressInfoPresenter;
 import com.zhenhaikj.factoryside.mvp.presenter.HomePresenter;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -82,5 +88,4 @@ public class MessageFragment extends BaseLazyFragment {
     public void Event(String name) {
 
     }
-
 }
