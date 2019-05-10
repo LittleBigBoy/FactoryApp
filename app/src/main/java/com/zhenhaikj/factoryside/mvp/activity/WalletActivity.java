@@ -13,11 +13,15 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.BillAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.FrozenMoneyAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.MonthBillAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.RechargeRecordAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Bill;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.FrozenMoney;
+import com.zhenhaikj.factoryside.mvp.bean.MonthBill;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.WalletContract;
 import com.zhenhaikj.factoryside.mvp.model.WalletModel;
@@ -86,6 +90,10 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
     private RechargeRecordAdapter rechargeRecordAdapter;
     private String userId;
     private UserInfo.UserInfoDean userInfo = new UserInfo.UserInfoDean();
+    private List<MonthBill.DataBean> MonthBillList = new ArrayList<>();
+    private List<FrozenMoney> FrozenMoneyList = new ArrayList<>();
+    private MonthBillAdapter monthBillAdapter;
+    private FrozenMoneyAdapter frozenMoneyAdapter;
 
     @Override
     protected int setLayoutId() {
@@ -110,6 +118,8 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
         mPresenter.AccountBill(userId, "1");//充值
         mPresenter.AccountBill(userId, "3");//提现
         mPresenter.AccountBill(userId, "2,5");//收入和支出
+        mPresenter.MonthBill(userId,"1,2");
+        mPresenter.GetFrozenMoney(userId);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -128,6 +138,14 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
         mRechargerecordRv.setLayoutManager(new LinearLayoutManager(mActivity));
         mBillRv.setAdapter(billAdapter);
         mRechargerecordRv.setAdapter(rechargeRecordAdapter);
+
+        monthBillAdapter = new MonthBillAdapter(R.layout.bill_item,MonthBillList);
+        mBillRv.setLayoutManager(new LinearLayoutManager(mActivity));
+        mBillRv.setAdapter(monthBillAdapter);
+
+        frozenMoneyAdapter = new FrozenMoneyAdapter(R.layout.item_frozen_amount,FrozenMoneyList);
+        mFrozenAmountRv.setLayoutManager(new LinearLayoutManager(mActivity));
+        mFrozenAmountRv.setAdapter(frozenMoneyAdapter);
     }
 
     @Override
@@ -136,6 +154,9 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
         mPayTheDeposiTv.setOnClickListener(this);
         mLlInvoice.setOnClickListener(this);
         mRechargeTv.setOnClickListener(this);
+        mLlRechargeRecord.setOnClickListener(this);
+        mLlMonthlyBill.setOnClickListener(this);
+        mLlFrozenAmount.setOnClickListener(this);
     }
 
 
@@ -162,6 +183,22 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
             case R.id.recharge_tv:
                 startActivity(new Intent(mActivity, RechargeActivity.class));
                 break;
+            case R.id.ll_recharge_record:
+                Intent intent = new Intent(this, DetailRecordActivity.class);
+                intent.putExtra("openwhich", "1");
+                startActivity(intent);
+                break;
+            case R.id.ll_monthly_bill:
+                Intent intent1 = new Intent(this, DetailRecordActivity.class);
+                intent1.putExtra("openwhich", "2");
+                startActivity(intent1);
+                break;
+            case R.id.ll_frozen_amount:
+                Intent intent2 = new Intent(this, DetailRecordActivity.class);
+                intent2.putExtra("openwhich", "3");
+                startActivity(intent2);
+                break;
+
         }
     }
 
@@ -221,45 +258,8 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
                                 break;
                             case "2"://支出
                             case "5"://收入
-                                billList.addAll(baseResult.getData().getItem2().getData());
-                                mBillRv.setLayoutManager(new LinearLayoutManager(mActivity));
-                                mBillRv.setHasFixedSize(true);
-                                mBillRv.setNestedScrollingEnabled(false);
-
-
-                                if (billList.size() <= 4) {
-                                    billAdapter = new BillAdapter(R.layout.bill_item, billList);
-                                } else {
-                                    List<Bill.DataBean> list = new ArrayList<>();//提现记录
-
-                                    for (int i = 0; i < 4; i++) {
-                                        list.add(billList.get(i));
-                                    }
-                                    billAdapter = new BillAdapter(R.layout.bill_item, billList);
-
-                                }
-
-                                mBillRv.setAdapter(billAdapter);
-
-
                                 break;
                             case "3"://提现
-//                                withdraw_list.addAll(baseResult.getData().getItem2().getData());
-//                                mRvWithdrawalsRecord.setLayoutManager(new LinearLayoutManager(mActivity));
-//                                mRvWithdrawalsRecord.setHasFixedSize(true);
-//                                mRvWithdrawalsRecord.setNestedScrollingEnabled(false);
-//
-//                                if (withdraw_list.size()<=4){
-//                                    wallet_record_adapter = new Wallet_record_Adapter(R.layout.item_withdrawals_record, withdraw_list);
-//                                }else {
-//                                    List<Bill.DataBean> list = new ArrayList<>();//提现记录
-//
-//                                    for (int i=0;i<4;i++){
-//                                        list.add(withdraw_list.get(i));
-//                                    }
-//                                    wallet_record_adapter = new Wallet_record_Adapter(R.layout.item_withdrawals_record, list);
-//                                }
-//                                mRvWithdrawalsRecord.setAdapter(wallet_record_adapter);
                                 break;
                             case "4"://待支付
                                 break;
@@ -267,6 +267,44 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
                                 break;
                         }
                     }
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void MonthBill(BaseResult<Data<MonthBill>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+
+                MonthBillList.addAll(baseResult.getData().getItem2().getData());
+                if (MonthBillList.size()<=4){
+                    monthBillAdapter.setNewData(MonthBillList);
+                }else {
+                   List<MonthBill.DataBean> List = new ArrayList<>();
+                   for (int i=0;i<5;i++){
+                       List.add(MonthBillList.get(i));
+                   }
+                   monthBillAdapter.setNewData(List);
+                }
+
+                break;
+        }
+    }
+
+    @Override
+    public void GetFrozenMoney(BaseResult<Data<List<FrozenMoney>>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                FrozenMoneyList.addAll(baseResult.getData().getItem2());
+                if (FrozenMoneyList.size()<=4){
+                    frozenMoneyAdapter.setNewData(FrozenMoneyList);
+                }else {
+                    List<FrozenMoney> List = new ArrayList<>();
+                    for (int i = 0; i <5 ; i++) {
+                        List.add(FrozenMoneyList.get(i));
+                    }
+                    frozenMoneyAdapter.setNewData(List);
                 }
                 break;
         }

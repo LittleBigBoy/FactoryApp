@@ -53,7 +53,9 @@ public interface HomeInstallationContract {
                                                       String Extra,
                                                       String ExtraTime,
                                                       String ExtraFee,
-                                                      String Num);
+                                                      String Num,
+                                                      String IsRecevieGoods,
+                                                      String ExpressNo);
     }
 
     interface View extends BaseView{
@@ -110,6 +112,8 @@ public interface HomeInstallationContract {
                                       String Extra,
                                       String ExtraTime,
                                       String ExtraFee,
-                                      String Num);
+                                      String Num,
+                                      String IsRecevieGoods,
+                                      String ExpressNo);
     }
 }

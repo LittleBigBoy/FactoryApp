@@ -12,9 +12,11 @@ import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
+import com.zhenhaikj.factoryside.mvp.bean.FrozenMoney;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
 import com.zhenhaikj.factoryside.mvp.bean.Message;
 import com.zhenhaikj.factoryside.mvp.bean.MessageData;
+import com.zhenhaikj.factoryside.mvp.bean.MonthBill;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.bean.RedPointData;
@@ -280,7 +282,9 @@ public interface ApiService {
                                                   @Field("Extra") String Extra,
                                                   @Field("ExtraTime") String ExtraTime,
                                                   @Field("ExtraFee") String ExtraFee,
-                                                  @Field("Num") String Num);
+                                                  @Field("Num") String Num,
+                                                  @Field("IsRecevieGoods") String IsRecevieGoods,
+                                                  @Field("ExpressNo") String ExpressNo);
 
 
     @FormUrlEncoded
@@ -319,7 +323,16 @@ public interface ApiService {
     @POST("Account/AccountBill")
     Observable<BaseResult<Data<Bill>>> AccountBill(@Field("UserID") String UserID,
                                                    @Field("state") String state);
+    /*获取用户每月账单*/
+    @FormUrlEncoded
+    @POST("Account/MonthBill")
+    Observable<BaseResult<Data<MonthBill>>> MonthBill(@Field("UserID") String UserID,
+                                                      @Field("state") String state);
 
+    /*获取用户冻结记录*/
+    @FormUrlEncoded
+    @POST("account/GetFrozenMoney")
+    Observable<BaseResult<Data<List<FrozenMoney>>>> GetFrozenMoney(@Field("UserID") String UserID);
     /*修改昵称*/
     @FormUrlEncoded
     @POST("Account/UpdateAccountNickName")

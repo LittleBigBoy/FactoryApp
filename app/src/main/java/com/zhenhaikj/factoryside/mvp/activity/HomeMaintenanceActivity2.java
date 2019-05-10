@@ -36,6 +36,8 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.donkingliang.labels.LabelsView;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.AccessoryAdapter;
@@ -165,6 +167,26 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     TextView mTvCategoryName;
     @BindView(R.id.tv_price)
     TextView mTvPrice;
+    @BindView(R.id.ll_accessories)
+    LinearLayout mLlAccessories;
+    @BindView(R.id.cb_yes_signing)
+    CheckBox mCbYesSigning;
+    @BindView(R.id.ll_yes_signing)
+    LinearLayout mLlYesSigning;
+    @BindView(R.id.cb_no_signing)
+    CheckBox mCbNoSigning;
+    @BindView(R.id.ll_no_signing)
+    LinearLayout mLlNoSigning;
+    @BindView(R.id.et_expressno)
+    EditText mEtExpressno;
+    @BindView(R.id.ll_scan)
+    LinearLayout mLlScan;
+    @BindView(R.id.ll_number)
+    LinearLayout mLlNumber;
+    @BindView(R.id.ll_signing)
+    LinearLayout mLlSigning;
+    @BindView(R.id.view_sig)
+    View mViewSig;
 
 
     private PopupWindow popupWindow;
@@ -203,6 +225,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private String RecycleOrderHour;//回收时间
     private String Guarantee;//保内Y保外N
     private String AccessorySendState;//是否已发配件 Y是N否
+    private String SigningState;//是否已收产品 Y是N否
     private String Extra;//是否加急Y是N否
     private String ExtraTime;//加急时间
     private String ExtraFee;//加急费用
@@ -244,6 +267,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private Category category;
     ZLoadingDialog dialog = new ZLoadingDialog(this); //loading
     private int type;
+    private String number;
 
     @Override
     protected int setLayoutId() {
@@ -274,9 +298,9 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 
     @Override
     protected void initView() {
-        type =getIntent().getIntExtra("type",-1);
+        type = getIntent().getIntExtra("type", -1);
         mTvTitle.setVisibility(View.VISIBLE);
-        switch(type){
+        switch (type) {
             case 0:
                 mTvTitle.setText("上门安装");
                 break;
@@ -298,6 +322,17 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         AccessorySendState = "N";
 //        mPresenter.GetFactoryBrand(userID);
 
+        switch (type) {
+            case 0:
+                mLlAccessories.setVisibility(View.GONE);
+                mLlSigning.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                mLlAccessories.setVisibility(View.VISIBLE);
+                mLlSigning.setVisibility(View.GONE);
+                break;
+
+        }
 
     }
 
@@ -328,6 +363,9 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         mLlOutsideTheWarranty.setOnClickListener(this);
         mLlYes.setOnClickListener(this);
         mLlNo.setOnClickListener(this);
+        mLlYesSigning.setOnClickListener(this);
+        mLlNoSigning.setOnClickListener(this);
+        mLlScan.setOnClickListener(this);
 
 
         mBtnRelease.setOnClickListener(this);
@@ -442,7 +480,31 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 mCbNo.setChecked(true);
                 AccessorySendState = "N";
                 break;
-
+            case R.id.ll_yes_signing:
+                mCbYesSigning.setChecked(true);
+                mCbNoSigning.setChecked(false);
+                SigningState = "Y";
+                mViewSig.setVisibility(View.GONE);
+                mLlNumber.setVisibility(View.GONE);
+                break;
+            case R.id.ll_no_signing:
+                mCbYesSigning.setChecked(false);
+                mCbNoSigning.setChecked(true);
+                SigningState = "N";
+                mViewSig.setVisibility(View.VISIBLE);
+                mLlNumber.setVisibility(View.VISIBLE);
+                break;
+            case R.id.ll_scan:
+                IntentIntegrator integrator = new IntentIntegrator(HomeMaintenanceActivity2.this);
+                // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+                integrator.setCaptureActivity(ScanActivity.class); //设置打开摄像头的Activity
+                integrator.setPrompt("请扫描快递码"); //底部的提示文字，设为""可以置空
+                integrator.setCameraId(0); //前置或者后置摄像头
+                integrator.setBeepEnabled(true); //扫描成功的「哔哔」声，默认开启
+                integrator.setBarcodeImageEnabled(true);
+                integrator.initiateScan();
+                break;
             case R.id.btn_release:
                 showLoading();
                 if (category == null) {
@@ -526,13 +588,13 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     cancleLoading();
                     return;
                 }
-                if (AccessorySendState == null || "".equals(AccessorySendState)) {
-                    MyUtils.showToast(mActivity, "请选择是否为已发配件！");
-                    cancleLoading();
-                    return;
-                }
+//                if (AccessorySendState == null || "".equals(AccessorySendState)) {
+//                    MyUtils.showToast(mActivity, "请选择是否为已发配件！");
+//                    cancleLoading();
+//                    return;
+//                }
                 if (FaultDescription == null || "".equals(FaultDescription)) {
-                    switch(type){
+                    switch (type) {
                         case 0:
                             MyUtils.showToast(mActivity, "请输入备注！");
                             break;
@@ -546,14 +608,33 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     cancleLoading();
                     return;
                 }
-                switch(type){
+                switch (type) {
                     case 0:
-                        OrderMoney=Double.parseDouble(category.getInstallPrice())*Double.parseDouble(Num)+"";
-                        mPresenter.AddOrder("2", "安装", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
+                        OrderMoney = Double.parseDouble(category.getInstallPrice()) * Double.parseDouble(Num) + "";
+                        if (SigningState==null||"".equals(SigningState)){
+                            MyUtils.showToast(mActivity, "请选择客户是否为已签收产品");
+                            cancleLoading();
+                            return;
+                        }
+                        number = mEtExpressno.getText().toString();
+                        if (mCbNoSigning.isChecked()){
+                            if ("".equals(number)){
+                                MyUtils.showToast(mActivity, "请填写快递单号");
+                                cancleLoading();
+                                return;
+                            }
+                        }
+
+                        mPresenter.AddOrder("2", "安装", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, Num,SigningState, number);
                         break;
                     case 1:
-                        OrderMoney=Double.parseDouble(category.getInitPrice())*Double.parseDouble(Num)+"";
-                        mPresenter.AddOrder("1", "维修", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
+                        if (AccessorySendState == null || "".equals(AccessorySendState)) {
+                            MyUtils.showToast(mActivity, "请选择是否为已发配件！");
+                            cancleLoading();
+                            return;
+                        }
+                        OrderMoney = Double.parseDouble(category.getInitPrice()) * Double.parseDouble(Num) + "";
+                        mPresenter.AddOrder("1", "维修", userID, category.getBrandID(), category.getBrandName(), category.getParentID(), category.getParentName(), category.getFCategoryID(), category.getFCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num,null,null);
                         break;
                     default:
                         break;
@@ -600,6 +681,18 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (scanResult != null) {
+            String result = scanResult.getContents();
+            if (result == null) {
+                return;
+            } else {
+                mEtExpressno.setText(result);
+            }
+
+        }
+
         running = false;
         if (requestCode == 2) {
             String message = "";
@@ -621,13 +714,15 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     mTvBrand.setText(category.getBrandName());
                     mTvBrandNumber.setText(category.getFCategoryName());
                     mTvCategoryName.setText(category.getParentName());
-                    mTvPrice.setText("￥"+ category.getInitPrice());
+                    mTvPrice.setText("￥" + category.getInitPrice());
                 } else {
                     mLlProduct.setVisibility(View.GONE);
                 }
             }
         }
     }
+
+
 
 
     public void showPopWindowGetAddress(final TextView tv) {
@@ -1093,8 +1188,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     }
 
 
-
-    public void showLoading(){
+    public void showLoading() {
         dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
                 .setLoadingColor(Color.BLACK)//颜色
                 .setHintText("发单中...")
@@ -1105,7 +1199,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 .show();
     }
 
-    public void cancleLoading(){
+    public void cancleLoading() {
         dialog.dismiss();
     }
 }

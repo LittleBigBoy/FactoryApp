@@ -247,6 +247,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private Address address;
     private double Service_range = 15;//正常距离
     private Double distance;
+    private Double beyond;
 
     public static OrderDetailFragment newInstance(String param1, String param2) {
         OrderDetailFragment fragment = new OrderDetailFragment();
@@ -804,8 +805,14 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 } else {
                     mLlApproveBeyondMoney.setVisibility(View.GONE);
                 }
-                distance = Double.parseDouble(data.getBeyondDistance());
-                mTvRange.setText(String.format("%.2f", distance - Service_range));
+                distance = Double.parseDouble(data.getDistance());
+                beyond = Double.parseDouble(data.getBeyondDistance());
+                if (distance.equals(beyond)){
+                    mTvRange.setText(String.format("%.2f", beyond - Service_range));
+                }else {
+                    mTvRange.setText(String.format("%.2f",beyond));
+                }
+
 
                 if ("1".equals(data.getBeyondState())) {
                     mTvPassBeyond.setVisibility(View.GONE);
@@ -900,7 +907,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     mLlConfirm.setVisibility(View.GONE);
                 }
                 if (data.getSendOrderList().size() != 0) {
-                    mTvSelectTime.setText(data.getSendOrderList().get(0).getServiceDate() + "-" + data.getSendOrderList().get(0).getServiceDate2());
+                    mTvSelectTime.setText(data.getSendOrderList().get(0).getServiceDate());
                 }
                 if ("2".equals(data.getTypeID())){
                     mLlOldAccessory.setVisibility(View.GONE);

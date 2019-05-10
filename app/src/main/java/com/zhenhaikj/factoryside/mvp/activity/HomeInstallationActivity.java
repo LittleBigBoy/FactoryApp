@@ -484,7 +484,7 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
                     MyUtils.showToast(mActivity, "请输入故障描述！");
                     return;
                 }
-                mPresenter.AddOrder("2", "安装", userID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName , ProvinceCode, CityCode, AreaCode,DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num);
+                mPresenter.AddOrder("2", "安装", userID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName , ProvinceCode, CityCode, AreaCode,DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num,null,null);
                 break;
             case R.id.ll_microphone:
                 // 此处params可以打印出来，直接写到你的代码里去，最终的json一致即可。

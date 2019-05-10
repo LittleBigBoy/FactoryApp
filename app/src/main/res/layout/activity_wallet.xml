@@ -375,12 +375,17 @@
                             android:src="@drawable/right" />
                     </LinearLayout>
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rechargerecord_rv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false" />
+                    </RelativeLayout>
                 </LinearLayout>
 
 
@@ -432,11 +437,17 @@
                             android:src="@drawable/right" />
                     </LinearLayout>
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/bill_rv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false" />
+                    </RelativeLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -486,12 +497,16 @@
                             android:layout_marginLeft="12dp"
                             android:src="@drawable/right" />
                     </LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/frozen_amount_rv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false" />
+                    </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
 

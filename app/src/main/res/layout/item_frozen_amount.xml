@@ -45,7 +45,8 @@
             android:text="YOKO洗衣机"
             android:textSize="12sp"
             android:textColor="#6A6969"
-            android:layout_marginLeft="15dp"/>
+            android:layout_marginLeft="15dp"
+            android:visibility="gone"/>
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
