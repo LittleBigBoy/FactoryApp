@@ -38,7 +38,7 @@ public class WalletModel implements WalletContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<List<FrozenMoney>>>> GetFrozenMoney(String UserID) {
+    public Observable<BaseResult<Data<FrozenMoney>>> GetFrozenMoney(String UserID) {
         return ApiRetrofit.getDefault().GetFrozenMoney(UserID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());

@@ -92,8 +92,10 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
     public void GetExpressInfo(BaseResult<Data<List<Logistics>>> baseResult) {
         switch (baseResult.getStatusCode()){
             case 200:
-                list.addAll(baseResult.getData().getItem2());
-                adapter.setNewData(list);
+                if (baseResult.getData().getItem2()!=null){
+                    list.addAll(baseResult.getData().getItem2());
+                    adapter.setNewData(list);
+                }
                 break;
         }
     }

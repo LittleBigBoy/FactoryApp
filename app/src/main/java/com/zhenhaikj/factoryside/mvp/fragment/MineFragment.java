@@ -2,13 +2,14 @@ package com.zhenhaikj.factoryside.mvp.fragment;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -16,7 +17,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,13 +48,12 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
-import com.yalantis.ucrop.UCrop;
-import com.yalantis.ucrop.UCropActivity;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.activity.AboutUsActivity;
 import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
 import com.zhenhaikj.factoryside.mvp.activity.BrandActivity;
+import com.zhenhaikj.factoryside.mvp.activity.DetailRecordActivity;
 import com.zhenhaikj.factoryside.mvp.activity.ModelActivity;
 import com.zhenhaikj.factoryside.mvp.activity.OpinionActivity;
 import com.zhenhaikj.factoryside.mvp.activity.PersonalInformationActivity;
@@ -69,6 +68,7 @@ import com.zhenhaikj.factoryside.mvp.contract.MineContract;
 import com.zhenhaikj.factoryside.mvp.model.MineModel;
 import com.zhenhaikj.factoryside.mvp.presenter.MinePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.utils.ZXingUtils;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
 import org.greenrobot.eventbus.EventBus;
@@ -76,8 +76,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -140,6 +140,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.ll_model_addition)
     LinearLayout mLlModelAddition;
+    @BindView(R.id.ll_setting)
+    LinearLayout mLlSetting;
+    @BindView(R.id.iv_code)
+    ImageView mIvCode;
 
     private String mParam1;
     private String mParam2;
@@ -162,6 +166,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private CustomShareListener mShareListener;
     private SPUtils spUtils;
     private String userID;
+    private ImageView iv_code_one;
+    private Button btn_go_to_the_mall;
 
 
     public MineFragment() {
@@ -241,7 +247,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                             Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
 
                         } else {
-                            UMWeb web = new UMWeb("http://47.96.126.145:8080/sign?phone="+ userID+"&type=6");
+                            UMWeb web = new UMWeb("http://47.96.126.145:8080/sign?phone=" + userID + "&type=6");
                             web.setTitle("西瓜鱼");
                             web.setDescription("注册送西瓜币了！！！！");
                             web.setThumb(new UMImage(mActivity, R.drawable.icon));
@@ -288,12 +294,14 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mLlAbout.setOnClickListener(this);
         mIvProfileImage.setOnClickListener(this);
         mLlModelAddition.setOnClickListener(this);
+        mLlSetting.setOnClickListener(this);
+        mIvCode.setOnClickListener(this);
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        if (!"GetUserInfoList".equals(name)){
+        if (!"GetUserInfoList".equals(name)) {
             return;
         }
         mPresenter.GetUserInfoList(userId, "1");
@@ -302,6 +310,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ll_setting:
             case R.id.iv_setting:
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
@@ -324,11 +333,15 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     }
                 }).show();
                 break;
+            case R.id.iv_code:
             case R.id.ll_gift:
 //                startActivity(new Intent(mActivity,WalletActivity.class));
                 shareView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share, null);
                 btn_share_one = shareView.findViewById(R.id.btn_share_one);
-                btn_share_two = shareView.findViewById(R.id.btn_share_two);
+                iv_code_one = shareView.findViewById(R.id.iv_code_one);
+                btn_go_to_the_mall = shareView.findViewById(R.id.btn_go_to_the_mall);
+                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone=" + userID + "&type=7", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
+                iv_code_one.setImageBitmap(bitmap);
                 btn_share_one.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -337,19 +350,19 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     }
                 });
 
-                btn_share_two.setOnClickListener(new View.OnClickListener() {
+                btn_go_to_the_mall.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        openShopApp("com.zhenghaikj.shop");
                         shareDialog.dismiss();
-                        mShareAction.open();
                     }
                 });
                 shareDialog = new AlertDialog.Builder(mActivity).setView(shareView).create();
                 shareDialog.show();
                 Window window = shareDialog.getWindow();
                 WindowManager.LayoutParams lp = window.getAttributes();
-                Display display = mActivity.getWindowManager().getDefaultDisplay();
-                lp.width = (int) (display.getWidth() * 0.6);
+//                Display display = mActivity.getWindowManager().getDefaultDisplay();
+//                lp.width = (int) (display.getWidth() * 0.6);
                 window.setAttributes(lp);
                 window.setBackgroundDrawable(new ColorDrawable());
                 break;
@@ -359,7 +372,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_all_order:
                 bundle = new Bundle();
                 bundle.putString("title", "所有订单");
-                bundle.putInt("position", 5);
+                bundle.putInt("position", 0);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
@@ -367,7 +380,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_to_be_returned:
                 bundle = new Bundle();
                 bundle.putString("title", "待审核");
-                bundle.putInt("position", 1);
+                bundle.putInt("position", 2);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
@@ -375,7 +388,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_to_be_confirmed:
                 bundle = new Bundle();
                 bundle.putString("title", "待支付");
-                bundle.putInt("position", 2);
+                bundle.putInt("position", 3);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
@@ -383,7 +396,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_complete:
                 bundle = new Bundle();
                 bundle.putString("title", "已完成");
-                bundle.putInt("position", 3);
+                bundle.putInt("position", 4);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
@@ -420,7 +433,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 startActivity(new Intent(mActivity, WalletActivity.class));
                 break;
             case R.id.ll_consume:
-                startActivity(new Intent(mActivity, WalletActivity.class));
+                Intent intent = new Intent(mActivity, DetailRecordActivity.class);
+                intent.putExtra("openwhich", "1");
+                startActivity(intent);
                 break;
             case R.id.ll_add_brand:
                 startActivity(new Intent(mActivity, BrandActivity.class));
@@ -588,7 +603,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     Glide.with(mActivity).load(filePath).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(mIvProfileImage);
                     file = new File(filePath);
                 }
-                if (file!=null){
+                if (file != null) {
                     uploadImg(file);
                 }
                 break;
@@ -600,11 +615,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     file = new File(MyUtils.getRealPathFromUri(mActivity, uri));
 
                 }
-                if (file!=null){
-                uploadImg(file);
+                if (file != null) {
+                    uploadImg(file);
                 }
                 break;
-
 
 
             default:
@@ -614,25 +628,24 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     }
 
 
-
     @Override
     public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().getData().isEmpty()){
+                if (baseResult.getData().getData().isEmpty()) {
                     return;
-                }else {
+                } else {
                     userInfoDean = baseResult.getData().getData().get(0);
                     if (userInfoDean.getAvator() == null) {
                         return;
                     } else {
                         Glide.with(mActivity)
-                             .load(Config.HEAD_URL + userInfoDean.getAvator())
-                             .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                             .into(mIvProfileImage);
+                                .load(Config.HEAD_URL + userInfoDean.getAvator())
+                                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                .into(mIvProfileImage);
                     }
                     mTvNickname.setText(userInfoDean.getTrueName());
-                    String format = String.format("%.2f", userInfoDean.getTotalMoney()-userInfoDean.getFrozenMoney());
+                    String format = String.format("%.2f", userInfoDean.getTotalMoney() - userInfoDean.getFrozenMoney());
                     mTvMoney.setText("可用金额（元） " + format);
                 }
 
@@ -663,7 +676,6 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
         }
     }
-
 
 
     public static class CustomShareListener implements UMShareListener {
@@ -729,8 +741,52 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         }
     }
 
+    private boolean isInstalled(String packageName) {
+        PackageManager manager = mActivity.getPackageManager();
+        //获取所有已安装程序的包信息
+        List<PackageInfo> installedPackages = manager.getInstalledPackages(0);
+        if (installedPackages != null) {
+            for (PackageInfo info : installedPackages) {
+                if (info.packageName.equals(packageName))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private void openShopApp(String packageName) {
+
+        if (isInstalled(packageName)) {
+            PackageInfo pi = null;
+            try {
+                pi = getActivity().getPackageManager().getPackageInfo(packageName, 0);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+            Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
+            resolveIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+            resolveIntent.setPackage(pi.packageName);
+
+            List<ResolveInfo> apps = getActivity().getPackageManager().queryIntentActivities(resolveIntent, 0);
+
+            ResolveInfo ri = apps.iterator().next();
+            if (ri != null) {
+                packageName = ri.activityInfo.packageName;
+                String className = ri.activityInfo.name;
+
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+                ComponentName cn = new ComponentName(packageName, className);
+                intent.setComponent(cn);
+                startActivity(intent);
+            }
 
 
+        } else {
 
+            Toast.makeText(mActivity, "未安装商城app请前往下载安装", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }

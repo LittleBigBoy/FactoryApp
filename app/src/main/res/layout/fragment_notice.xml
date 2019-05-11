@@ -95,7 +95,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="接单必读"
+            android:text="发单必读"
             android:textColor="#6a6a6a"
             android:textSize="16sp"
             android:layout_gravity="center"

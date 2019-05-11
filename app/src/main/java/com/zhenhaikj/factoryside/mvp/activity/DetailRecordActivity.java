@@ -29,7 +29,7 @@ public class DetailRecordActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.img_actionbar_return)
     ImageView mImgActionbarReturn;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
-    private String[] mTitles = {"收支", "提现", "充值"};
+    private String[] mTitles = {"充值", "每月账单", "冻结金额"};
 
     @Override
     protected int setLayoutId() {

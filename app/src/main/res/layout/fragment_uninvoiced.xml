@@ -43,6 +43,12 @@
                         android:text="未开发票"
                         android:textColor="#4E4E4E"
                         android:textSize="16sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="全选"
+                        android:textColor="#4E4E4E"
+                        android:textSize="16sp"/>
                     <CheckBox
                         android:id="@+id/checkbox"
                         android:layout_width="wrap_content"
@@ -50,11 +56,17 @@
                         android:gravity="center"
                         android:layout_marginRight="10dp"/>
                 </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:descendantFocusability="blocksDescendants">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_uninvoiced"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout

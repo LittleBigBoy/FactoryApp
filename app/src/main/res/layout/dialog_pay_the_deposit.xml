@@ -8,14 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@drawable/white_round_shape">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp_10"
             android:text="提取保证金"
             android:textSize="16sp"
-            android:textColor="@color/red"/>
+            android:textColor="@color/red"
+            android:paddingLeft="10dp"/>
 
         <View
             android:layout_width="match_parent"
@@ -43,15 +44,14 @@
                 android:text="我要提取"
                 android:textSize="14sp"
                 android:textColor="@color/black"/>
-            <EditText
-                android:id="@+id/et_margin"
+            <TextView
+                android:id="@+id/tv_margin"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:hint="1000"
+                android:text="1000"
                 android:textColor="@color/red"
                 android:gravity="center"
-                android:textColorHint="@color/red"
                 android:textSize="14sp"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -67,7 +67,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:gravity="right">
+            android:gravity="center">
             <TextView
                 android:id="@+id/tv_confirm"
                 android:layout_width="80dp"
@@ -85,8 +85,7 @@
                 android:textColor="@color/white"
                 android:text="取消"
                 android:textSize="16sp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="40dp"
                 android:background="@drawable/red_round_shape" />
         </LinearLayout>
     </LinearLayout>

@@ -333,7 +333,7 @@ public interface ApiService {
     /*获取用户冻结记录*/
     @FormUrlEncoded
     @POST("account/GetFrozenMoney")
-    Observable<BaseResult<Data<List<FrozenMoney>>>> GetFrozenMoney(@Field("UserID") String UserID);
+    Observable<BaseResult<Data<FrozenMoney>>> GetFrozenMoney(@Field("UserID") String UserID);
     /*修改昵称*/
     @FormUrlEncoded
     @POST("Account/UpdateAccountNickName")

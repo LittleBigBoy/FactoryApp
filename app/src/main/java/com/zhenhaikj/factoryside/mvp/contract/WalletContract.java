@@ -20,14 +20,14 @@ public interface WalletContract {
         Observable<BaseResult<UserInfo>> GetUserInfoList(String UserId,String limit);
         Observable<BaseResult<Data<Bill>>> AccountBill(String UserID, String state);
         Observable<BaseResult<Data<MonthBill>>> MonthBill(String UserID, String state);
-        Observable<BaseResult<Data<List<FrozenMoney>>>> GetFrozenMoney(String UserID);
+        Observable<BaseResult<Data<FrozenMoney>>> GetFrozenMoney(String UserID);
     }
 
     interface View extends BaseView{
         void GetUserInfoList(BaseResult<UserInfo> baseResult);
         void AccountBill(BaseResult<Data<Bill>> baseResult);
         void MonthBill(BaseResult<Data<MonthBill>> baseResult);
-        void GetFrozenMoney(BaseResult<Data<List<FrozenMoney>>> baseResult);
+        void GetFrozenMoney(BaseResult<Data<FrozenMoney>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{

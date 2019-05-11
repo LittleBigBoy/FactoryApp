@@ -8,13 +8,13 @@ import com.zhenhaikj.factoryside.mvp.bean.MonthBill;
 
 import java.util.List;
 
-public class FrozenMoneyAdapter extends BaseQuickAdapter<FrozenMoney, BaseViewHolder> {
-    public FrozenMoneyAdapter(int layoutResId, List<FrozenMoney> data) {
+public class FrozenMoneyAdapter extends BaseQuickAdapter<FrozenMoney.DataBean, BaseViewHolder> {
+    public FrozenMoneyAdapter(int layoutResId, List<FrozenMoney.DataBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, FrozenMoney item) {
+    protected void convert(BaseViewHolder helper, FrozenMoney.DataBean item) {
         StringBuilder stringBuilder = new StringBuilder(item.getCreateTime());
         String time = "" + stringBuilder.replace(10, 20, " "); //去掉T
         helper.setText(R.id.tv_phone_number, item.getOrderID())

@@ -38,7 +38,7 @@ public class RecordFragment extends BaseLazyFragment<WalletPresenter, WalletMode
     private List<Bill.DataBean> recharge_list = new ArrayList<>();//充值记录
     private MonthBillAdapter monthBillAdapter;
     private List<MonthBill.DataBean> MonthBillList = new ArrayList<>();
-    private List<FrozenMoney> frozenMoneyList=new ArrayList<>();
+    private List<FrozenMoney.DataBean> frozenMoneyList=new ArrayList<>();
     private FrozenMoneyAdapter frozenMoneyAdapter;
 
 
@@ -61,10 +61,10 @@ public class RecordFragment extends BaseLazyFragment<WalletPresenter, WalletMode
     }
 
     @Override
-    public void GetFrozenMoney(BaseResult<Data<List<FrozenMoney>>> baseResult) {
+    public void GetFrozenMoney(BaseResult<Data<FrozenMoney>> baseResult) {
         switch(baseResult.getStatusCode()){
             case 200:
-                frozenMoneyList.addAll(baseResult.getData().getItem2());
+                frozenMoneyList.addAll(baseResult.getData().getItem2().getData());
                 frozenMoneyAdapter = new FrozenMoneyAdapter(R.layout.item_frozen_amount,frozenMoneyList);
                 mRvRecord.setLayoutManager(new LinearLayoutManager(mActivity));
                 mRvRecord.setAdapter(frozenMoneyAdapter);

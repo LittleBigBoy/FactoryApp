@@ -6,6 +6,8 @@ import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.JsonSyntaxException;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.IOException;
 
 import io.reactivex.Observer;
@@ -32,6 +34,11 @@ public abstract class BaseObserver<T> implements Observer<BaseResult<T>> {
     @Override
     public void onNext(BaseResult<T> value) {
         onHandleSuccess(value);
+//        switch (value.getStatusCode()){
+//            case 406:
+//                EventBus.getDefault().post("账号在别处登录");
+//                break;
+//        }
     }
 
     @Override
@@ -41,6 +48,7 @@ public abstract class BaseObserver<T> implements Observer<BaseResult<T>> {
             errMsg = "网络连接出错";
         } else if (e instanceof JsonSyntaxException) {
             errMsg = "接口异常";
+//            EventBus.getDefault().post("账号在别处登录");
         } else if (e instanceof HttpException) {
             errMsg = "网络请求出错";
         } else if (e instanceof IOException) {

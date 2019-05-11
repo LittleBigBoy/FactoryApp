@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -236,7 +237,10 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
                 mIvWechat.setSelected(true);
                 break;
             case R.id.tv_recharge_agreement:
-
+                Intent intent=new Intent(mActivity,WebActivity.class);
+                intent.putExtra("Url","http://admin.xigyu.com/message/recharge");
+                intent.putExtra("title","充值协议");
+                startActivity(intent);
                 break;
             case R.id.bt_recharge:
                 if (value == null || "0".equals(value)) {

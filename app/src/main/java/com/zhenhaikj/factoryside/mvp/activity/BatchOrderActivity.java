@@ -61,6 +61,8 @@ public class BatchOrderActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void setListener() {
+        mIconBack.setOnClickListener(this);
+        mIconSearch.setOnClickListener(this);
     }
 
 

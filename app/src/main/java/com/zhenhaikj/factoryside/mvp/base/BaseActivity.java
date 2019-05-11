@@ -10,12 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.activity.LoginActivity;
 import com.zhenhaikj.factoryside.mvp.utils.HandleBackUtil;
 import com.zhenhaikj.factoryside.mvp.utils.TUtil;
 import com.gyf.barlibrary.ImmersionBar;
+import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -223,5 +228,29 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
     @Override
     public void hideProgress() {
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String message) {
+        if ("账号在别处登录".equals(message)){
+            final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+            dialog.setMessage("账号在别处登录是否重新登录")
+                    //.setImageResId(R.mipmap.ic_launcher)
+                    .setTitle("提示")
+                    .setSingle(true).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                @Override
+                public void onPositiveClick() {//重新登录
+                    ActivityUtils.finishAllActivities();
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+//                    finish();
+                }
+
+                @Override
+                public void onNegtiveClick() {//取消
+                    dialog.dismiss();
+                    // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                }
+            }).show();
+        }
     }
 }

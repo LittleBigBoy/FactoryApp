@@ -1115,7 +1115,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             if (scanResult != null) {
                 expressno = scanResult.getContents();
-                et_expressno.setText(expressno);
+                et_expressno.setText(scanResult.getContents());
             }
         }
         if (requestCode == 100) {

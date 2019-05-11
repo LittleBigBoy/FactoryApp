@@ -2,6 +2,8 @@ package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -80,6 +82,25 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     protected void initView() {
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("关于我们");
+
+        PackageManager manager = mActivity.getPackageManager();
+//        int code = 0;
+//        try {
+//            PackageInfo info = manager.getPackageInfo(mActivity.getPackageName(), 0);
+//            code = info.versionCode;
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        }
+
+        String name = null;
+        try {
+            PackageInfo info = manager.getPackageInfo(mActivity.getPackageName(), 0);
+            name = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        mTvVersionNumber.setText("V "+name);
     }
 
     @Override
@@ -109,7 +130,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.tv_user_Agreement:
                 Intent intent=new Intent(mActivity,WebActivity.class);
-                intent.putExtra("Url","http://47.96.126.145:8080/Agreement");
+                intent.putExtra("Url","http://admin.xigyu.com/Agreement");
                 intent.putExtra("title","用户协议");
                 startActivity(intent);
                 break;

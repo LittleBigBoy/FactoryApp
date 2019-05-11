@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:layout_marginTop="@dimen/dp_10"
-        android:text="V 1.1.0"
+        android:text="V 1.0.1"
         android:gravity="center"
         android:textColor="#AFAFAF"/>
     <TextView
@@ -72,7 +72,7 @@
         android:id="@+id/tv_net"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="http://www.jmiren.com"
+        android:text="http://www.xigyu.com"
         android:textSize="16sp"
         android:textColor="#6A6A6A"
         android:layout_gravity="center"
@@ -94,7 +94,7 @@
             android:id="@+id/tv_phone_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0574-88888888"
+            android:text="0574-87052280"
             android:textColor="#747FFF"
             android:textSize="16sp"/>
     </LinearLayout>

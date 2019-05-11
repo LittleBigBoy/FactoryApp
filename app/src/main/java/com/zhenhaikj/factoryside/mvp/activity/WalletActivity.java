@@ -91,7 +91,7 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
     private String userId;
     private UserInfo.UserInfoDean userInfo = new UserInfo.UserInfoDean();
     private List<MonthBill.DataBean> MonthBillList = new ArrayList<>();
-    private List<FrozenMoney> FrozenMoneyList = new ArrayList<>();
+    private List<FrozenMoney.DataBean> FrozenMoneyList = new ArrayList<>();
     private MonthBillAdapter monthBillAdapter;
     private FrozenMoneyAdapter frozenMoneyAdapter;
 
@@ -293,14 +293,14 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
     }
 
     @Override
-    public void GetFrozenMoney(BaseResult<Data<List<FrozenMoney>>> baseResult) {
+    public void GetFrozenMoney(BaseResult<Data<FrozenMoney>> baseResult) {
         switch (baseResult.getStatusCode()){
             case 200:
-                FrozenMoneyList.addAll(baseResult.getData().getItem2());
+                FrozenMoneyList.addAll(baseResult.getData().getItem2().getData());
                 if (FrozenMoneyList.size()<=4){
                     frozenMoneyAdapter.setNewData(FrozenMoneyList);
                 }else {
-                    List<FrozenMoney> List = new ArrayList<>();
+                    List<FrozenMoney.DataBean> List = new ArrayList<>();
                     for (int i = 0; i <5 ; i++) {
                         List.add(FrozenMoneyList.get(i));
                     }

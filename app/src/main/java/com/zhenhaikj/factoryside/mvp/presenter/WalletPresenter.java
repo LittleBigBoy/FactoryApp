@@ -48,9 +48,9 @@ public class WalletPresenter extends WalletContract.Presenter {
     @Override
     public void GetFrozenMoney(String UserId) {
         mModel.GetFrozenMoney(UserId)
-                .subscribe(new BaseObserver<Data<List<FrozenMoney>>>() {
+                .subscribe(new BaseObserver<Data<FrozenMoney>>() {
                     @Override
-                    protected void onHandleSuccess(BaseResult<Data<List<FrozenMoney>>> value) {
+                    protected void onHandleSuccess(BaseResult<Data<FrozenMoney>> value) {
                         mView.GetFrozenMoney(value);
                     }
                 });

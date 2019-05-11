@@ -142,6 +142,7 @@
         <activity android:name=".mvp.activity.UpgradeActivity" android:screenOrientation="portrait"  android:launchMode="singleTask" android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/dialogstyle"></activity>
         <activity android:name=".mvp.activity.DetailRecordActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.VerifiedActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <!-- alipay sdk begin -->
 
         <activity

@@ -1,5 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.fragment;
 
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,7 +37,10 @@ public class UninvoicedFragment extends BaseLazyFragment {
     LinearLayout mLlInvoiceType;
     @BindView(R.id.et_invoice_mailbox)
     EditText mEtInvoiceMailbox;
-    private ArrayList<Address> uninvoicedList=new ArrayList<>();
+    @BindView(R.id.checkbox)
+    CheckBox mCheckbox;
+    private ArrayList<Address> uninvoicedList = new ArrayList<>();
+
     @Override
     protected int setLayoutId() {
         return R.layout.fragment_uninvoiced;
@@ -43,12 +48,23 @@ public class UninvoicedFragment extends BaseLazyFragment {
 
     @Override
     protected void initData() {
-        for (int i=0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             uninvoicedList.add(new Address());
         }
-        UninvoicedAdapter uninvoicedAdapter=new UninvoicedAdapter(R.layout.item_uninvoiced,uninvoicedList);
+        UninvoicedAdapter uninvoicedAdapter = new UninvoicedAdapter(R.layout.item_uninvoiced, uninvoicedList);
         mRvUninvoiced.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvUninvoiced.setAdapter(uninvoicedAdapter);
+
+        mCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    for (int i=0;i<uninvoicedList.size();i++){
+
+                    }
+                }
+            }
+        });
     }
 
     @Override

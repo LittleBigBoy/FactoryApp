@@ -113,6 +113,10 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
     private String orderinfo;
     private WXpayInfo wXpayInfo;
     private IWXAPI api;
+    private LinearLayout ll_choose5;
+    private LinearLayout ll_choose6;
+    private ImageView cb5;
+    private ImageView cb6;
 
     @Override
     protected int setLayoutId() {
@@ -195,12 +199,16 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
         ll_choose2 = under_review.findViewById(R.id.ll_choose2);
         ll_choose3 = under_review.findViewById(R.id.ll_choose3);
         ll_choose4 = under_review.findViewById(R.id.ll_choose4);
+        ll_choose5 = under_review.findViewById(R.id.ll_choose5);
+        ll_choose6 = under_review.findViewById(R.id.ll_choose6);
         cb1 = under_review.findViewById(R.id.cb1);
         cb2 = under_review.findViewById(R.id.cb2);
         cb3 = under_review.findViewById(R.id.cb3);
         cb4 = under_review.findViewById(R.id.cb4);
-        cb1.setSelected(true);
-        tv_margin.setText("500");
+        cb5 = under_review.findViewById(R.id.cb5);
+        cb6 = under_review.findViewById(R.id.cb6);
+        cb2.setSelected(true);
+        tv_margin.setText("1000");
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,6 +234,8 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
                 cb2.setSelected(false);
                 cb3.setSelected(false);
                 cb4.setSelected(false);
+                cb5.setSelected(false);
+                cb6.setSelected(false);
                 tv_margin.setText("500");
             }
         });
@@ -236,6 +246,8 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
                 cb2.setSelected(true);
                 cb3.setSelected(false);
                 cb4.setSelected(false);
+                cb5.setSelected(false);
+                cb6.setSelected(false);
                 tv_margin.setText("1000");
             }
         });
@@ -246,7 +258,9 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
                 cb2.setSelected(false);
                 cb3.setSelected(true);
                 cb4.setSelected(false);
-                tv_margin.setText("5000");
+                cb5.setSelected(false);
+                cb6.setSelected(false);
+                tv_margin.setText("1500");
             }
         });
         ll_choose4.setOnClickListener(new View.OnClickListener() {
@@ -256,6 +270,32 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
                 cb2.setSelected(false);
                 cb3.setSelected(false);
                 cb4.setSelected(true);
+                cb5.setSelected(false);
+                cb6.setSelected(false);
+                tv_margin.setText("3000");
+            }
+        });
+        ll_choose5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cb1.setSelected(false);
+                cb2.setSelected(false);
+                cb3.setSelected(false);
+                cb4.setSelected(false);
+                cb5.setSelected(true);
+                cb6.setSelected(false);
+                tv_margin.setText("5000");
+            }
+        });
+        ll_choose6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cb1.setSelected(false);
+                cb2.setSelected(false);
+                cb3.setSelected(false);
+                cb4.setSelected(false);
+                cb5.setSelected(false);
+                cb6.setSelected(true);
                 tv_margin.setText("10000");
             }
         });

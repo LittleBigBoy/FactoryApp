@@ -99,7 +99,7 @@ public class NoticeFragment extends BaseLazyFragment implements View.OnClickList
                 break;
             case R.id.ll_order_must_read:
                 intent.putExtra("CategoryId","6");
-                intent.putExtra("title","接单必读");
+                intent.putExtra("title","发单必读");
                 break;
         }
         startActivity(intent);
