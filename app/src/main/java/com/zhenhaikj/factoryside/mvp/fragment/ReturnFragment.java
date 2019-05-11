@@ -75,7 +75,6 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
         adapter = new LogisticsAdapter(R.layout.logistics_recycle_item, list);
         mReturnRv.setLayoutManager(new LinearLayoutManager(mActivity));
         mReturnRv.setAdapter(adapter);
-        adapter.setEmptyView(getEmptyView());
     }
 
     @Override
@@ -104,7 +103,9 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
-                mPresenter.GetExpressInfo(data.getReturnAccessoryMsg());
+                if (!"".equals(data.getReturnAccessoryMsg())){
+                    mPresenter.GetExpressInfo(data.getReturnAccessoryMsg());
+                }
                 mTvNumber.setText(data.getReturnAccessoryMsg());
                 break;
         }

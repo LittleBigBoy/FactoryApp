@@ -22,12 +22,19 @@
                 android:layout_marginRight="15dp"
                 android:background="@drawable/white_round_shape">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/message_rv"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="30dp"></androidx.recyclerview.widget.RecyclerView>
+                    android:descendantFocusability="blocksDescendants">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/message_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="30dp"
+                        android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -105,8 +112,7 @@
                 android:background="#F25037"
                 android:text="提  交"
                 android:textColor="@color/white"
-                android:textSize="20sp"
-                />
+                android:textSize="20sp" />
 
 
         </LinearLayout>

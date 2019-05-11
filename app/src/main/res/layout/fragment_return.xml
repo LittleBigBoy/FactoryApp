@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,62 +25,74 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_margin="15dp">
+                    android:layout_margin="15dp"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="快递公司:"
-                        android:textSize="13sp"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+
                     <TextView
                         android:id="@+id/courier_company_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="顺丰快递"
-                        android:textSize="13sp"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="快递单号："
-                        android:textSize="13sp"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+
                     <TextView
                         android:id="@+id/tv_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
                         android:text="123456789110023"
-                        android:textSize="13sp"
                         android:textColor="@color/black"
-                        android:layout_marginRight="5dp"/>
+                        android:textSize="13sp" />
 
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#E8E8E8"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="20dp"/>
+                    android:layout_marginRight="20dp"
+                    android:background="#E8E8E8" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
                     android:text="快递信息："
                     android:textColor="@color/black"
-                    android:textSize="10sp"
-                    android:layout_margin="15dp"/>
+                    android:textSize="10sp" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/return_rv"
-                    android:layout_marginBottom="30dp"></androidx.recyclerview.widget.RecyclerView>
+                    android:descendantFocusability="blocksDescendants">
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/return_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="30dp"
+                        android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

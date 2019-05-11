@@ -8,9 +8,9 @@
     android:id="@+id/ll_empty"
     >
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/wu"
+        android:layout_width="186dp"
+        android:layout_height="140dp"
+        android:src="@drawable/icon_order_empty"
         />
     <TextView
         android:gravity="center"
@@ -21,5 +21,5 @@
         android:textColor="#333333"
         android:text="暂无工单"
         android:layout_marginTop="12dp"
-        android:visibility="gone"/>
+        />
 </LinearLayout>

@@ -8,19 +8,26 @@ public class GAccessory implements Serializable {
 
     /*继续添加配件时获取可以已经添加的配件*/
     /**
-     * Id : 60
-     * AccessoryID : 60
-     * FAccessoryID : 1
-     * FAccessoryName : PC管
-     * SendState : N
-     * Quantity : 5
-     * OrderID : 2000000110
-     * CreateTime : 2019-03-06T11:17:22
-     * Relation : 96535e17-cf71-4956-b586-3c8fa4c1aca3
-     * Price : 35
-     * DiscountPrice : 35
-     * IsUse : Y
-     * Version : 0
+     * "Id":737,"
+     * AccessoryID":737,
+     * "FAccessoryID":22,
+     * "FAccessoryName":"更换门体",
+     * "SendState":"Y",
+     * "Quantity":1,
+     * "OrderID":2000001107,
+     * "CreateTime":2019-05-10T15:03:50",
+     * "Relation":"af8c7a57-39ec-425c-9459-60bb2e22f41e",
+     * "Price":66.00,
+     * "DiscountPrice":66.00,
+     * "IsUse":"Y",
+     * "IsPay":"Y",
+     * "ExpressNo":"123456789",
+     * "State":"1",
+     * "AccessoryState":"0",
+     * "TypeID":"1",
+     * "ApplyNum":1,
+     * "QApplyNum":0,
+     * "Version":0
      */
 
     private String Id;
@@ -37,6 +44,12 @@ public class GAccessory implements Serializable {
     private String State;
     private String IsUse;
     private String Version;
+    private String IsPay;
+    private String ExpressNo;
+    private String AccessoryState;
+    private String TypeID;
+    private String ApplyNum;
+    private String QApplyNum;
 
     public String getState() {
         return State;
@@ -148,5 +161,53 @@ public class GAccessory implements Serializable {
 
     public void setVersion(String Version) {
         this.Version = Version;
+    }
+
+    public String getIsPay() {
+        return IsPay;
+    }
+
+    public void setIsPay(String isPay) {
+        IsPay = isPay;
+    }
+
+    public String getExpressNo() {
+        return ExpressNo;
+    }
+
+    public void setExpressNo(String expressNo) {
+        ExpressNo = expressNo;
+    }
+
+    public String getAccessoryState() {
+        return AccessoryState;
+    }
+
+    public void setAccessoryState(String accessoryState) {
+        AccessoryState = accessoryState;
+    }
+
+    public String getTypeID() {
+        return TypeID;
+    }
+
+    public void setTypeID(String typeID) {
+        TypeID = typeID;
+    }
+
+    public String getApplyNum() {
+        return ApplyNum;
+    }
+
+    public void setApplyNum(String applyNum) {
+        ApplyNum = applyNum;
+    }
+
+    public String getQApplyNum() {
+        return QApplyNum;
+    }
+
+    public void setQApplyNum(String QApplyNum) {
+        this.QApplyNum = QApplyNum;
     }
 }
