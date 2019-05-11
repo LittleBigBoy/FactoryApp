@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +12,10 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.tencent.android.tpush.XGPushClickedResult;
+import com.tencent.android.tpush.XGPushManager;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.MainActivity;
 import com.zhenhaikj.factoryside.mvp.adapter.MyPagerAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
@@ -35,6 +39,9 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerInd
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,6 +178,7 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
     private String[] mTitleDataList = new String[]{
             "详情","留言", "工单跟踪", "寄件物流", "返件物流"
     };
+    private XGPushClickedResult clickedResult;
 
     @Override
     protected int setLayoutId() {
@@ -190,8 +198,25 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
     protected void initData() {
         mTvTitle.setText("工单详情");
         mTvTitle.setVisibility(View.VISIBLE);
-        OrderId = getIntent().getStringExtra("OrderID");
 
+        //this必须为点击消息要跳转到页面的上下文。
+        clickedResult = XGPushManager.onActivityStarted(this);
+        if (clickedResult !=null){
+            //获取消息附近参数
+            String ster = clickedResult.getCustomContent();
+            try {
+                JSONObject jsonObject=new JSONObject(ster);
+                OrderId=jsonObject.getString("OrderID");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+//获取消息标题
+//            String set = clickedResult.getTitle();
+//获取消息内容
+//            String s = clickedResult.getContent();
+        }else{
+            OrderId = getIntent().getStringExtra("OrderID");
+        }
         mFragments = new ArrayList<>();
         mFragments.add(OrderDetailFragment.newInstance(OrderId, ""));
         mFragments.add(MessageFragment.newInstance(OrderId, ""));
@@ -270,14 +295,24 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (clickedResult!=null){
+            startActivity(new Intent(mActivity, MainActivity.class));
+            finish();
+        }else{
+            finish();
+        }
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.icon_back:
-                finish();
+                if (clickedResult!=null){
+                    startActivity(new Intent(mActivity, MainActivity.class));
+                    finish();
+                }else{
+                    finish();
+                }
                 break;
             case R.id.work_order_detail_tv:
                 mWpWarranty.setCurrentItem(0);
