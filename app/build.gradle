@@ -1,14 +1,16 @@
 apply plugin: 'com.android.application'
 // 依赖插件脚本
 apply from: 'tinker-support.gradle'
+// 注意：主App中请确保添加aspectjx
+apply plugin: 'android-aspectjx'
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.zhenhaikj.factoryside"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 12
-        versionName "1.1.1"
+        versionCode 14
+        versionName "1.1.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -207,4 +209,5 @@ dependencies {
     //UI库
     implementation 'com.github.vondear.RxTool:RxUI:v2.2.7'
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    implementation 'org.aspectj:aspectjrt:1.8.9'
 }
