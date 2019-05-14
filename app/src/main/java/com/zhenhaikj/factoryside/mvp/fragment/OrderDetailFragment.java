@@ -304,11 +304,11 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
     @Override
     protected void initView() {
-        mIvY.setSelected(true);
+//        mIvY.setSelected(true);
         mIvN.setSelected(false);
         mIvPay.setSelected(true);
         mIvPay2.setSelected(false);
-        IsReturn = "1";
+//        IsReturn = "1";
         PostPayType = "1";
     }
 
@@ -682,7 +682,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
      * 扫描二维码
      */
     public void scan() {
-        IntentIntegrator integrator = new IntentIntegrator(mActivity);
+//        IntentIntegrator integrator = new IntentIntegrator(mActivity);
+        IntentIntegrator integrator = IntentIntegrator.forSupportFragment(this);
         // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
         integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
         integrator.setCaptureActivity(ScanActivity.class); //设置打开摄像头的Activity
@@ -721,6 +722,17 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     mLlPostMoney.setVisibility(View.GONE);
                 }
 
+                if ("保内".equals(data.getGuarantee())){
+                    mIvY.setSelected(true);
+                    mIvN.setSelected(false);
+                    mLlAddressInfo.setVisibility(View.VISIBLE);
+                    IsReturn = "1";
+                }else {
+                    mIvY.setSelected(false);
+                    mIvN.setSelected(true);
+                    mLlAddressInfo.setVisibility(View.GONE);
+                    IsReturn = "2";
+                }
 
                 mTvAccessoryMemo.setText("备注：" + data.getAccessoryMemo());
                 mTvAccessorySequency.setText("寄件类型：" + data.getAccessorySequencyStr());
@@ -1114,8 +1126,12 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         if (requestCode == IntentIntegrator.REQUEST_CODE) {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             if (scanResult != null) {
-                expressno = scanResult.getContents();
-                et_expressno.setText(scanResult.getContents());
+                String result = scanResult.getContents();
+                if (result == null) {
+                    return;
+                } else {
+                    et_expressno.setText(result);
+                }
             }
         }
         if (requestCode == 100) {

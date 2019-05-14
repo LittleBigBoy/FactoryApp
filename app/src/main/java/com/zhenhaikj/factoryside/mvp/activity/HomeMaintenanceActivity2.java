@@ -64,6 +64,7 @@ import com.zhenhaikj.factoryside.mvp.contract.HomeMaintenanceContract;
 import com.zhenhaikj.factoryside.mvp.model.HomeMaintenanceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.HomeMaintenancePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
@@ -1108,7 +1109,25 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
-                    ToastUtils.showShort(data.getItem2());
+                    final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                    dialog.setMessage(data.getItem2())
+                            //.setImageResId(R.mipmap.ic_launcher)
+                            .setTitle("提示")
+                            .setPositive("去缴纳保证金")
+                            .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                        @Override
+                        public void onPositiveClick() {//拨打电话
+                            dialog.dismiss();
+                            startActivity(new Intent(mActivity,MarginActivity.class));
+                        }
+
+                        @Override
+                        public void onNegtiveClick() {//取消
+                            dialog.dismiss();
+                            // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
+//                    ToastUtils.showShort(data.getItem2());
                     cancleLoading();
                 }
                 break;

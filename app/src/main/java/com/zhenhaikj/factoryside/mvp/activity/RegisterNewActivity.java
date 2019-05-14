@@ -75,7 +75,7 @@ public class RegisterNewActivity extends BaseActivity<RegisterPresenter, Registe
 
     @Override
     protected void initView() {
-
+        mImgAgreement.setSelected(true);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class RegisterNewActivity extends BaseActivity<RegisterPresenter, Registe
                     ToastUtils.showShort("密码不能为空");
                 } else if (passwordAgain.isEmpty()) {
                     ToastUtils.showShort("请再次输入密码");
-                } else if (mImgAgreement.isSelected()) {
+                } else if (!mImgAgreement.isSelected()) {
                     ToastUtils.showShort("请阅读并同意用户协议");
                 } else if (!password.equals(passwordAgain)) {
                     ToastUtils.showShort("两次密码不一致");

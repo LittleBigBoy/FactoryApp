@@ -116,8 +116,8 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
         mPresenter.GetUserInfoList(userId, "1");
 
         mPresenter.AccountBill(userId, "1");//充值
-        mPresenter.AccountBill(userId, "3");//提现
-        mPresenter.AccountBill(userId, "2,5");//收入和支出
+//        mPresenter.AccountBill(userId, "3");//提现
+//        mPresenter.AccountBill(userId, "2,5");//收入和支出
         mPresenter.MonthBill(userId,"1,2");
         mPresenter.GetFrozenMoney(userId);
     }
@@ -276,16 +276,18 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
     public void MonthBill(BaseResult<Data<MonthBill>> baseResult) {
         switch (baseResult.getStatusCode()){
             case 200:
+                if (baseResult.getData().getItem2().getData()!=null){
+                    MonthBillList.addAll(baseResult.getData().getItem2().getData());
+                    if (MonthBillList.size()<=4){
+                        monthBillAdapter.setNewData(MonthBillList);
+                    }else {
+                        List<MonthBill.DataBean> List = new ArrayList<>();
+                        for (int i=0;i<5;i++){
+                            List.add(MonthBillList.get(i));
+                        }
+                        monthBillAdapter.setNewData(List);
+                    }
 
-                MonthBillList.addAll(baseResult.getData().getItem2().getData());
-                if (MonthBillList.size()<=4){
-                    monthBillAdapter.setNewData(MonthBillList);
-                }else {
-                   List<MonthBill.DataBean> List = new ArrayList<>();
-                   for (int i=0;i<5;i++){
-                       List.add(MonthBillList.get(i));
-                   }
-                   monthBillAdapter.setNewData(List);
                 }
 
                 break;
