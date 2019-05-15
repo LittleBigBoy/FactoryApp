@@ -65,6 +65,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     TextView mTvPostMoney;
     @BindView(R.id.ll_post_money)
     LinearLayout mLlPostMoney;
+    @BindView(R.id.tv_send_accessory)
+    TextView mTvSendAccessory;
+    @BindView(R.id.ll_send_accessory)
+    LinearLayout mLlSendAccessory;
 
     private String mParam1;
     private String mParam2;
@@ -248,6 +252,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private double Service_range = 15;//正常距离
     private Double distance;
     private Double beyond;
+    private EditText et_new_money;
+    private String newmoney;
 
     public static OrderDetailFragment newInstance(String param1, String param2) {
         OrderDetailFragment fragment = new OrderDetailFragment();
@@ -331,6 +337,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
     @Override
     protected void setListener() {
+        mTvSendAccessory.setOnClickListener(this);
+
         mIconBack.setOnClickListener(this);
         mLlContactCustomerService.setOnClickListener(this);
         mTvReject.setOnClickListener(this);
@@ -362,6 +370,43 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_send_accessory:
+                expressno_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_add_expressno2, null);
+                btn_negtive = expressno_view.findViewById(R.id.negtive);
+                btn_positive = expressno_view.findViewById(R.id.positive);
+                tv_title = expressno_view.findViewById(R.id.title);
+                tv_message = expressno_view.findViewById(R.id.message);
+                et_expressno = expressno_view.findViewById(R.id.et_expressno);
+                ll_scan = expressno_view.findViewById(R.id.ll_scan);
+                expressno_dialog = new AlertDialog.Builder(mActivity)
+                        .setView(expressno_view)
+                        .create();
+                expressno_dialog.show();
+                tv_title.setText("提示");
+                tv_message.setText("是否发送配件");
+                ll_scan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        scan();
+                    }
+                });
+                btn_negtive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        expressno_dialog.dismiss();
+                    }
+                });
+                btn_positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        expressno = et_expressno.getText().toString();
+                        if ("".equals(expressno)) {
+                            expressno = "123";
+                        }
+                        mPresenter.AddOrUpdateExpressNo(OrderID, expressno);
+                    }
+                });
+                break;
             case R.id.tv_apply:
                 final CommonDialog_Home apply = new CommonDialog_Home(mActivity);
                 apply.setMessage("是否要发起质保")
@@ -389,28 +434,28 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 break;
             case R.id.iv_bar_code:
                 for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
-                    if ("img1".equals(data.getReturnaccessoryImg().get(i).getRelation())){
+                    if ("img1".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
                         scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl());
                     }
                 }
                 break;
             case R.id.iv_machine:
                 for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
-                    if ("img2".equals(data.getReturnaccessoryImg().get(i).getRelation())){
+                    if ("img2".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
                         scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl());
                     }
                 }
                 break;
             case R.id.iv_fault_location:
                 for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
-                    if ("img3".equals(data.getReturnaccessoryImg().get(i).getRelation())){
+                    if ("img3".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
                         scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl());
                     }
                 }
                 break;
             case R.id.iv_new_and_old_accessories:
                 for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
-                    if ("img4".equals(data.getReturnaccessoryImg().get(i).getRelation())){
+                    if ("img4".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
                         scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl());
                     }
                 }
@@ -496,7 +541,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-                        mPresenter.ApproveOrderAccessory(OrderID, "-1");
+                        mPresenter.ApproveOrderAccessory(OrderID, "-1", "0");
                     }
 
                     @Override
@@ -527,6 +572,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     tv_title = expressno_view.findViewById(R.id.title);
                     tv_message = expressno_view.findViewById(R.id.message);
                     et_expressno = expressno_view.findViewById(R.id.et_expressno);
+                    et_new_money = expressno_view.findViewById(R.id.et_new_money);
                     ll_scan = expressno_view.findViewById(R.id.ll_scan);
                     expressno_dialog = new AlertDialog.Builder(mActivity)
                             .setView(expressno_view)
@@ -550,18 +596,26 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         @Override
                         public void onClick(View v) {
                             expressno = et_expressno.getText().toString();
+                            newmoney = et_new_money.getText().toString();
                             if ("".equals(expressno)) {
                                 expressno = "123";
                             }
-                            mPresenter.AddOrUpdateExpressNo(OrderID, expressno);
+                            if ("".equals(newmoney)) {
+                                newmoney = "0";
+                            }
+                            expressno_dialog.dismiss();
+                            mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney);
+
+//                            mPresenter.AddOrUpdateExpressNo(OrderID, expressno);
                         }
                     });
-                }else if ("1".equals(data.getAccessoryState())) {
-                    expressno_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_home, null);
+                } else if ("1".equals(data.getAccessoryState())) {
+                    expressno_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_newmoney, null);
                     btn_negtive = expressno_view.findViewById(R.id.negtive);
                     btn_positive = expressno_view.findViewById(R.id.positive);
                     tv_title = expressno_view.findViewById(R.id.title);
                     tv_message = expressno_view.findViewById(R.id.message);
+                    et_new_money = expressno_view.findViewById(R.id.et_new_money);
 //                    et_expressno = expressno_view.findViewById(R.id.et_expressno);
 //                    ll_scan = expressno_view.findViewById(R.id.ll_scan);
                     expressno_dialog = new AlertDialog.Builder(mActivity)
@@ -585,12 +639,16 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     btn_positive.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            newmoney = et_new_money.getText().toString();
+                            if ("".equals(newmoney)) {
+                                newmoney = "0";
+                            }
                             expressno_dialog.dismiss();
-                            mPresenter.ApproveOrderAccessory(OrderID, "1");
+                            mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney);
                         }
                     });
                 } else {
-                    mPresenter.ApproveOrderAccessory(OrderID, "1");
+                    mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney);
                 }
 
                 break;
@@ -710,24 +768,29 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 //                mTvAccessoryMoney.setVisibility(View.GONE);
 //                mTvServiceMoney.setVisibility(View.GONE);
 
-                if (data.getAccessoryMoney()!=null&&!"0.00".equals(data.getAccessoryMoney())){
-                    mTvOrderMoney.setText("￥" + (Double.parseDouble(data.getAccessoryMoney())+Double.parseDouble(data.getBeyondMoney())+Double.parseDouble(data.getPostMoney())) + "");
+                if ("3".equals(data.getTypeID())){
+                    mTvOrderMoney.setText("￥" + data.getQuaMoney() + "");
                 }else{
-                    mTvOrderMoney.setText("￥" + data.getOrderMoney() + "");
+                    if (data.getAccessoryMoney() != null && !"0.00".equals(data.getAccessoryMoney())) {
+                        mTvOrderMoney.setText("￥" + (Double.parseDouble(data.getAccessoryMoney()) + Double.parseDouble(data.getBeyondMoney()) + Double.parseDouble(data.getPostMoney())) + "");
+                    } else {
+                        mTvOrderMoney.setText("￥" + data.getOrderMoney() + "");
+                    }
                 }
-                if (!"0.00".equals(data.getPostMoney())&&data.getPostMoney()!=null){
+
+                if (!"0.00".equals(data.getPostMoney()) && data.getPostMoney() != null) {
                     mLlPostMoney.setVisibility(View.VISIBLE);
-                    mTvPostMoney.setText("￥" +data.getPostMoney());
-                }else{
+                    mTvPostMoney.setText("￥" + data.getPostMoney());
+                } else {
                     mLlPostMoney.setVisibility(View.GONE);
                 }
 
-                if ("保内".equals(data.getGuarantee())){
+                if ("保内".equals(data.getGuarantee())) {
                     mIvY.setSelected(true);
                     mIvN.setSelected(false);
                     mLlAddressInfo.setVisibility(View.VISIBLE);
                     IsReturn = "1";
-                }else {
+                } else {
                     mIvY.setSelected(false);
                     mIvN.setSelected(true);
                     mLlAddressInfo.setVisibility(View.GONE);
@@ -786,12 +849,20 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 if (data.getOrderAccessroyDetail() == null) {
                     mLlApproveAccessory.setVisibility(View.GONE);
                     mLlOldAccessory.setVisibility(View.GONE);
+                    mLlSendAccessory.setVisibility(View.GONE);
                 } else {
                     if (data.getOrderAccessroyDetail().size() == 0) {
                         mLlApproveAccessory.setVisibility(View.GONE);
                         mLlOldAccessory.setVisibility(View.GONE);
+                        mLlSendAccessory.setVisibility(View.GONE);
                     } else {
-
+                        for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
+                            if ("".equals(data.getOrderAccessroyDetail().get(i).getExpressNo())){
+                                mLlSendAccessory.setVisibility(View.VISIBLE);
+                            }else{
+                                mLlSendAccessory.setVisibility(View.GONE);
+                            }
+                        }
                         if ("1".equals(data.getAccessoryApplyState())) {
                             mTvPass.setVisibility(View.GONE);
                             mTvReject.setVisibility(View.GONE);
@@ -836,7 +907,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         mLlApproveAccessory.setVisibility(View.VISIBLE);
                         mLlOldAccessory.setVisibility(View.VISIBLE);
                         for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
-                            if ("2".equals(data.getOrderAccessroyDetail().get(i).getState())){
+                            if ("2".equals(data.getOrderAccessroyDetail().get(i).getState())) {
                                 data.getOrderAccessroyDetail().remove(i);
                             }
                         }
@@ -852,10 +923,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 }
                 distance = Double.parseDouble(data.getDistance());
                 beyond = Double.parseDouble(data.getBeyondDistance());
-                if (distance.equals(beyond)){
+                if (distance.equals(beyond)) {
                     mTvRange.setText(String.format("%.2f", beyond - Service_range));
-                }else {
-                    mTvRange.setText(String.format("%.2f",beyond));
+                } else {
+                    mTvRange.setText(String.format("%.2f", beyond));
                 }
 
 
@@ -907,32 +978,32 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     }
                     mLlReturnInformation.setVisibility(View.VISIBLE);
                     if ("1".equals(data.getTypeID()) || "3".equals(data.getTypeID())) {//维修
-                        List<String> list=new ArrayList<>();
+                        List<String> list = new ArrayList<>();
                         for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
-                            if("img1".equals(data.getReturnaccessoryImg().get(i).getRelation())){
+                            if ("img1".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
                                 Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl()).into(mIvBarCode);
                             }
-                            if("img2".equals(data.getReturnaccessoryImg().get(i).getRelation())){
+                            if ("img2".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
                                 Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl()).into(mIvMachine);
                             }
-                            if("img3".equals(data.getReturnaccessoryImg().get(i).getRelation())){
+                            if ("img3".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
                                 Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl()).into(mIvFaultLocation);
                             }
-                            if("img4".equals(data.getReturnaccessoryImg().get(i).getRelation())){
+                            if ("img4".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
                                 Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl()).into(mIvNewAndOldAccessories);
                             }
                             list.add(data.getReturnaccessoryImg().get(i).getRelation());
                         }
-                        if (!list.contains("img1")){
+                        if (!list.contains("img1")) {
                             mLlBarCode.setVisibility(View.GONE);
                         }
-                        if (!list.contains("img2")){
+                        if (!list.contains("img2")) {
                             mLlMachine.setVisibility(View.GONE);
                         }
-                        if (!list.contains("img3")){
+                        if (!list.contains("img3")) {
                             mLlFaultLocation.setVisibility(View.GONE);
                         }
-                        if (!list.contains("img4")){
+                        if (!list.contains("img4")) {
                             mLlNewAndOldAccessories.setVisibility(View.GONE);
                         }
 //                        Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(0).getUrl()).into(mIvBarCode);
@@ -954,7 +1025,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 if (data.getSendOrderList().size() != 0) {
                     mTvSelectTime.setText(data.getSendOrderList().get(0).getServiceDate());
                 }
-                if ("2".equals(data.getTypeID())){
+                if ("2".equals(data.getTypeID())) {
                     mLlOldAccessory.setVisibility(View.GONE);
                 }
                 break;
@@ -1035,7 +1106,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 if (result.isItem1()) {
                     ToastUtils.showShort("添加成功！");
                     expressno_dialog.dismiss();
-                    mPresenter.ApproveOrderAccessory(OrderID, "1");
+//                    mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney);
                 } else {
                     ToastUtils.showShort("添加失败！" + result.getItem2());
                 }

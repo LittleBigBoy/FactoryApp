@@ -449,6 +449,39 @@
                         android:layout_gravity="center"/>
                 </LinearLayout>
                 <include layout="@layout/activity_order_details_old_accessories" />
+                <LinearLayout
+                    android:id="@+id/ll_send_accessory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:orientation="horizontal"
+                    android:background="@color/white"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="@dimen/dp_10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="17dp"
+                        android:text="配件发货："
+                        android:textColor="#333"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_send_accessory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="40dp"
+                        android:background="@drawable/red_round_shape"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:paddingRight="@dimen/dp_10"
+                        android:text="配件发货"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_approve_accessory"

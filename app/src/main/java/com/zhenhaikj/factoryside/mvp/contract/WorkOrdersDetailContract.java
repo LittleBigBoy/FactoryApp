@@ -18,7 +18,7 @@ public interface WorkOrdersDetailContract {
     interface Model extends BaseModel {
         Observable<BaseResult<WorkOrder.DataBean>> GetOrderInfo(String OrderID);
         Observable<BaseResult<Data<String>>> ApplyCustomService(String OrderID);
-        Observable<BaseResult<Data<String>>> ApproveOrderAccessory(String OrderID,String AccessoryApplyState);
+        Observable<BaseResult<Data<String>>> ApproveOrderAccessory(String OrderID,String AccessoryApplyState,String NewMoney);
         Observable<BaseResult<Data<String>>> ApproveBeyondMoney(String OrderID,String BeyondState);
         Observable<BaseResult<Data<String>>> ApproveOrderService(String OrderID,String State);
         Observable<BaseResult<Data<String>>> AddOrUpdateExpressNo(String OrderID,String ExpressNo);
@@ -65,7 +65,7 @@ public interface WorkOrdersDetailContract {
     abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetOrderInfo(String OrderID);
         public abstract void ApplyCustomService(String OrderID);
-        public abstract void ApproveOrderAccessory(String OrderID,String AccessoryApplyState);
+        public abstract void ApproveOrderAccessory(String OrderID,String AccessoryApplyState,String NewMoney);
         public abstract void ApproveBeyondMoney(String OrderID,String BeyondState);
         public abstract void ApproveOrderService(String OrderID,String State);
         public abstract void AddOrUpdateExpressNo(String OrderID,String ExpressNo);

@@ -452,7 +452,8 @@ public interface ApiService {
     @POST("Order/ApproveOrderAccessory")
     Observable<BaseResult<Data<String>>> ApproveOrderAccessory(
             @Field("OrderID") String OrderID,
-            @Field("AccessoryApplyState") String AccessoryApplyState
+            @Field("AccessoryApplyState") String AccessoryApplyState,
+            @Field("NewMoney") String NewMoney
     );
 
     /**

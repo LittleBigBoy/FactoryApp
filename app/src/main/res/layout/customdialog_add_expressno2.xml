@@ -55,29 +55,6 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/et_new_money"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:inputType="numberDecimal"
-            android:hint="配件价格不对可在这里修改"
-            android:padding="5dp"
-            android:textColor="@color/black"
-            android:textSize="12dp" />
-
-    </LinearLayout>
-    <LinearLayout
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="43dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/gray_shape"
-        android:orientation="horizontal">
-
-        <EditText
             android:id="@+id/et_expressno"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

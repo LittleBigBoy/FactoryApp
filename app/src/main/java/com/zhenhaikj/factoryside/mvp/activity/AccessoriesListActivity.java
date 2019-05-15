@@ -448,7 +448,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-                        mPresenter.ApproveOrderAccessory(OrderID, "-1");
+                        mPresenter.ApproveOrderAccessory(OrderID, "-1","0");
                     }
 
                     @Override
@@ -506,7 +506,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                         }
                     });
                 } else {
-                    mPresenter.ApproveOrderAccessory(OrderID, "1");
+                    mPresenter.ApproveOrderAccessory(OrderID, "1","0");
                 }
 
                 break;
@@ -870,7 +870,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 if (result.isItem1()) {
                     ToastUtils.showShort("添加成功！");
                     expressno_dialog.dismiss();
-                    mPresenter.ApproveOrderAccessory(OrderID, "1");
+                    mPresenter.ApproveOrderAccessory(OrderID, "1","0");
                 } else {
                     ToastUtils.showShort("添加失败！" + result.getItem2());
                 }

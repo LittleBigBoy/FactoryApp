@@ -36,8 +36,8 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
     }
 
     @Override
-    public void ApproveOrderAccessory(String OrderID, String AccessoryApplyState) {
-        mModel.ApproveOrderAccessory(OrderID, AccessoryApplyState)
+    public void ApproveOrderAccessory(String OrderID, String AccessoryApplyState,String NewMoney) {
+        mModel.ApproveOrderAccessory(OrderID, AccessoryApplyState,NewMoney)
                 .subscribe(new BaseObserver<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
