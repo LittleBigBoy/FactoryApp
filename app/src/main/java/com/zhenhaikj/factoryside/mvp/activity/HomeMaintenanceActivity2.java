@@ -1109,26 +1109,50 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
-                    final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
-                    dialog.setMessage(data.getItem2())
-                            //.setImageResId(R.mipmap.ic_launcher)
-                            .setTitle("提示")
-                            .setPositive("去缴纳保证金")
-                            .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
-                        @Override
-                        public void onPositiveClick() {//拨打电话
-                            dialog.dismiss();
-                            startActivity(new Intent(mActivity,MarginActivity.class));
-                        }
+                    if ("保证金低于最低需缴纳金额".equals(data.getItem2())){
+                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                        dialog.setMessage(data.getItem2())
+                                //.setImageResId(R.mipmap.ic_launcher)
+                                .setTitle("提示")
+                                .setPositive("去缴纳保证金")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {//拨打电话
+                                dialog.dismiss();
+                                startActivity(new Intent(mActivity,MarginActivity.class));
+                            }
 
-                        @Override
-                        public void onNegtiveClick() {//取消
-                            dialog.dismiss();
-                            // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
-                        }
-                    }).show();
+                            @Override
+                            public void onNegtiveClick() {//取消
+                                dialog.dismiss();
+                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
+                        cancleLoading();
+                    }else {
+                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                        dialog.setMessage(data.getItem2())
+                                //.setImageResId(R.mipmap.ic_launcher)
+                                .setTitle("提示")
+                                .setPositive("去充值")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {//拨打电话
+                                dialog.dismiss();
+                                startActivity(new Intent(mActivity,RechargeActivity.class));
+                            }
+
+                            @Override
+                            public void onNegtiveClick() {//取消
+                                dialog.dismiss();
+                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
+                        cancleLoading();
+                    }
+
 //                    ToastUtils.showShort(data.getItem2());
-                    cancleLoading();
+
                 }
                 break;
             case 401:

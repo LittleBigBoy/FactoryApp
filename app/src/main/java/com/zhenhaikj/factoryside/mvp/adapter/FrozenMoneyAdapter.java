@@ -21,10 +21,16 @@ public class FrozenMoneyAdapter extends BaseQuickAdapter<FrozenMoney.DataBean, B
 //                .setText(R.id.tv_service,item.getState())
                 .setText(R.id.tv_money, "-" + item.getPayMoney())
                 .setText(R.id.tv_time, time);
-        if ("1".equals(item.getTypeID())) {
-            helper.setText(R.id.tv_service, "安装");
-        } else {
-            helper.setText(R.id.tv_service, "维修");
+        if ("0".equals(item.getState())) {
+            helper.setText(R.id.tv_service, "空");
+        } else if ("1".equals(item.getState())){
+            helper.setText(R.id.tv_service, "配件费");
+        }else if ("2".equals(item.getState())){
+            helper.setText(R.id.tv_service, "远程费");
+        }else if ("3".equals(item.getState())){
+            helper.setText(R.id.tv_service, "邮费");
+        }else {
+            helper.setText(R.id.tv_service, "上门服务费");
         }
 
 
