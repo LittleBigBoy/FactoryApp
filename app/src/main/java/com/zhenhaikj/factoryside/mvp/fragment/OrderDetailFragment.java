@@ -771,8 +771,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 if ("3".equals(data.getTypeID())){
                     mTvOrderMoney.setText("￥" + data.getQuaMoney() + "");
                 }else{
-                    if (data.getAccessoryMoney() != null && !"0.00".equals(data.getAccessoryMoney())) {
-                        mTvOrderMoney.setText("￥" + (Double.parseDouble(data.getAccessoryMoney()) + Double.parseDouble(data.getBeyondMoney()) + Double.parseDouble(data.getPostMoney())) + "");
+//                    if (data.getAccessoryMoney() != null && !"0.00".equals(data.getAccessoryMoney())) {
+                    if ("1".equals(data.getAccessoryApplyState())) {
+                        mTvOrderMoney.setText("￥" + data.getQuaMoney());
+//                        mTvOrderMoney.setText("￥" + (Double.parseDouble(data.getAccessoryMoney()) + Double.parseDouble(data.getBeyondMoney()) + Double.parseDouble(data.getPostMoney())) + "");
                     } else {
                         mTvOrderMoney.setText("￥" + data.getOrderMoney() + "");
                     }
