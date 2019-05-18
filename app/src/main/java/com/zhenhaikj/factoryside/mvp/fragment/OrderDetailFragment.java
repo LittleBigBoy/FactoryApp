@@ -69,6 +69,14 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     TextView mTvSendAccessory;
     @BindView(R.id.ll_send_accessory)
     LinearLayout mLlSendAccessory;
+    @BindView(R.id.iv_host)
+    ImageView mIvHost;
+    @BindView(R.id.ll_host)
+    LinearLayout mLlHost;
+    @BindView(R.id.iv_accessories)
+    ImageView mIvAccessories;
+    @BindView(R.id.ll_accessories)
+    LinearLayout mLlAccessories;
 
     private String mParam1;
     private String mParam2;
@@ -364,6 +372,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         mIvNewAndOldAccessories.setOnClickListener(this);
         mNegtive.setOnClickListener(this);
         mPositive.setOnClickListener(this);
+
+        mIvHost.setOnClickListener(this);
+        mIvAccessories.setOnClickListener(this);
     }
 
 
@@ -510,6 +521,50 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 Glide.with(mActivity)
                         .asBitmap()
                         .load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl())
+                        .into(simpleTarget);
+                break;
+            case R.id.iv_host:
+                if (data.getOrderAccessroyDetail() == null) {
+                    return;
+                }
+                if (data.getOrderAccessroyDetail().size() == 0) {
+                    return;
+                }
+                simpleTarget = new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
+                            super Bitmap> transition) {
+                        RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
+                        rxDialogScaleView.setImage(resource);
+                        rxDialogScaleView.show();
+                    }
+                };
+
+                Glide.with(mActivity)
+                        .asBitmap()
+                        .load("http://47.96.126.145:8820/Pics/Accessory/" + data.getOrderAccessroyDetail().get(0).getPhoto1())
+                        .into(simpleTarget);
+                break;
+            case R.id.iv_accessories:
+                if (data.getOrderAccessroyDetail() == null) {
+                    return;
+                }
+                if (data.getOrderAccessroyDetail().size() == 0) {
+                    return;
+                }
+                simpleTarget = new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
+                            super Bitmap> transition) {
+                        RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
+                        rxDialogScaleView.setImage(resource);
+                        rxDialogScaleView.show();
+                    }
+                };
+
+                Glide.with(mActivity)
+                        .asBitmap()
+                        .load("http://47.96.126.145:8820/Pics/Accessory/" + data.getOrderAccessroyDetail().get(0).getPhoto2())
                         .into(simpleTarget);
                 break;
             case R.id.ll_contact_customer_service:
@@ -768,9 +823,18 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 //                mTvAccessoryMoney.setVisibility(View.GONE);
 //                mTvServiceMoney.setVisibility(View.GONE);
 
-                if ("3".equals(data.getTypeID())){
+                if (data.getOrderAccessroyDetail().size() > 0) {
+                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/Accessory/" + data.getOrderAccessroyDetail().get(0).getPhoto1()).into(mIvHost);
+                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/Accessory/" + data.getOrderAccessroyDetail().get(0).getPhoto2()).into(mIvAccessories);
+
+                } else {
+                    mLlHost.setVisibility(View.GONE);
+                    mLlAccessories.setVisibility(View.GONE);
+                }
+
+                if ("3".equals(data.getTypeID())) {
                     mTvOrderMoney.setText("￥" + data.getQuaMoney() + "");
-                }else{
+                } else {
 //                    if (data.getAccessoryMoney() != null && !"0.00".equals(data.getAccessoryMoney())) {
                     if ("1".equals(data.getAccessoryApplyState())) {
                         mTvOrderMoney.setText("￥" + data.getQuaMoney());
@@ -859,9 +923,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         mLlSendAccessory.setVisibility(View.GONE);
                     } else {
                         for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
-                            if ("".equals(data.getOrderAccessroyDetail().get(i).getExpressNo())){
+                            if ("".equals(data.getOrderAccessroyDetail().get(i).getExpressNo())) {
                                 mLlSendAccessory.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 mLlSendAccessory.setVisibility(View.GONE);
                             }
                         }

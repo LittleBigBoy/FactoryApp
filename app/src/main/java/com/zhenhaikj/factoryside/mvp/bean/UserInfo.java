@@ -84,6 +84,7 @@ public class UserInfo implements Serializable {
          * page : 0
          * limit : 0
          * Version : 0
+         *
          */
 
         private String Id;
@@ -112,7 +113,7 @@ public class UserInfo implements Serializable {
         private String AreaCode;
         private String Address;
         private Double DepositMoney;
-        private int DepositFrozenMoney;
+        private Double DepositFrozenMoney;
         private String Skills;
         private String IfAuth;
         private String AuthMessage;
@@ -124,6 +125,7 @@ public class UserInfo implements Serializable {
         private int page;
         private int limit;
         private int Version;
+        private String Con;
 
         public String getId() {
             return Id;
@@ -333,12 +335,12 @@ public class UserInfo implements Serializable {
             DepositMoney = depositMoney;
         }
 
-        public int getDepositFrozenMoney() {
+        public Double getDepositFrozenMoney() {
             return DepositFrozenMoney;
         }
 
-        public void setDepositFrozenMoney(int DepositFrozenMoney) {
-            this.DepositFrozenMoney = DepositFrozenMoney;
+        public void setDepositFrozenMoney(Double depositFrozenMoney) {
+            DepositFrozenMoney = depositFrozenMoney;
         }
 
         public String getSkills() {
@@ -429,6 +431,14 @@ public class UserInfo implements Serializable {
             this.Version = Version;
         }
 
+        public String getCon() {
+            return Con;
+        }
+
+        public void setCon(String con) {
+            Con = con;
+        }
+
         @Override
         public String toString() {
             return "UserInfoDean{" +
@@ -470,6 +480,7 @@ public class UserInfo implements Serializable {
                     ", page=" + page +
                     ", limit=" + limit +
                     ", Version=" + Version +
+                    ", Con=" + Con +
                     '}';
         }
     }
