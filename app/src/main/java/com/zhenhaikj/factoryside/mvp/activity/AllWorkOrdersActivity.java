@@ -70,7 +70,7 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
 
 
     private String[] mTitleDataList = new String[]{
-            "所有工单","待接单","待审核", "待支付", "已完成", "质保单","退单处理"
+            "所有工单","待接单","已接单","待审核", "待支付", "已完成", "质保单","退单处理"
     };
 
     //private CommonNavigator commonNavigator;
@@ -100,7 +100,7 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
     @Override
     protected void initView() {
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 8; i++) {
             mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i], ""));
         }
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());

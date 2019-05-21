@@ -164,10 +164,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:digits="0123456789xyzXYZ"
                             android:gravity="right"
-                            android:hint="请输入身份证号"
-                            android:inputType="number"
+                            android:hint="请输入营业执照号"
                             android:maxLength="18"
                             android:padding="@dimen/dp_10"
                             android:textColor="@color/black"
@@ -222,6 +220,173 @@
                 </LinearLayout>
             </FrameLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="17dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="管理姓名"
+                        android:textColor="#5A5A5B"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/et_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="right"
+                        android:hint="请输入管理姓名"
+                        android:padding="@dimen/dp_10"
+                        android:textColor="@color/black"
+                        android:textColorHint="#D3D3D3"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:background="#E4E4E4" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="17dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="管理手机"
+                        android:textColor="#5A5A5B"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/et_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="right"
+                        android:hint="请输入管理手机"
+                        android:inputType="number"
+                        android:padding="@dimen/dp_10"
+                        android:textColor="@color/black"
+                        android:textColorHint="#D3D3D3"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:background="#E4E4E4" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="17dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="客服电话"
+                        android:textColor="#5A5A5B"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/et_consumer_hotline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="right"
+                        android:hint="请输入客服电话"
+                        android:inputType="number"
+                        android:padding="@dimen/dp_10"
+                        android:textColor="@color/black"
+                        android:textColorHint="#D3D3D3"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:background="#E4E4E4" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="17dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="财务电话"
+                        android:textColor="#5A5A5B"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/et_financial_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="right"
+                        android:hint="请输入财务电话"
+                        android:inputType="number"
+                        android:padding="@dimen/dp_10"
+                        android:textColor="@color/black"
+                        android:textColorHint="#D3D3D3"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:background="#E4E4E4" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="17dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="技术电话"
+                        android:textColor="#5A5A5B"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/et_technical_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="right"
+                        android:hint="请输入技术电话"
+                        android:inputType="number"
+                        android:padding="@dimen/dp_10"
+                        android:textColor="@color/black"
+                        android:textColorHint="#D3D3D3"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
 
 
             <LinearLayout

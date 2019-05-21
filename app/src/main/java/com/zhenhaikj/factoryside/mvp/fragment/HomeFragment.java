@@ -144,7 +144,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     private Integer[] icons = new Integer[]{
             R.mipmap.one_bg, R.mipmap.two_bg, R.mipmap.three_bg, R.mipmap.four_bg, R.drawable.suoyou1,
-            R.mipmap.daijiedan, R.mipmap.daishenhe, R.mipmap.daizhifu, R.mipmap.yiwanjie, R.drawable.zhibao, R.mipmap.tuidan
+            R.mipmap.daijiedan,R.drawable.yijiedan, R.mipmap.daishenhe, R.mipmap.daizhifu, R.mipmap.yiwanjie, R.drawable.zhibao, R.mipmap.tuidan
     };
 
     private Integer[] icons_content = new Integer[]{
@@ -154,7 +154,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     };
     private String[] names = new String[]{
             "发布安装", "发布维修", "发布送修", "批量发单", "所有工单",
-            "待接单", "待审核", "待支付", "已完结", "质保单", "退单处理"
+            "待接单","已接单", "待审核", "待支付", "已完结", "质保单", "退单处理"
     };
     private MenuAdapter2 mMainAdapter;
     private MenuAdapter mCommonAdapter;

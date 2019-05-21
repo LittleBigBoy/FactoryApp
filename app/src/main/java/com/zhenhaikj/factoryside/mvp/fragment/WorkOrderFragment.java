@@ -194,6 +194,9 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
             case "待审核":
                 mPresenter.GetOrderInfoList(UserID,"1", Integer.toString(pageIndex), "3");
                 break;
+            case "已接单":
+                mPresenter.GetOrderInfoList(UserID,"7", Integer.toString(pageIndex), "3");
+                break;
             case "待支付":
                 mPresenter.GetOrderInfoList(UserID,"2", Integer.toString(pageIndex), "3");
                 break;
@@ -209,6 +212,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
             case "退单处理":
                 mPresenter.GetOrderInfoList(UserID,"6", Integer.toString(pageIndex), "3");
                 break;
+
         }
     }
 
