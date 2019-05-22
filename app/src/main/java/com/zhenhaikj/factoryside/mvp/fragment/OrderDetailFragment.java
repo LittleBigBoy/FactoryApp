@@ -970,7 +970,13 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                             mTvStatusAccessory.setVisibility(View.GONE);
                         }
 
-                        mLlApproveAccessory.setVisibility(View.VISIBLE);
+                        if ("4".equals(data.getOrderAccessroyDetail().get(0).getSizeID())){
+                            mLlApproveAccessory.setVisibility(View.GONE);
+                            mLlSendAccessory.setVisibility(View.GONE);
+                            mLlOldAccessory.setVisibility(View.GONE);
+                        }else {
+                            mLlApproveAccessory.setVisibility(View.VISIBLE);
+                        }
                         mLlOldAccessory.setVisibility(View.VISIBLE);
                         for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
                             if ("2".equals(data.getOrderAccessroyDetail().get(i).getState())) {

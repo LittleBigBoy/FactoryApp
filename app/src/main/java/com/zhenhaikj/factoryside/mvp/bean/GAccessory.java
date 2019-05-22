@@ -52,6 +52,15 @@ public class GAccessory implements Serializable {
     private String QApplyNum;
     private String Photo1;
     private String Photo2;
+    private String SizeID;
+
+    public String getSizeID() {
+        return SizeID;
+    }
+
+    public void setSizeID(String sizeID) {
+        SizeID = sizeID;
+    }
 
     public String getState() {
         return State;
