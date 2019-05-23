@@ -42,6 +42,12 @@ public class HomeMaintenanceModel implements HomeMaintenanceContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+    @Override
+    public Observable<BaseResult<CategoryData>> GetChildFactoryCategory2(String ParentID) {
+        return ApiRetrofit.getDefault().GetChildFactoryCategory(ParentID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 
     @Override
     public Observable<BaseResult<Data<List<ProductType>>>> GetFactoryProducttype(String FBrandID, String FCategoryID) {

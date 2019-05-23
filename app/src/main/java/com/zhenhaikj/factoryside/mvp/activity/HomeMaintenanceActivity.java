@@ -874,6 +874,11 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     }
 
     @Override
+    public void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult) {
+
+    }
+
+    @Override
     public void GetFactoryProducttype(BaseResult<Data<List<ProductType>>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:

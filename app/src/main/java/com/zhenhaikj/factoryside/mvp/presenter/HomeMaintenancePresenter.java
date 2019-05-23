@@ -58,6 +58,16 @@ public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter 
                     }
                 });
     }
+    @Override
+    public void GetChildFactoryCategory2(String ParentID) {
+        mModel.GetChildFactoryCategory2(ParentID)
+                .subscribe(new BaseObserver<CategoryData>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<CategoryData> value) {
+                        mView.GetChildFactoryCategory2(value);
+                    }
+                });
+    }
 
     @Override
     public void GetFactoryProducttype(String FBrandID, String FCategoryID) {

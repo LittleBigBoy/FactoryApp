@@ -23,7 +23,7 @@ public class RechargeModel implements RechargeContract.Model {
     }
     @Override
     public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String TotalAmount) {
-        return ApiRetrofit.getDefault().GetWXOrderStr(userid, TotalAmount,"1","factory")
+        return ApiRetrofit.getDefault().GetWXOrderStr(userid, TotalAmount,"1","mall")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

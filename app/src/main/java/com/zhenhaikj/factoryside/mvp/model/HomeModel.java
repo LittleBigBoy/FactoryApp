@@ -37,7 +37,7 @@ public class HomeModel implements HomeContract.Model {
 
     @Override
     public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String TotalAmount) {
-        return ApiRetrofit.getDefault().GetWXOrderStr(userid, TotalAmount,"2","factory")
+        return ApiRetrofit.getDefault().GetWXOrderStr(userid, TotalAmount,"2","mall")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

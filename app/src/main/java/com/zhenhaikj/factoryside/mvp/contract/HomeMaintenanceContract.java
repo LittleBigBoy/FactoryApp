@@ -59,12 +59,14 @@ public interface HomeMaintenanceContract {
                                                       String Num,
                                                       String IsRecevieGoods,
                                                       String ExpressNo);
+        Observable<BaseResult<CategoryData>> GetChildFactoryCategory2(String ParentId);
     }
 
     interface View extends BaseView {
         void GetFactoryBrand(BaseResult<List<Brand>> baseResult);
         void GetFactoryCategory(BaseResult<CategoryData> baseResult);
         void GetChildFactoryCategory(BaseResult<CategoryData> baseResult);
+        void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult);
         void GetFactoryProducttype(BaseResult<Data<List<ProductType>>> baseResult);
         void GetFactoryAccessory(BaseResult<Accessory> baseResult);
         void GetProvince(BaseResult<List<Province>> baseResult);
@@ -79,6 +81,7 @@ public interface HomeMaintenanceContract {
 
         public abstract void GetFactoryCategory(String ParentID);
         public abstract void GetChildFactoryCategory(String ParentID);
+        public abstract void GetChildFactoryCategory2(String ParentID);
 
         public abstract void GetFactoryProducttype(String FBrandID, String FCategoryID);
 
