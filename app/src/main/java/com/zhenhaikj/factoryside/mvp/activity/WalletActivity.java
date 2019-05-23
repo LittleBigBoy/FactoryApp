@@ -298,16 +298,19 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
     public void GetFrozenMoney(BaseResult<Data<FrozenMoney>> baseResult) {
         switch (baseResult.getStatusCode()){
             case 200:
-                FrozenMoneyList.addAll(baseResult.getData().getItem2().getData());
-                if (FrozenMoneyList.size()<=4){
-                    frozenMoneyAdapter.setNewData(FrozenMoneyList);
-                }else {
-                    List<FrozenMoney.DataBean> List = new ArrayList<>();
-                    for (int i = 0; i <5 ; i++) {
-                        List.add(FrozenMoneyList.get(i));
+                if (baseResult.getData().getItem2().getData()!=null){
+                    FrozenMoneyList.addAll(baseResult.getData().getItem2().getData());
+                    if (FrozenMoneyList.size()<=4){
+                        frozenMoneyAdapter.setNewData(FrozenMoneyList);
+                    }else {
+                        List<FrozenMoney.DataBean> List = new ArrayList<>();
+                        for (int i = 0; i <5 ; i++) {
+                            List.add(FrozenMoneyList.get(i));
+                        }
+                        frozenMoneyAdapter.setNewData(List);
                     }
-                    frozenMoneyAdapter.setNewData(List);
                 }
+
                 break;
         }
     }

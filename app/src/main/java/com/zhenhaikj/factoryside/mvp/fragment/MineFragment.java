@@ -380,7 +380,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_to_be_returned:
                 bundle = new Bundle();
                 bundle.putString("title", "待审核");
-                bundle.putInt("position", 2);
+                bundle.putInt("position", 3);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
@@ -388,7 +388,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_to_be_confirmed:
                 bundle = new Bundle();
                 bundle.putString("title", "待支付");
-                bundle.putInt("position", 3);
+                bundle.putInt("position", 4);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
@@ -396,7 +396,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_complete:
                 bundle = new Bundle();
                 bundle.putString("title", "已完成");
-                bundle.putInt("position", 4);
+                bundle.putInt("position", 5);
                 intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
