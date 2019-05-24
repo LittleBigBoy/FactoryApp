@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,6 +45,7 @@ import com.zhenhaikj.factoryside.mvp.adapter.AccessoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.AreaAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.BrandChooseAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.ChooseCategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CityAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.DistrictAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ProductTypeAdapter;
@@ -65,6 +67,7 @@ import com.zhenhaikj.factoryside.mvp.model.HomeMaintenanceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.HomeMaintenancePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
+import com.zhenhaikj.factoryside.mvp.widget.RecyclerViewDivider;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
@@ -225,7 +228,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private String SubCategoryID;
     private String SubCategoryName;
     private String ProductTypeName;
-    private String OrderMoney;
+    private String OrderMoney="0";
     private String Address;//详细地址
     private String DetailAddress;//详细地址
     private String Name;//客户姓名
@@ -252,7 +255,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private CategoryAdapter chooseAdapter;
     private RecyclerView rv_choose;
 
-    private LabelsView lv_popular;
+    private RecyclerView lv_popular;
     private ImageView iv_close;
 
     private RecyclerView rv_address;
@@ -279,6 +282,8 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private String number;
     private String TypeID;
     private String TypeName;
+    private ChooseCategoryAdapter firstAdapter;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected int setLayoutId() {
@@ -647,7 +652,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 }
                 switch (type) {
                     case 0:
-                        OrderMoney = Double.parseDouble(category.getInstallPrice()) * Double.parseDouble(Num) + "";
+//                        OrderMoney = Double.parseDouble(category.getInstallPrice()) * Double.parseDouble(Num) + "";
                         if (SigningState == null || "".equals(SigningState)) {
                             MyUtils.showToast(mActivity, "请选择客户是否为已签收产品");
                             cancleLoading();
@@ -670,7 +675,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             cancleLoading();
                             return;
                         }
-                        OrderMoney = Double.parseDouble(category.getInitPrice()) * Double.parseDouble(Num) + "";
+//                        OrderMoney = Double.parseDouble(category.getInitPrice()) * Double.parseDouble(Num) + "";
                         mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num, null, null);
                         break;
                     default:
@@ -833,24 +838,20 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 popupWindow.dismiss();
             }
         });
-        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
-            @Override
-            public CharSequence getLabelText(TextView label, int position, Category data) {
-                return data.getFCategoryName();
-            }
-        });
+        firstAdapter = new ChooseCategoryAdapter(popularList);
+        linearLayoutManager = new LinearLayoutManager(mActivity);
+        lv_popular.setLayoutManager(linearLayoutManager);
+        lv_popular.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
+        lv_popular.setAdapter(firstAdapter);
         FCategoryID = popularList.get(0).getId();
         CategoryName = popularList.get(0).getFCategoryName();
         mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
-        lv_popular.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
-            @Override
-            public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
-                if (isSelect) {
-                    FCategoryID = ((Category) data).getId();
-                    CategoryName = ((Category) data).getFCategoryName();
-                    mPresenter.GetChildFactoryCategory(((Category) data).getId());
-                }
-            }
+        popularList.get(0).setSelected(true);
+        firstAdapter.setOnItemClickListener((adapter, view, position) -> {
+            scrollToMiddleH(view, position);
+            setSelect(position);
+            mPresenter.GetChildFactoryCategory(popularList.get(position).getFCategoryID());
+
         });
 
         popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -871,6 +872,41 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         }
         MyUtils.setWindowAlpa(mActivity, true);
     }
+
+    public void setSelect(int position) {
+        for (int i = 0; i < popularList.size(); i++) {
+            if (i == position) {
+                popularList.get(i).setSelected(true);
+            } else {
+                popularList.get(i).setSelected(false);
+            }
+        }
+        firstAdapter.setNewData(popularList);
+    }
+
+
+    private void scrollToMiddleH(View view, int position) {
+
+        int vHeight = view.getHeight();
+
+        Rect rect = new Rect();
+
+        lv_popular.getGlobalVisibleRect(rect);
+
+//        int reHeight = rect.top- rect.bottom - vHeight;
+        int reHeight = rect.bottom - rect.top - vHeight;
+
+
+        final int firstPosition = linearLayoutManager.findFirstVisibleItemPosition();
+
+        int top = lv_popular.getChildAt(position - firstPosition).getTop();
+
+        int half = reHeight / 2;
+
+        lv_popular.smoothScrollBy(0, top - half);
+
+    }
+
 
     public void showPopWindow(final TextView tv, BaseQuickAdapter adapter, final List list) {
 
@@ -960,6 +996,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                         ToastUtils.showShort("无分类，请联系管理员添加！");
                     } else {
                         showPopWindowGetCategory(mTvChooseCategory);
+
                     }
                 } else {
                     ToastUtils.showShort("获取分类失败！");

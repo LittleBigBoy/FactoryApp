@@ -1,8 +1,10 @@
 package com.zhenhaikj.factoryside.mvp.bean;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.io.Serializable;
 
-public class Category implements Serializable {
+public class Category implements Serializable, MultiItemEntity {
 
 
     /**
@@ -20,6 +22,7 @@ public class Category implements Serializable {
      * Version : 0
      */
 
+    private int itemType;
     private String Id;
     private String FCategoryID;
     private String FCategoryName;
@@ -33,6 +36,15 @@ public class Category implements Serializable {
     private String page;
     private String limit;
     private String Version;
+    private boolean selected;
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 
     public String getInstallPrice() {
         return InstallPrice;
@@ -136,5 +148,15 @@ public class Category implements Serializable {
 
     public void setVersion(String Version) {
         this.Version = Version;
+    }
+
+
+    @Override
+    public int getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(int itemType) {
+        this.itemType = itemType;
     }
 }

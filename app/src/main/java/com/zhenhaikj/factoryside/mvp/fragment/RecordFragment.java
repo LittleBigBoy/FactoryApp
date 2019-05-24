@@ -51,11 +51,13 @@ public class RecordFragment extends BaseLazyFragment<WalletPresenter, WalletMode
     public void MonthBill(BaseResult<Data<MonthBill>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
+                if (baseResult.getData().getItem2().getData()!=null){
+                    MonthBillList.addAll(baseResult.getData().getItem2().getData());
+                    monthBillAdapter = new MonthBillAdapter(R.layout.bill_item, MonthBillList);
+                    mRvRecord.setLayoutManager(new LinearLayoutManager(mActivity));
+                    mRvRecord.setAdapter(monthBillAdapter);
+                }
 
-                MonthBillList.addAll(baseResult.getData().getItem2().getData());
-                monthBillAdapter = new MonthBillAdapter(R.layout.bill_item, MonthBillList);
-                mRvRecord.setLayoutManager(new LinearLayoutManager(mActivity));
-                mRvRecord.setAdapter(monthBillAdapter);
                 break;
         }
     }
@@ -64,10 +66,13 @@ public class RecordFragment extends BaseLazyFragment<WalletPresenter, WalletMode
     public void GetFrozenMoney(BaseResult<Data<FrozenMoney>> baseResult) {
         switch(baseResult.getStatusCode()){
             case 200:
-                frozenMoneyList.addAll(baseResult.getData().getItem2().getData());
-                frozenMoneyAdapter = new FrozenMoneyAdapter(R.layout.item_frozen_amount,frozenMoneyList);
-                mRvRecord.setLayoutManager(new LinearLayoutManager(mActivity));
-                mRvRecord.setAdapter(frozenMoneyAdapter);
+                if (baseResult.getData().getItem2().getData()!=null){
+                    frozenMoneyList.addAll(baseResult.getData().getItem2().getData());
+                    frozenMoneyAdapter = new FrozenMoneyAdapter(R.layout.item_frozen_amount,frozenMoneyList);
+                    mRvRecord.setLayoutManager(new LinearLayoutManager(mActivity));
+                    mRvRecord.setAdapter(frozenMoneyAdapter);
+                }
+
                 break;
         }
     }

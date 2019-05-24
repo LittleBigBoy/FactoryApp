@@ -3,11 +3,11 @@
     <!-- 连框颜色值 -->
     <item>
         <shape>
-            <solid android:color="@color/green" />
+            <solid android:color="@color/red" />
         </shape>
     </item>
     <!-- 主体背景颜色值 -->
-    <item android:left="8dp">   <!--设置只有右部有边框-->
+    <item android:left="4dp">   <!--设置只有右部有边框-->
         <shape>
             <solid android:color="#ffffff" />
         </shape>
