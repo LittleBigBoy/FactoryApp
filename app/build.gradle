@@ -9,8 +9,8 @@ android {
         applicationId "com.zhenhaikj.factoryside"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 23
-        versionName "1.2.2"
+        versionCode 24
+        versionName "1.2.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -212,4 +212,13 @@ dependencies {
     implementation 'com.github.vondear.RxTool:RxUI:v2.2.7'
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     implementation 'org.aspectj:aspectjrt:1.8.9'
+
+    implementation 'com.zhihu.android:matisse:0.5.2-beta3'
+    implementation 'org.aspectj:aspectjrt:1.8.9'
+
+    //    定位
+    implementation 'com.amap.api:location:latest.integration'
+    compile project(path: ':place_choose')
+
+
 }

@@ -4,6 +4,7 @@ import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Message;
 import com.zhenhaikj.factoryside.mvp.bean.MessageData;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.MainContract;
 
 import java.util.List;
@@ -24,6 +25,13 @@ public class MainModel implements MainContract.Model {
     @Override
     public Observable<BaseResult<MessageData<List<Message>>>> GetTransactionMessageList(String UserID, String SubType, String limit, String page) {
         return ApiRetrofit.getDefault().GetMessageList(UserID, "1",SubType,limit,page,"1")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<UserInfo>> GetUserInfoList(String UserID, String limit) {
+        return ApiRetrofit.getDefault().GetUserInfoList(UserID,limit)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

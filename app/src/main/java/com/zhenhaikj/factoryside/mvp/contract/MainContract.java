@@ -6,6 +6,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.base.BaseView;
 import com.zhenhaikj.factoryside.mvp.bean.Message;
 import com.zhenhaikj.factoryside.mvp.bean.MessageData;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 
 import java.util.List;
 
@@ -18,17 +19,20 @@ public interface MainContract {
 
         Observable<BaseResult<MessageData<List<Message>>>> GetTransactionMessageList(String UserID, String SubType, String limit, String page);
 
+        Observable<BaseResult<UserInfo>> GetUserInfoList(String UserID, String limit);
     }
 
     interface View extends BaseView {
 
         void GetMessageList(BaseResult<MessageData<List<Message>>> baseResult);
         void GetTransactionMessageList(BaseResult<MessageData<List<Message>>> baseResult);
+        void GetUserInfoList(BaseResult<UserInfo> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
 
         public abstract void GetMessageList(String UserID,String SubType,String limit,String page);
         public abstract void GetTransactionMessageList(String UserID,String SubType,String limit,String page);
+        public abstract void GetUserInfoList(String UserID,String limit);
     }
 }

@@ -1,10 +1,13 @@
 package com.zhenhaikj.factoryside.mvp;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,10 +19,12 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.umeng.socialize.UMShareAPI;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
+import com.zhenhaikj.factoryside.mvp.activity.VerifiedActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Message;
 import com.zhenhaikj.factoryside.mvp.bean.MessageData;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.MainContract;
 import com.zhenhaikj.factoryside.mvp.fragment.AllWorkOrdersFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.DiscoveryFragment;
@@ -28,7 +33,9 @@ import com.zhenhaikj.factoryside.mvp.fragment.MineFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.NewsFragment;
 import com.zhenhaikj.factoryside.mvp.model.MainModel;
 import com.zhenhaikj.factoryside.mvp.presenter.MainPresenter;
+import com.zhenhaikj.factoryside.mvp.widget.CustomDialog;
 import com.zhenhaikj.factoryside.mvp.widget.CustomViewPager;
+import com.zhenhaikj.factoryside.mvp.widget.VerifiedDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -92,6 +99,10 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     private QBadgeView qBadgeView;
     SPUtils spUtils = SPUtils.getInstance("token");
     String userID = spUtils.getString("userName");
+    private UserInfo.UserInfoDean userInfo;
+    private View under_review;
+    private Button btnConfirm;
+    private AlertDialog underReviewDialog;
 
     @Override
     protected int setLayoutId() {
@@ -100,6 +111,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
 
     @Override
     protected void initData() {
+        mPresenter.GetUserInfoList(userID, "1");
         setSwipeBackEnable(false);
         mFragments = new ArrayList<>();
         mFragments.add(HomeFragment.newInstance("", ""));
@@ -159,14 +171,26 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 tabSelected(ll_message);
                 break;
             case R.id.ll_category:
+                if (userInfo.getIfAuth() != null) {
+                    if (userInfo.getIfAuth().equals("1")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("title", "所有工单");
+                        bundle.putInt("position", 0);
+                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+                        intent.putExtras(bundle);
+                        ActivityUtils.startActivity(intent);
+                    } else if (userInfo.getIfAuth().equals("0")) {
+                        showUnderDialog();
+                    } else if (userInfo.getIfAuth().equals("-1")) {
+                        showRejectDialog();
+                    } else {
+                        showVerifiedDialog();
+                    }
+                } else {
+                    showVerifiedDialog();
+                }
 //                viewPager.setCurrentItem(2);
 //                tabSelected(ll_category);
-                Bundle bundle = new Bundle();
-                bundle.putString("title", "所有工单");
-                bundle.putInt("position", 0);
-                intent = new Intent(mActivity, AllWorkOrdersActivity.class);
-                intent.putExtras(bundle);
-                ActivityUtils.startActivity(intent);
                 break;
 
             case R.id.ll_car:
@@ -259,6 +283,37 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         }
     }
 
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().getData()==null){
+
+                }else {
+                    userInfo = baseResult.getData().getData().get(0);
+                    if (userInfo !=null){
+                        if ("0".equals(userInfo.getIfAuth())){
+                            showUnderDialog();
+                        }else if ("-1".equals(userInfo.getIfAuth())){
+                            showRejectDialog();
+                        }else if ("1".equals(userInfo.getIfAuth())){
+//                            showPassDialog();
+                        }else{
+                            showVerifiedDialog();
+                        }
+                    }
+                }
+
+
+                break;
+
+
+            default:
+                break;
+
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String message) {
         switch (message) {
@@ -267,6 +322,9 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 break;
             case "transactionempty":
                 mPresenter.GetTransactionMessageList(userID, "0", "999", "1");
+                break;
+            case "GetUserInfoList":
+                mPresenter.GetUserInfoList(userID, "1");
                 break;
         }
 
@@ -335,4 +393,63 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         EventBus.getDefault().unregister(this);
         UMShareAPI.get(this).release();
     }
+
+    public void showRejectDialog() {
+        under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_audit_failure, null);
+        btnConfirm = under_review.findViewById(R.id.btn_confirm);
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                underReviewDialog.dismiss();
+                startActivity(new Intent(mActivity, VerifiedActivity.class));
+            }
+        });
+        underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review).create();
+        underReviewDialog.show();
+    }
+    public void showUnderDialog() {
+        under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_under_review, null);
+        btnConfirm = under_review.findViewById(R.id.btn_confirm);
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                underReviewDialog.dismiss();
+            }
+        });
+        underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review).create();
+        underReviewDialog.show();
+    }
+
+    public void showVerifiedDialog() {
+        VerifiedDialog customDialog = new VerifiedDialog(mActivity);
+        customDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+        customDialog.setTitle("实名认证");
+        customDialog.show();
+        customDialog.setYesOnclickListener("确定", new VerifiedDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                //Toast.makeText(getContext(), "点击了--去认证--按钮", Toast.LENGTH_LONG).show();
+                customDialog.dismiss();
+                startActivity(new Intent(mActivity, VerifiedActivity.class));
+            }
+        });
+
+        customDialog.setNoOnclickListener("取消", new VerifiedDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                //Toast.makeText(getContext(), "点击了--再想想--按钮", Toast.LENGTH_LONG).show();
+                customDialog.dismiss();
+            }
+        });
+
+        customDialog.setNoOnclickListener("取消", new VerifiedDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                // Toast.makeText(getContext(), "点击了--关闭-按钮", Toast.LENGTH_LONG).show();
+                customDialog.dismiss();
+            }
+        });
+    }
+
+
 }

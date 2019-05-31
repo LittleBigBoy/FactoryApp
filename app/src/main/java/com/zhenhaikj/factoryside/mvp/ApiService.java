@@ -672,4 +672,49 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/LoginOut")
     Observable<BaseResult<Data<String>>> LoginOut(@Field("UserID") String UserID,@Field("Type") String type);
+
+
+    /**
+     * 实名认证
+     *  "UserID": "string",
+     *   "CompanyName": "string",
+     *   "CompanyNum": "string",
+     *   "ManagyName": "string",
+     *   "ManagyPhone": "string",
+     *   "ServicePhone": "string",
+     *   "FinancePhone": "string",
+     *   "ArtisanPhone": "string",
+     *   "PhoneUrl": "string",
+     *   "Province": "string",
+     *   "City": "string",
+     *   "Area": "string",
+     *   "District": "string",
+     *   "Address": "string",
+     *   "IfAuth": "string",
+     *   "IsUse": "string",
+     */
+    @FormUrlEncoded
+    @POST("Account/FactoryApplyAuthInfo")
+    Observable<BaseResult<Data<String>>> FactoryApplyAuthInfo(@Field("UserID") String UserID,
+                                                              @Field("CompanyName") String CompanyName,
+                                                              @Field("CompanyNum") String CompanyNum,
+                                                              @Field("ManagyName") String ManagyName,
+                                                              @Field("ManagyPhone") String ManagyPhone,
+                                                              @Field("ServicePhone") String ServicePhone,
+                                                              @Field("FinancePhone") String FinancePhone,
+                                                              @Field("ArtisanPhone") String ArtisanPhone,
+                                                              @Field("PhoneUrl") String PhoneUrl,
+                                                              @Field("Province") String Province,
+                                                              @Field("City") String City,
+                                                              @Field("Area") String Area,
+                                                              @Field("PhoneUrl") String District,
+                                                              @Field("Province") String Address,
+                                                              @Field("City") String IfAuth,
+                                                              @Field("Area") String IsUse);
+
+    /**
+     * 上传营业执照
+     * */
+    @POST("Upload/IDCardUpload")
+    Observable<BaseResult<Data<String>>> IDCardUpload(@Body RequestBody json);
 }

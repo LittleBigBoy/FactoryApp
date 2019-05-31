@@ -195,6 +195,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private ShareAction mShareAction;
     private CustomShareListener mShareListener;
     private VerifiedDialog customDialog;
+    private Button btnConfirm;
+    private Button btn_verified_update;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -280,20 +282,70 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 switch (position) {
                     case 0:
 //                        startActivity(new Intent(mActivity, HomeInstallationActivity.class));
-                        intent = new Intent(mActivity, HomeMaintenanceActivity2.class);
-                        intent.putExtra("type", 0);
-                        startActivity(intent);
+                        if (userInfoDean.getIfAuth() != null) {
+                            if (userInfoDean.getIfAuth().equals("1")) {
+                                intent = new Intent(mActivity, HomeMaintenanceActivity2.class);
+                                intent.putExtra("type", 0);
+                                startActivity(intent);
+                            } else if (userInfoDean.getIfAuth().equals("0")) {
+                                showUnderDialog();
+                            } else if (userInfoDean.getIfAuth().equals("-1")) {
+                                showRejectDialog();
+                            } else {
+                                showVerifiedDialog();
+                            }
+                        } else {
+                            showVerifiedDialog();
+                        }
+
                         break;
                     case 1:
-                        intent = new Intent(mActivity, HomeMaintenanceActivity2.class);
-                        intent.putExtra("type", 1);
-                        startActivity(intent);
+                        if (userInfoDean.getIfAuth() != null) {
+                            if (userInfoDean.getIfAuth().equals("1")) {
+                                intent = new Intent(mActivity, HomeMaintenanceActivity2.class);
+                                intent.putExtra("type", 1);
+                                startActivity(intent);
+                            } else if (userInfoDean.getIfAuth().equals("0")) {
+                                showUnderDialog();
+                            } else if (userInfoDean.getIfAuth().equals("-1")) {
+                                showRejectDialog();
+                            } else {
+                                showVerifiedDialog();
+                            }
+                        } else {
+                            showVerifiedDialog();
+                        }
                         break;
                     case 2:
-                        startActivity(new Intent(mActivity, CustomerServiceActivity.class));
+                        if (userInfoDean.getIfAuth() != null) {
+                            if (userInfoDean.getIfAuth().equals("1")) {
+                                startActivity(new Intent(mActivity, CustomerServiceActivity.class));
+                            } else if (userInfoDean.getIfAuth().equals("0")) {
+                                showUnderDialog();
+                            } else if (userInfoDean.getIfAuth().equals("-1")) {
+                                showRejectDialog();
+                            } else {
+                                showVerifiedDialog();
+                            }
+                        } else {
+                            showVerifiedDialog();
+                        }
                         break;
                     case 3:
-                        startActivity(new Intent(mActivity, BatchOrderActivity.class));
+                        if (userInfoDean.getIfAuth() != null) {
+                            if (userInfoDean.getIfAuth().equals("1")) {
+                                startActivity(new Intent(mActivity, BatchOrderActivity.class));
+                            } else if (userInfoDean.getIfAuth().equals("0")) {
+                                showUnderDialog();
+                            } else if (userInfoDean.getIfAuth().equals("-1")) {
+                                showRejectDialog();
+                            } else {
+                                showVerifiedDialog();
+                            }
+                        } else {
+                            showVerifiedDialog();
+                        }
+
                         break;
                 }
             }
@@ -301,12 +353,25 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mCommonAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Bundle bundle = new Bundle();
-                bundle.putString("title", mCommonMenus.get(position).getName());
-                bundle.putInt("position", position);
-                Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
-                intent.putExtras(bundle);
-                ActivityUtils.startActivity(intent);
+                if (userInfoDean.getIfAuth() != null) {
+                    if (userInfoDean.getIfAuth().equals("1")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("title", mCommonMenus.get(position).getName());
+                        bundle.putInt("position", position);
+                        Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+                        intent.putExtras(bundle);
+                        ActivityUtils.startActivity(intent);
+                    } else if (userInfoDean.getIfAuth().equals("0")) {
+                        showUnderDialog();
+                    } else if (userInfoDean.getIfAuth().equals("-1")) {
+                        showRejectDialog();
+                    } else {
+                        showVerifiedDialog();
+                    }
+                } else {
+                    showVerifiedDialog();
+                }
+
             }
         });
         mRefreshLayout.setEnableLoadMore(false);
@@ -317,6 +382,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             public void onRefresh(RefreshLayout refreshLayout) {
 //                getHomeData();
 //                mPresenter.getData("1");
+                mPresenter.GetUserInfoList(userId,"1");
                 mRefreshLayout.finishRefresh(1000);
             }
         });
@@ -434,7 +500,55 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 }).show();
                 break;
             case R.id.ll_verified:
-                showVerifiedDialog();
+                if (userInfoDean.getIfAuth() != null) {
+                    if (userInfoDean.getIfAuth().equals("1")) {
+                        under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_successful_review, null);
+                        btnConfirm = under_review.findViewById(R.id.btn_confirm);
+                        btn_verified_update = under_review.findViewById(R.id.btn_verified_update);
+                        btnConfirm.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                underReviewDialog.dismiss();
+                            }
+                        });
+                        btn_verified_update.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                underReviewDialog.dismiss();
+//                                startActivity(new Intent(mActivity, VerifiedUpdateActivity.class));
+                            }
+                        });
+                        underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review).create();
+                        underReviewDialog.show();
+                    } else if (userInfoDean.getIfAuth().equals("0")) {
+                        under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_under_review, null);
+                        btnConfirm = under_review.findViewById(R.id.btn_confirm);
+                        btnConfirm.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                underReviewDialog.dismiss();
+                            }
+                        });
+                        underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review).create();
+                        underReviewDialog.show();
+                    } else if (userInfoDean.getIfAuth().equals("-1")) {
+                        under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_audit_failure, null);
+                        btnConfirm = under_review.findViewById(R.id.btn_confirm);
+                        btnConfirm.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                underReviewDialog.dismiss();
+                                startActivity(new Intent(mActivity, VerifiedActivity.class));
+                            }
+                        });
+                        underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review).create();
+                        underReviewDialog.show();
+                    } else {
+                        showVerifiedDialog();
+                    }
+                } else {
+                    showVerifiedDialog();
+                }
                 break;
         }
     }
@@ -650,7 +764,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                         mTvVerified.setText("未实名认证");
 //                        mImg_un_certification.setVisibility(View.VISIBLE);
 //                        mImgCertification.setVisibility(View.INVISIBLE);
-                        showVerifiedDialog();
+//                        showVerifiedDialog();
 
                     } else if (userInfoDean.getIfAuth().equals("0")) {
                         mTvVerified.setText("审核中");
@@ -1037,5 +1151,30 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         }
     }
 
+    public void showRejectDialog() {
+        under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_audit_failure, null);
+        btnConfirm = under_review.findViewById(R.id.btn_confirm);
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                underReviewDialog.dismiss();
+                startActivity(new Intent(mActivity, VerifiedActivity.class));
+            }
+        });
+        underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review).create();
+        underReviewDialog.show();
+    }
+    public void showUnderDialog() {
+        under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_under_review, null);
+        btnConfirm = under_review.findViewById(R.id.btn_confirm);
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                underReviewDialog.dismiss();
+            }
+        });
+        underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review).create();
+        underReviewDialog.show();
+    }
 
 }

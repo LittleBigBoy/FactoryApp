@@ -4,6 +4,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Message;
 import com.zhenhaikj.factoryside.mvp.bean.MessageData;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.MainContract;
 
 import java.util.List;
@@ -27,6 +28,17 @@ public class MainPresenter extends MainContract.Presenter{
                     @Override
                     protected void onHandleSuccess(BaseResult<MessageData<List<Message>>> value) {
                         mView.GetMessageList(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetUserInfoList(String UserID,String limit) {
+        mModel.GetUserInfoList(UserID,limit)
+                .subscribe(new BaseObserver<UserInfo>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<UserInfo> value) {
+                        mView.GetUserInfoList(value);
                     }
                 });
     }
