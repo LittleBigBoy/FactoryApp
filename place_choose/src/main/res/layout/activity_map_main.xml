@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#F25037">
+        <LinearLayout
+            android:id="@+id/ll_return"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:id="@+id/img_actionbar_return"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/icon_actionbar_return"
+                />
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_actionbar_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="返回"
+                android:textSize="15sp"
+                android:textColor="#ffffff"
+                />
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="选择位置"
+            android:textSize="20sp"
+            android:textColor="#ffffff"/>
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:background="@drawable/edit_shape"
+            android:layout_marginRight="16dp"
+            android:text="确定"
+            android:textSize="16sp"
+            android:textColor="#F25037"/>
+        <ImageView
+            android:id="@+id/iv_confirm"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="right"
+            android:visibility="gone"
+            android:src="@drawable/yes"/>
+    </androidx.appcompat.widget.Toolbar>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <AutoCompleteTextView
+            android:id="@+id/keyWord"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_shape"
+            android:completionThreshold="1"
+            android:dropDownVerticalOffset="1.0dip"
+            android:hint="如位置不准可在此处手工输入"
+            android:textColorHint="#C0C0C0"
+            android:imeOptions="actionDone"
+            android:inputType="text|textAutoComplete"
+            android:maxLength="20"
+            android:paddingRight="37.0dip"
+            android:paddingLeft="35dp"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="16.0sp"
+            android:focusable="true"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/search_icon"/>
+    </FrameLayout>
+
+
+
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="220dp" />
+
+    <com.amap.searchdemo.SegmentedGroup
+        xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/segmented_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:padding="4dp"
+        segmentedgroup:sc_border_width="1dp"
+        segmentedgroup:sc_corner_radius="2dp">
+
+        <RadioButton
+            android:id="@+id/radio0"
+            style="@style/RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:checked="true"
+            android:text="住宅区" />
+
+        <RadioButton
+            android:id="@+id/radio1"
+            style="@style/RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="学校" />
+
+        <RadioButton
+            android:id="@+id/radio2"
+            style="@style/RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="楼宇" />
+
+        <RadioButton
+            android:id="@+id/radio3"
+            style="@style/RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:text="政府" />
+
+    </com.amap.searchdemo.SegmentedGroup>
+
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/map"
+        android:layout_weight="1"
+        android:cacheColorHint="#00000000"
+        android:dividerHeight="1px"
+        android:divider="@android:color/darker_gray"/>
+
+</LinearLayout>

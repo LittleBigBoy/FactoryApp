@@ -533,6 +533,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                         underReviewDialog.show();
                     } else if (userInfoDean.getIfAuth().equals("-1")) {
                         under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_audit_failure, null);
+                        TextView content = under_review.findViewById(R.id.tv_content);
+                        content.setText(userInfoDean.getAuthMessage()+",有疑问请咨询客服电话。");
                         btnConfirm = under_review.findViewById(R.id.btn_confirm);
                         btnConfirm.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -780,7 +782,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
                     } else if (userInfoDean.getIfAuth().equals("1")) {
                         mTvVerified.setText("已实名认证");
-                        mTvVerified.setTextColor(Color.GREEN);
+                        mTvVerified.setTextColor(Color.BLACK);
 //                        mImg_un_certification.setVisibility(View.INVISIBLE);
 //                        mImgCertification.setVisibility(View.VISIBLE);
                     } else {
@@ -1153,6 +1155,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     public void showRejectDialog() {
         under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_audit_failure, null);
+        TextView content = under_review.findViewById(R.id.tv_content);
+        content.setText(userInfoDean.getAuthMessage()+",有疑问请咨询客服电话。");
         btnConfirm = under_review.findViewById(R.id.btn_confirm);
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
