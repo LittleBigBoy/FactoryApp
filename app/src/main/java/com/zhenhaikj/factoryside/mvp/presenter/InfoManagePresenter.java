@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp.presenter;
 
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.User;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
@@ -62,6 +63,17 @@ public class InfoManagePresenter extends InfoManageContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data> value) {
                         mView.UpdateSex(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetmessageBytype(String UserId) {
+        mModel.GetmessageBytype(UserId)
+                .subscribe(new BaseObserver<Data<CompanyInfo>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<CompanyInfo>> value) {
+                        mView.GetmessageBytype(value);
                     }
                 });
     }

@@ -77,6 +77,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     ImageView mIvAccessories;
     @BindView(R.id.ll_accessories)
     LinearLayout mLlAccessories;
+    @BindView(R.id.tv_amount_of_accessories)
+    TextView mTvAmountOfAccessories;
+    @BindView(R.id.ll_amount_of_accessories)
+    LinearLayout mLlAmountOfAccessories;
 
     private String mParam1;
     private String mParam2;
@@ -307,10 +311,12 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         userId = spUtils.getString("userName");
         mPresenter.GetOrderInfo(OrderID);
         mPresenter.GetAccountAddress(userId);
+        mPresenter.GetOrderAccessoryMoney(OrderID);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 mPresenter.GetOrderInfo(OrderID);
+                mPresenter.GetOrderAccessoryMoney(OrderID);
                 mRefreshLayout.finishRefresh(3000);
             }
         });
@@ -816,9 +822,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 mTvOrderState.setText(data.getState());
                 mTvName.setText(data.getUserName());
 
-                mTvBeyondMoney.setText("￥" + data.getBeyondMoney() + "");
-                mTvAccessoryMoney.setText("￥" + data.getAccessoryMoney());
-                mTvServiceMoney.setText("￥" + data.getServiceMoney());
+                mTvBeyondMoney.setText("¥" + data.getBeyondMoney() + "");
+                mTvAccessoryMoney.setText("¥" + data.getAccessoryMoney());
+                mTvServiceMoney.setText("¥" + data.getServiceMoney());
 //                mTvBeyondMoney.setVisibility(View.GONE);
 //                mTvAccessoryMoney.setVisibility(View.GONE);
 //                mTvServiceMoney.setVisibility(View.GONE);
@@ -833,20 +839,20 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 }
 
                 if ("3".equals(data.getTypeID())) {
-                    mTvOrderMoney.setText("￥" + data.getQuaMoney() + "");
+                    mTvOrderMoney.setText("¥" + data.getQuaMoney() + "");
                 } else {
 //                    if (data.getAccessoryMoney() != null && !"0.00".equals(data.getAccessoryMoney())) {
                     if ("1".equals(data.getAccessoryApplyState())) {
-                        mTvOrderMoney.setText("￥" + data.getQuaMoney());
-//                        mTvOrderMoney.setText("￥" + (Double.parseDouble(data.getAccessoryMoney()) + Double.parseDouble(data.getBeyondMoney()) + Double.parseDouble(data.getPostMoney())) + "");
+                        mTvOrderMoney.setText("¥" + data.getQuaMoney());
+//                        mTvOrderMoney.setText("¥" + (Double.parseDouble(data.getAccessoryMoney()) + Double.parseDouble(data.getBeyondMoney()) + Double.parseDouble(data.getPostMoney())) + "");
                     } else {
-                        mTvOrderMoney.setText("￥" + data.getOrderMoney() + "");
+                        mTvOrderMoney.setText("¥" + data.getOrderMoney() + "");
                     }
                 }
 
                 if (!"0.00".equals(data.getPostMoney()) && data.getPostMoney() != null) {
                     mLlPostMoney.setVisibility(View.VISIBLE);
-                    mTvPostMoney.setText("￥" + data.getPostMoney());
+                    mTvPostMoney.setText("¥" + data.getPostMoney());
                 } else {
                     mLlPostMoney.setVisibility(View.GONE);
                 }
@@ -970,11 +976,11 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                             mTvStatusAccessory.setVisibility(View.GONE);
                         }
 
-                        if ("4".equals(data.getOrderAccessroyDetail().get(0).getSizeID())){
+                        if ("4".equals(data.getOrderAccessroyDetail().get(0).getSizeID())) {
                             mLlApproveAccessory.setVisibility(View.GONE);
                             mLlSendAccessory.setVisibility(View.GONE);
                             mLlOldAccessory.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             mLlApproveAccessory.setVisibility(View.VISIBLE);
                         }
                         mLlOldAccessory.setVisibility(View.VISIBLE);
@@ -1260,6 +1266,18 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
             default:
                 ToastUtils.showShort("获取失败");
                 break;
+        }
+    }
+
+    @Override
+    public void GetOrderAccessoryMoney(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if ("0".equals(baseResult.getData().getItem2())){
+                    mLlAmountOfAccessories.setVisibility(View.GONE);
+                }else {
+                    mTvAmountOfAccessories.setText(baseResult.getData().getItem2());
+                }
         }
     }
 

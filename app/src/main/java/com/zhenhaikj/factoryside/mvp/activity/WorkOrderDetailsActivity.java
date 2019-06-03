@@ -286,4 +286,9 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
     public void GetAccountAddress(BaseResult<List<Address>> baseResult) {
 
     }
+
+    @Override
+    public void GetOrderAccessoryMoney(BaseResult<Data<String>> baseResult) {
+
+    }
 }

@@ -83,4 +83,11 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> GetOrderAccessoryMoney(String OrderID) {
+        return ApiRetrofit.getDefault().GetOrderAccessoryMoney(OrderID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

@@ -5,6 +5,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BasePresenter;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.base.BaseView;
+import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 
@@ -19,6 +20,7 @@ public interface InfoManageContract {
         Observable<BaseResult<Data>> UpdatePassword(String UserId,String Password);
         Observable<BaseResult<Data<String>>> UploadAvator(RequestBody josn);
         Observable<BaseResult<Data>> UpdateSex(String UserId,String sex);
+        Observable<BaseResult<Data<CompanyInfo>>> GetmessageBytype(String UserId);
     }
 
     interface View extends BaseView{
@@ -27,6 +29,7 @@ public interface InfoManageContract {
         void UpdatePassword(BaseResult<Data> baseResult);
         void UploadAvator(BaseResult<Data<String>> baseResult);
         void UpdateSex(BaseResult<Data> baseResult);
+        void GetmessageBytype(BaseResult<Data<CompanyInfo>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -35,5 +38,6 @@ public interface InfoManageContract {
         public abstract void UpdatePassword(String UserId,String NickName);
         public abstract void UploadAvator(RequestBody josn);
         public abstract void UpdateSex(String UserId,String Sex);
+        public abstract void GetmessageBytype(String UserId);
     }
 }

@@ -24,15 +24,26 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
                 .setText(R.id.tv_status,item.getState())
                 .setText(R.id.tv_info,item.getUserName()+item.getPhone())
                 .setText(R.id.tv_address,item.getAddress())
+                .setText(R.id.tv_cost,"¥" + item.getQuaMoney())
                 .addOnClickListener(R.id.tv_complaint)
                 .addOnClickListener(R.id.tv_leave_message)
                 .addOnClickListener(R.id.tv_see_detail)
                 .addOnClickListener(R.id.iv_copy)
                 .addOnClickListener(R.id.tv_obsolete);
-        if (item.getAccessoryMoney()!=null&&!"0.00".equals(item.getAccessoryMoney())){
-            helper.setText(R.id.tv_cost,"￥" + (Double.parseDouble(item.getAccessoryMoney())+Double.parseDouble(item.getBeyondMoney())+Double.parseDouble(item.getPostMoney())) + "");
-        }else{
-            helper.setText(R.id.tv_cost,"￥" + item.getOrderMoney() + "");
+//        if (item.getAccessoryMoney()!=null&&!"0.00".equals(item.getAccessoryMoney())){
+//            helper.setText(R.id.tv_cost,"¥" + (Double.parseDouble(item.getAccessoryMoney())+Double.parseDouble(item.getBeyondMoney())+Double.parseDouble(item.getPostMoney())) + "");
+//        }else{
+//            helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney() + "");
+//        }
+
+        if ("3".equals(item.getTypeID())) {
+            helper.setText(R.id.tv_cost,"¥" + item.getQuaMoney());
+        } else {
+            if ("1".equals(item.getAccessoryApplyState())) {
+                helper.setText(R.id.tv_cost,"¥" + item.getQuaMoney());
+            } else {
+                helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney());
+            }
         }
         if ("待接单".equals(name)){
             helper.setVisible(R.id.tv_obsolete,true);

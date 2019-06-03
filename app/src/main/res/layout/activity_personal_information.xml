@@ -136,7 +136,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="123456789"
+                            android:text=""
                             android:textColor="#858585"
                             android:textSize="14sp" />
 
@@ -235,7 +235,8 @@
                         android:layout_marginTop="17dp"
                         android:orientation="horizontal"
                         android:paddingLeft="14dp"
-                        android:paddingRight="14dp">
+                        android:paddingRight="14dp"
+                        android:paddingBottom="14dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -251,7 +252,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="510626198606285614"
+                            android:text=""
                             android:textColor="#858585"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -261,7 +262,8 @@
                         android:layout_height="1dp"
                         android:layout_marginLeft="14dp"
                         android:layout_marginTop="14dp"
-                        android:background="#E4E4E4" />
+                        android:background="#E4E4E4"
+                        android:visibility="gone"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -270,7 +272,8 @@
                         android:layout_marginBottom="15dp"
                         android:orientation="horizontal"
                         android:paddingLeft="14dp"
-                        android:paddingRight="14dp">
+                        android:paddingRight="14dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -323,7 +326,7 @@
                             android:id="@+id/tv_shop_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="宁波市江北区金山路企协大厦1901室"
+                            android:text=""
                             android:textColor="#858585"
                             android:textSize="14sp" />
 

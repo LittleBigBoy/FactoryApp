@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp.model;
 
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
@@ -44,6 +45,13 @@ public class HomeModel implements HomeContract.Model {
     @Override
     public Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo) {
         return ApiRetrofit.getDefault().WXNotifyManual(OutTradeNo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<CompanyInfo>>> GetmessageBytype(String UserId) {
+        return ApiRetrofit.getDefault().GetmessageBytype(UserId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

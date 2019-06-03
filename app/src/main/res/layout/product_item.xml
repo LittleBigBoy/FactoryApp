@@ -48,7 +48,7 @@
                     android:id="@+id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="￥300"
+                    android:text="¥300"
                     android:singleLine="true"
                     android:textSize="@dimen/sp_16"
                     android:textColor="@color/red"/>
@@ -56,7 +56,7 @@
                     android:id="@+id/tv_oldprice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="￥400"
+                    android:text="¥400"
                     android:singleLine="true"
                     android:textSize="@dimen/sp_12"
                     android:textColor="#48495F"/>

@@ -10,6 +10,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
+import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.FrozenMoney;
@@ -673,6 +674,12 @@ public interface ApiService {
     @POST("Account/LoginOut")
     Observable<BaseResult<Data<String>>> LoginOut(@Field("UserID") String UserID,@Field("Type") String type);
 
+    /**
+     * 冻结金额
+     */
+    @FormUrlEncoded
+    @POST("order/GetOrderAccessoryMoney")
+    Observable<BaseResult<Data<String>>> GetOrderAccessoryMoney(@Field("OrderID") String OrderID);
 
     /**
      * 实名认证
@@ -717,4 +724,12 @@ public interface ApiService {
      * */
     @POST("Upload/IDCardUpload")
     Observable<BaseResult<Data<String>>> IDCardUpload(@Body RequestBody json);
+
+
+    /**
+     * 获取公司信息
+     */
+    @FormUrlEncoded
+    @POST("account/GetmessageBytype")
+    Observable<BaseResult<Data<CompanyInfo>>> GetmessageBytype(@Field("UserID") String UserID);
 }

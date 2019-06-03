@@ -66,6 +66,7 @@ import com.zhenhaikj.factoryside.mvp.activity.RechargeActivity;
 import com.zhenhaikj.factoryside.mvp.activity.VerifiedActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
 import com.zhenhaikj.factoryside.mvp.bean.PayResult;
@@ -197,6 +198,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private VerifiedDialog customDialog;
     private Button btnConfirm;
     private Button btn_verified_update;
+    private CompanyInfo companyDean;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -251,6 +253,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         // 将该app注册到微信
         api.registerApp("wxd6509c9c912f0015");
         mPresenter.GetUserInfoList(userId, "1");
+//        mPresenter.GetmessageBytype(userId);
         List<Integer> images = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             images.add(R.drawable.home_banner);
@@ -799,9 +802,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                                 .apply(myOptions)
                                 .into(mIvAvatar);
                     }
-                    mTvFactoryName.setText(userInfoDean.getTrueName());
+//                    mTvFactoryName.setText(userInfoDean.getTrueName());
                     String format = String.format("%.2f", userInfoDean.getTotalMoney() - userInfoDean.getFrozenMoney());
                     mTvMoney.setText(format);
+                    if ("1".equals(userInfoDean.getIfAuth())){
+                        mPresenter.GetmessageBytype(userId);
+                    }
                 }
                 break;
         }
@@ -848,6 +854,25 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @Override
     public void WXNotifyManual(BaseResult<Data<String>> baseResult) {
 
+    }
+
+    @Override
+    public void GetmessageBytype(BaseResult<Data<CompanyInfo>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+                    companyDean = baseResult.getData().getItem2();
+                    if ("1".equals(companyDean.getIfAuth())){
+                        mTvFactoryName.setText(companyDean.getCompanyName());
+                    }else {
+                        mTvFactoryName.setVisibility(View.GONE);
+                    }
+                }else {
+                    mTvFactoryName.setVisibility(View.GONE);
+                }
+
+                break;
+        }
     }
 
 

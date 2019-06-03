@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp.presenter;
 
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.MineContract;
@@ -27,6 +28,17 @@ public class MinePresenter extends MineContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
                         mView.UploadAvator(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetmessageBytype(String UserId) {
+        mModel.GetmessageBytype(UserId)
+                .subscribe(new BaseObserver<Data<CompanyInfo>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<CompanyInfo>> value) {
+                        mView.GetmessageBytype(value);
                     }
                 });
     }

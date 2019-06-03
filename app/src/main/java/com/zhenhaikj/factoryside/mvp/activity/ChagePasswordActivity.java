@@ -13,6 +13,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.InfoManageContract;
@@ -156,6 +157,11 @@ public class ChagePasswordActivity extends BaseActivity<InfoManagePresenter, Inf
 
     @Override
     public void UpdateSex(BaseResult<Data> baseResult) {
+
+    }
+
+    @Override
+    public void GetmessageBytype(BaseResult<Data<CompanyInfo>> baseResult) {
 
     }
 }

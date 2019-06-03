@@ -20,8 +20,8 @@ public class ProductAdapter extends BaseQuickAdapter<Product,BaseViewHolder> {
     protected void convert(BaseViewHolder helper, Product item) {
 //        helper.setImageResource(R.id.icon, item.getIcon());
         helper.setText(R.id.tv_name, item.getName());
-        helper.setText(R.id.tv_price,"￥"+item.getPrice());
-        helper.setText(R.id.tv_oldprice, "￥"+item.getPreprice());
+        helper.setText(R.id.tv_price,"¥"+item.getPrice());
+        helper.setText(R.id.tv_oldprice, "¥"+item.getPreprice());
         ((TextView)helper.getView(R.id.tv_oldprice)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         ((TextView)helper.getView(R.id.tv_oldprice)).getPaint().setAntiAlias(true);
         helper.addOnClickListener(R.id.iv_add);

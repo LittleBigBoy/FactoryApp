@@ -18,7 +18,7 @@ public class ConfirmOrderProductAdapter extends BaseQuickAdapter<OrderConfirm.Pr
     protected void convert(BaseViewHolder helper, OrderConfirm.ProductsBean item) {
         // 加载网络图片
         helper.setText(R.id.name,item.getName());
-        helper.setText(R.id.price,"￥"+item.getBuyprice());
+        helper.setText(R.id.price,"¥"+item.getBuyprice());
         helper.setText(R.id.num,"x"+item.getBuynum());
         Glide.with(mContext).load(item.getImages()).into((ImageView) helper.getView(R.id.icon));
     }

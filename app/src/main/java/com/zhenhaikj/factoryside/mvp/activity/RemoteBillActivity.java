@@ -420,4 +420,9 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
     public void GetAccountAddress(BaseResult<List<Address>> baseResult) {
 
     }
+
+    @Override
+    public void GetOrderAccessoryMoney(BaseResult<Data<String>> baseResult) {
+
+    }
 }

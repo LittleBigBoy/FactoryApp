@@ -301,7 +301,7 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
                         ExtraFee = "20";
                         break;
                 }
-                mTvExpedited.setText("加急费用￥" + ExtraFee);
+                mTvExpedited.setText("加急费用¥" + ExtraFee);
             }
 
             @Override

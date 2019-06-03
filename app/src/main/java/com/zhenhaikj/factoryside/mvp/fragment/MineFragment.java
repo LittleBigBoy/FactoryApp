@@ -54,14 +54,17 @@ import com.zhenhaikj.factoryside.mvp.activity.AboutUsActivity;
 import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
 import com.zhenhaikj.factoryside.mvp.activity.BrandActivity;
 import com.zhenhaikj.factoryside.mvp.activity.DetailRecordActivity;
+import com.zhenhaikj.factoryside.mvp.activity.HomeMaintenanceActivity2;
 import com.zhenhaikj.factoryside.mvp.activity.ModelActivity;
 import com.zhenhaikj.factoryside.mvp.activity.OpinionActivity;
 import com.zhenhaikj.factoryside.mvp.activity.PersonalInformationActivity;
 import com.zhenhaikj.factoryside.mvp.activity.RechargeActivity;
 import com.zhenhaikj.factoryside.mvp.activity.SettingActivity;
+import com.zhenhaikj.factoryside.mvp.activity.VerifiedActivity;
 import com.zhenhaikj.factoryside.mvp.activity.WalletActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.MineContract;
@@ -70,6 +73,7 @@ import com.zhenhaikj.factoryside.mvp.presenter.MinePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.utils.ZXingUtils;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
+import com.zhenhaikj.factoryside.mvp.widget.VerifiedDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -168,6 +172,11 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private String userID;
     private ImageView iv_code_one;
     private Button btn_go_to_the_mall;
+    private View under_review;
+    private Button btnConfirm;
+    private AlertDialog underReviewDialog;
+    private VerifiedDialog customDialog;
+    private CompanyInfo companyDean;
 
 
     public MineFragment() {
@@ -223,10 +232,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mPresenter.GetUserInfoList(userId, "1");
+
                 mRefreshLayout.finishRefresh(1000);
             }
         });
         mPresenter.GetUserInfoList(userId, "1");
+//        mPresenter.GetmessageBytype(userId);
 
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);
@@ -370,36 +381,87 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 startActivity(new Intent(mActivity, RechargeActivity.class));
                 break;
             case R.id.ll_all_order:
-                bundle = new Bundle();
-                bundle.putString("title", "所有订单");
-                bundle.putInt("position", 0);
-                intent = new Intent(mActivity, AllWorkOrdersActivity.class);
-                intent.putExtras(bundle);
-                ActivityUtils.startActivity(intent);
+                if (userInfoDean.getIfAuth() != null) {
+                    if (userInfoDean.getIfAuth().equals("1")) {
+                        bundle = new Bundle();
+                        bundle.putString("title", "所有订单");
+                        bundle.putInt("position", 0);
+                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+                        intent.putExtras(bundle);
+                        ActivityUtils.startActivity(intent);
+                    } else if (userInfoDean.getIfAuth().equals("0")) {
+                        showUnderDialog();
+                    } else if (userInfoDean.getIfAuth().equals("-1")) {
+                        showRejectDialog();
+                    } else {
+                        showVerifiedDialog();
+                    }
+                } else {
+                    showVerifiedDialog();
+                }
                 break;
             case R.id.ll_to_be_returned:
-                bundle = new Bundle();
-                bundle.putString("title", "待审核");
-                bundle.putInt("position", 3);
-                intent = new Intent(mActivity, AllWorkOrdersActivity.class);
-                intent.putExtras(bundle);
-                ActivityUtils.startActivity(intent);
+                if (userInfoDean.getIfAuth() != null) {
+                    if (userInfoDean.getIfAuth().equals("1")) {
+                        bundle = new Bundle();
+                        bundle.putString("title", "待审核");
+                        bundle.putInt("position", 3);
+                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+                        intent.putExtras(bundle);
+                        ActivityUtils.startActivity(intent);
+                    } else if (userInfoDean.getIfAuth().equals("0")) {
+                        showUnderDialog();
+                    } else if (userInfoDean.getIfAuth().equals("-1")) {
+                        showRejectDialog();
+                    } else {
+                        showVerifiedDialog();
+                    }
+                } else {
+                    showVerifiedDialog();
+                }
+
                 break;
             case R.id.ll_to_be_confirmed:
-                bundle = new Bundle();
-                bundle.putString("title", "待支付");
-                bundle.putInt("position", 4);
-                intent = new Intent(mActivity, AllWorkOrdersActivity.class);
-                intent.putExtras(bundle);
-                ActivityUtils.startActivity(intent);
+                if (userInfoDean.getIfAuth() != null) {
+                    if (userInfoDean.getIfAuth().equals("1")) {
+                        bundle = new Bundle();
+                        bundle.putString("title", "待支付");
+                        bundle.putInt("position", 4);
+                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+                        intent.putExtras(bundle);
+                        ActivityUtils.startActivity(intent);
+                    } else if (userInfoDean.getIfAuth().equals("0")) {
+                        showUnderDialog();
+                    } else if (userInfoDean.getIfAuth().equals("-1")) {
+                        showRejectDialog();
+                    } else {
+                        showVerifiedDialog();
+                    }
+                } else {
+                    showVerifiedDialog();
+                }
+
                 break;
             case R.id.ll_complete:
-                bundle = new Bundle();
-                bundle.putString("title", "已完成");
-                bundle.putInt("position", 5);
-                intent = new Intent(mActivity, AllWorkOrdersActivity.class);
-                intent.putExtras(bundle);
-                ActivityUtils.startActivity(intent);
+                if (userInfoDean.getIfAuth() != null) {
+                    if (userInfoDean.getIfAuth().equals("1")) {
+                        bundle = new Bundle();
+                        bundle.putString("title", "已完成");
+                        bundle.putInt("position", 5);
+                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+                        intent.putExtras(bundle);
+                        ActivityUtils.startActivity(intent);
+                    } else if (userInfoDean.getIfAuth().equals("0")) {
+                        showUnderDialog();
+                    } else if (userInfoDean.getIfAuth().equals("-1")) {
+                        showRejectDialog();
+                    } else {
+                        showVerifiedDialog();
+                    }
+                } else {
+                    showVerifiedDialog();
+                }
+
                 break;
             case R.id.ll_my_wallet:
                 startActivity(new Intent(mActivity, WalletActivity.class));
@@ -644,7 +706,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                                 .into(mIvProfileImage);
                     }
-                    mTvNickname.setText(userInfoDean.getTrueName());
+                    if ("1".equals(userInfoDean.getIfAuth())){
+                        mPresenter.GetmessageBytype(userId);
+                    }
+//                    mTvNickname.setText(userInfoDean.getTrueName());
                     String format = String.format("%.2f", userInfoDean.getTotalMoney() - userInfoDean.getFrozenMoney());
                     mTvMoney.setText("可用金额（元） " + format);
                 }
@@ -674,6 +739,21 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 Toast.makeText(mActivity, "修改失败", Toast.LENGTH_SHORT).show();
                 break;
 
+        }
+    }
+
+    @Override
+    public void GetmessageBytype(BaseResult<Data<CompanyInfo>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().isItem1()) {
+                    companyDean = baseResult.getData().getItem2();
+                    if ("1".equals(companyDean.getIfAuth())) {
+                        mTvNickname.setText(companyDean.getCompanyName());
+                    }
+                }
+
+                break;
         }
     }
 
@@ -787,6 +867,65 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
             Toast.makeText(mActivity, "未安装商城app请前往下载安装", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void showRejectDialog() {
+        under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_audit_failure, null);
+        TextView content = under_review.findViewById(R.id.tv_content);
+        content.setText(userInfoDean.getAuthMessage()+",有疑问请咨询客服电话。");
+        btnConfirm = under_review.findViewById(R.id.btn_confirm);
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                underReviewDialog.dismiss();
+                startActivity(new Intent(mActivity, VerifiedActivity.class));
+            }
+        });
+        underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review).create();
+        underReviewDialog.show();
+    }
+    public void showUnderDialog() {
+        under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_under_review, null);
+        btnConfirm = under_review.findViewById(R.id.btn_confirm);
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                underReviewDialog.dismiss();
+            }
+        });
+        underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review).create();
+        underReviewDialog.show();
+    }
+
+    public void showVerifiedDialog() {
+        customDialog = new VerifiedDialog(getContext());
+        customDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+        customDialog.setTitle("实名认证");
+        customDialog.show();
+        customDialog.setYesOnclickListener("确定", new VerifiedDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                //Toast.makeText(getContext(), "点击了--去认证--按钮", Toast.LENGTH_LONG).show();
+                customDialog.dismiss();
+                startActivity(new Intent(mActivity, VerifiedActivity.class));
+            }
+        });
+
+        customDialog.setNoOnclickListener("取消", new VerifiedDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                //Toast.makeText(getContext(), "点击了--再想想--按钮", Toast.LENGTH_LONG).show();
+                customDialog.dismiss();
+            }
+        });
+
+        customDialog.setNoOnclickListener("取消", new VerifiedDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                // Toast.makeText(getContext(), "点击了--关闭-按钮", Toast.LENGTH_LONG).show();
+                customDialog.dismiss();
+            }
+        });
     }
 
 }

@@ -412,7 +412,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                         ExtraFee = "20";
                         break;
                 }
-                mTvExpedited.setText("加急费用￥" + ExtraFee);
+                mTvExpedited.setText("加急费用¥" + ExtraFee);
             }
 
             @Override
@@ -756,7 +756,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     mTvBrand.setText(category.getBrandName());
                     mTvBrandNumber.setText(category.getFCategoryName());
                     mTvCategoryName.setText(category.getParentName());
-                    mTvPrice.setText("￥" + category.getInitPrice());
+                    mTvPrice.setText("¥" + category.getInitPrice());
                 } else {
                     mLlProduct.setVisibility(View.GONE);
                 }

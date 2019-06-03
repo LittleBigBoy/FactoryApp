@@ -329,7 +329,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                         ExtraFee = "20";
                         break;
                 }
-                mTvExpedited.setText("加急费用￥" + ExtraFee);
+                mTvExpedited.setText("加急费用¥" + ExtraFee);
             }
 
             @Override

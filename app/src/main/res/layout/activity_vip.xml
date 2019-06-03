@@ -113,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:textSize="13sp"
-                        android:text="为大客户专属定制，VIP会员价￥5000/年"
+                        android:text="为大客户专属定制，VIP会员价¥5000/年"
                         android:textColor="@color/gray_one" />
                 </LinearLayout>
                 <LinearLayout

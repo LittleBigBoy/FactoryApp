@@ -113,7 +113,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
-                                android:text="慈溪市夫鹅电器厂"
+                                android:text=""
                                 android:textColor="#555555"
                                 android:textSize="12sp" />
 

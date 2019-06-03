@@ -42,6 +42,7 @@ import com.zhenhaikj.factoryside.mvp.adapter.RechargeRecordAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
+import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.InfoManageContract;
@@ -142,6 +143,7 @@ public class PersonalInformationActivity extends BaseActivity<InfoManagePresente
     private String userId;
     private SPUtils spUtils;
     private UserInfo.UserInfoDean userInfoDean;
+    private CompanyInfo companyDean;
 
     @Override
     protected int setLayoutId() {
@@ -162,6 +164,7 @@ public class PersonalInformationActivity extends BaseActivity<InfoManagePresente
         spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
         mPresenter.GetUserInfoList(userId, "1");
+//        mPresenter.GetmessageBytype(userId);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -382,8 +385,11 @@ public class PersonalInformationActivity extends BaseActivity<InfoManagePresente
                             .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                             .into(mIvAvatar);
                 }
+                if ("1".equals(userInfoDean.getIfAuth())){
+                    mPresenter.GetmessageBytype(userId);
+                }
                 mTvNickname.setText(userInfoDean.getNickName());
-                mTvName.setText(userInfoDean.getTrueName());
+//                mTvName.setText(userInfoDean.getTrueName());
                 mTvPhone.setText(userInfoDean.getPhone());
 //                Log.d(TAG,"......"+userInfoDean.getSex());
 //                if (userInfoDean.getSex().equals("男")){
@@ -440,6 +446,24 @@ public class PersonalInformationActivity extends BaseActivity<InfoManagePresente
                 ToastUtils.showShort("修改成功");
                 break;
             case 401:
+                break;
+        }
+    }
+
+    @Override
+    public void GetmessageBytype(BaseResult<Data<CompanyInfo>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+                    companyDean = baseResult.getData().getItem2();
+                    if ("1".equals(companyDean.getIfAuth())){
+                        mTvName.setText(companyDean.getCompanyName());
+                        mTvCertification.setText("已认证");
+                        mTvIdCard.setText(companyDean.getCompanyNum());
+                        mTvShopAddress.setText(companyDean.getProvince()+companyDean.getCity()+companyDean.getArea()+companyDean.getPhoneUrl());
+                    }
+                }
+
                 break;
         }
     }

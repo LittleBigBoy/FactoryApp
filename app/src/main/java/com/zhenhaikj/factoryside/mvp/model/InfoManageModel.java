@@ -3,6 +3,7 @@ package com.zhenhaikj.factoryside.mvp.model;
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.InfoManageContract;
@@ -44,6 +45,13 @@ public class InfoManageModel implements InfoManageContract.Model {
     @Override
     public Observable<BaseResult<Data>> UpdateSex(String UserId, String sex) {
         return ApiRetrofit.getDefault().UpdateSex(UserId, sex)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<CompanyInfo>>> GetmessageBytype(String UserId) {
+        return ApiRetrofit.getDefault().GetmessageBytype(UserId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

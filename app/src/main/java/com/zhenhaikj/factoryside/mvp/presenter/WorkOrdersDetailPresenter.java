@@ -118,4 +118,15 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
                     }
                 });
     }
+
+    @Override
+    public void GetOrderAccessoryMoney(String OrderID) {
+        mModel.GetOrderAccessoryMoney(OrderID)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.GetOrderAccessoryMoney(value);
+                    }
+                });
+    }
 }

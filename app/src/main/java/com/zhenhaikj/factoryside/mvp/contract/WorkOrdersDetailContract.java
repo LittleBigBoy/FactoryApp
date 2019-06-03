@@ -27,6 +27,7 @@ public interface WorkOrdersDetailContract {
         Observable<BaseResult<Data<String>>> FactoryEnsureOrder(String OrderID, String PayPassword);
         Observable<BaseResult<Data<String>>> UpdateIsReturnByOrderID(String OrderID, String IsReturn,String AddressBack,String PostPayType);
         Observable<BaseResult<List<Address>>> GetAccountAddress(String UserId);
+        Observable<BaseResult<Data<String>>> GetOrderAccessoryMoney(String OrderID);
     }
 
     interface View extends BaseView {
@@ -60,6 +61,7 @@ public interface WorkOrdersDetailContract {
         void FactoryEnsureOrder(BaseResult<Data<String>> baseResult);
         void UpdateIsReturnByOrderID(BaseResult<Data<String>> baseResult);
         void GetAccountAddress(BaseResult<List<Address>> baseResult);
+        void GetOrderAccessoryMoney(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -74,5 +76,6 @@ public interface WorkOrdersDetailContract {
         public abstract void FactoryEnsureOrder(String OrderID, String PayPassword);
         public abstract void UpdateIsReturnByOrderID(String OrderID, String IsReturn,String AddressBack,String PostPayType);
         public abstract void GetAccountAddress(String UserId);
+        public abstract void GetOrderAccessoryMoney(String OrderID);
     }
 }

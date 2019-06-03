@@ -443,7 +443,7 @@
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:gravity="right|center"
-                        android:text="加急费用￥0.00"
+                        android:text="加急费用¥0.00"
                         android:paddingLeft="@dimen/dp_10"
                         android:paddingRight="@dimen/dp_10"
                         android:textColor="@color/red" />

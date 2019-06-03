@@ -14,6 +14,6 @@ public class AccessoryDetailAdapter extends BaseQuickAdapter<GAccessory,BaseView
     @Override
     protected void convert(BaseViewHolder helper, GAccessory item) {
         helper.setText(R.id.tv_accessories_name,item.getFAccessoryName());
-        helper.setText(R.id.tv_accessories_number,"￥"+item.getDiscountPrice()+"/"+item.getQuantity()+"个");
+        helper.setText(R.id.tv_accessories_number,"¥"+item.getDiscountPrice()+"/"+item.getQuantity()+"个");
     }
 }
