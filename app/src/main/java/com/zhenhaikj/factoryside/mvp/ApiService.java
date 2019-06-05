@@ -7,6 +7,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
 import com.zhenhaikj.factoryside.mvp.bean.Bill;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
+import com.zhenhaikj.factoryside.mvp.bean.CanInvoice;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
@@ -732,4 +733,42 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("account/GetmessageBytype")
     Observable<BaseResult<Data<CompanyInfo>>> GetmessageBytype(@Field("UserID") String UserID);
+
+    /**
+     * 获取可开票条目
+     */
+    @FormUrlEncoded
+    @POST("Account/GetCanInvoiceByUserid")
+    Observable<BaseResult<Data<List<CanInvoice>>>> GetCanInvoiceByUserid(@Field("UserID") String UserID);
+
+    /**
+     * 获取开票记录
+     */
+    @FormUrlEncoded
+    @POST("Account/GetInvoiceByUserid")
+    Observable<BaseResult<Data<List<CanInvoice>>>> GetInvoiceByUserid(@Field("UserID") String UserID);
+
+    /**
+     * 提交开票请求
+     *   "UserID": "string",
+     *   "Heads": "string", 发票抬头
+     *   "Credit": "string", 信用代码
+     *   "Content": "string",发票内容
+     *   "Money": 0,发票金额
+     *   "State": "string",发票类型
+     *   "Emails": "string",发票邮箱
+     *   "Approve": "string",1:通过 2:拒绝 3:审核中
+     */
+    @FormUrlEncoded
+    @POST("Account/AddInvoice")
+    Observable<BaseResult<Data<String>>> AddInvoice(@Field("UserID") String UserID,
+                                                    @Field("Heads") String Heads,
+                                                    @Field("Credit") String Credit,
+                                                    @Field("Content") String Content,
+                                                    @Field("Money") String Money,
+                                                    @Field("State") String State,
+                                                    @Field("Emails") String Emails,
+                                                    @Field("Approve") String Approve,
+                                                    @Field("PuID") String PuID,
+                                                    @Field("Count") String Count);
 }

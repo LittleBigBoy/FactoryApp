@@ -150,19 +150,15 @@
                         android:textColor="#4E4E4E"
                         android:textSize="14sp" />
 
-                    <EditText
-                        android:id="@+id/et_unified_social_credit_code"
+                    <TextView
+                        android:id="@+id/tv_unified_social_credit_code"
                         android:layout_width="match_parent"
-                        android:layout_height="33dp"
-                        android:layout_marginLeft="33dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
-                        android:background="@drawable/gray_shape"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
                         android:textColor="@color/black"
-                        android:textSize="10sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
-                0
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -224,7 +220,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginTop="17dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -237,30 +233,38 @@
 
                     <LinearLayout
                         android:id="@+id/ll_invoice_type"
-                        android:layout_width="169dp"
+                        android:layout_width="match_parent"
                         android:layout_height="33dp"
                         android:layout_marginLeft="33dp"
-                        android:layout_marginBottom="14dp"
+                        android:layout_marginRight="@dimen/dp_20"
                         android:background="@drawable/gray_shape"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        >
 
-                        <TextView
-                            android:id="@+id/tv_invoice_type"
-                            android:layout_width="match_parent"
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_invoice_type"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_gravity="center"-->
+                            <!--android:layout_marginLeft="14dp"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:text="增值税电子普通发票"-->
+                            <!--android:textColor="#4E4E4E"-->
+                            <!--android:textSize="14sp" />-->
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/spinner"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="14dp"
-                            android:layout_weight="1"
-                            android:text="增值税电子普通发票"
-                            android:textColor="#4E4E4E"
-                            android:textSize="14sp" />
+                            android:entries="@array/letter"
+                            android:spinnerMode="dropdown"
+                            android:layout_gravity="center"/>
 
-                        <ImageView
-                            android:layout_width="9dp"
-                            android:layout_height="8dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginRight="8dp"
-                            android:src="@mipmap/xiala" />
+                        <!--<ImageView-->
+                            <!--android:layout_width="9dp"-->
+                            <!--android:layout_height="8dp"-->
+                            <!--android:layout_gravity="center_vertical"-->
+                            <!--android:layout_marginRight="8dp"-->
+                            <!--android:src="@mipmap/xiala" />-->
                     </LinearLayout>
                 </LinearLayout>
 
@@ -319,6 +323,16 @@
                 android:text="注意：当月发票请在次月10号前申请，逾期申请的发票将会推迟在开个月具。"
                 android:textColor="#FF4850"
                 android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/btn_sure"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/red_round_shape"
+                android:text="确认开票"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
     </ScrollView>

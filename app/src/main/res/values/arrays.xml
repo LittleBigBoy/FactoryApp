@@ -6,4 +6,8 @@
         <item>1天</item>
         <item>两天</item>
     </string-array>
+    <string-array name="letter" >
+        <item>增值税普通发票</item>
+        <item>增值税专用发票（一般纳税人）先审核</item>
+    </string-array>
 </resources>
