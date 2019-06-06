@@ -16,8 +16,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class InvoicedModel implements InvoicedContract.Model {
     @Override
-    public Observable<BaseResult<Data<List<CanInvoice>>>> GetCanInvoiceByUserid(String UserId) {
-        return ApiRetrofit.getDefault().GetCanInvoiceByUserid(UserId)
+    public Observable<BaseResult<Data<List<CanInvoice>>>> GetCanInvoiceByUserid(String UserId,String IsInvoice) {
+        return ApiRetrofit.getDefault().GetCanInvoiceByUserid(UserId,IsInvoice)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

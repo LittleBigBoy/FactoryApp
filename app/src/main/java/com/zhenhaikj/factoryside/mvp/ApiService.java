@@ -735,11 +735,15 @@ public interface ApiService {
     Observable<BaseResult<Data<CompanyInfo>>> GetmessageBytype(@Field("UserID") String UserID);
 
     /**
-     * 获取可开票条目
+     * 获取开票条目
+     * IsInvoice:0  未开
+     * IsInvoice：1 已开
+     * IsInvoice：2  审核中
      */
     @FormUrlEncoded
     @POST("Account/GetCanInvoiceByUserid")
-    Observable<BaseResult<Data<List<CanInvoice>>>> GetCanInvoiceByUserid(@Field("UserID") String UserID);
+    Observable<BaseResult<Data<List<CanInvoice>>>> GetCanInvoiceByUserid(@Field("UserID") String UserID,
+                                                                         @Field("IsInvoice") String IsInvoice);
 
     /**
      * 获取开票记录

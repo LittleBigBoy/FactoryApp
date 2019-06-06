@@ -125,13 +125,6 @@ public class UninvoicedFragment extends BaseLazyFragment<InvoicedPresenter, Invo
                                     }
                                 }
 
-//                    /*用于将skuid添加到map中*/
-//                    for (int i = 0; i < uninvoicedList.size(); i++) {
-//                        for (int j = 0; j < uninvoicedList.get(i).getList().size(); j++) {
-//                            sku_delete_map.put(uninvoicedList.get(i).getList().get(j).getCartItemId(), uninvoicedList.get(i).getList().get(j).getSkuId());
-//                        }
-//                    }
-
 
                             } else {
                                 //只有当点击全不选时才执行
@@ -144,8 +137,6 @@ public class UninvoicedFragment extends BaseLazyFragment<InvoicedPresenter, Invo
                                         }
 
                                     }
-                                    //清除保存的keyvalue
-//                        sku_delete_map.clear();
 
                                 }
                             }
@@ -209,7 +200,7 @@ public class UninvoicedFragment extends BaseLazyFragment<InvoicedPresenter, Invo
             case 200:
                 userInfo = baseResult.getData().getData().get(0);
                 if ("1".equals(userInfo.getIfAuth())) {
-                    mPresenter.GetCanInvoiceByUserid(userId);
+                    mPresenter.GetCanInvoiceByUserid(userId,"0");
                 } else {
                     mTvFactoryName.setText("");
                 }

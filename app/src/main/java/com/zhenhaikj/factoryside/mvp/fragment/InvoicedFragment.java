@@ -23,13 +23,14 @@ import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.BindView;
 
 public class InvoicedFragment extends BaseLazyFragment<InvoicedPresenter, InvoicedModel> implements InvoicedContract.View {
     @BindView(R.id.rv_invoiced)
     RecyclerView mRvInvoiced;
 
-    private ArrayList<Address> invoicedList=new ArrayList<>();
+    private ArrayList<CanInvoice> invoicedList = new ArrayList<>();
     private String userId;
 
     @Override
@@ -41,15 +42,14 @@ public class InvoicedFragment extends BaseLazyFragment<InvoicedPresenter, Invoic
     protected void initData() {
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
-        mPresenter.GetInvoiceByUserid(userId);
+//        mPresenter.GetInvoiceByUserid(userId);
+        mPresenter.GetCanInvoiceByUserid(userId, "1");
 
-        for (int i=0;i<10;i++){
-            invoicedList.add(new Address());
-        }
+//        for (int i=0;i<10;i++){
+//            invoicedList.add(new Address());
+//        }
 
-        OpenedAdapter openedAdapter=new OpenedAdapter(R.layout.item_uninvoiced,invoicedList);
-        mRvInvoiced.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRvInvoiced.setAdapter(openedAdapter);
+
     }
 
     @Override
@@ -69,7 +69,18 @@ public class InvoicedFragment extends BaseLazyFragment<InvoicedPresenter, Invoic
 
     @Override
     public void GetCanInvoiceByUserid(BaseResult<Data<List<CanInvoice>>> baseResult) {
-
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().isItem1()) {
+                    if (baseResult.getData().getItem2().size() != 0) {
+                        invoicedList.addAll(baseResult.getData().getItem2());
+                        OpenedAdapter openedAdapter = new OpenedAdapter(R.layout.item_uninvoiced, invoicedList);
+                        mRvInvoiced.setLayoutManager(new LinearLayoutManager(mActivity));
+                        mRvInvoiced.setAdapter(openedAdapter);
+                    }
+                }
+                break;
+        }
     }
 
     @Override

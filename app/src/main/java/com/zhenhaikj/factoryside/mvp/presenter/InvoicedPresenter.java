@@ -12,8 +12,8 @@ import java.util.List;
 
 public class InvoicedPresenter extends InvoicedContract.Presenter {
     @Override
-    public void GetCanInvoiceByUserid(String UserId) {
-        mModel.GetCanInvoiceByUserid(UserId)
+    public void GetCanInvoiceByUserid(String UserId,String IsInvoice) {
+        mModel.GetCanInvoiceByUserid(UserId,IsInvoice)
                 .subscribe(new BaseObserver<Data<List<CanInvoice>>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<List<CanInvoice>>> value) {

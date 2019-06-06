@@ -16,7 +16,7 @@ import retrofit2.http.Field;
 
 public interface InvoicedContract {
     interface Model extends BaseModel {
-        Observable<BaseResult<Data<List<CanInvoice>>>> GetCanInvoiceByUserid(String UserId);
+        Observable<BaseResult<Data<List<CanInvoice>>>> GetCanInvoiceByUserid(String UserId,String IsInvoice);
 
         Observable<BaseResult<Data<CompanyInfo>>> GetmessageBytype(String UserId);
 
@@ -50,7 +50,7 @@ public interface InvoicedContract {
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
-        public abstract void GetCanInvoiceByUserid(String UserId);
+        public abstract void GetCanInvoiceByUserid(String UserId,String IsInvoice);
 
         public abstract void GetmessageBytype(String UserId);
 
