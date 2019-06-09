@@ -57,7 +57,7 @@ public class PaymentPasswordActivity extends BaseActivity implements View.OnClic
     @Override
     protected void initView() {
         mTvTitle.setVisibility(View.VISIBLE);
-        mTvTitle.setText("设置支付密码");
+        mTvTitle.setText("修改支付密码");
     }
 
     @Override

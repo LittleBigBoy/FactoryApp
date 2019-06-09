@@ -19,6 +19,7 @@
             android:layout_margin="5dp">
 
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -144,7 +145,8 @@
             android:layout_gravity="right"
             android:layout_margin="15dp"
             android:text="忘记密码？"
-            android:textColor="#354EEF" />
+            android:textColor="#354EEF"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

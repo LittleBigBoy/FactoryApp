@@ -320,6 +320,13 @@ public interface ApiService {
     Observable<BaseResult<UserInfo>> GetUserInfoList(@Field("UserID") String UserID,
                                                      @Field("limit") String limit);
 
+    /*修改支付密码*/
+    @FormUrlEncoded
+    @POST("Account/ChangePayPassword")
+    Observable<BaseResult<Data>> ChangePayPassword(@Field("UserID") String UserID,
+                                                   @Field("OldPayPassword") String OldPayPassword,
+                                                   @Field("PayPassword") String PayPassword);
+
 
     /*获取用户账单*/
     @FormUrlEncoded

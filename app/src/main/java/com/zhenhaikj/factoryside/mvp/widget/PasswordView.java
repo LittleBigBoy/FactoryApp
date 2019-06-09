@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp.widget;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
@@ -29,6 +30,8 @@ public class PasswordView extends RelativeLayout {
     private ImageView tvCancel;//取消按钮
     private TextView tvForget;//忘记密码按钮
     private int currentIndex = -1; // 用于记录当前输入密码格位置
+    private TextView tv_title;
+    private String titleStr;
 
     public PasswordView(Context context) {
         this(context, null);
@@ -42,6 +45,7 @@ public class PasswordView extends RelativeLayout {
         valueList = new ArrayList<>();
         tvList = new TextView[6];
         //初始化控件
+        tv_title = (TextView) view.findViewById(R.id.tv_title);
         tvCancel = (ImageView) view.findViewById(R.id.tvCancel);
         tvForget = (TextView) view.findViewById(R.id.tv_forgetPwd);
         tvList[0] = (TextView) view.findViewById(R.id.tv_pass1);
@@ -62,6 +66,10 @@ public class PasswordView extends RelativeLayout {
 
     //设置按钮显示内容
     private void setView() {
+
+        if (titleStr != null) {
+            tv_title.setText(titleStr);
+        }
 
         // 初始化按钮上应该显示的数字
         for (int i = 1; i < 13; i++) {
@@ -154,6 +162,26 @@ public class PasswordView extends RelativeLayout {
     //获取输入的密码
     public String getStrPassword() {
         return strPassword;
+    }
+
+
+    /*清空密码*/
+    public void cleanPassword(){
+        String password =strPassword.toString().trim();
+        if (TextUtils.isEmpty(password)) {
+            return;
+        }
+        strPassword="";
+        for (int i=0;i<6;i++){
+            if (currentIndex - 1 >= -1) {
+                tvList[currentIndex--].setText("");
+            }
+        }
+    }
+
+    public void setTitle(String title) {
+//        titleStr = title;
+        tv_title.setText(title);
     }
 
     // GrideView的适配器
