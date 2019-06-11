@@ -1,17 +1,9 @@
 package com.zhenhaikj.factoryside.mvp.wxapi;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.umeng.socialize.weixin.view.WXCallbackActivity;
 
 
-public class WXEntryActivity extends Activity {
+public class WXEntryActivity extends WXCallbackActivity {
 	
 	/*private static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
 	
