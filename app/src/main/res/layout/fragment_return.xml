@@ -39,7 +39,7 @@
                         android:id="@+id/courier_company_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="顺丰快递"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="13sp" />
 
@@ -60,7 +60,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:text="123456789110023"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="13sp" />
 

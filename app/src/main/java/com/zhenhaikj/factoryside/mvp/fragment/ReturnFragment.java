@@ -105,10 +105,14 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
-                if (!"".equals(data.getReturnAccessoryMsg())){
+                if ("".equals(data.getReturnAccessoryMsg())||data.getReturnAccessoryMsg()==null){
+                    return;
+
+                }else {
                     mPresenter.GetExpressInfo(data.getReturnAccessoryMsg());
+                    mTvNumber.setText(data.getReturnAccessoryMsg());
                 }
-                mTvNumber.setText(data.getReturnAccessoryMsg());
+
                 break;
         }
     }

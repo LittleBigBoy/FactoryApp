@@ -109,10 +109,14 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
-                if (!"".equals(data.getOrderAccessroyDetail().get(0).getExpressNo())){
-                    mPresenter.GetExpressInfo(data.getOrderAccessroyDetail().get(0).getExpressNo());
+                if (data.getOrderAccessroyDetail().size()==0){
+                    return;
+                }else {
+                    if (!"".equals(data.getOrderAccessroyDetail().get(0).getExpressNo())){
+                        mPresenter.GetExpressInfo(data.getOrderAccessroyDetail().get(0).getExpressNo());
+                    }
+                    mTvNumber.setText(data.getOrderAccessroyDetail().get(0).getExpressNo());
                 }
-                mTvNumber.setText(data.getOrderAccessroyDetail().get(0).getExpressNo());
                 break;
         }
     }
