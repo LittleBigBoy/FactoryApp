@@ -134,7 +134,7 @@ public class RegisterNewActivity extends BaseActivity<RegisterPresenter, Registe
             case R.id.tv_agreement:
                 Intent intent = new Intent(mActivity, WebActivity.class);
                 intent.putExtra("title", "用户协议");
-                intent.putExtra("Url", "http://47.96.126.145:8080/Agreement");
+                intent.putExtra("Url", "http://admin.xigyu.com/Agreement");
                 startActivity(intent);
                 break;
         }

@@ -132,7 +132,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 break;
             case R.id.tv_agreement:
                 Intent intent=new Intent(mActivity,WebActivity.class);
-                intent.putExtra("Url","http://47.96.126.145:8080/Agreement");
+                intent.putExtra("Url","http://admin.xigyu.com/Agreement");
                 intent.putExtra("title","用户协议");
                 startActivity(intent);
 

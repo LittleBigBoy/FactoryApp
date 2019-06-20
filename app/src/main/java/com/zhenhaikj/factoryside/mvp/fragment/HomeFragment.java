@@ -795,7 +795,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     if (userInfoDean.getAvator() == null) {
                         return;
                     } else {
-                        RequestOptions myOptions = new RequestOptions().transform(new GlideCircleWithBorder(this, 1, Color.parseColor("#DCDCDC")));
+                        RequestOptions myOptions = new RequestOptions().transform(new GlideCircleWithBorder(this, 2, Color.parseColor("#DCDCDC")));
                         Glide.with(mActivity)
                                 .load(Config.HEAD_URL + userInfoDean.getAvator())
                                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
