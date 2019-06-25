@@ -962,12 +962,12 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
             }
         });
         popupWindow = new PopupWindow(contentView);
-        popupWindow.setWidth(tv.getWidth());
-        if (list.size() > 5) {
-            popupWindow.setHeight(600);
-        } else {
+        popupWindow.setWidth(1000);
+//        if (list.size() > 5) {
+//            popupWindow.setHeight(600);
+//        } else {
             popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        }
+//        }
 //        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setFocusable(true);
@@ -979,8 +979,8 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
             }
         });
         if (popupWindow != null && !popupWindow.isShowing()) {
-            popupWindow.showAsDropDown(tv, 0, 10);
-//            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+//            popupWindow.showAsDropDown(tv, 0, 10);
+            popupWindow.showAtLocation(contentView, Gravity.CENTER, 0, 0);
         }
         MyUtils.setWindowAlpa(mActivity, true);
     }

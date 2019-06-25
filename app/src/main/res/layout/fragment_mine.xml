@@ -389,7 +389,8 @@
                     android:layout_marginRight="10dp"
                     android:padding="20dp"
                     android:background="@drawable/white_edit_shape"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"

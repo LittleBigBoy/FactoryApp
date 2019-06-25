@@ -750,6 +750,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     companyDean = baseResult.getData().getItem2();
                     if ("1".equals(companyDean.getIfAuth())) {
                         mTvNickname.setText(companyDean.getCompanyName());
+                    }else {
+                        mTvNickname.setText("未设置公司名称");
                     }
                 }
 
