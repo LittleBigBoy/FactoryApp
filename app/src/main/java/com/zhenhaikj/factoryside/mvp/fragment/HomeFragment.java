@@ -60,6 +60,7 @@ import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
 import com.zhenhaikj.factoryside.mvp.activity.BatchOrderActivity;
 import com.zhenhaikj.factoryside.mvp.activity.CustomerServiceActivity;
+import com.zhenhaikj.factoryside.mvp.activity.ExcelOrderActivity;
 import com.zhenhaikj.factoryside.mvp.activity.HomeMaintenanceActivity2;
 import com.zhenhaikj.factoryside.mvp.activity.PersonalInformationActivity;
 import com.zhenhaikj.factoryside.mvp.activity.RechargeActivity;
@@ -337,7 +338,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     case 3:
                         if (userInfoDean.getIfAuth() != null) {
                             if (userInfoDean.getIfAuth().equals("1")) {
-                                startActivity(new Intent(mActivity, BatchOrderActivity.class));
+                               // startActivity(new Intent(mActivity, BatchOrderActivity.class));
+                                startActivity(new Intent(mActivity, ExcelOrderActivity.class));
+
                             } else if (userInfoDean.getIfAuth().equals("0")) {
                                 showUnderDialog();
                             } else if (userInfoDean.getIfAuth().equals("-1")) {

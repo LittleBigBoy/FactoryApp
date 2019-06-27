@@ -218,7 +218,8 @@ dependencies {
 
     //    定位
     implementation 'com.amap.api:location:latest.integration'
-    compile project(path: ':place_choose')
+    implementation project(path: ':place_choose')
+    implementation files('libs\\jxl-2.6.3.jar')
 
 
 }
