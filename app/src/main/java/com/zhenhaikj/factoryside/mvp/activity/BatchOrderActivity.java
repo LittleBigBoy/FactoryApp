@@ -9,12 +9,17 @@ import android.widget.TextView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
+import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.contract.BatchAddOrderContract;
+import com.zhenhaikj.factoryside.mvp.model.BatchAddOrderModel;
+import com.zhenhaikj.factoryside.mvp.presenter.BatchAddOrderPresenter;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BatchOrderActivity extends BaseActivity implements View.OnClickListener {
+public class BatchOrderActivity extends BaseActivity implements View.OnClickListener{
 
     @BindView(R.id.icon_back)
     ImageView mIconBack;
@@ -89,4 +94,5 @@ public class BatchOrderActivity extends BaseActivity implements View.OnClickList
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
 }

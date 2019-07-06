@@ -176,6 +176,11 @@
             android:launchMode="singleTask"/>
 
 
+        <activity android:name=".mvp.activity.ExcelOrderActivity"
+            android:launchMode="singleTask"
+            />
+
+
 
         <!-- alipay sdk begin -->
 

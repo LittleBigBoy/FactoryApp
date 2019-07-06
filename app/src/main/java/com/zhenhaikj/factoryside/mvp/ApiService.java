@@ -791,4 +791,14 @@ public interface ApiService {
                                                     @Field("Approve") String Approve,
                                                     @Field("PuID") String PuID,
                                                     @Field("Count") String Count);
+
+
+
+
+     /*批量发单*/
+     @POST("BatchOrder/BatchAddOrder")
+     Observable<BaseResult<String>> BatchAddOrder(@Body RequestBody json);
+
+
+
 }
