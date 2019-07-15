@@ -5,17 +5,48 @@
     android:orientation="vertical"
     android:background="#eee">
     <include layout="@layout/toolbar"/>
-    <TextView
+  <!--  <TextView
         android:id="@+id/tv_BatchAddOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="点击我模拟批量发单(没数据请勿点击)"
+        android:text="发单"
         android:gravity="center"
-        android:textSize="20sp"/>
+        android:textSize="20sp"/>-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp">
     </androidx.recyclerview.widget.RecyclerView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginBottom="10dp">
+            <ImageView
+                android:id="@+id/img_excelsend"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/ic_excelsend"
+
+                />
+
+            <TextView
+                android:id="@+id/tv_excelsend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="批量发单"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
 </LinearLayout>

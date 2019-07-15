@@ -59,8 +59,14 @@ public class ExcelOrderActivity extends BaseActivity<BatchAddOrderPresenter, Bat
     Toolbar mToolbar;
     @BindView(R.id.rv)
     RecyclerView mRv;
-    @BindView(R.id.tv_BatchAddOrder)
-    TextView mTvBatchAddOrder;
+    //@BindView(R.id.tv_BatchAddOrder)
+    //TextView mTvBatchAddOrder;
+
+    @BindView(R.id.img_excelsend)
+    ImageView img_excelsend;
+    @BindView(R.id.tv_excelsend)
+    TextView tv_excelsend;
+
     private ExcelOrderAdapter excelOrderAdapter;
     private InputStream inStream;
     private ArrayList<BatchOrder.OrderStrBean> orderArrayList = new ArrayList<>();
@@ -102,7 +108,8 @@ public class ExcelOrderActivity extends BaseActivity<BatchAddOrderPresenter, Bat
     @Override
     protected void setListener() {
         mTvSave.setOnClickListener(this);
-        mTvBatchAddOrder.setOnClickListener(this);
+        img_excelsend.setOnClickListener(this);
+        tv_excelsend.setOnClickListener(this);
     }
 
     @Override
@@ -121,7 +128,8 @@ public class ExcelOrderActivity extends BaseActivity<BatchAddOrderPresenter, Bat
                 intent.setType("*/*");
                 startActivityForResult(intent, 10001);
                 break;
-            case R.id.tv_BatchAddOrder:
+            case R.id.img_excelsend:
+            case  R.id.tv_excelsend:
                 Gson gson=new Gson();
                 String s = gson.toJson(batchOrder);
                 //RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
@@ -267,9 +275,6 @@ public class ExcelOrderActivity extends BaseActivity<BatchAddOrderPresenter, Bat
                         Toast.makeText(mActivity,"目前仅支持xls格式文件！！",Toast.LENGTH_SHORT).show();
 
                     }
-
-
-
 
 
                 }
