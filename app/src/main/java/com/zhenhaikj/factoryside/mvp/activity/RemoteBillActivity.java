@@ -425,4 +425,14 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
     public void GetOrderAccessoryMoney(BaseResult<Data<String>> baseResult) {
 
     }
+
+    @Override
+    public void UpdateFactoryAccessorybyFactory(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void ApproveOrderAccessoryByModifyPrice(BaseResult<Data<String>> baseResult) {
+
+    }
 }

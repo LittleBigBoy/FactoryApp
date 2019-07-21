@@ -296,7 +296,8 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                         break;
                     case R.id.tv_obsolete:
                         String orderId=workOrderList.get(position).getOrderID();
-                        mPresenter.UpdateOrderState(orderId,"-2");
+//                        mPresenter.UpdateOrderState(orderId,"-2");
+                        mPresenter.ApplyCancelOrder(orderId);
                         workOrderList.clear();
                         getData();
                         mRefreshLayout.finishRefresh();
@@ -378,6 +379,11 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                 default:
                     break;
         }
+    }
+
+    @Override
+    public void ApplyCancelOrder(BaseResult<Data<String>> baseResult) {
+
     }
 
     @Override

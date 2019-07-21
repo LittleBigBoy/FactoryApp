@@ -32,8 +32,8 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> ApproveOrderAccessory(String OrderID, String AccessoryApplyState,String NewMoney) {
-        return ApiRetrofit.getDefault().ApproveOrderAccessory(OrderID, AccessoryApplyState,NewMoney)
+    public Observable<BaseResult<Data<String>>> ApproveOrderAccessory(String OrderID, String AccessoryApplyState,String NewMoney,String OrderAccessoryID) {
+        return ApiRetrofit.getDefault().ApproveOrderAccessory(OrderID, AccessoryApplyState,NewMoney,OrderAccessoryID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
@@ -87,6 +87,20 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
     @Override
     public Observable<BaseResult<Data<String>>> GetOrderAccessoryMoney(String OrderID) {
         return ApiRetrofit.getDefault().GetOrderAccessoryMoney(OrderID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> UpdateFactoryAccessorybyFactory(String Id, String AccessoryName, String AccessoryPrice, String OrderAccessoryId) {
+        return ApiRetrofit.getDefault().UpdateFactoryAccessorybyFactory(Id, AccessoryName, AccessoryPrice, OrderAccessoryId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> ApproveOrderAccessoryByModifyPrice(String OrderID, String AccessoryApplyState, String NewMoney, String OrderAccessoryID) {
+        return ApiRetrofit.getDefault().ApproveOrderAccessoryByModifyPrice(OrderID, AccessoryApplyState, NewMoney, OrderAccessoryID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

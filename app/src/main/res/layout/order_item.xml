@@ -273,7 +273,8 @@
                 android:textSize="16sp"
                 android:background="@drawable/edit_shape"
                 android:padding="@dimen/dp_10"
-                android:textColor="#AAAAAA"/>
+                android:textColor="#AAAAAA"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/tv_see_detail"
                 android:layout_width="wrap_content"

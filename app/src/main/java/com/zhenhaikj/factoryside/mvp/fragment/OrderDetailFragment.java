@@ -3,9 +3,13 @@ package com.zhenhaikj.factoryside.mvp.fragment;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,6 +21,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -32,6 +37,8 @@ import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.GAccessory;
+import com.zhenhaikj.factoryside.mvp.bean.Order;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
@@ -266,6 +273,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private Double beyond;
     private EditText et_new_money;
     private String newmoney;
+    private AlertDialog editDialog;
 
     public static OrderDetailFragment newInstance(String param1, String param2) {
         OrderDetailFragment fragment = new OrderDetailFragment();
@@ -602,7 +610,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-                        mPresenter.ApproveOrderAccessory(OrderID, "-1", "0");
+//                        mPresenter.ApproveOrderAccessory(OrderID, "-1", "0",data.getOrderAccessroyDetail().get(position).getId());
                     }
 
                     @Override
@@ -665,7 +673,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                                 newmoney = "0";
                             }
                             expressno_dialog.dismiss();
-                            mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney);
+//                            mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney,data.getOrderAccessroyDetail().get(position).getId());
 
 //                            mPresenter.AddOrUpdateExpressNo(OrderID, expressno);
                         }
@@ -705,11 +713,11 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                                 newmoney = "0";
                             }
                             expressno_dialog.dismiss();
-                            mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney);
+//                            mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney,data.getOrderAccessroyDetail().get(position).getId());
                         }
                     });
                 } else {
-                    mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney);
+//                    mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney,data.getOrderAccessroyDetail().get(position).getId());
                 }
 
                 break;
@@ -938,7 +946,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         if ("1".equals(data.getAccessoryApplyState())) {
                             mTvPass.setVisibility(View.GONE);
                             mTvReject.setVisibility(View.GONE);
-                            mTvStatusAccessory.setVisibility(View.VISIBLE);
+                            mTvStatusAccessory.setVisibility(View.GONE);
                             mTvStatusAccessory.setText("已审核通过");
                             if (data.getIsReturn() != null) {
                                 if ("1".equals(data.getIsReturn())) {
@@ -967,12 +975,12 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         } else if ("-1".equals(data.getAccessoryApplyState())) {
                             mTvPass.setVisibility(View.GONE);
                             mTvReject.setVisibility(View.GONE);
-                            mTvStatusAccessory.setVisibility(View.VISIBLE);
+                            mTvStatusAccessory.setVisibility(View.GONE);
                             mTvStatusAccessory.setText("已拒绝");
                             mLlOldAccessory.setVisibility(View.GONE);
                         } else {
-                            mTvPass.setVisibility(View.VISIBLE);
-                            mTvReject.setVisibility(View.VISIBLE);
+                            mTvPass.setVisibility(View.GONE);
+                            mTvReject.setVisibility(View.GONE);
                             mTvStatusAccessory.setVisibility(View.GONE);
                         }
 
@@ -992,6 +1000,36 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         accessoryDetailAdapter = new AccessoryDetailAdapter(R.layout.item_accessories, data.getOrderAccessroyDetail());
                         mRvAccessories.setLayoutManager(new LinearLayoutManager(mActivity));
                         mRvAccessories.setAdapter(accessoryDetailAdapter);
+                        accessoryDetailAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                            @Override
+                            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                switch (view.getId()){
+                                    case R.id.tv_pass:
+                                        showEdit(data.getOrderAccessroyDetail(),position);
+                                        break;
+                                    case R.id.tv_reject:
+                                        reject = new CommonDialog_Home(mActivity);
+                                        reject.setMessage("是否拒绝申请的配件")
+
+                                                //.setImageResId(R.mipmap.ic_launcher)
+                                                .setTitle("提示")
+                                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                                            @Override
+                                            public void onPositiveClick() {
+                                                reject.dismiss();
+                                                mPresenter.ApproveOrderAccessory(OrderID, "-1", "0",data.getOrderAccessroyDetail().get(position).getId());
+                                            }
+
+                                            @Override
+                                            public void onNegtiveClick() {//取消
+                                                reject.dismiss();
+                                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                                            }
+                                        }).show();
+                                        break;
+                                }
+                            }
+                        });
                     }
                 }
                 if (data.getBeyondState() != null) {
@@ -1142,6 +1180,57 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
             case 401:
                 break;
         }
+    }
+
+    private void showEdit(List<GAccessory> orderAccessroyDetail,int position) {
+        GAccessory orderAccessroy = orderAccessroyDetail.get(position);
+        View view=LayoutInflater.from(mActivity).inflate(R.layout.dialog_edit_price,null);
+        EditText et_accessories_name=view.findViewById(R.id.et_accessories_name);
+        EditText et_accessories_price=view.findViewById(R.id.et_accessories_price);
+        Button btn_sure=view.findViewById(R.id.btn_sure);
+        LinearLayout ll_accessories_price=view.findViewById(R.id.ll_accessories_price);
+
+//        ToastUtils.showShort(orderAccessroyDetail.get(position).getPrice());
+        if ("0.00".equals(orderAccessroyDetail.get(position).getPrice())){
+            ll_accessories_price.setVisibility(View.VISIBLE);
+        }else {
+            ll_accessories_price.setVisibility(View.GONE);
+        }
+        btn_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name=et_accessories_name.getText().toString();
+                String price=et_accessories_price.getText().toString();
+                if ("0.00".equals(orderAccessroy.getPrice())){
+                    if ("".equals(price)){
+                        ToastUtils.showShort("请输入配件价格");
+                    }else {
+                        mPresenter.UpdateFactoryAccessorybyFactory(orderAccessroy.getFAccessoryID(),name,price,orderAccessroy.getId());
+                        mPresenter.ApproveOrderAccessoryByModifyPrice(OrderID,"1","0",orderAccessroy.getId());
+                    }
+                }else {
+//                    mPresenter.ApproveOrderAccessory(OrderID, "1", "0");
+                    mPresenter.UpdateFactoryAccessorybyFactory(orderAccessroy.getFAccessoryID(),name,"0",orderAccessroy.getId());
+                    mPresenter.ApproveOrderAccessoryByModifyPrice(OrderID,"1","0",orderAccessroy.getId());
+                }
+            }
+        });
+        editDialog = new AlertDialog.Builder(mActivity).setView(view).create();
+        editDialog.show();
+        Window window = editDialog.getWindow();
+//                window.setContentView(under_review);
+        WindowManager.LayoutParams lp = window.getAttributes();
+//                lp.alpha = 0.5f;
+        // 也可按屏幕宽高比例进行设置宽高
+        Display display = mActivity.getWindowManager().getDefaultDisplay();
+        lp.width = (int) (display.getWidth() * 0.9);
+//                lp.height = under_review.getHeight();
+//                lp.width = 300;
+//                lp.height = (int) (display.getHeight() * 0.5);
+
+        window.setAttributes(lp);
+//                window.setDimAmount(0.1f);
+        window.setBackgroundDrawable(new ColorDrawable());
     }
 
     @Override
@@ -1311,6 +1400,25 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     mTvAmountOfAccessories.setText(baseResult.getData().getItem2());
                 }
         }
+    }
+
+    @Override
+    public void UpdateFactoryAccessorybyFactory(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+                    ToastUtils.showShort(baseResult.getData().getItem2());
+                    editDialog.dismiss();
+                }else {
+                    ToastUtils.showShort(baseResult.getData().getItem2());
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void ApproveOrderAccessoryByModifyPrice(BaseResult<Data<String>> baseResult) {
+
     }
 
     @Override

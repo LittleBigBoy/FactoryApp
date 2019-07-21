@@ -18,7 +18,7 @@ public interface WorkOrdersDetailContract {
     interface Model extends BaseModel {
         Observable<BaseResult<WorkOrder.DataBean>> GetOrderInfo(String OrderID);
         Observable<BaseResult<Data<String>>> ApplyCustomService(String OrderID);
-        Observable<BaseResult<Data<String>>> ApproveOrderAccessory(String OrderID,String AccessoryApplyState,String NewMoney);
+        Observable<BaseResult<Data<String>>> ApproveOrderAccessory(String OrderID,String AccessoryApplyState,String NewMoney,String OrderAccessoryID);
         Observable<BaseResult<Data<String>>> ApproveBeyondMoney(String OrderID,String BeyondState);
         Observable<BaseResult<Data<String>>> ApproveOrderService(String OrderID,String State);
         Observable<BaseResult<Data<String>>> AddOrUpdateExpressNo(String OrderID,String ExpressNo);
@@ -28,6 +28,11 @@ public interface WorkOrdersDetailContract {
         Observable<BaseResult<Data<String>>> UpdateIsReturnByOrderID(String OrderID, String IsReturn,String AddressBack,String PostPayType);
         Observable<BaseResult<List<Address>>> GetAccountAddress(String UserId);
         Observable<BaseResult<Data<String>>> GetOrderAccessoryMoney(String OrderID);
+        Observable<BaseResult<Data<String>>> UpdateFactoryAccessorybyFactory(String Id,String AccessoryName,String AccessoryPrice,String OrderAccessoryId);
+        Observable<BaseResult<Data<String>>> ApproveOrderAccessoryByModifyPrice(String OrderID,
+                                                                                String AccessoryApplyState,
+                                                                                String NewMoney,
+                                                                                String OrderAccessoryID);
     }
 
     interface View extends BaseView {
@@ -62,12 +67,14 @@ public interface WorkOrdersDetailContract {
         void UpdateIsReturnByOrderID(BaseResult<Data<String>> baseResult);
         void GetAccountAddress(BaseResult<List<Address>> baseResult);
         void GetOrderAccessoryMoney(BaseResult<Data<String>> baseResult);
+        void UpdateFactoryAccessorybyFactory(BaseResult<Data<String>> baseResult);
+        void ApproveOrderAccessoryByModifyPrice(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetOrderInfo(String OrderID);
         public abstract void ApplyCustomService(String OrderID);
-        public abstract void ApproveOrderAccessory(String OrderID,String AccessoryApplyState,String NewMoney);
+        public abstract void ApproveOrderAccessory(String OrderID,String AccessoryApplyState,String NewMoney,String OrderAccessoryID);
         public abstract void ApproveBeyondMoney(String OrderID,String BeyondState);
         public abstract void ApproveOrderService(String OrderID,String State);
         public abstract void AddOrUpdateExpressNo(String OrderID,String ExpressNo);
@@ -77,5 +84,10 @@ public interface WorkOrdersDetailContract {
         public abstract void UpdateIsReturnByOrderID(String OrderID, String IsReturn,String AddressBack,String PostPayType);
         public abstract void GetAccountAddress(String UserId);
         public abstract void GetOrderAccessoryMoney(String OrderID);
+        public abstract void UpdateFactoryAccessorybyFactory(String Id,String AccessoryName,String AccessoryPrice,String OrderAccessoryId);
+        public abstract void ApproveOrderAccessoryByModifyPrice(String OrderID,
+                                                                String AccessoryApplyState,
+                                                                String NewMoney,
+                                                                String OrderAccessoryID);
     }
 }

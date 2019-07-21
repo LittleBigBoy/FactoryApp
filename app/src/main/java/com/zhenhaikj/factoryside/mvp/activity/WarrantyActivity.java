@@ -488,6 +488,16 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
 
     }
 
+    @Override
+    public void UpdateFactoryAccessorybyFactory(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void ApproveOrderAccessoryByModifyPrice(BaseResult<Data<String>> baseResult) {
+
+    }
+
     private class MyAdapter extends FragmentPagerAdapter {
         MyAdapter(FragmentManager fm) {
             super(fm);

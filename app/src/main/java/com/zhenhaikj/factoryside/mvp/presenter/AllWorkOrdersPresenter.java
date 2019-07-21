@@ -73,4 +73,15 @@ public class AllWorkOrdersPresenter extends AllWorkOrdersContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void ApplyCancelOrder(String OrderID) {
+        mModel.ApplyCancelOrder(OrderID)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.ApplyCancelOrder(value);
+                    }
+                });
+    }
 }

@@ -305,6 +305,16 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
     }
 
     @Override
+    public void UpdateFactoryAccessorybyFactory(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void ApproveOrderAccessoryByModifyPrice(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation

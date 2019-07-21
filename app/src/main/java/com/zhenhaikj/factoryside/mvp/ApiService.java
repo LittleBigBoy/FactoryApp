@@ -471,7 +471,8 @@ public interface ApiService {
     Observable<BaseResult<Data<String>>> ApproveOrderAccessory(
             @Field("OrderID") String OrderID,
             @Field("AccessoryApplyState") String AccessoryApplyState,
-            @Field("NewMoney") String NewMoney
+            @Field("NewMoney") String NewMoney,
+            @Field("OrderAccessoryID") String OrderAccessoryID
     );
 
     /**
@@ -800,5 +801,30 @@ public interface ApiService {
      Observable<BaseResult<String>> BatchAddOrder(@Body RequestBody json);
 
 
+     /*
+     * 删除订单
+     * */
+     @FormUrlEncoded
+     @POST("order/ApplyCancelOrder")
+     Observable<BaseResult<Data<String>>> ApplyCancelOrder(@Field("OrderID") String OrderID);
 
+
+     /*
+     * 审核配件,配件价格为0
+     * */
+     @FormUrlEncoded
+     @POST("FactoryConfig/UpdateFactoryAccessorybyFactory")
+     Observable<BaseResult<Data<String>>> UpdateFactoryAccessorybyFactory(@Field("Id") String Id,
+                                                                          @Field("AccessoryName") String AccessoryName,
+                                                                          @Field("AccessoryPrice") String AccessoryPrice,
+                                                                          @Field("OrderAccessoryId") String OrderAccessoryId);
+     /*
+     * 审核配件,配件价格不为0
+     * */
+     @FormUrlEncoded
+     @POST("Order/ApproveOrderAccessoryByModifyPrice")
+     Observable<BaseResult<Data<String>>> ApproveOrderAccessoryByModifyPrice(@Field("OrderID") String OrderID,
+                                                                          @Field("AccessoryApplyState") String AccessoryApplyState,
+                                                                          @Field("NewMoney") String NewMoney,
+                                                                          @Field("OrderAccessoryID") String OrderAccessoryID);
 }
