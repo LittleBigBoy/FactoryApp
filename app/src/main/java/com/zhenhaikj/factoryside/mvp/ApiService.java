@@ -23,6 +23,7 @@ import com.zhenhaikj.factoryside.mvp.bean.MonthBill;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.bean.RedPointData;
+import com.zhenhaikj.factoryside.mvp.bean.SubUserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Track;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WXpayInfo;
@@ -827,4 +828,20 @@ public interface ApiService {
                                                                           @Field("AccessoryApplyState") String AccessoryApplyState,
                                                                           @Field("NewMoney") String NewMoney,
                                                                           @Field("OrderAccessoryID") String OrderAccessoryID);
+
+    /*
+  获取子账号*/
+    @FormUrlEncoded
+    @POST("Account/GetChildAccountByParentUserID")
+    Observable<BaseResult<List<SubUserInfo.SubUserInfoDean>>>
+    GetChildAccountByParentUserID(@Field("ParentUserID") String ParentUserID);
+
+    /*
+     * 注销子账号
+     * */
+    @FormUrlEncoded
+    @POST("Account/CancelChildAccount")
+    Observable<BaseResult<Data<String>>> CancelChildAccount(@Field("UserID") String UserID,
+                                                            @Field("ParentUserID") String ParentUserID);
+
 }

@@ -60,6 +60,7 @@ import com.zhenhaikj.factoryside.mvp.activity.OpinionActivity;
 import com.zhenhaikj.factoryside.mvp.activity.PersonalInformationActivity;
 import com.zhenhaikj.factoryside.mvp.activity.RechargeActivity;
 import com.zhenhaikj.factoryside.mvp.activity.SettingActivity;
+import com.zhenhaikj.factoryside.mvp.activity.SubAccountManagementActivity;
 import com.zhenhaikj.factoryside.mvp.activity.VerifiedActivity;
 import com.zhenhaikj.factoryside.mvp.activity.WalletActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
@@ -489,7 +490,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 startActivity(new Intent(mActivity, PersonalInformationActivity.class));
                 break;
             case R.id.ll_sub_account_management:
-                startActivity(new Intent(mActivity, WalletActivity.class));
+                startActivity(new Intent(mActivity, SubAccountManagementActivity.class));
                 break;
             case R.id.ll_qr_code:
                 startActivity(new Intent(mActivity, WalletActivity.class));

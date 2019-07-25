@@ -1209,9 +1209,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         mPresenter.ApproveOrderAccessoryByModifyPrice(OrderID,"1","0",orderAccessroy.getId());
                     }
                 }else {
-//                    mPresenter.ApproveOrderAccessory(OrderID, "1", "0");
                     mPresenter.UpdateFactoryAccessorybyFactory(orderAccessroy.getFAccessoryID(),name,"0",orderAccessroy.getId());
-                    mPresenter.ApproveOrderAccessoryByModifyPrice(OrderID,"1","0",orderAccessroy.getId());
+//                    mPresenter.ApproveOrderAccessoryByModifyPrice(OrderID,"1","0",orderAccessroy.getId());
+                    mPresenter.ApproveOrderAccessory(OrderID, "1", "0",orderAccessroy.getId());
                 }
             }
         });
