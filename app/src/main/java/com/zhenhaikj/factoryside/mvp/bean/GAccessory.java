@@ -53,6 +53,15 @@ public class GAccessory implements Serializable {
     private String Photo1;
     private String Photo2;
     private String SizeID;
+    private String NeedPlatformAuth;
+
+    public String getNeedPlatformAuth() {
+        return NeedPlatformAuth;
+    }
+
+    public void setNeedPlatformAuth(String needPlatformAuth) {
+        NeedPlatformAuth = needPlatformAuth;
+    }
 
     public String getSizeID() {
         return SizeID;

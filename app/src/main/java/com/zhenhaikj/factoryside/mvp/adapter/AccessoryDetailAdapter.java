@@ -17,6 +17,9 @@ public class AccessoryDetailAdapter extends BaseQuickAdapter<GAccessory,BaseView
         helper.setText(R.id.tv_accessories_number,"¥"+item.getDiscountPrice()+"/"+item.getQuantity()+"个");
         helper.addOnClickListener(R.id.tv_reject);
         helper.addOnClickListener(R.id.tv_pass);
+        if ("Y".equals(item.getNeedPlatformAuth())){
+            helper.setGone(R.id.ll_accessories,false);
+        }
         if ("0".equals(item.getState())){
             helper.setVisible(R.id.tv_reject,true);
             helper.setVisible(R.id.tv_pass,true);
