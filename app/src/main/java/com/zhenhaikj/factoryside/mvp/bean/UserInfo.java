@@ -94,7 +94,7 @@ public class UserInfo implements Serializable {
         private String CreateDate;
         private String LastLoginDate;
         private int LoginCount;
-        private int RemainMoney;
+        private Double RemainMoney;
         private Double TotalMoney;
         private Double FrozenMoney;
         private String Type;
@@ -183,11 +183,11 @@ public class UserInfo implements Serializable {
             this.LoginCount = LoginCount;
         }
 
-        public int getRemainMoney() {
+        public Double getRemainMoney() {
             return RemainMoney;
         }
 
-        public void setRemainMoney(int RemainMoney) {
+        public void setRemainMoney(Double RemainMoney) {
             this.RemainMoney = RemainMoney;
         }
 

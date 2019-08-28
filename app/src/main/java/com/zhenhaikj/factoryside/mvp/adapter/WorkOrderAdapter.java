@@ -24,7 +24,7 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
                 .setText(R.id.tv_status,item.getState())
                 .setText(R.id.tv_info,item.getUserName()+item.getPhone())
                 .setText(R.id.tv_address,item.getAddress())
-                .setText(R.id.tv_cost,"¥" + item.getQuaMoney())
+//                .setText(R.id.tv_cost,"¥" + item.getQuaMoney())
                 .addOnClickListener(R.id.tv_complaint)
                 .addOnClickListener(R.id.tv_leave_message)
                 .addOnClickListener(R.id.tv_see_detail)
@@ -40,7 +40,7 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
             helper.setText(R.id.tv_cost,"¥" + item.getQuaMoney());
         } else {
             if ("1".equals(item.getAccessoryApplyState())) {
-                helper.setText(R.id.tv_cost,"¥" + item.getQuaMoney());
+                helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney());
             } else {
                 helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney());
             }

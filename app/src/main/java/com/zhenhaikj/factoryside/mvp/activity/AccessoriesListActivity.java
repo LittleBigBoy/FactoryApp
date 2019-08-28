@@ -725,7 +725,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
 
                         mLlApproveAccessory.setVisibility(View.VISIBLE);
                         mLlOldAccessory.setVisibility(View.VISIBLE);
-                        accessoryDetailAdapter = new AccessoryDetailAdapter(R.layout.item_accessories, data.getOrderAccessroyDetail());
+                        accessoryDetailAdapter = new AccessoryDetailAdapter(R.layout.item_accessories, data.getOrderAccessroyDetail(),data.getAccessoryState());
                         mRvAccessories.setLayoutManager(new LinearLayoutManager(mActivity));
                         mRvAccessories.setAdapter(accessoryDetailAdapter);
                     }

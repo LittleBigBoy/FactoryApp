@@ -85,7 +85,7 @@
                                         android:layout_height="15dp"
                                         android:layout_gravity="center"
                                         android:layout_marginLeft="15dp"
-                                        android:src="@drawable/eye" />
+                                        android:src="@drawable/eye_selector" />
                                 </LinearLayout>
 
 

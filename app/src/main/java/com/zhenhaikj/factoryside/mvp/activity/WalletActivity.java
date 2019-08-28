@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.BillAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.FrozenMoneyAdapter;
@@ -30,6 +32,7 @@ import com.zhenhaikj.factoryside.mvp.presenter.WalletPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -94,6 +97,8 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
     private List<FrozenMoney.DataBean> FrozenMoneyList = new ArrayList<>();
     private MonthBillAdapter monthBillAdapter;
     private FrozenMoneyAdapter frozenMoneyAdapter;
+    private boolean flag;
+    private SPUtils spUtils;
 
     @Override
     protected int setLayoutId() {
@@ -111,8 +116,10 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
 
     @Override
     protected void initData() {
-        SPUtils spUtils = SPUtils.getInstance("token");
+        spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
+        flag = spUtils.getBoolean("flag", false);
+        mHideIv.setSelected(flag);
         mPresenter.GetUserInfoList(userId, "1");
 
         mPresenter.AccountBill(userId, "1");//充值
@@ -128,6 +135,14 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("我的钱包");
         mRefreshLayout.setEnableLoadMore(false);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mPresenter.GetUserInfoList(userId, "1");
+
+                mRefreshLayout.finishRefresh(1000);
+            }
+        });
         for (int i = 0; i < 10; i++) {
 
 //            rechargeRecordList.add(new Address());
@@ -157,6 +172,7 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
         mLlRechargeRecord.setOnClickListener(this);
         mLlMonthlyBill.setOnClickListener(this);
         mLlFrozenAmount.setOnClickListener(this);
+        mHideIv.setOnClickListener(this);
     }
 
 
@@ -197,6 +213,20 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
                 Intent intent2 = new Intent(this, DetailRecordActivity.class);
                 intent2.putExtra("openwhich", "3");
                 startActivity(intent2);
+                break;
+            case R.id.hide_iv:
+                if (!flag){
+                    flag=true;
+                    mAvailableTv.setText("****");//钱包余额
+//                    mTvWatermelonBalance.setText("****");//西瓜币
+                }else{
+                    flag=false;
+                    String format = String.format("%.2f", userInfo.getTotalMoney() - userInfo.getFrozenMoney());
+                    mAvailableTv.setText( format+ "");//钱包余额
+//                    mTvWatermelonBalance.setText("¥" + userInfo.getCon() + "");//西瓜币
+                }
+                mHideIv.setSelected(flag);
+                spUtils.put("flag",flag);
                 break;
 
         }

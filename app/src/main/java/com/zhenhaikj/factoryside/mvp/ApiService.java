@@ -844,4 +844,9 @@ public interface ApiService {
     Observable<BaseResult<Data<String>>> CancelChildAccount(@Field("UserID") String UserID,
                                                             @Field("ParentUserID") String ParentUserID);
 
+    /*根据银行卡号获取银行名 判断后台是否支持该银行的提现*/
+
+    @FormUrlEncoded
+    @POST("Account/GetBankNameByCardNo")
+    Observable<BaseResult<Data<String>>> GetBankNameByCardNo(@Field("CardNo") String CardNo);
 }

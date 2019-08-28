@@ -82,5 +82,10 @@ public class CustomerServiceModel implements CustomerServiceContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
-
+    @Override
+    public Observable<BaseResult<CategoryData>> GetChildFactoryCategory2(String ParentID) {
+        return ApiRetrofit.getDefault().GetChildFactoryCategory(ParentID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

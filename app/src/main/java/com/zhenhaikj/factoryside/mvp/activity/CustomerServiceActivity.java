@@ -2,6 +2,8 @@ package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +39,7 @@ import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.AreaAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.BrandChooseAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.ChooseCategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CityAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.DistrictAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ProductTypeAdapter;
@@ -56,6 +59,9 @@ import com.zhenhaikj.factoryside.mvp.contract.CustomerServiceContract;
 import com.zhenhaikj.factoryside.mvp.model.CustomerServiceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.CustomerServicePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.widget.RecyclerViewDivider;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,7 +146,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
     private String userID;//用户id
     private String FBrandID;//品牌id
     private String FCategoryID;//分类id
-    private String FProductTypeID;//型号id
+    private String TypeID;//型号id
     private String ProvinceCode;//省code
     private String CityCode;//市code
     private String AreaCode;//区code
@@ -161,7 +167,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
 
     private RecyclerView rv_choose;
 
-    private LabelsView lv_popular;
+    private RecyclerView lv_popular;
     private ImageView iv_close;
     private BrandChooseAdapter brandsAdapter;
     private CategoryAdapter chooseAdapter;
@@ -190,6 +196,10 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
     private ChainRecogListener chainRecogListener;
     private boolean running;
     private OnlineRecogParams apiParams;
+    private ChooseCategoryAdapter firstAdapter;
+    private LinearLayoutManager linearLayoutManager;
+    private String TypeName;
+    ZLoadingDialog dialog = new ZLoadingDialog(this); //loading
 
     @Override
     protected int setLayoutId() {
@@ -296,6 +306,10 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                 Guarantee = "N";
                 break;
             case R.id.tv_choose_brand:
+                if (SubCategoryID==null){
+                    ToastUtils.showShort("请先选择分类");
+                    return;
+                }
                 mPresenter.GetFactoryBrand(userID);
                 break;
             case R.id.tv_choose_category:
@@ -310,7 +324,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                     MyUtils.showToast(mActivity, "请选择分类！");
                     return;
                 }
-                mPresenter.GetFactoryProducttype(FBrandID, SubCategoryID);
+                mPresenter.GetChildFactoryCategory2(SubCategoryID);
                 break;
             case R.id.tv_address:
                 mPresenter.GetProvince();
@@ -325,25 +339,31 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                 mPresenter.GetArea(CityCode);
                 break;
             case R.id.btn_add:
+                showLoading();
                 if (FBrandID == null) {
                     MyUtils.showToast(mActivity, "请选择品牌！");
+                    cancleLoading();
                     return;
                 }
                 if (SubCategoryID == null) {
                     MyUtils.showToast(mActivity, "请选择分类！");
+                    cancleLoading();
                     return;
                 }
-                if (FProductTypeID == null) {
+                if (TypeID == null) {
                     MyUtils.showToast(mActivity, "请选择型号！");
+                    cancleLoading();
                     return;
                 }
                 Num = mEtNum.getText().toString();
                 if (Num == null) {
                     MyUtils.showToast(mActivity, "请输入维修数量！");
+                    cancleLoading();
                     return;
                 }
                 if ("".equals(Num)) {
                     MyUtils.showToast(mActivity, "请输入维修数量！");
+                    cancleLoading();
                     return;
                 }
                 /*if (FAccessoryID == null) {
@@ -352,18 +372,22 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                 }*/
                 if (ProvinceCode == null) {
                     MyUtils.showToast(mActivity, "请选择省！");
+                    cancleLoading();
                     return;
                 }
                 if (CityCode == null) {
                     MyUtils.showToast(mActivity, "请选择市！");
+                    cancleLoading();
                     return;
                 }
                 if (AreaCode == null) {
                     MyUtils.showToast(mActivity, "请选择区！");
+                    cancleLoading();
                     return;
                 }
                 if (DistrictCode == null) {
                     MyUtils.showToast(mActivity, "请选择街道、乡、镇");
+                    cancleLoading();
                 }
                 String DetailAddress = mEtDetail.getText().toString();
                 String Address = mTvPca.getText().toString() + DetailAddress;
@@ -373,29 +397,36 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                 String FaultDescription = mEtFaultDescription.getText().toString();
                 if (DetailAddress == null || "".equals(DetailAddress)) {
                     MyUtils.showToast(mActivity, "请输入详细地址！");
+                    cancleLoading();
                     return;
                 }
                 if (Name == null || "".equals(Name)) {
                     MyUtils.showToast(mActivity, "请输入客户姓名！");
+                    cancleLoading();
                     return;
                 }
                 if (Phone == null || "".equals(Phone)) {
                     MyUtils.showToast(mActivity, "请输入客户手机！");
+                    cancleLoading();
                     return;
                 }
                 if (!RegexUtils.isMobileExact(Phone)) {
                     MyUtils.showToast(mActivity, "手机号格式不正确！");
+                    cancleLoading();
                     return;
                 }
                 if (Guarantee == null || "".equals(Guarantee)) {
                     MyUtils.showToast(mActivity, "请选择保修期内或保修期外！");
+                    cancleLoading();
                     return;
                 }
                 if (FaultDescription == null || "".equals(FaultDescription)) {
                     MyUtils.showToast(mActivity, "请输入故障描述！");
+                    cancleLoading();
                     return;
                 }
-                mPresenter.AddOrder("2", "送修", userID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, Num);
+                mPresenter.AddOrder("3", "送修", userID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, Num);
+                cancleLoading();
                 break;
             case R.id.ll_microphone:
                 // 此处params可以打印出来，直接写到你的代码里去，最终的json一致即可。
@@ -533,24 +564,20 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                 popupWindow.dismiss();
             }
         });
-        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
-            @Override
-            public CharSequence getLabelText(TextView label, int position, Category data) {
-                return data.getFCategoryName();
-            }
-        });
+        firstAdapter = new ChooseCategoryAdapter(popularList);
+        linearLayoutManager = new LinearLayoutManager(mActivity);
+        lv_popular.setLayoutManager(linearLayoutManager);
+        lv_popular.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
+        lv_popular.setAdapter(firstAdapter);
         FCategoryID = popularList.get(0).getId();
         CategoryName = popularList.get(0).getFCategoryName();
         mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
-        lv_popular.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
-            @Override
-            public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
-                if (isSelect) {
-                    FCategoryID = ((Category) data).getId();
-                    CategoryName = ((Category) data).getFCategoryName();
-                    mPresenter.GetChildFactoryCategory(((Category) data).getId());
-                }
-            }
+        popularList.get(0).setSelected(true);
+        firstAdapter.setOnItemClickListener((adapter, view, position) -> {
+            scrollToMiddleH(view, position);
+            setSelect(position);
+            mPresenter.GetChildFactoryCategory(popularList.get(position).getFCategoryID());
+
         });
 
         popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -573,6 +600,42 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
     }
 
 
+    public void setSelect(int position) {
+        for (int i = 0; i < popularList.size(); i++) {
+            if (i == position) {
+                popularList.get(i).setSelected(true);
+            } else {
+                popularList.get(i).setSelected(false);
+            }
+        }
+        firstAdapter.setNewData(popularList);
+    }
+
+
+    private void scrollToMiddleH(View view, int position) {
+
+        int vHeight = view.getHeight();
+
+        Rect rect = new Rect();
+
+        lv_popular.getGlobalVisibleRect(rect);
+
+//        int reHeight = rect.top- rect.bottom - vHeight;
+        int reHeight = rect.bottom - rect.top - vHeight;
+
+
+        final int firstPosition = linearLayoutManager.findFirstVisibleItemPosition();
+
+        int top = lv_popular.getChildAt(position - firstPosition).getTop();
+
+        int half = reHeight / 2;
+
+        lv_popular.smoothScrollBy(0, top - half);
+
+    }
+
+
+
     public void showPopWindow(final TextView tv, BaseQuickAdapter adapter, final List list) {
 
         View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop, null);
@@ -582,52 +645,83 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                popupWindow.dismiss();
-                if (list.get(position) instanceof Brand) {
-                    FBrandID = ((Brand) list.get(position)).getFBrandID();
-                    BrandName = ((Brand) list.get(position)).getFBrandName();
-                    tv.setText(BrandName);
-                    mTvChooseCategory.setText("");
-                    mTvChooseType.setText("");
-//                    mTvChooseProperty.setText("");
-                    FCategoryID = null;
-                    FProductTypeID = null;
-//                    FAccessoryID = null;
-                    CategoryName = null;
-                    SubCategoryID = null;
-                    SubCategoryName = null;
-//                    ProductTypeName = null;
-                    OrderMoney = null;
-                }
-                if (list.get(position) instanceof Category) {
-                    SubCategoryID = ((Category) list.get(position)).getFCategoryID();
-                    SubCategoryName = ((Category) list.get(position)).getFCategoryName();
-                    OrderMoney = ((Category) list.get(position)).getInitPrice();
-                    tv.setText(SubCategoryName);
-                    mTvChooseType.setText("");
-//                    mTvChooseProperty.setText("");
-                    FProductTypeID = null;
-//                    FAccessoryID = null;
-                    ProductTypeName = null;
-                }
-                if (list.get(position) instanceof ProductType) {
-                    FProductTypeID = ((ProductType) list.get(position)).getFProductTypeID();
-                    ProductTypeName = ((ProductType) list.get(position)).getFProductTypeName();
-                    tv.setText(ProductTypeName);
-//                    mTvChooseProperty.setText("");
-//                    FAccessoryID = null;
-                }
-//                if (list.get(position) instanceof Accessory.Item1Bean) {
-//                    tv.setText(((Accessory.Item1Bean) list.get(position)).getAccessoryName());
-//                    FAccessoryID = ((Accessory.Item1Bean) list.get(position)).getFAccessoryID();
+//                popupWindow.dismiss();
+//                if (list.get(position) instanceof Brand) {
+//                    FBrandID = ((Brand) list.get(position)).getFBrandID();
+//                    BrandName = ((Brand) list.get(position)).getFBrandName();
+//                    tv.setText(BrandName);
+//                    mTvChooseCategory.setText("");
+//                    mTvChooseType.setText("");
+////                    mTvChooseProperty.setText("");
+//                    FCategoryID = null;
+//                    TypeID = null;
+////                    FAccessoryID = null;
+//                    CategoryName = null;
+//                    SubCategoryID = null;
+//                    SubCategoryName = null;
+////                    ProductTypeName = null;
+//                    OrderMoney = null;
 //                }
+//                if (list.get(position) instanceof Category) {
+//                    SubCategoryID = ((Category) list.get(position)).getFCategoryID();
+//                    SubCategoryName = ((Category) list.get(position)).getFCategoryName();
+//                    OrderMoney = ((Category) list.get(position)).getInitPrice();
+//                    tv.setText(SubCategoryName);
+//                    mTvChooseType.setText("");
+////                    mTvChooseProperty.setText("");
+//                    TypeID = null;
+////                    FAccessoryID = null;
+//                    ProductTypeName = null;
+//                }
+//                if (list.get(position) instanceof ProductType) {
+//                    TypeID = ((ProductType) list.get(position)).getTypeID();
+//                    ProductTypeName = ((ProductType) list.get(position)).getFProductTypeName();
+//                    tv.setText(ProductTypeName);
+////                    mTvChooseProperty.setText("");
+////                    FAccessoryID = null;
+//                }
+////                if (list.get(position) instanceof Accessory.Item1Bean) {
+////                    tv.setText(((Accessory.Item1Bean) list.get(position)).getAccessoryName());
+////                    FAccessoryID = ((Accessory.Item1Bean) list.get(position)).getFAccessoryID();
+////                }
+//                if (list.get(position) instanceof Province) {
+//                    ProvinceName = ((Province) list.get(position)).getName();
+//                    tv.setText(ProvinceName + ">");
+//                    ProvinceCode = ((Province) list.get(position)).getCode();
+//                    CityCode = null;
+//                    CityName = null;
+////                    mTvPca.setText(ProvinceName);
+//                }
+//                if (list.get(position) instanceof City) {
+//                    CityName = ((City) list.get(position)).getName();
+//                    tv.setText(CityName + ">");
+//                    CityCode = ((City) list.get(position)).getCode();
+//                    AreaCode = null;
+//                    AreaName = null;
+////                    mTvPca.setText(ProvinceName + CityName);
+//                }
+//                if (list.get(position) instanceof Area) {
+//                    AreaName = ((Area) list.get(position)).getName();
+//                    tv.setText(AreaName + ">");
+//                    AreaCode = ((Area) list.get(position)).getCode();
+////                    mTvPca.setText(ProvinceName + CityName + AreaName);
+//                }
+//                if (list.get(position) instanceof District) {
+//                    DistrictName = ((District) list.get(position)).getName();
+//                    tv.setText(DistrictName + ">");
+//                    DistrictCode = ((District) list.get(position)).getCode();
+//                    mTvPca.setText(ProvinceName + CityName + AreaName + DistrictName);
+//                }
+//            }
+//        });
+                popupWindow.dismiss();
                 if (list.get(position) instanceof Province) {
                     ProvinceName = ((Province) list.get(position)).getName();
                     tv.setText(ProvinceName + ">");
                     ProvinceCode = ((Province) list.get(position)).getCode();
                     CityCode = null;
                     CityName = null;
-//                    mTvPca.setText(ProvinceName);
+                    mTvPca.setText(ProvinceName);
                 }
                 if (list.get(position) instanceof City) {
                     CityName = ((City) list.get(position)).getName();
@@ -635,19 +729,32 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                     CityCode = ((City) list.get(position)).getCode();
                     AreaCode = null;
                     AreaName = null;
-//                    mTvPca.setText(ProvinceName + CityName);
+                    mTvPca.setText(ProvinceName + CityName);
                 }
                 if (list.get(position) instanceof Area) {
                     AreaName = ((Area) list.get(position)).getName();
                     tv.setText(AreaName + ">");
                     AreaCode = ((Area) list.get(position)).getCode();
-//                    mTvPca.setText(ProvinceName + CityName + AreaName);
+                    DistrictCode = null;
+                    DistrictName = null;
+                    mTvPca.setText(ProvinceName + CityName + AreaName);
                 }
                 if (list.get(position) instanceof District) {
                     DistrictName = ((District) list.get(position)).getName();
                     tv.setText(DistrictName + ">");
                     DistrictCode = ((District) list.get(position)).getCode();
                     mTvPca.setText(ProvinceName + CityName + AreaName + DistrictName);
+                }
+                if (list.get(position) instanceof Brand) {
+                    FBrandID = ((Brand) list.get(position)).getFBrandID();
+                    BrandName = ((Brand) list.get(position)).getFBrandName();
+                    tv.setText(BrandName);
+                    mPresenter.GetChildFactoryCategory2(SubCategoryID);
+                }
+                if (list.get(position) instanceof Category) {
+                    TypeID = ((Category) list.get(position)).getFCategoryID();
+                    TypeName = ((Category) list.get(position)).getFCategoryName();
+                    tv.setText(TypeName);
                 }
             }
         });
@@ -680,7 +787,9 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
     public void GetFactoryBrand(BaseResult<List<Brand>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                brandList = baseResult.getData();
+                if (baseResult.getData() != null) {
+                    brandList = baseResult.getData();
+                }
                 if (brandList.size() == 0) {
                     ToastUtils.showShort("你还没添加品牌，请先添加品牌！");
                     startActivity(new Intent(mActivity, BrandActivity.class));
@@ -737,7 +846,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                                 SubCategoryName = chooseList.get(position).getFCategoryName();
                                 mTvChooseCategory.setText(SubCategoryName);
                                 SubCategoryID = chooseList.get(position).getFCategoryID();
-                                FProductTypeID = null;
+                                TypeID = null;
                                 ProductTypeName = null;
                                 mTvChooseType.setText("");
                                 popupWindow.dismiss();
@@ -940,5 +1049,44 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
 //                ToastUtils.showShort(baseResult.getData());
                 break;
         }
+    }
+
+    @Override
+    public void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                CategoryData data = baseResult.getData();
+                if ("0".equals(data.getCode())) {
+                    chooseList = data.getData();
+                    if (chooseList.size() == 0) {
+                        ToastUtils.showShort("无型号，请联系管理员添加！");
+                    } else {
+                        rv_choose.setLayoutManager(new LinearLayoutManager(mActivity));
+                        chooseAdapter = new CategoryAdapter(R.layout.item_choose, chooseList);
+                        showPopWindow(mTvChooseType, chooseAdapter, chooseList);
+                    }
+                } else {
+                    ToastUtils.showShort("获取型号失败！");
+                }
+                break;
+            default:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    public void showLoading() {
+        dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
+                .setLoadingColor(Color.BLACK)//颜色
+                .setHintText("发单中...")
+                .setHintTextSize(14) // 设置字体大小 dp
+                .setHintTextColor(Color.BLACK)  // 设置字体颜色
+                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                .setCanceledOnTouchOutside(false)//点击外部无法取消
+                .show();
+    }
+
+    public void cancleLoading() {
+        dialog.dismiss();
     }
 }

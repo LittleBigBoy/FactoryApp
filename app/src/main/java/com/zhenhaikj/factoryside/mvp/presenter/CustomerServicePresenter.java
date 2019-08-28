@@ -115,4 +115,15 @@ public class CustomerServicePresenter extends CustomerServiceContract.Presenter 
                 });
     }
 
+    @Override
+    public void GetChildFactoryCategory2(String ParentID) {
+        mModel.GetChildFactoryCategory2(ParentID)
+                .subscribe(new BaseObserver<CategoryData>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<CategoryData> value) {
+                        mView.GetChildFactoryCategory2(value);
+                    }
+                });
+    }
+
 }

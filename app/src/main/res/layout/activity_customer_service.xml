@@ -55,35 +55,6 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_choose_brand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/white_round_shape"
-                android:orientation="horizontal"
-                android:paddingLeft="12dp"
-                android:paddingTop="17dp"
-                android:paddingBottom="17dp"
-                android:layout_marginTop="@dimen/dp_10">
-
-                <TextView
-                    android:id="@+id/tv_choose_brand"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="品牌"
-                    android:textColor="#333333"
-                    android:textColorHint="#898989"
-                    android:textSize="15sp" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="16dp"
-                    android:layout_marginRight="11dp"
-                    android:src="@drawable/right" />
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_choose_category"
@@ -115,7 +86,35 @@
                     android:src="@drawable/right" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_choose_brand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/white_round_shape"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingTop="17dp"
+                android:paddingBottom="17dp"
+                android:layout_marginTop="@dimen/dp_10">
 
+                <TextView
+                    android:id="@+id/tv_choose_brand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="品牌"
+                    android:textColor="#333333"
+                    android:textColorHint="#898989"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="16dp"
+                    android:layout_marginRight="11dp"
+                    android:src="@drawable/right" />
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/ll_choose_type"
                 android:layout_width="match_parent"

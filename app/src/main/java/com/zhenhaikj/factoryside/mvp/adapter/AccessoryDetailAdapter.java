@@ -8,13 +8,19 @@ import com.zhenhaikj.factoryside.mvp.bean.GAccessory;
 import java.util.List;
 
 public class AccessoryDetailAdapter extends BaseQuickAdapter<GAccessory,BaseViewHolder> {
-    public AccessoryDetailAdapter(int layoutResId, List<GAccessory> data) {
+    private String AccessoryState;
+    public AccessoryDetailAdapter(int layoutResId, List<GAccessory> data,String AccessoryState) {
         super(layoutResId, data);
+        this.AccessoryState=AccessoryState;
     }
     @Override
     protected void convert(BaseViewHolder helper, GAccessory item) {
         helper.setText(R.id.tv_accessories_name,item.getFAccessoryName());
-        helper.setText(R.id.tv_accessories_number,"¥"+item.getDiscountPrice()+"/"+item.getQuantity()+"个");
+        if ("0".equals(AccessoryState)){
+            helper.setText(R.id.tv_accessories_number,item.getQuantity()+"个");
+        }else {
+            helper.setText(R.id.tv_accessories_number,"¥"+item.getDiscountPrice()+"/"+item.getQuantity()+"个");
+        }
         helper.addOnClickListener(R.id.tv_reject);
         helper.addOnClickListener(R.id.tv_pass);
         if ("Y".equals(item.getNeedPlatformAuth())){

@@ -50,6 +50,7 @@ public interface CustomerServiceContract {
                                                       String RecycleOrderHour,
                                                       String Guarantee,
                                                       String Num);
+        Observable<BaseResult<CategoryData>> GetChildFactoryCategory2(String ParentId);
     }
 
     interface View extends BaseView{
@@ -64,6 +65,8 @@ public interface CustomerServiceContract {
         void GetDistrict(BaseResult<Data<List<District>>> baseResult);
 
         void AddOrder(BaseResult<Data<String>> baseResult);
+
+        void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -103,5 +106,7 @@ public interface CustomerServiceContract {
                                       String RecycleOrderHour,
                                       String Guarantee,
                                       String Num);
+
+        public abstract void GetChildFactoryCategory2(String ParentID);
     }
 }

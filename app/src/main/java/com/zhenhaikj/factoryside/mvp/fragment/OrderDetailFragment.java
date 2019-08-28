@@ -851,7 +851,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 } else {
 //                    if (data.getAccessoryMoney() != null && !"0.00".equals(data.getAccessoryMoney())) {
                     if ("1".equals(data.getAccessoryApplyState())) {
-                        mTvOrderMoney.setText("¥" + data.getQuaMoney());
+                        mTvOrderMoney.setText("¥" + data.getOrderMoney()+"");
 //                        mTvOrderMoney.setText("¥" + (Double.parseDouble(data.getAccessoryMoney()) + Double.parseDouble(data.getBeyondMoney()) + Double.parseDouble(data.getPostMoney())) + "");
                     } else {
                         mTvOrderMoney.setText("¥" + data.getOrderMoney() + "");
@@ -997,7 +997,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                                 data.getOrderAccessroyDetail().remove(i);
                             }
                         }
-                        accessoryDetailAdapter = new AccessoryDetailAdapter(R.layout.item_accessories, data.getOrderAccessroyDetail());
+                        accessoryDetailAdapter = new AccessoryDetailAdapter(R.layout.item_accessories, data.getOrderAccessroyDetail(),data.getAccessoryState());
                         mRvAccessories.setLayoutManager(new LinearLayoutManager(mActivity));
                         mRvAccessories.setAdapter(accessoryDetailAdapter);
                         accessoryDetailAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -1005,7 +1005,26 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                                 switch (view.getId()){
                                     case R.id.tv_pass:
-                                        showEdit(data.getOrderAccessroyDetail(),position);
+//                                        showEdit(data.getOrderAccessroyDetail(),position);
+                                        reject = new CommonDialog_Home(mActivity);
+                                        reject.setMessage("是否同意申请的配件")
+
+                                                //.setImageResId(R.mipmap.ic_launcher)
+                                                .setTitle("提示")
+                                                .setPositive("确定")
+                                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                                            @Override
+                                            public void onPositiveClick() {
+                                                reject.dismiss();
+                                                mPresenter.ApproveOrderAccessory(OrderID, "1", "0",data.getOrderAccessroyDetail().get(position).getId());
+                                            }
+
+                                            @Override
+                                            public void onNegtiveClick() {//取消
+                                                reject.dismiss();
+                                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                                            }
+                                        }).show();
                                         break;
                                     case R.id.tv_reject:
                                         reject = new CommonDialog_Home(mActivity);
@@ -1013,6 +1032,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
                                                 //.setImageResId(R.mipmap.ic_launcher)
                                                 .setTitle("提示")
+                                                .setPositive("确定")
                                                 .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
                                             @Override
                                             public void onPositiveClick() {

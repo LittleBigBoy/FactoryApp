@@ -200,6 +200,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private Button btnConfirm;
     private Button btn_verified_update;
     private CompanyInfo companyDean;
+    private boolean flag;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -250,6 +251,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     protected void initData() {
         spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
+        flag = spUtils.getBoolean("flag",false);
+        mIvEye.setSelected(flag);
         api = WXAPIFactory.createWXAPI(mActivity, "wxd6509c9c912f0015");
         // 将该app注册到微信
         api.registerApp("wxd6509c9c912f0015");
@@ -440,6 +443,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mIvCode.setOnClickListener(this);
         mTvRecharge.setOnClickListener(this);
         mLlVerified.setOnClickListener(this);
+        mIvEye.setOnClickListener(this);
     }
 
     @Override
@@ -557,6 +561,20 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 } else {
                     showVerifiedDialog();
                 }
+                break;
+            case R.id.iv_eye:
+                if (!flag){
+                    flag=true;
+                    mTvMoney.setText("****");//钱包余额
+//                    mTvWatermelonBalance.setText("****");//西瓜币
+                }else{
+                    flag=false;
+                    String format = String.format("%.2f", userInfoDean.getTotalMoney() - userInfoDean.getFrozenMoney());
+                    mTvMoney.setText( format+ "");//钱包余额
+//                    mTvWatermelonBalance.setText("¥" + userInfo.getCon() + "");//西瓜币
+                }
+                mIvEye.setSelected(flag);
+                spUtils.put("flag",flag);
                 break;
         }
     }

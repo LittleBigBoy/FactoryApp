@@ -45,12 +45,13 @@
                 android:textSize="14sp"
                 android:textColor="@color/black"/>
             <TextView
-                android:id="@+id/tv_margin"
+                android:id="@+id/et_margin"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:text="1000"
                 android:textColor="@color/red"
+                android:textColorHint="@color/red"
                 android:gravity="center"
                 android:textSize="14sp"/>
             <TextView

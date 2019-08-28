@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -65,9 +65,9 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
                     android:layout_marginTop="25dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_toLeftOf="@+id/ll_money">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -80,7 +80,8 @@
                         android:layout_height="wrap_content"
                         android:text="冻结金额"
                         android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:layout_marginTop="7dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -101,12 +102,14 @@
                     android:layout_weight="1" />
 
                 <LinearLayout
+                    android:id="@+id/ll_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:layout_marginRight="25dp"
                     android:gravity="right"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_alignParentRight="true">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -133,7 +136,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="7dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -178,7 +182,7 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"

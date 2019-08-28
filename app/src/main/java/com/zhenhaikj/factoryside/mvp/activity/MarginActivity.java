@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -35,11 +37,13 @@ import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.PayResult;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WXpayInfo;
 import com.zhenhaikj.factoryside.mvp.contract.MarginContract;
 import com.zhenhaikj.factoryside.mvp.model.MainModel;
 import com.zhenhaikj.factoryside.mvp.model.MarginModel;
 import com.zhenhaikj.factoryside.mvp.presenter.MarginPresenter;
+import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 import com.zhenhaikj.factoryside.mvp.widget.MaginDialog;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -117,6 +121,8 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
     private LinearLayout ll_choose6;
     private ImageView cb5;
     private ImageView cb6;
+    private AlertDialog dialog;
+    private UserInfo.UserInfoDean userInfo;
 
     @Override
     protected int setLayoutId() {
@@ -127,6 +133,7 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
     protected void initData() {
         spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
+        mPresenter.GetUserInfoList(userId,"1");
         api = WXAPIFactory.createWXAPI(this, "wxd6509c9c912f0015");
         // 将该app注册到微信
         api.registerApp("wxd6509c9c912f0015");
@@ -166,16 +173,93 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
                 finish();
                 break;
             case R.id.tv_withdrawal_margin:
-                maginDialog = new MaginDialog(this);
-                maginDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
-
-                maginDialog.setNoOnclickListener("取消", new MaginDialog.onNoOnclickListener() {
+//                maginDialog = new MaginDialog(this);
+//                maginDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+//
+//                maginDialog.setNoOnclickListener("取消", new MaginDialog.onNoOnclickListener() {
+//                    @Override
+//                    public void onNoClick() {
+//                        maginDialog.dismiss();
+//                    }
+//                });
+//                maginDialog.show();
+                View view=LayoutInflater.from(mActivity).inflate(R.layout.dialog_pay_the_deposit,null);
+                TextView et_margin=view.findViewById(R.id.et_margin);
+                TextView tv_confirm=view.findViewById(R.id.tv_confirm);
+                TextView tv_cancel=view.findViewById(R.id.tv_cancel);
+                tv_cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onNoClick() {
-                        maginDialog.dismiss();
+                    public void onClick(View v) {
+                        dialog.dismiss();
                     }
                 });
-                maginDialog.show();
+                tv_confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (userInfo.getFrozenMoney()>0){
+                            final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                            dialog.setMessage("必须工单全部完结才能提取保证金")
+                                    //.setImageResId(R.mipmap.ic_launcher)
+                                    .setTitle("提示")
+                                    .setPositive("确定")
+                                    .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                                @Override
+                                public void onPositiveClick() {//拨打电话
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onNegtiveClick() {//取消
+                                    dialog.dismiss();
+                                    // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                                }
+                            }).show();
+                        }else if (userInfo.getRemainMoney()<1000){
+                            final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                            dialog.setMessage("可提现保证金小于需提现的保证金")
+                                    //.setImageResId(R.mipmap.ic_launcher)
+                                    .setTitle("提示")
+                                    .setPositive("确定")
+                                    .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                                @Override
+                                public void onPositiveClick() {//拨打电话
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onNegtiveClick() {//取消
+                                    dialog.dismiss();
+                                    // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                                }
+                            }).show();
+                        }else {
+                            final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                            dialog.setMessage("确认提取100保证金")
+                                    //.setImageResId(R.mipmap.ic_launcher)
+                                    .setTitle("提示")
+                                    .setPositive("确定")
+                                    .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                                @Override
+                                public void onPositiveClick() {//拨打电话
+                                    dialog.dismiss();
+                                    startActivity(new Intent(mActivity,WithdrawActivity.class));
+                                }
+
+                                @Override
+                                public void onNegtiveClick() {//取消
+                                    dialog.dismiss();
+                                    // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                                }
+                            }).show();
+                        }
+                    }
+                });
+                dialog = new AlertDialog.Builder(mActivity).setView(view).create();
+                dialog.show();
+                Window window= dialog.getWindow();
+                WindowManager.LayoutParams lp=window.getAttributes();
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                window.setAttributes(lp);
                 break;
 
             case R.id.tv_pay_the_deposit:
@@ -384,6 +468,15 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
     @Override
     public void WXNotifyManual(BaseResult<Data<String>> baseResult) {
 
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                userInfo = baseResult.getData().getData().get(0);
+                break;
+        }
     }
 
 

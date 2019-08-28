@@ -32,6 +32,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/white_half_shape"
                     android:orientation="vertical">
 
@@ -510,7 +511,8 @@
                 android:background="@drawable/red_round_shape"
                 android:text="保    存"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone"/>
         </LinearLayout>
     </ScrollView>
 

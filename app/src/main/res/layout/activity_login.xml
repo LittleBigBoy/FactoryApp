@@ -113,7 +113,6 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:hint="请输入验证码"
-                        android:inputType="textPassword"
                         android:singleLine="true"
                         android:textSize="15sp"
                         android:background="@null"
