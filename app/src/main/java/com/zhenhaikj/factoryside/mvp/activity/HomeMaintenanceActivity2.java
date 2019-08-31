@@ -66,6 +66,7 @@ import com.zhenhaikj.factoryside.mvp.contract.HomeMaintenanceContract;
 import com.zhenhaikj.factoryside.mvp.model.HomeMaintenanceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.HomeMaintenancePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.utils.SingleClick;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 import com.zhenhaikj.factoryside.mvp.widget.RecyclerViewDivider;
 import com.zyao89.view.zloading.ZLoadingDialog;
@@ -453,6 +454,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         super.onBackPressed();
     }
 
+    @SingleClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

@@ -59,6 +59,7 @@ import com.zhenhaikj.factoryside.mvp.contract.CustomerServiceContract;
 import com.zhenhaikj.factoryside.mvp.model.CustomerServiceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.CustomerServicePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.utils.SingleClick;
 import com.zhenhaikj.factoryside.mvp.widget.RecyclerViewDivider;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
@@ -255,6 +256,9 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
         mLlUnderWarranty.setOnClickListener(this);
         mLlOutsideTheWarranty.setOnClickListener(this);
         mLlMicrophone.setOnClickListener(this);
+        mLlChooseBrand.setOnClickListener(this);
+        mLlChooseCategory.setOnClickListener(this);
+        mLlChooseType.setOnClickListener(this);
         mEtNum.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -286,6 +290,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
         super.onBackPressed();
     }
 
+    @SingleClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -305,6 +310,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                 mCbOutsideTheWarranty.setChecked(true);
                 Guarantee = "N";
                 break;
+            case R.id.ll_choose_brand:
             case R.id.tv_choose_brand:
                 if (SubCategoryID==null){
                     ToastUtils.showShort("请先选择分类");
@@ -312,9 +318,11 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                 }
                 mPresenter.GetFactoryBrand(userID);
                 break;
+            case R.id.ll_choose_category:
             case R.id.tv_choose_category:
                 mPresenter.GetFactoryCategory("999");
                 break;
+            case R.id.ll_choose_type:
             case R.id.tv_choose_type:
                 if (FBrandID == null) {
                     MyUtils.showToast(mActivity, "请选择品牌！");
@@ -425,7 +433,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                     cancleLoading();
                     return;
                 }
-                mPresenter.AddOrder("3", "送修", userID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, Num);
+                mPresenter.AddOrder("3", "送修", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, Num);
                 cancleLoading();
                 break;
             case R.id.ll_microphone:
@@ -645,75 +653,6 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                popupWindow.dismiss();
-//                if (list.get(position) instanceof Brand) {
-//                    FBrandID = ((Brand) list.get(position)).getFBrandID();
-//                    BrandName = ((Brand) list.get(position)).getFBrandName();
-//                    tv.setText(BrandName);
-//                    mTvChooseCategory.setText("");
-//                    mTvChooseType.setText("");
-////                    mTvChooseProperty.setText("");
-//                    FCategoryID = null;
-//                    TypeID = null;
-////                    FAccessoryID = null;
-//                    CategoryName = null;
-//                    SubCategoryID = null;
-//                    SubCategoryName = null;
-////                    ProductTypeName = null;
-//                    OrderMoney = null;
-//                }
-//                if (list.get(position) instanceof Category) {
-//                    SubCategoryID = ((Category) list.get(position)).getFCategoryID();
-//                    SubCategoryName = ((Category) list.get(position)).getFCategoryName();
-//                    OrderMoney = ((Category) list.get(position)).getInitPrice();
-//                    tv.setText(SubCategoryName);
-//                    mTvChooseType.setText("");
-////                    mTvChooseProperty.setText("");
-//                    TypeID = null;
-////                    FAccessoryID = null;
-//                    ProductTypeName = null;
-//                }
-//                if (list.get(position) instanceof ProductType) {
-//                    TypeID = ((ProductType) list.get(position)).getTypeID();
-//                    ProductTypeName = ((ProductType) list.get(position)).getFProductTypeName();
-//                    tv.setText(ProductTypeName);
-////                    mTvChooseProperty.setText("");
-////                    FAccessoryID = null;
-//                }
-////                if (list.get(position) instanceof Accessory.Item1Bean) {
-////                    tv.setText(((Accessory.Item1Bean) list.get(position)).getAccessoryName());
-////                    FAccessoryID = ((Accessory.Item1Bean) list.get(position)).getFAccessoryID();
-////                }
-//                if (list.get(position) instanceof Province) {
-//                    ProvinceName = ((Province) list.get(position)).getName();
-//                    tv.setText(ProvinceName + ">");
-//                    ProvinceCode = ((Province) list.get(position)).getCode();
-//                    CityCode = null;
-//                    CityName = null;
-////                    mTvPca.setText(ProvinceName);
-//                }
-//                if (list.get(position) instanceof City) {
-//                    CityName = ((City) list.get(position)).getName();
-//                    tv.setText(CityName + ">");
-//                    CityCode = ((City) list.get(position)).getCode();
-//                    AreaCode = null;
-//                    AreaName = null;
-////                    mTvPca.setText(ProvinceName + CityName);
-//                }
-//                if (list.get(position) instanceof Area) {
-//                    AreaName = ((Area) list.get(position)).getName();
-//                    tv.setText(AreaName + ">");
-//                    AreaCode = ((Area) list.get(position)).getCode();
-////                    mTvPca.setText(ProvinceName + CityName + AreaName);
-//                }
-//                if (list.get(position) instanceof District) {
-//                    DistrictName = ((District) list.get(position)).getName();
-//                    tv.setText(DistrictName + ">");
-//                    DistrictCode = ((District) list.get(position)).getCode();
-//                    mTvPca.setText(ProvinceName + CityName + AreaName + DistrictName);
-//                }
-//            }
-//        });
                 popupWindow.dismiss();
                 if (list.get(position) instanceof Province) {
                     ProvinceName = ((Province) list.get(position)).getName();
@@ -759,12 +698,13 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
             }
         });
         popupWindow = new PopupWindow(contentView);
-        popupWindow.setWidth(tv.getWidth());
-        if (list.size() > 5) {
-            popupWindow.setHeight(600);
-        } else {
+//        popupWindow.setWidth(tv.getWidth());
+        popupWindow.setWidth(1000);
+//        if (list.size() > 5) {
+//            popupWindow.setHeight(600);
+//        } else {
             popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        }
+//        }
 //        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setFocusable(true);
@@ -776,8 +716,9 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
             }
         });
         if (popupWindow != null && !popupWindow.isShowing()) {
-            popupWindow.showAsDropDown(tv, 0, 10);
+//            popupWindow.showAsDropDown(tv, 0, 10);
 //            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+            popupWindow.showAtLocation(contentView, Gravity.CENTER, 0, 0);
         }
         MyUtils.setWindowAlpa(mActivity, true);
     }
@@ -850,6 +791,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                                 ProductTypeName = null;
                                 mTvChooseType.setText("");
                                 popupWindow.dismiss();
+                                mPresenter.GetFactoryBrand(userID);
                             }
                         });
                     }
