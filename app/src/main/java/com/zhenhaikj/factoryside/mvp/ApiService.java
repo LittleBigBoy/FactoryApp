@@ -5,6 +5,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Accessory;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
+import com.zhenhaikj.factoryside.mvp.bean.BankCard;
 import com.zhenhaikj.factoryside.mvp.bean.Bill;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.CanInvoice;
@@ -81,15 +82,15 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Message/AddAndUpdatePushAccount")
     Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(@Field("token") String token,
-                                                           @Field("type") String type,
-                                                           @Field("UserID") String UserID);
+                                                                 @Field("type") String type,
+                                                                 @Field("UserID") String UserID);
 
     /**
      * app用户登录
      */
     @FormUrlEncoded
     @POST("Account/LoginOn")
-    Observable<BaseResult<Data<String>>> LoginOn(@Field("userName") String userName, @Field("passWord") String passWord,@Field("roleType") String roleType);
+    Observable<BaseResult<Data<String>>> LoginOn(@Field("userName") String userName, @Field("passWord") String passWord, @Field("roleType") String roleType);
 
     /**
      * app获取用户信息
@@ -129,6 +130,7 @@ public interface ApiService {
 
     /**
      * 添加品牌对应的分类BrandID,Categorys(逗号（,）分割)
+     *
      * @param BrandID
      * @param Categorys
      * @return
@@ -189,14 +191,14 @@ public interface ApiService {
 
 
     /**
-     *删除工厂产品型号
+     * 删除工厂产品型号
      */
     @FormUrlEncoded
     @POST("FactoryConfig/DeleteFactoryProducttype")
     Observable<BaseResult<Data>> DeleteFactoryProducttype(@Field("FProductTypeID") String FProductTypeID);
 
     /**
-     *删除工厂品牌
+     * 删除工厂品牌
      */
     @FormUrlEncoded
     @POST("FactoryConfig/DeleteFactoryBrand")
@@ -336,6 +338,7 @@ public interface ApiService {
     @POST("Account/AccountBill")
     Observable<BaseResult<Data<Bill>>> AccountBill(@Field("UserID") String UserID,
                                                    @Field("state") String state);
+
     /*获取用户每月账单*/
     @FormUrlEncoded
     @POST("Account/MonthBill")
@@ -346,6 +349,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("account/GetFrozenMoney")
     Observable<BaseResult<Data<FrozenMoney>>> GetFrozenMoney(@Field("UserID") String UserID);
+
     /*修改昵称*/
     @FormUrlEncoded
     @POST("Account/UpdateAccountNickName")
@@ -362,9 +366,10 @@ public interface ApiService {
 
     /**
      * 充值信息
-     * @param UserID 账号
+     *
+     * @param UserID      账号
      * @param TotalAmount 金额
-     * @param Type  1余额 2 诚意金 3订单支付
+     * @param Type        1余额 2 诚意金 3订单支付
      * @return
      */
     @FormUrlEncoded
@@ -376,12 +381,14 @@ public interface ApiService {
                                                      @Field("Type") String Type,
                                                      @Field("JsonStr") JSONArray JsonStr
     );
+
     /**
      * 充值信息
-     * @param UserID 账号
+     *
+     * @param UserID      账号
      * @param TotalAmount 金额
-     * @param Type  1余额 2 诚意金 3订单支付
-     * @param Style  工厂传factory 商城mall
+     * @param Type        1余额 2 诚意金 3订单支付
+     * @param Style       工厂传factory 商城mall
      * @return
      */
     @FormUrlEncoded
@@ -392,9 +399,11 @@ public interface ApiService {
                                                           @Field("TotalAmount") String TotalAmount,
                                                           @Field("Type") String Type,
                                                           @Field("Style") String Style,
-                                                          @Field("JsonStr")JSONArray JsonStr);
+                                                          @Field("JsonStr") JSONArray JsonStr);
+
     /**
      * 微信人工回调OutTradeNo
+     *
      * @param OutTradeNo
      * @return
      */
@@ -404,6 +413,7 @@ public interface ApiService {
 
     /**
      * 对某笔单子发起质保
+     *
      * @param OrderID 订单id
      * @return
      */
@@ -415,8 +425,9 @@ public interface ApiService {
 
     /**
      * 审核远程费
-     * @param OrderID   订单id
-     * @param BeyondState   -1拒绝 1通过
+     *
+     * @param OrderID     订单id
+     * @param BeyondState -1拒绝 1通过
      * @return
      */
     @FormUrlEncoded
@@ -425,10 +436,12 @@ public interface ApiService {
             @Field("OrderID") String OrderID,
             @Field("BeyondState") String BeyondState
     );
+
     /**
      * 工厂投诉
+     *
      * @param OrderID 订单id
-     * @param Content  投诉原因
+     * @param Content 投诉原因
      * @return
      */
     @FormUrlEncoded
@@ -437,10 +450,12 @@ public interface ApiService {
             @Field("OrderID") String OrderID,
             @Field("Content") String Content
     );
+
     /**
      * 工厂确认订单 结算
-     * @param OrderID 订单id
-     * @param PayPassword  支付密码
+     *
+     * @param OrderID     订单id
+     * @param PayPassword 支付密码
      * @return
      */
     @FormUrlEncoded
@@ -449,10 +464,12 @@ public interface ApiService {
             @Field("OrderID") String OrderID,
             @Field("PayPassword") String PayPassword
     );
-  /**
+
+    /**
      * 用户确认订单 结算
-     * @param OrderID 订单id
-     * @param PayPassword  支付密码
+     *
+     * @param OrderID     订单id
+     * @param PayPassword 支付密码
      * @return
      */
     @FormUrlEncoded
@@ -461,10 +478,12 @@ public interface ApiService {
             @Field("OrderID") String OrderID,
             @Field("PayPassword") String PayPassword
     );
+
     /**
      * 审核配件申请
-     * @param OrderID 订单id
-     * @param AccessoryApplyState  -1拒绝 1通过
+     *
+     * @param OrderID             订单id
+     * @param AccessoryApplyState -1拒绝 1通过
      * @return
      */
     @FormUrlEncoded
@@ -478,8 +497,9 @@ public interface ApiService {
 
     /**
      * 审核服务申请
+     *
      * @param OrderID 订单id
-     * @param State  -1拒绝 1通过
+     * @param State   -1拒绝 1通过
      * @return
      */
     @FormUrlEncoded
@@ -488,10 +508,12 @@ public interface ApiService {
             @Field("OrderID") String OrderID,
             @Field("State") String State
     );
+
     /**
      * 工厂添加配件快递信息
-     * @param OrderID 订单id
-     * @param ExpressNo  快递单号
+     *
+     * @param OrderID   订单id
+     * @param ExpressNo 快递单号
      * @return
      */
     @FormUrlEncoded
@@ -504,7 +526,8 @@ public interface ApiService {
 
     /**
      * 快递信息
-     * @param ExpressNo  快递单号
+     *
+     * @param ExpressNo 快递单号
      * @return
      */
     @FormUrlEncoded
@@ -512,8 +535,8 @@ public interface ApiService {
     Observable<BaseResult<Data<List<Logistics>>>> GetExpressInfo(@Field("ExpressNo") String ExpressNo);
 
     /*
-    * 取消订单
-    * */
+     * 取消订单
+     * */
     @FormUrlEncoded
     @POST("Order/UpdateOrderState")
     Observable<BaseResult<Data<String>>> UpdateOrderState(
@@ -523,8 +546,8 @@ public interface ApiService {
 
 
     /*
-    * 修改头像
-    * */
+     * 修改头像
+     * */
     @POST("Upload/UploadAvator")
     Observable<BaseResult<Data<String>>> UploadAvator(@Body RequestBody json);
 
@@ -536,6 +559,7 @@ public interface ApiService {
 
     /**
      * 添加收货地址
+     *
      * @param UserID
      * @param Province
      * @param City
@@ -549,18 +573,20 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/AddAccountAddress")
     Observable<BaseResult<Data<String>>> AddAccountAddress(
-                                            @Field("UserID") String UserID,
-                                            @Field("Province") String Province,
-                                            @Field("City") String City,
-                                            @Field("Area") String Area,
-                                            @Field("District") String District,
-                                            @Field("Address") String Address,
-                                            @Field("IsDefault") String Default,
-                                            @Field("UserName") String UserName,
-                                            @Field("Phone") String Phone
+            @Field("UserID") String UserID,
+            @Field("Province") String Province,
+            @Field("City") String City,
+            @Field("Area") String Area,
+            @Field("District") String District,
+            @Field("Address") String Address,
+            @Field("IsDefault") String Default,
+            @Field("UserName") String UserName,
+            @Field("Phone") String Phone
     );
+
     /**
      * 修改收货地址
+     *
      * @param ID
      * @param UserID
      * @param Province
@@ -586,19 +612,22 @@ public interface ApiService {
             @Field("UserName") String UserName,
             @Field("Phone") String Phone
     );
+
     /**
      * 删除收货地址
+     *
      * @param ID
      * @return
      */
     @FormUrlEncoded
     @POST("Account/DeleteAccountAddress")
     Observable<BaseResult<Data<String>>> DeleteAccountAddress(
-                                            @Field("AccountAdressID") String ID
-                                           );
+            @Field("AccountAdressID") String ID
+    );
 
     /**
      * 获取收货地址列表
+     *
      * @param UserID
      * @return
      */
@@ -610,6 +639,7 @@ public interface ApiService {
 
     /**
      * 旧件是否需要返件
+     *
      * @param OrderID
      * @param IsReturn
      * @param AddressBack
@@ -626,8 +656,8 @@ public interface ApiService {
     );
 
     /*获取文章
-    * 3系统消息 4平台政策 5平台新闻 6接单必读
-    * */
+     * 3系统消息 4平台政策 5平台新闻 6接单必读
+     * */
     @FormUrlEncoded
     @POST("Cms/GetListCategoryContentByCategoryID")
     Observable<BaseResult<Article>> GetListCategoryContentByCategoryID(@Field("CategoryID") String CategoryID);
@@ -691,7 +721,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("Account/LoginOut")
-    Observable<BaseResult<Data<String>>> LoginOut(@Field("UserID") String UserID,@Field("Type") String type);
+    Observable<BaseResult<Data<String>>> LoginOut(@Field("UserID") String UserID, @Field("Type") String type);
 
     /**
      * 冻结金额
@@ -702,22 +732,22 @@ public interface ApiService {
 
     /**
      * 实名认证
-     *  "UserID": "string",
-     *   "CompanyName": "string",
-     *   "CompanyNum": "string",
-     *   "ManagyName": "string",
-     *   "ManagyPhone": "string",
-     *   "ServicePhone": "string",
-     *   "FinancePhone": "string",
-     *   "ArtisanPhone": "string",
-     *   "PhoneUrl": "string",
-     *   "Province": "string",
-     *   "City": "string",
-     *   "Area": "string",
-     *   "District": "string",
-     *   "Address": "string",
-     *   "IfAuth": "string",
-     *   "IsUse": "string",
+     * "UserID": "string",
+     * "CompanyName": "string",
+     * "CompanyNum": "string",
+     * "ManagyName": "string",
+     * "ManagyPhone": "string",
+     * "ServicePhone": "string",
+     * "FinancePhone": "string",
+     * "ArtisanPhone": "string",
+     * "PhoneUrl": "string",
+     * "Province": "string",
+     * "City": "string",
+     * "Area": "string",
+     * "District": "string",
+     * "Address": "string",
+     * "IfAuth": "string",
+     * "IsUse": "string",
      */
     @FormUrlEncoded
     @POST("Account/FactoryApplyAuthInfo")
@@ -740,7 +770,7 @@ public interface ApiService {
 
     /**
      * 上传营业执照
-     * */
+     */
     @POST("Upload/IDCardUpload")
     Observable<BaseResult<Data<String>>> IDCardUpload(@Body RequestBody json);
 
@@ -772,14 +802,14 @@ public interface ApiService {
 
     /**
      * 提交开票请求
-     *   "UserID": "string",
-     *   "Heads": "string", 发票抬头
-     *   "Credit": "string", 信用代码
-     *   "Content": "string",发票内容
-     *   "Money": 0,发票金额
-     *   "State": "string",发票类型
-     *   "Emails": "string",发票邮箱
-     *   "Approve": "string",1:通过 2:拒绝 3:审核中
+     * "UserID": "string",
+     * "Heads": "string", 发票抬头
+     * "Credit": "string", 信用代码
+     * "Content": "string",发票内容
+     * "Money": 0,发票金额
+     * "State": "string",发票类型
+     * "Emails": "string",发票邮箱
+     * "Approve": "string",1:通过 2:拒绝 3:审核中
      */
     @FormUrlEncoded
     @POST("Account/AddInvoice")
@@ -795,39 +825,38 @@ public interface ApiService {
                                                     @Field("Count") String Count);
 
 
+    /*批量发单*/
+    @POST("BatchOrder/BatchAddOrder")
+    Observable<BaseResult<String>> BatchAddOrder(@Body RequestBody json);
 
 
-     /*批量发单*/
-     @POST("BatchOrder/BatchAddOrder")
-     Observable<BaseResult<String>> BatchAddOrder(@Body RequestBody json);
-
-
-     /*
+    /*
      * 删除订单
      * */
-     @FormUrlEncoded
-     @POST("order/ApplyCancelOrder")
-     Observable<BaseResult<Data<String>>> ApplyCancelOrder(@Field("OrderID") String OrderID);
+    @FormUrlEncoded
+    @POST("order/ApplyCancelOrder")
+    Observable<BaseResult<Data<String>>> ApplyCancelOrder(@Field("OrderID") String OrderID);
 
 
-     /*
+    /*
      * 审核配件,配件价格为0
      * */
-     @FormUrlEncoded
-     @POST("FactoryConfig/UpdateFactoryAccessorybyFactory")
-     Observable<BaseResult<Data<String>>> UpdateFactoryAccessorybyFactory(@Field("Id") String Id,
-                                                                          @Field("AccessoryName") String AccessoryName,
-                                                                          @Field("AccessoryPrice") String AccessoryPrice,
-                                                                          @Field("OrderAccessoryId") String OrderAccessoryId);
-     /*
+    @FormUrlEncoded
+    @POST("FactoryConfig/UpdateFactoryAccessorybyFactory")
+    Observable<BaseResult<Data<String>>> UpdateFactoryAccessorybyFactory(@Field("Id") String Id,
+                                                                         @Field("AccessoryName") String AccessoryName,
+                                                                         @Field("AccessoryPrice") String AccessoryPrice,
+                                                                         @Field("OrderAccessoryId") String OrderAccessoryId);
+
+    /*
      * 审核配件,配件价格不为0
      * */
-     @FormUrlEncoded
-     @POST("Order/ApproveOrderAccessoryByModifyPrice")
-     Observable<BaseResult<Data<String>>> ApproveOrderAccessoryByModifyPrice(@Field("OrderID") String OrderID,
-                                                                          @Field("AccessoryApplyState") String AccessoryApplyState,
-                                                                          @Field("NewMoney") String NewMoney,
-                                                                          @Field("OrderAccessoryID") String OrderAccessoryID);
+    @FormUrlEncoded
+    @POST("Order/ApproveOrderAccessoryByModifyPrice")
+    Observable<BaseResult<Data<String>>> ApproveOrderAccessoryByModifyPrice(@Field("OrderID") String OrderID,
+                                                                            @Field("AccessoryApplyState") String AccessoryApplyState,
+                                                                            @Field("NewMoney") String NewMoney,
+                                                                            @Field("OrderAccessoryID") String OrderAccessoryID);
 
     /*
   获取子账号*/
@@ -849,4 +878,27 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/GetBankNameByCardNo")
     Observable<BaseResult<Data<String>>> GetBankNameByCardNo(@Field("CardNo") String CardNo);
+
+    /*提取保证金*/
+    @FormUrlEncoded
+    @POST("Account/WithDrawDeposit")
+    Observable<BaseResult<Data<String>>> WithDrawDeposit(@Field("DrawMoney") String DrawMoney,
+                                                         @Field("CardNo") String CardNo,
+                                                         @Field("UserID") String UserID,
+                                                         @Field("CardName") String CardName);
+
+    /*添加银行卡*/
+    @FormUrlEncoded
+    @POST("Account/AddorUpdateAccountPayInfo")
+    Observable<BaseResult<Data<String>>> AddorUpdateAccountPayInfo(@Field("UserID") String UserID,
+                                                                   @Field("PayInfoCode") String PayInfoCode,
+                                                                   @Field("PayInfoName") String PayInfoName,
+                                                                   @Field("PayNo") String PayNo,
+                                                                   @Field("PayName") String PayName);
+
+    /*获取银行卡*/
+    @FormUrlEncoded
+    @POST("Account/GetAccountPayInfoList")
+    Observable<BaseResult<List<BankCard>>> GetAccountPayInfoList(@Field("UserID") String UserID);
+
 }

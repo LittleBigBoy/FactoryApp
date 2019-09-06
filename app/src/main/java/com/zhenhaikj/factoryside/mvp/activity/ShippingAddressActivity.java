@@ -156,7 +156,25 @@ public class ShippingAddressActivity extends BaseActivity<AddressPresenter, Addr
     public void GetAccountAddress(BaseResult<List<Address>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                addressList = baseResult.getData();
+                Address address=new Address();
+                address=null;
+                List<Address> address2=new ArrayList<>();
+                for (int i = 0; i < baseResult.getData().size(); i++) {
+                    if ("1".equals(baseResult.getData().get(i).getIsDefault())){
+                        address=baseResult.getData().get(i);
+                    }else {
+                        address2.add(baseResult.getData().get(i));
+                    }
+
+                }
+                if (address==null){
+                    addressList.addAll(address2);
+                }else {
+                    addressList.add(address);
+                    addressList.addAll(address2);
+                }
+
+//                addressList = baseResult.getData();
                 addressAdapter.setNewData(addressList);
                 break;
             default:
@@ -189,6 +207,7 @@ public class ShippingAddressActivity extends BaseActivity<AddressPresenter, Addr
         if (!"address".equals(message)){
             return;
         }
+        addressList.clear();
         mPresenter.GetAccountAddress(userId);
     }
 }

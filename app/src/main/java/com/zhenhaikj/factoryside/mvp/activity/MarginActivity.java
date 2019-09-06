@@ -13,9 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -40,7 +37,6 @@ import com.zhenhaikj.factoryside.mvp.bean.PayResult;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WXpayInfo;
 import com.zhenhaikj.factoryside.mvp.contract.MarginContract;
-import com.zhenhaikj.factoryside.mvp.model.MainModel;
 import com.zhenhaikj.factoryside.mvp.model.MarginModel;
 import com.zhenhaikj.factoryside.mvp.presenter.MarginPresenter;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
@@ -214,7 +210,7 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
                                     // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
                                 }
                             }).show();
-                        }else if (userInfo.getRemainMoney()<1000){
+                        }else if (userInfo.getDepositMoney()<1000){
                             final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
                             dialog.setMessage("可提现保证金小于需提现的保证金")
                                     //.setImageResId(R.mipmap.ic_launcher)
@@ -233,21 +229,22 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
                                 }
                             }).show();
                         }else {
-                            final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
-                            dialog.setMessage("确认提取100保证金")
+                            final CommonDialog_Home home_dialog = new CommonDialog_Home(mActivity);
+                            home_dialog.setMessage("确认提取1000保证金")
                                     //.setImageResId(R.mipmap.ic_launcher)
                                     .setTitle("提示")
                                     .setPositive("确定")
                                     .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
                                 @Override
                                 public void onPositiveClick() {//拨打电话
+                                    startActivity(new Intent(mActivity, WithdrawActivity.class));
+                                    home_dialog.dismiss();
                                     dialog.dismiss();
-                                    startActivity(new Intent(mActivity,WithdrawActivity.class));
                                 }
 
                                 @Override
                                 public void onNegtiveClick() {//取消
-                                    dialog.dismiss();
+                                    home_dialog.dismiss();
                                     // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
                                 }
                             }).show();
@@ -580,4 +577,12 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
                 break;
         }
     }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String message) {
+        if (!"GetUserInfoList".equals(message)) {
+            return;
+        }
+
+    }
+
 }
