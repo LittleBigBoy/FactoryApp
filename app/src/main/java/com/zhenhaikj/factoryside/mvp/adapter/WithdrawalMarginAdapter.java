@@ -2,27 +2,22 @@ package com.zhenhaikj.factoryside.mvp.adapter;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
+import com.zhenhaikj.factoryside.mvp.bean.DepositWithDraw;
 
 import java.util.List;
 
-public class WithdrawalMarginAdapter extends BaseQuickAdapter<Address,BaseViewHolder> {
-    public WithdrawalMarginAdapter(int layoutResId, List<Address> data) {
+public class WithdrawalMarginAdapter extends BaseQuickAdapter<DepositWithDraw.DataBean,BaseViewHolder> {
+    public WithdrawalMarginAdapter(int layoutResId, List<DepositWithDraw.DataBean> data) {
         super(layoutResId, data);
     }
     @Override
-    protected void convert(BaseViewHolder helper, Address item) {
+    protected void convert(BaseViewHolder helper, DepositWithDraw.DataBean item) {
         // 加载网络图片
-        /*helper.setText(R.id.name,item.getUsername());
-        helper.setText(R.id.phone,item.getTelphone());
-        helper.setText(R.id.address,item.getAddress());
-        helper.addOnClickListener(R.id.edit_ll);
-        helper.addOnClickListener(R.id.delete_ll);
-        helper.addOnClickListener(R.id.default_ll);
-        if ("1".equals(item.getIs_default())){
-            helper.setChecked(R.id.check,true);
-        }else{
-            helper.setChecked(R.id.check,false);
-        }*/
+        helper.setText(R.id.money_tv,item.getPayMoney()+"");
+        StringBuilder stringBuilder = new StringBuilder(item.getCreateTime());
+        String time = "" + stringBuilder.replace(10, 11, " "); //去掉T
+        helper.setText(R.id.time_tv,time);
     }
 }

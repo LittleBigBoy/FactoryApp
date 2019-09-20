@@ -1,4 +1,4 @@
-package com.zhenhaikj.factoryside.mvp.wxapi;
+package com.zhenhaikj.factoryside.wxapi;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,26 +17,40 @@ import com.zhenhaikj.factoryside.mvp.Constants;
 
 import org.greenrobot.eventbus.EventBus;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import org.greenrobot.eventbus.EventBus;
+
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
-	
+
 	private static final String TAG = "WXPayEntryActivity";
-	
-    private IWXAPI api;
-	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
+	private IWXAPI api;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 //        setContentView(R.layout.pay_result);
-        
-    	api = WXAPIFactory.createWXAPI(this, "wxd6509c9c912f0015");
-        api.handleIntent(getIntent(), this);
-    }
+
+		api = WXAPIFactory.createWXAPI(this, "wxd6509c9c912f0015");
+		api.handleIntent(getIntent(), this);
+		Log.d(TAG,"hui");
+	}
 
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		setIntent(intent);
-        api.handleIntent(intent, this);
+		api.handleIntent(intent, this);
 	}
 
 	@Override
@@ -47,5 +61,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 	public void onResp(BaseResp resp) {
 		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
 		EventBus.getDefault().post(resp);
+		finish();
 	}
 }

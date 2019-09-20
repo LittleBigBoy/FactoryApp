@@ -14,6 +14,8 @@ import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.DepositRecharge;
+import com.zhenhaikj.factoryside.mvp.bean.DepositWithDraw;
 import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.FrozenMoney;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
@@ -409,7 +411,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("Pay/WXNotifyManual")
-    Observable<BaseResult<Data<String>>> WXNotifyManual(@Field("OutTradeNo") String OutTradeNo);
+    Observable<BaseResult<Data<String>>> WXNotifyManual(@Field("out_trade_no") String OutTradeNo);
 
     /**
      * 对某笔单子发起质保
@@ -660,7 +662,9 @@ public interface ApiService {
      * */
     @FormUrlEncoded
     @POST("Cms/GetListCategoryContentByCategoryID")
-    Observable<BaseResult<Article>> GetListCategoryContentByCategoryID(@Field("CategoryID") String CategoryID);
+    Observable<BaseResult<Article>> GetListCategoryContentByCategoryID(@Field("CategoryID") String CategoryID,
+                                                                       @Field("page") String page,
+                                                                       @Field("limit") String limit );
 
 
     /**
@@ -901,4 +905,21 @@ public interface ApiService {
     @POST("Account/GetAccountPayInfoList")
     Observable<BaseResult<List<BankCard>>> GetAccountPayInfoList(@Field("UserID") String UserID);
 
+
+    /*充值诚意金记录*/
+    @FormUrlEncoded
+    @POST("Account/DepositRechargeList")
+    Observable<BaseResult<Data<DepositRecharge>>> DepositRechargeList(@Field("UserID") String UserID,
+                                                                      @Field("state") String state);
+
+
+    /*
+    *提取诚意金记录
+    * state:0 待提现，
+    * state:1 提现成功
+    * */
+    @FormUrlEncoded
+    @POST("Account/GetDepositWithDrawList")
+    Observable<BaseResult<DepositWithDraw>> GetDepositWithDrawList(@Field("UserID") String UserID,
+                                                                         @Field("state") String state);
 }

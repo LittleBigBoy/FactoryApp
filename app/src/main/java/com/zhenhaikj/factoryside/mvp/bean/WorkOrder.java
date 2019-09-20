@@ -210,6 +210,15 @@ public class WorkOrder implements Serializable {
         private String PostMoney;
         private String NewMoney;
         private String QuaMoney;
+        private String EndRemark;
+
+        public String getEndRemark() {
+            return EndRemark;
+        }
+
+        public void setEndRemark(String endRemark) {
+            EndRemark = endRemark;
+        }
 
         public String getQuaMoney() {
             return QuaMoney;
