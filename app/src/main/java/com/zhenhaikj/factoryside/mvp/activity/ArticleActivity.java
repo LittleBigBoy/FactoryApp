@@ -57,7 +57,7 @@ public class ArticleActivity extends BaseActivity<ArticlePresenter, ArticleModel
         category = getIntent().getStringExtra("CategoryId");
         String title=getIntent().getStringExtra("title");
         mTvTitle.setText(title);
-        mPresenter.GetListCategoryContentByCategoryID(category);
+        mPresenter.GetListCategoryContentByCategoryID(category,"1","999");
 
     }
 

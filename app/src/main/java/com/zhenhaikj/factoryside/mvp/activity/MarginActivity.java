@@ -33,6 +33,8 @@ import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.DepositRecharge;
+import com.zhenhaikj.factoryside.mvp.bean.DepositWithDraw;
 import com.zhenhaikj.factoryside.mvp.bean.PayResult;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WXpayInfo;
@@ -80,8 +82,8 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
     LinearLayout mLlWithdrawalOfMarginRecords;
     @BindView(R.id.rv_withdrawal_margin)
     RecyclerView mRvWithdrawalMargin;
-    private List<Address> marginList = new ArrayList<>();
-    private List<Address> payList = new ArrayList<>();
+    private List<DepositWithDraw.DataBean> marginList = new ArrayList<>();
+    private List<DepositRecharge.DataBean> payList = new ArrayList<>();
     private MaginDialog maginDialog;
     private View under_review;
     private TextView tv_cancel;
@@ -119,6 +121,8 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
     private ImageView cb6;
     private AlertDialog dialog;
     private UserInfo.UserInfoDean userInfo;
+    private PayTheDepositeAdapter payTheDepositeAdapter;
+    private WithdrawalMarginAdapter withdrawalMarginAdapter;
 
     @Override
     protected int setLayoutId() {
@@ -130,19 +134,21 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
         spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
         mPresenter.GetUserInfoList(userId,"1");
+        mPresenter.DepositRechargeList(userId,"1");
+        mPresenter.GetDepositWithDrawList(userId,"1");
         api = WXAPIFactory.createWXAPI(this, "wxd6509c9c912f0015");
         // 将该app注册到微信
         api.registerApp("wxd6509c9c912f0015");
 
-        for (int i = 0; i < 10; i++) {
-            marginList.add(new Address());
-            payList.add(new Address());
-        }
-        PayTheDepositeAdapter payTheDepositeAdapter=new PayTheDepositeAdapter(R.layout.item_pay_the_deposit,payList);
+//        for (int i = 0; i < 10; i++) {
+//            marginList.add(new Address());
+////            payList.add(new Address());
+//        }
+        payTheDepositeAdapter = new PayTheDepositeAdapter(R.layout.item_pay_the_deposit,payList);
         mRvPayTheDeposit.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvPayTheDeposit.setAdapter(payTheDepositeAdapter);
 
-        WithdrawalMarginAdapter withdrawalMarginAdapter=new WithdrawalMarginAdapter(R.layout.item_withdrawal_margin,marginList);
+        withdrawalMarginAdapter = new WithdrawalMarginAdapter(R.layout.item_withdrawal_margin,marginList);
         mRvWithdrawalMargin.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvWithdrawalMargin.setAdapter(withdrawalMarginAdapter);
 
@@ -474,6 +480,27 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
                 userInfo = baseResult.getData().getData().get(0);
                 break;
         }
+    }
+
+    @Override
+    public void DepositRechargeList(BaseResult<Data<DepositRecharge>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                payList.addAll(baseResult.getData().getItem2().getData());
+                payTheDepositeAdapter.setNewData(payList);
+                break;
+        }
+    }
+
+    @Override
+    public void GetDepositWithDrawList(BaseResult<DepositWithDraw> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                marginList.addAll(baseResult.getData().getData());
+                withdrawalMarginAdapter.setNewData(marginList);
+                break;
+        }
+
     }
 
 

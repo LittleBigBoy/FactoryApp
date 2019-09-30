@@ -125,8 +125,7 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
         spUtils = SPUtils.getInstance("token");
         userID = spUtils.getString("userName");
         api = WXAPIFactory.createWXAPI(this, "wxd6509c9c912f0015");
-        // 将该app注册到微信
-        api.registerApp("wxd6509c9c912f0015");
+
         mPresenter.GetUserInfoList(userID, "1");
 
         mIvAplipay.setSelected(true);//默认选中支付宝
@@ -253,7 +252,7 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
 //                        alipay();
                         break;
                     case 2:
-                        mPresenter.GetWXOrderStr(userID, value);
+                        mPresenter.GetWXOrderStr(userID, "0.01");
 //                        WXpay();
                         break;
                 }
@@ -297,6 +296,8 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
      * 微信支付
      */
     public void WXpay() {
+        // 将该app注册到微信
+        api.registerApp("wxd6509c9c912f0015");
         PayReq req = new PayReq();
         req.appId = wXpayInfo.getAppid();
         req.partnerId = wXpayInfo.getPartnerid();

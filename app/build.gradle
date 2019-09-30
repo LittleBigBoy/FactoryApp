@@ -52,7 +52,6 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-//            shrinkResources true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -128,10 +127,10 @@ dependencies {
     // 最新版本可参考 Download 徽章后对应的数值
 
     //网易七鱼客服
-    implementation 'com.qiyukf.unicorn:unicorn:+'
+//    implementation 'com.qiyukf.unicorn:unicorn:+'
 
     //七牛
-    implementation 'com.qiniu:qiniu-android-sdk:7.3.7'
+//    implementation 'com.qiniu:qiniu-android-sdk:7.3.7'
 
     //增加以下依赖/*信鸽*/
     implementation 'com.tencent.xinge:xinge:4.3.0-beta'

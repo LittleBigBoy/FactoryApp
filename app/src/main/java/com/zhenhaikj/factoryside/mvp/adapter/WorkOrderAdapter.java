@@ -48,6 +48,11 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
         if ("待接单".equals(name)){
             helper.setVisible(R.id.tv_obsolete,true);
         }
+
+        if ("已接单待联系客户".equals(item.getState())||"待接单".equals(item.getState())){
+            helper.setVisible(R.id.tv_obsolete,true);
+        }
+
 //        if ("0".equals(item.getBeyondState())){
 //            helper.setText(R.id.tv_remind,"远程费待审核");
 //        }else {
