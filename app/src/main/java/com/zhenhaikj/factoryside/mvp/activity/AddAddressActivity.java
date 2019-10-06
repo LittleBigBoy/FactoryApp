@@ -148,7 +148,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
             DistrictName=address.getDistrict();
             Pcad = address.getProvince() + address.getCity() + address.getArea() + address.getDistrict();
             mTvArea.setText(Pcad);
-            mEtAddress.setText(address.getAddress().substring(Pcad.length(), address.getAddress().length()));
+            mEtAddress.setText(address.getAddress());
             if ("1".equals(address.getIsDefault())) {
                 mSwitcherDefault.setChecked(true);
                 Default = "1";
@@ -228,7 +228,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
             case R.id.tv_save:
                 UserName = mEtReceiver.getText().toString().trim();
                 Phone = mEtCellphoneNumber.getText().toString().trim();
-                Address = ProvinceName + CityName + AreaName + DistrictName + mEtAddress.getText().toString().trim();
+                Address = mEtAddress.getText().toString().trim();
                 if ("".equals(UserName)) {
                     MyUtils.showToast(mActivity, "请填写收货人");
                     return;

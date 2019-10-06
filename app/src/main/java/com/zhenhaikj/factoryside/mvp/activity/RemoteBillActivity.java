@@ -248,7 +248,7 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
 
                 Glide.with(mActivity)
                         .asBitmap()
-                        .load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl())
+                        .load("https://img.xigyu.com/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl())
                         .into(simpleTarget);
                 break;
             case R.id.iv_range_two:
@@ -270,7 +270,7 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
 
                 Glide.with(mActivity)
                         .asBitmap()
-                        .load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(1).getUrl())
+                        .load("https://img.xigyu.com/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(1).getUrl())
                         .into(simpleTarget);
                 break;
         }
@@ -330,8 +330,8 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
                     return;
                 }
                 if (data.getOrderBeyondImg().size() == 2) {
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl()).into(mIvRangeOne);
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(1).getUrl()).into(mIvRangeTwo);
+                    Glide.with(mActivity).load("https://img.xigyu.com/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl()).into(mIvRangeOne);
+                    Glide.with(mActivity).load("https://img.xigyu.com/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(1).getUrl()).into(mIvRangeTwo);
                 } else {
                     mIvRangeOne.setVisibility(View.GONE);
                     mIvRangeTwo.setVisibility(View.GONE);

@@ -56,6 +56,14 @@ public class Accessory implements Serializable {
         private String page;
         private String limit;
         private String Version;
+        private int count=1;
+        public int getCount() {
+            return count;
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
 
         public String getId() {
             return Id;

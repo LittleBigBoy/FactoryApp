@@ -26,9 +26,13 @@ public class Config {
 //    public static final String URL = "https://www.jbshch.com/app/";
 //    public static final String URL = "https://api.emjiayuan.com/";//正式服
 //    public static final String URL = "http://emapi.jb.emjiayuan.com/";//测试服
-    public static final String URL = "http://47.96.126.145:8001/api/";//正式服
+    public static final String URL = "https://api.xigyu.com/api/";//正式服
+//    public static final String URL = "http://47.96.126.145:8001/api/";//正式服
     public static final String URL_test = "http://42.51.69.35:8810/api/";//测试服
-    public static final String HEAD_URL="http://47.96.126.145:8820/Pics/Avator/";//头像地址
+    public static final String HEAD_URL="https://img.xigyu.com/Pics/Avator/";//头像地址
+    public static final String Leave_Message_URL="https://img.xigyu.com/Pics/LeaveMessageImg/";//留言地址
+
+
 
     public static final String SAVE_CITY_KEY = "save_city_key";
 
@@ -39,6 +43,8 @@ public class Config {
     public static final String APP_ID = "wxae66509b894c60cf";
 
     public static  final int ORDER_READ=99;
+    public static  final int APPLY_REQUEST=12;
+    public static  final int APPLY_RESULT=13;
 
     static HttpLoggingInterceptor loggingInterceptor;
     private static SPUtils spUtils;

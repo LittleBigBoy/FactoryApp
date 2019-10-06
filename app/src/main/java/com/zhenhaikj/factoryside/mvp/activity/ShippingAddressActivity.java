@@ -94,7 +94,7 @@ public class ShippingAddressActivity extends BaseActivity<AddressPresenter, Addr
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     Intent intent=new Intent();
                     intent.putExtra("address",addressList.get(position));
-                    setResult(100,intent);
+                    setResult(1000,intent);
                     finish();
                 }
             });

@@ -6,6 +6,7 @@ import com.zhenhaikj.factoryside.mvp.ApiService;
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
+import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
@@ -24,6 +25,7 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import okhttp3.RequestBody;
 
 public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter {
 
@@ -152,12 +154,23 @@ public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter 
     }
 
     @Override
-    public void AddOrder(String TypeID, String TypeName, String UserID, String FBrandID, String BrandName, String FCategoryID, String CategoryName, String SubCategoryID, String SubCategoryName, String ProvinceCode, String CityCode, String AreaCode,String DistrictCode, String Address, String UserName, String Phone, String Memo, String OrderMoney, String RecycleOrderHour, String Guarantee, String AccessorySendState, String Extra, String ExtraTime, String ExtraFee,String Num, String IsRecevieGoods, String ExpressNo) {
-        mModel.AddOrder(TypeID, TypeName, UserID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName, ProvinceCode, CityCode, AreaCode,DistrictCode, Address, UserName, Phone, Memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee,Num,IsRecevieGoods,ExpressNo)
+    public void AddOrder(RequestBody json){
+        mModel.AddOrder(json)
                 .subscribe(new BaseObserver<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
                         mView.AddOrder(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetAccountAddress(String UserId) {
+        mModel.GetAccountAddress(UserId)
+                .subscribe(new BaseObserver<List<Address>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<List<Address>> value) {
+                        mView.GetAccountAddress(value);
                     }
                 });
     }
