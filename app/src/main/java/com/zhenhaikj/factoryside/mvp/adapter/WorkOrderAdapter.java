@@ -65,6 +65,8 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
         } else if ("1".equals(item.getBeyondState())) {
             helper.setText(R.id.tv_remind,"远程费审核通过");
 
+        }else if ("2".equals(item.getBeyondState())){
+            helper.setText(R.id.tv_remind,"远程费已修改");
         } else {
             helper.setText(R.id.tv_remind,"远程费已拒");
         }

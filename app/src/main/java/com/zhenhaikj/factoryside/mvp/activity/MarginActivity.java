@@ -486,8 +486,10 @@ public class MarginActivity extends BaseActivity<MarginPresenter, MarginModel> i
     public void DepositRechargeList(BaseResult<Data<DepositRecharge>> baseResult) {
         switch (baseResult.getStatusCode()){
             case 200:
-                payList.addAll(baseResult.getData().getItem2().getData());
-                payTheDepositeAdapter.setNewData(payList);
+                if (baseResult.getData().getItem2().getData()!=null){
+                    payList.addAll(baseResult.getData().getItem2().getData());
+                    payTheDepositeAdapter.setNewData(payList);
+                }
                 break;
         }
     }

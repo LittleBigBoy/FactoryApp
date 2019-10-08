@@ -94,6 +94,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     LinearLayout mLlMessage;
     @BindView(R.id.tv_send_address)
     TextView mTvSendAddress;
+    @BindView(R.id.ll_select_time)
+    LinearLayout mLlSelectTime;
+    @BindView(R.id.tv_modify_beyond)
+    TextView mTvModifyBeyond;
 
     private String mParam1;
     private String mParam2;
@@ -280,6 +284,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private EditText et_new_money;
     private String newmoney;
     private AlertDialog editDialog;
+    private AlertDialog beyondDialog;
 
     public static OrderDetailFragment newInstance(String param1, String param2) {
         OrderDetailFragment fragment = new OrderDetailFragment();
@@ -395,6 +400,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
         mIvHost.setOnClickListener(this);
         mIvAccessories.setOnClickListener(this);
+
+        mTvModifyBeyond.setOnClickListener(this);
     }
 
 
@@ -778,7 +785,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID, "-1");
+                        mPresenter.ApproveBeyondMoney(OrderID, "-1","");
                     }
 
                     @Override
@@ -798,7 +805,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         pass.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID, "1");
+                        mPresenter.ApproveBeyondMoney(OrderID, "1","");
                     }
 
                     @Override
@@ -807,6 +814,43 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
                     }
                 }).show();
+                break;
+            case R.id.tv_modify_beyond:
+                View BeyondView=LayoutInflater.from(mActivity).inflate(R.layout.customdialog_newmoney,null);
+                TextView message=BeyondView.findViewById(R.id.message);
+                TextView title=BeyondView.findViewById(R.id.title);
+                EditText et_new_money=BeyondView.findViewById(R.id.et_new_money);
+                Button negtive=BeyondView.findViewById(R.id.negtive);
+                Button positive=BeyondView.findViewById(R.id.positive);
+                title.setText("提示");
+                message.setText("若您对师傅申请的远程费价格不满意，请您修改您满意的远程费价格");
+
+                negtive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        beyondDialog.dismiss();
+                    }
+                });
+
+                positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String money=et_new_money.getText().toString();
+                        if (money.isEmpty()){
+                            ToastUtils.showShort("请输入修改的金额");
+                        }else {
+                            mPresenter.ApproveBeyondMoney(OrderID, "2",money);
+                            beyondDialog.dismiss();
+                        }
+                    }
+                });
+
+                beyondDialog = new AlertDialog.Builder(mActivity).setView(BeyondView).create();
+                beyondDialog.show();
+                Window window= beyondDialog.getWindow();
+                WindowManager.LayoutParams lp=window.getAttributes();
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                window.setAttributes(lp);
                 break;
         }
     }
@@ -885,7 +929,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
                 mTvAccessoryMemo.setText("备注：" + data.getAccessoryMemo());
                 mTvAccessorySequency.setText("寄件类型：" + data.getAccessorySequencyStr());
-                mTvSendAddress.setText("寄件地址："+data.getSendAddress());
+                mTvSendAddress.setText("寄件地址：" + data.getSendAddress());
                 mTvPhone.setText(data.getPhone());
                 mTvAddress.setText(data.getAddress());
                 mTvTime.setText(data.getCreateDate());
@@ -1066,6 +1110,50 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                                             }
                                         }).show();
                                         break;
+                                    case R.id.iv_host:
+                                        if (data.getOrderAccessroyDetail() == null) {
+                                            return;
+                                        }
+                                        if (data.getOrderAccessroyDetail().size() == 0) {
+                                            return;
+                                        }
+                                        simpleTarget = new SimpleTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
+                                                    super Bitmap> transition) {
+                                                RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
+                                                rxDialogScaleView.setImage(resource);
+                                                rxDialogScaleView.show();
+                                            }
+                                        };
+
+                                        Glide.with(mActivity)
+                                                .asBitmap()
+                                                .load("https://img.xigyu.com/Pics/Accessory/" + data.getOrderAccessroyDetail().get(position).getPhoto1())
+                                                .into(simpleTarget);
+                                        break;
+                                    case R.id.iv_accessories:
+                                        if (data.getOrderAccessroyDetail() == null) {
+                                            return;
+                                        }
+                                        if (data.getOrderAccessroyDetail().size() == 0) {
+                                            return;
+                                        }
+                                        simpleTarget = new SimpleTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
+                                                    super Bitmap> transition) {
+                                                RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
+                                                rxDialogScaleView.setImage(resource);
+                                                rxDialogScaleView.show();
+                                            }
+                                        };
+
+                                        Glide.with(mActivity)
+                                                .asBitmap()
+                                                .load("https://img.xigyu.com/Pics/Accessory/" + data.getOrderAccessroyDetail().get(position).getPhoto2())
+                                                .into(simpleTarget);
+                                        break;
                                 }
                             }
                         });
@@ -1088,16 +1176,25 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 if ("1".equals(data.getBeyondState())) {
                     mTvPassBeyond.setVisibility(View.GONE);
                     mTvRejectBeyond.setVisibility(View.GONE);
+                    mTvModifyBeyond.setVisibility(View.GONE);
                     mTvStatus.setVisibility(View.VISIBLE);
                     mTvStatus.setText("已审核通过");
                 } else if ("-1".equals(data.getBeyondState())) {
                     mTvPassBeyond.setVisibility(View.GONE);
                     mTvRejectBeyond.setVisibility(View.GONE);
+                    mTvModifyBeyond.setVisibility(View.GONE);
                     mTvStatus.setVisibility(View.VISIBLE);
                     mTvStatus.setText("已拒绝");
+                }else if ("2".equals(data.getBeyondState())){
+                    mTvPassBeyond.setVisibility(View.GONE);
+                    mTvRejectBeyond.setVisibility(View.GONE);
+                    mTvModifyBeyond.setVisibility(View.GONE);
+                    mTvStatus.setVisibility(View.VISIBLE);
+                    mTvStatus.setText("已修改");
                 } else {
                     mTvPassBeyond.setVisibility(View.VISIBLE);
                     mTvRejectBeyond.setVisibility(View.VISIBLE);
+                    mTvModifyBeyond.setVisibility(View.VISIBLE);
                     mTvStatus.setVisibility(View.GONE);
                 }
                 if (data.getOrderBeyondImg() == null) {
@@ -1217,7 +1314,12 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     mLlMessage.setVisibility(View.GONE);
                 }
                 if (data.getSendOrderList().size() != 0) {
-                    mTvSelectTime.setText(data.getSendOrderList().get(0).getServiceDate());
+                    if ("".equals(data.getSendOrderList().get(0).getServiceDate())) {
+                        mLlSelectTime.setVisibility(View.GONE);
+                    } else {
+                        mTvSelectTime.setText(data.getSendOrderList().get(0).getServiceDate());
+                        mLlSelectTime.setVisibility(View.VISIBLE);
+                    }
                 }
                 if ("2".equals(data.getTypeID())) {
                     mLlOldAccessory.setVisibility(View.GONE);
@@ -1422,6 +1524,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                             AddressBack = addressList.get(i).getAddress() + "(" + addressList.get(i).getUserName() + "收)" + addressList.get(i).getPhone();
                             mTvAddressback.setText(AddressBack);
                             mTvModify.setText("修改地址");
+                        } else {
+                            AddressBack = addressList.get(0).getProvince() + addressList.get(0).getCity() + addressList.get(0).getArea() + addressList.get(0).getDistrict() + addressList.get(0).getAddress() + "(" + addressList.get(0).getUserName() + "收)" + addressList.get(0).getPhone();
+                            mTvAddressback.setText(AddressBack);
+                            mTvModify.setText("添加地址");
                         }
                     }
                 } else {

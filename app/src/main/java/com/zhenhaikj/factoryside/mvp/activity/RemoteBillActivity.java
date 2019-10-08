@@ -199,7 +199,7 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID, "-1");
+                        mPresenter.ApproveBeyondMoney(OrderID, "-1","");
                     }
 
                     @Override
@@ -219,7 +219,7 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
                     @Override
                     public void onPositiveClick() {
                         pass.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID, "1");
+                        mPresenter.ApproveBeyondMoney(OrderID, "1","");
                     }
 
                     @Override

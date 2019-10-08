@@ -75,6 +75,9 @@ public interface HomeMaintenanceContract {
         Observable<BaseResult<CategoryData>> GetChildFactoryCategory2(String ParentId);
 
         Observable<BaseResult<List<Address>>> GetAccountAddress(String UserId);
+
+        Observable<BaseResult<Data<List<Category>>>> GetBrandCategory(String UserID);
+
     }
 
     interface View extends BaseView {
@@ -101,6 +104,8 @@ public interface HomeMaintenanceContract {
         void AddOrder(BaseResult<Data<String>> baseResult);
 
         void GetAccountAddress(BaseResult<List<Address>> baseResult);
+
+        void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -154,5 +159,7 @@ public interface HomeMaintenanceContract {
                 RequestBody json);
 
         public abstract void GetAccountAddress(String UserId);
+
+        public abstract void GetBrandCategory(String UserID);
     }
 }

@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_10"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textColor="@color/black"
-        android:text="冰箱类" />
+        android:text="冰箱类"
+        android:gravity="center"/>
 </LinearLayout>

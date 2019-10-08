@@ -7,12 +7,13 @@
     card_view:cardCornerRadius="@dimen/dp_10"
     card_view:cardUseCompatPadding="true"
     card_view:contentPadding="@dimen/dp_10"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     card_view:cardElevation="0dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,7 +83,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp_10"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
                 <TextView
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
@@ -247,7 +249,7 @@
                 android:gravity="center"
                 android:text="作废"
                 android:textSize="16sp"
-                android:background="@drawable/edit_shape"
+                android:background="@drawable/edit_shape2"
                 android:padding="@dimen/dp_10"
                 android:textColor="#AAAAAA"/>
             <TextView
@@ -258,7 +260,7 @@
                 android:gravity="center"
                 android:text="投诉"
                 android:textSize="16sp"
-                android:background="@drawable/edit_shape"
+                android:background="@drawable/edit_shape2"
                 android:padding="@dimen/dp_10"
                 android:layout_marginLeft="10dp"
                 android:textColor="#AAAAAA"/>
@@ -271,9 +273,10 @@
                 android:text="留言 2"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:textSize="16sp"
-                android:background="@drawable/edit_shape"
+                android:background="@drawable/edit_shape2"
                 android:padding="@dimen/dp_10"
-                android:textColor="#AAAAAA"  />
+                android:textColor="#AAAAAA"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/tv_see_detail"
                 android:layout_width="wrap_content"
@@ -283,7 +286,7 @@
                 android:text="查看详情"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:textSize="16sp"
-                android:background="@drawable/edit_shape"
+                android:background="@drawable/edit_shape2"
                 android:padding="@dimen/dp_10"
                 android:textColor="@color/red"/>
         </LinearLayout>

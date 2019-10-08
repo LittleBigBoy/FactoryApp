@@ -1083,6 +1083,11 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
 
     }
 
+    @Override
+    public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
+
+    }
+
 
 //    @Override
 //    protected void onPause() {

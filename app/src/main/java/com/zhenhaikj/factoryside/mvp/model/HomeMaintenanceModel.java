@@ -106,4 +106,11 @@ public class HomeMaintenanceModel implements HomeMaintenanceContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<List<Category>>>> GetBrandCategory(String UserID) {
+        return ApiRetrofit.getDefault().GetBrandCategory(UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

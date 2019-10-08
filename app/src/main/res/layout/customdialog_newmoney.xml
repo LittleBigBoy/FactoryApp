@@ -61,7 +61,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:inputType="numberDecimal"
-            android:hint="配件价格不对可在这里修改"
+            android:hint="价格不对可在这里修改"
             android:padding="5dp"
             android:textColor="@color/black"
             android:textSize="12dp" />

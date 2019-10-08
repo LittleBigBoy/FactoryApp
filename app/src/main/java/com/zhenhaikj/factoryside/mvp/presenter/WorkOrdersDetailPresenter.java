@@ -47,8 +47,8 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
     }
 
     @Override
-    public void ApproveBeyondMoney(String OrderID, String BeyondState) {
-        mModel.ApproveBeyondMoney(OrderID, BeyondState)
+    public void ApproveBeyondMoney(String OrderID, String BeyondState,String BeyondMoney) {
+        mModel.ApproveBeyondMoney(OrderID, BeyondState,BeyondMoney)
                 .subscribe(new BaseObserver<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {

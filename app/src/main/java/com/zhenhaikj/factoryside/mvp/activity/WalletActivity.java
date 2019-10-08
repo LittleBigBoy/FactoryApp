@@ -122,7 +122,7 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
         mHideIv.setSelected(flag);
         mPresenter.GetUserInfoList(userId, "1");
 
-        mPresenter.AccountBill(userId, "1");//充值
+        mPresenter.AccountBill(userId, "1","1","999");//充值
 //        mPresenter.AccountBill(userId, "3");//提现
 //        mPresenter.AccountBill(userId, "2,5");//收入和支出
         mPresenter.MonthBill(userId,"1,2");

@@ -174,4 +174,17 @@ public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter 
                     }
                 });
     }
+
+
+    @Override
+    public void GetBrandCategory(String UserID) {
+        mModel.GetBrandCategory(UserID)
+                .subscribe(new BaseObserver<Data<List<Category>>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<List<Category>>> value) {
+                        mView.GetBrandCategory(value);
+                    }
+                });
+    }
+
 }

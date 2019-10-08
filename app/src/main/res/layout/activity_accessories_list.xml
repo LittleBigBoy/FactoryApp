@@ -135,34 +135,34 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="20dp"
-                        android:orientation="horizontal">
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="16dp"-->
+                        <!--android:layout_marginTop="20dp"-->
+                        <!--android:orientation="horizontal">-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="发单时间"
-                            android:textColor="#898989"
-                            android:textSize="15dp" />
+                        <!--<TextView-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text="发单时间"-->
+                            <!--android:textColor="#898989"-->
+                            <!--android:textSize="15dp" />-->
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
+                        <!--<TextView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_weight="1" />-->
 
-                        <TextView
-                            android:id="@+id/tv_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="22dp"
-                            android:text=""
-                            android:textColor="#898989"
-                            android:textSize="15dp" />
-                    </LinearLayout>
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_time"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginRight="22dp"-->
+                            <!--android:text=""-->
+                            <!--android:textColor="#898989"-->
+                            <!--android:textSize="15dp" />-->
+                    <!--</LinearLayout>-->
 
                     <View
                         android:layout_width="match_parent"
@@ -396,6 +396,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_select_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
@@ -417,9 +418,8 @@
                             android:layout_below="@+id/view_select_time_point"
                             android:layout_centerHorizontal="true"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:textColor="@color/blue"
+                            android:textColor="#333333"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -445,7 +445,28 @@
                             android:textColor="#F25037"
                             android:textSize="15sp" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="3dp"
+                        android:orientation="horizontal">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="发单时间："
+                            android:textColor="#333333"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="#F25037"
+                            android:textSize="15sp" />
+                    </LinearLayout>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -607,7 +628,8 @@
                         android:orientation="horizontal"
                         android:paddingLeft="12dp"
                         android:paddingTop="17dp"
-                        android:paddingBottom="17dp">
+                        android:paddingBottom="17dp"
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:id="@+id/ll_host"
@@ -676,7 +698,8 @@
                         android:paddingBottom="2dp"
                         android:text=""
                         android:textColor="@color/black"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/tv_send_address"
@@ -810,7 +833,7 @@
                             android:id="@+id/tv_reject_beyond"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="30dp"
+                            android:layout_marginRight="20dp"
                             android:background="@drawable/gray_round_shape"
                             android:paddingLeft="@dimen/dp_10"
                             android:paddingTop="5dp"
@@ -824,13 +847,28 @@
                             android:id="@+id/tv_pass_beyond"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="40dp"
+                            android:layout_marginRight="20dp"
                             android:background="@drawable/red_round_shape"
                             android:paddingLeft="@dimen/dp_10"
                             android:paddingTop="5dp"
                             android:paddingRight="@dimen/dp_10"
                             android:paddingBottom="5dp"
                             android:text="通过"
+                            android:textColor="@color/white"
+                            android:textSize="15sp" />
+
+
+                        <TextView
+                            android:id="@+id/tv_modify_beyond"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="20dp"
+                            android:background="@drawable/red_round_shape"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingTop="5dp"
+                            android:paddingRight="@dimen/dp_10"
+                            android:paddingBottom="5dp"
+                            android:text="修改"
                             android:textColor="@color/white"
                             android:textSize="15sp" />
 
@@ -890,13 +928,15 @@
                             android:id="@+id/iv_range_one"
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:layout_marginRight="30dp" />
+                            android:layout_marginRight="30dp"
+                            android:layout_marginTop="10dp"/>
 
                         <ImageView
                             android:id="@+id/iv_range_two"
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:layout_marginRight="40dp" />
+                            android:layout_marginRight="40dp"
+                            android:layout_marginTop="10dp"/>
 
                     </LinearLayout>
                 </LinearLayout>

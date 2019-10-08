@@ -21,6 +21,8 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.BrandChooseAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.ChooseCategoryAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.ChooseParentCategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
@@ -32,6 +34,7 @@ import com.zhenhaikj.factoryside.mvp.contract.AddBrandContract;
 import com.zhenhaikj.factoryside.mvp.model.AddBrandModel;
 import com.zhenhaikj.factoryside.mvp.presenter.AddBrandPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.widget.RecyclerViewDivider;
 
 import java.util.List;
 
@@ -76,7 +79,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     private SPUtils spUtils;
     private String userID;
     private List<Category> popularList;
-    private LabelsView lv_popular;
+    private RecyclerView lv_popular;
     private RecyclerView rv_choose;
     private ImageView iv_close;
     private String FCategoryID;
@@ -216,7 +219,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
 //                                return data.getFCategoryName();
 //                            }
 //                        });
-                        showPopWindowGetCategory(mTvChooseCategory);
+                        showPopWindowGetCategory(mTvChooseCategory,popularList);
                     }
                 } else {
                     ToastUtils.showShort("获取分类失败！");
@@ -322,37 +325,59 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
 
     }
 
-    public void showPopWindowGetCategory(final TextView tv) {
+    public void showPopWindowGetCategory(final TextView tv, List<Category> list) {
 
-        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
-        lv_popular = contentView.findViewById(R.id.lv_popular);
-        rv_choose = contentView.findViewById(R.id.rv_choose);
-        iv_close = contentView.findViewById(R.id.iv_close);
-        iv_close.setOnClickListener(new View.OnClickListener() {
+//        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
+//        lv_popular = contentView.findViewById(R.id.lv_popular);
+//        rv_choose = contentView.findViewById(R.id.rv_choose);
+//        iv_close = contentView.findViewById(R.id.iv_close);
+//        iv_close.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                popupWindow.dismiss();
+//            }
+//        });
+//        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
+//            @Override
+//            public CharSequence getLabelText(TextView label, int position, Category data) {
+//                return data.getFCategoryName();
+//            }
+//        });
+//        FCategoryID = popularList.get(0).getId();
+//        CategoryName = popularList.get(0).getFCategoryName();
+//        mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
+//        lv_popular.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
+//            @Override
+//            public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
+//                if (isSelect) {
+//                    FCategoryID = ((Category) data).getId();
+//                    CategoryName = ((Category) data).getFCategoryName();
+//                    mPresenter.GetChildFactoryCategory(((Category) data).getId());
+//                }
+//            }
+//        });
+
+
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop, null);
+        final RecyclerView rv = contentView.findViewById(R.id.rv);
+        rv.setLayoutManager(new LinearLayoutManager(mActivity));
+        ChooseParentCategoryAdapter firstAdapter = new ChooseParentCategoryAdapter(R.layout.item_category,popularList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+        rv.setLayoutManager(linearLayoutManager);
+        rv.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
+        rv.setAdapter(firstAdapter);
+
+        firstAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                SubCategoryID=list.get(position).getFCategoryID();
+                mTvChooseCategory.setText(list.get(position).getFCategoryName());
+//                ToastUtils.showShort(SubCategoryID);
                 popupWindow.dismiss();
             }
         });
-        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
-            @Override
-            public CharSequence getLabelText(TextView label, int position, Category data) {
-                return data.getFCategoryName();
-            }
-        });
-        FCategoryID = popularList.get(0).getId();
-        CategoryName = popularList.get(0).getFCategoryName();
-        mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
-        lv_popular.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
-            @Override
-            public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
-                if (isSelect) {
-                    FCategoryID = ((Category) data).getId();
-                    CategoryName = ((Category) data).getFCategoryName();
-                    mPresenter.GetChildFactoryCategory(((Category) data).getId());
-                }
-            }
-        });
+
+
 
         popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 //        popupWindow.setWidth(tv.getWidth());

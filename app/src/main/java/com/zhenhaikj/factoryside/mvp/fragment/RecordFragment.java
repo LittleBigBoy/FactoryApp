@@ -139,7 +139,7 @@ public class RecordFragment extends BaseLazyFragment<WalletPresenter, WalletMode
         }
         if (title.equals("充值")) {
             recharge_list.clear();
-            mPresenter.AccountBill(userId, "1");//充值
+            mPresenter.AccountBill(userId, "1","1","999");//充值
             mTvMoney.setVisibility(View.VISIBLE);
         }
     }

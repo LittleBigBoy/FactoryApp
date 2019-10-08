@@ -357,7 +357,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/AccountBill")
     Observable<BaseResult<Data<Bill>>> AccountBill(@Field("UserID") String UserID,
-                                                   @Field("state") String state);
+                                                   @Field("state") String state,
+                                                   @Field("page") String page,
+                                                   @Field("limit") String limit);
 
     /*获取用户每月账单*/
     @FormUrlEncoded
@@ -454,7 +456,8 @@ public interface ApiService {
     @POST("Order/ApproveBeyondMoney")
     Observable<BaseResult<Data<String>>> ApproveBeyondMoney(
             @Field("OrderID") String OrderID,
-            @Field("BeyondState") String BeyondState
+            @Field("BeyondState") String BeyondState,
+            @Field("BeyondMoney") String BeyondMoney
     );
 
     /**

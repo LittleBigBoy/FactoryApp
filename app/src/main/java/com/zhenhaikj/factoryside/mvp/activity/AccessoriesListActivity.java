@@ -561,7 +561,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID, "-1");
+                        mPresenter.ApproveBeyondMoney(OrderID, "-1","");
                     }
 
                     @Override
@@ -581,7 +581,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         pass.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID, "1");
+                        mPresenter.ApproveBeyondMoney(OrderID, "1","");
                     }
 
                     @Override
