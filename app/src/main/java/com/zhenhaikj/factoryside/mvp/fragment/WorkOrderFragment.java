@@ -212,6 +212,9 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
             case "退单处理":
                 mPresenter.GetOrderInfoList(UserID,"6", Integer.toString(pageIndex), "3");
                 break;
+            case "远程费审核":
+                mPresenter.GetOrderInfoList(UserID,"9", Integer.toString(pageIndex), "3");
+                break;
 
         }
     }
