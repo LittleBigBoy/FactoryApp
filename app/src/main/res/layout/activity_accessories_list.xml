@@ -108,7 +108,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="20dp"
-                                    android:text="刘波"
+                                    android:text=""
                                     android:textColor="#333333"
                                     android:textSize="15sp" />
 
@@ -118,7 +118,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginTop="20dp"
-                                    android:text="86-13963560259"
+                                    android:text=""
                                     android:textColor="#898989"
                                     android:textSize="15sp" />
                             </LinearLayout>
@@ -129,40 +129,40 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:layout_marginRight="20dp"
-                                android:text="山东/聊城市/东昌府区/水城雅居一号楼一单元5楼东户"
+                                android:text=""
                                 android:textColor="#333333"
                                 android:textSize="15dp" />
                         </LinearLayout>
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="20dp"
-                        android:orientation="horizontal">
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="16dp"-->
+                        <!--android:layout_marginTop="20dp"-->
+                        <!--android:orientation="horizontal">-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="发单时间"
-                            android:textColor="#898989"
-                            android:textSize="15dp" />
+                        <!--<TextView-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text="发单时间"-->
+                            <!--android:textColor="#898989"-->
+                            <!--android:textSize="15dp" />-->
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
+                        <!--<TextView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_weight="1" />-->
 
-                        <TextView
-                            android:id="@+id/tv_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="22dp"
-                            android:text="2019-01-05 10:23:16"
-                            android:textColor="#898989"
-                            android:textSize="15dp" />
-                    </LinearLayout>
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_time"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginRight="22dp"-->
+                            <!--android:text=""-->
+                            <!--android:textColor="#898989"-->
+                            <!--android:textSize="15dp" />-->
+                    <!--</LinearLayout>-->
 
                     <View
                         android:layout_width="match_parent"
@@ -283,7 +283,7 @@
                             android:id="@+id/tv_work_order_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="待接单"
+                            android:text=""
                             android:textColor="#F25037"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -306,7 +306,7 @@
                             android:id="@+id/tv_work_order_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1901051023169170"
+                            android:text=""
                             android:textColor="#333333"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -329,7 +329,7 @@
                             android:id="@+id/tv_warranty_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="保内(厂家支付)"
+                            android:text=""
                             android:textColor="#333333"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -352,7 +352,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="已冻结师傅"
+                            android:text=""
                             android:textColor="#333333"
                             android:textSize="15sp" />
 
@@ -390,12 +390,13 @@
                             android:id="@+id/tv_work_order_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="上门维修"
+                            android:text=""
                             android:textColor="#333333"
                             android:textSize="15sp" />
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_select_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
@@ -417,9 +418,8 @@
                             android:layout_below="@+id/view_select_time_point"
                             android:layout_centerHorizontal="true"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:textColor="@color/blue"
+                            android:textColor="#333333"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -441,11 +441,32 @@
                             android:id="@+id/tv_recovery_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="48"
+                            android:text=""
                             android:textColor="#F25037"
                             android:textSize="15sp" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="3dp"
+                        android:orientation="horizontal">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="发单时间："
+                            android:textColor="#333333"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="#F25037"
+                            android:textSize="15sp" />
+                    </LinearLayout>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -485,40 +506,6 @@
                 </LinearLayout>
 
                 <include layout="@layout/activity_order_details_old_accessories" />
-
-                <LinearLayout
-                    android:id="@+id/ll_send_accessory"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="11dp"
-                    android:background="@color/white"
-                    android:orientation="horizontal"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="@dimen/dp_10">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="17dp"
-                        android:layout_weight="1"
-                        android:text="配件发货："
-                        android:textColor="#333"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/tv_send_accessory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="40dp"
-                        android:background="@drawable/red_round_shape"
-                        android:paddingLeft="@dimen/dp_10"
-                        android:paddingTop="5dp"
-                        android:paddingRight="@dimen/dp_10"
-                        android:paddingBottom="5dp"
-                        android:text="配件发货"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_approve_accessory"
@@ -641,7 +628,8 @@
                         android:orientation="horizontal"
                         android:paddingLeft="12dp"
                         android:paddingTop="17dp"
-                        android:paddingBottom="17dp">
+                        android:paddingBottom="17dp"
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:id="@+id/ll_host"
@@ -654,8 +642,7 @@
                             <ImageView
                                 android:id="@+id/iv_host"
                                 android:layout_width="69dp"
-                                android:layout_height="69dp"
-                                android:src="@mipmap/add" />
+                                android:layout_height="69dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -678,7 +665,7 @@
                                 android:id="@+id/iv_accessories"
                                 android:layout_width="69dp"
                                 android:layout_height="69dp"
-                                android:src="@mipmap/add" />
+                                />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -703,6 +690,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="16dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="16dp"
+                        android:paddingLeft="7dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="7dp"
+                        android:paddingBottom="2dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:id="@+id/tv_send_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="16dp"
                         android:paddingLeft="7dp"
@@ -830,7 +833,7 @@
                             android:id="@+id/tv_reject_beyond"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="30dp"
+                            android:layout_marginRight="20dp"
                             android:background="@drawable/gray_round_shape"
                             android:paddingLeft="@dimen/dp_10"
                             android:paddingTop="5dp"
@@ -844,13 +847,28 @@
                             android:id="@+id/tv_pass_beyond"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="40dp"
+                            android:layout_marginRight="20dp"
                             android:background="@drawable/red_round_shape"
                             android:paddingLeft="@dimen/dp_10"
                             android:paddingTop="5dp"
                             android:paddingRight="@dimen/dp_10"
                             android:paddingBottom="5dp"
                             android:text="通过"
+                            android:textColor="@color/white"
+                            android:textSize="15sp" />
+
+
+                        <TextView
+                            android:id="@+id/tv_modify_beyond"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="20dp"
+                            android:background="@drawable/red_round_shape"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingTop="5dp"
+                            android:paddingRight="@dimen/dp_10"
+                            android:paddingBottom="5dp"
+                            android:text="修改"
                             android:textColor="@color/white"
                             android:textSize="15sp" />
 
@@ -911,14 +929,14 @@
                             android:layout_width="45dp"
                             android:layout_height="45dp"
                             android:layout_marginRight="30dp"
-                            android:src="@mipmap/tianjia" />
+                            android:layout_marginTop="10dp"/>
 
                         <ImageView
                             android:id="@+id/iv_range_two"
                             android:layout_width="45dp"
                             android:layout_height="45dp"
                             android:layout_marginRight="40dp"
-                            android:src="@mipmap/tianjia" />
+                            android:layout_marginTop="10dp"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -1011,7 +1029,7 @@
                             android:id="@+id/tv_brand"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="小夫鹅 "
+                            android:text=" "
                             android:textColor="#333333"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -1034,7 +1052,7 @@
                             android:id="@+id/tv_category"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="洗衣机"
+                            android:text=""
                             android:textColor="#333333"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -1058,7 +1076,7 @@
                             android:id="@+id/tv_model"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="YYYSDFS-3423"
+                            android:text=""
                             android:textColor="#333333"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -1166,7 +1184,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="17dp"
                         android:layout_marginBottom="16dp"
-                        android:text="洗衣机不通电"
+                        android:text=""
                         android:textColor="#333333"
                         android:textSize="15dp" />
                 </LinearLayout>
@@ -1463,6 +1481,40 @@
                         android:text="用户确认"
                         android:textColor="@color/red"
                         android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_send_accessory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="@dimen/dp_10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:layout_weight="1"
+                        android:text="配件发货："
+                        android:textColor="#333"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_send_accessory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="40dp"
+                        android:background="@drawable/red_round_shape"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:paddingTop="5dp"
+                        android:paddingRight="@dimen/dp_10"
+                        android:paddingBottom="5dp"
+                        android:text="配件发货"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

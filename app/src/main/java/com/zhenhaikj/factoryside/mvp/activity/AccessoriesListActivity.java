@@ -350,16 +350,16 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                 mPresenter.EnSureOrder(OrderID,"888888");
                 break;
             case R.id.iv_bar_code:
-                scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(0).getUrl());
+                scaleview("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(0).getUrl());
                 break;
             case R.id.iv_machine:
-                scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(1).getUrl());
+                scaleview("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(1).getUrl());
                 break;
             case R.id.iv_fault_location:
-                scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(2).getUrl());
+                scaleview("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(2).getUrl());
                 break;
             case R.id.iv_new_and_old_accessories:
-                scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(3).getUrl());
+                scaleview("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(3).getUrl());
                 break;
             case R.id.ll_y:
                 mIvY.setSelected(true);
@@ -410,7 +410,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
 
                 Glide.with(mActivity)
                         .asBitmap()
-                        .load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl())
+                        .load("https://img.xigyu.com/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl())
                         .into(simpleTarget);
                 break;
             case R.id.icon_back:
@@ -561,7 +561,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID, "-1");
+                        mPresenter.ApproveBeyondMoney(OrderID, "-1","");
                     }
 
                     @Override
@@ -581,7 +581,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         pass.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID, "1");
+                        mPresenter.ApproveBeyondMoney(OrderID, "1","");
                     }
 
                     @Override
@@ -756,8 +756,8 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                     return;
                 }
                 if (data.getOrderBeyondImg().size() == 1) {
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl()).into(mIvRangeOne);
-//                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(1).getUrl()).into(mIvRangeTwo);
+                    Glide.with(mActivity).load("https://img.xigyu.com/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl()).into(mIvRangeOne);
+//                    Glide.with(mActivity).load("https://img.xigyu.com/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(1).getUrl()).into(mIvRangeTwo);
                     mIvRangeOne.setVisibility(View.VISIBLE);
                     mIvRangeTwo.setVisibility(View.GONE);
                 } else {
@@ -780,10 +780,10 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                         mLlConfirm.setVisibility(View.GONE);
                     }
                     mLlReturnInformation.setVisibility(View.VISIBLE);
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(0).getUrl()).into(mIvBarCode);
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(1).getUrl()).into(mIvMachine);
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(2).getUrl()).into(mIvFaultLocation);
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(3).getUrl()).into(mIvNewAndOldAccessories);
+                    Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(0).getUrl()).into(mIvBarCode);
+                    Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(1).getUrl()).into(mIvMachine);
+                    Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(2).getUrl()).into(mIvFaultLocation);
+                    Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(3).getUrl()).into(mIvNewAndOldAccessories);
                 } else {
                     mLlReturnInformation.setVisibility(View.GONE);
                     mLlApplyCustomService.setVisibility(View.GONE);

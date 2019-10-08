@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp;
 
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
+import com.zhenhaikj.factoryside.mvp.bean.Accessory2;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
@@ -18,6 +19,7 @@ import com.zhenhaikj.factoryside.mvp.bean.DepositRecharge;
 import com.zhenhaikj.factoryside.mvp.bean.DepositWithDraw;
 import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.FrozenMoney;
+import com.zhenhaikj.factoryside.mvp.bean.GetFactoryData;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
 import com.zhenhaikj.factoryside.mvp.bean.Logistics;
 import com.zhenhaikj.factoryside.mvp.bean.Message;
@@ -213,6 +215,14 @@ public interface ApiService {
     @POST("FactoryConfig/GetFactoryAccessory")
     Observable<BaseResult<Accessory>> GetFactoryAccessory(@Field("FProductTypeID") String FProductTypeID);
 
+    /*
+     *
+     * 获取工厂配件信息
+     * */
+    @FormUrlEncoded
+    @POST("FactoryConfig/GetFactoryAccessory")
+    Observable<BaseResult<GetFactoryData<Accessory2>>> GetFactoryAccessory2(@Field("FCategoryID") String FProductTypeID);
+
     /**
      * 获取省
      */
@@ -265,36 +275,44 @@ public interface ApiService {
      * Extra;//是否加急Y是N否
      * ExtraTime;//加急时间
      * ExtraFee;//加急费用
+     * AddressBack：旧配件寄件地址
+     * FactoryAccessoryID  ：配件id
+     * FactoryAccessoryName：配件名称
+     * IsReturn：是否返件
+     * PostPayType：到付，现付
+     * 去掉 AccessorySendState，
+     * IsRecevieGoods:是否发配件
      */
-    @FormUrlEncoded
+//    @FormUrlEncoded
     @POST("Order/AddOrder")
-    Observable<BaseResult<Data<String>>> AddOrder(@Field("TypeID") String TypeID,
-                                                  @Field("TypeName") String TypeName,
-                                                  @Field("UserID") String UserID,
-                                                  @Field("BrandID") String FBrandID,
-                                                  @Field("BrandName") String BrandName,
-                                                  @Field("CategoryID") String FCategoryID,
-                                                  @Field("CategoryName") String CategoryName,
-                                                  @Field("SubCategoryID") String SubCategoryID,
-                                                  @Field("SubCategoryName") String SubCategoryName,
-                                                  @Field("ProvinceCode") String ProvinceCode,
-                                                  @Field("CityCode") String CityCode,
-                                                  @Field("AreaCode") String AreaCode,
-                                                  @Field("DistrictCode") String DistrictCode,
-                                                  @Field("Address") String Address,
-                                                  @Field("UserName") String UserName,
-                                                  @Field("Phone") String Phone,
-                                                  @Field("Memo") String Memo,
-                                                  @Field("OrderMoney") String OrderMoney,
-                                                  @Field("RecycleOrderHour") String RecycleOrderHour,
-                                                  @Field("Guarantee") String Guarantee,
-                                                  @Field("AccessorySendState") String AccessorySendState,
-                                                  @Field("Extra") String Extra,
-                                                  @Field("ExtraTime") String ExtraTime,
-                                                  @Field("ExtraFee") String ExtraFee,
-                                                  @Field("Num") String Num,
-                                                  @Field("IsRecevieGoods") String IsRecevieGoods,
-                                                  @Field("ExpressNo") String ExpressNo);
+    Observable<BaseResult<Data<String>>> AddOrder(
+//            @Field("TypeID") String TypeID,
+//            @Field("TypeName") String TypeName,
+//            @Field("UserID") String UserID,
+//            @Field("BrandID") String FBrandID,
+//            @Field("BrandName") String BrandName,
+//            @Field("CategoryID") String FCategoryID,
+//            @Field("CategoryName") String CategoryName,
+//            @Field("SubCategoryID") String SubCategoryID,
+//            @Field("SubCategoryName") String SubCategoryName,
+//            @Field("ProvinceCode") String ProvinceCode,
+//            @Field("CityCode") String CityCode,
+//            @Field("AreaCode") String AreaCode,
+//            @Field("DistrictCode") String DistrictCode,
+//            @Field("Address") String Address,
+//            @Field("UserName") String UserName,
+//            @Field("Phone") String Phone,
+//            @Field("Memo") String Memo,
+//            @Field("OrderMoney") String OrderMoney,
+//            @Field("RecycleOrderHour") String RecycleOrderHour,
+//            @Field("Guarantee") String Guarantee,
+//            @Field("Extra") String Extra,
+//            @Field("ExtraTime") String ExtraTime,
+//            @Field("ExtraFee") String ExtraFee,
+//            @Field("Num") String Num,
+//            @Field("IsRecevieGoods") String IsRecevieGoods,
+//            @Field("ExpressNo") String ExpressNo,
+            @Body RequestBody json);
 
 
     @FormUrlEncoded
@@ -339,7 +357,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/AccountBill")
     Observable<BaseResult<Data<Bill>>> AccountBill(@Field("UserID") String UserID,
-                                                   @Field("state") String state);
+                                                   @Field("state") String state,
+                                                   @Field("page") String page,
+                                                   @Field("limit") String limit);
 
     /*获取用户每月账单*/
     @FormUrlEncoded
@@ -436,7 +456,8 @@ public interface ApiService {
     @POST("Order/ApproveBeyondMoney")
     Observable<BaseResult<Data<String>>> ApproveBeyondMoney(
             @Field("OrderID") String OrderID,
-            @Field("BeyondState") String BeyondState
+            @Field("BeyondState") String BeyondState,
+            @Field("BeyondMoney") String BeyondMoney
     );
 
     /**
@@ -664,7 +685,7 @@ public interface ApiService {
     @POST("Cms/GetListCategoryContentByCategoryID")
     Observable<BaseResult<Article>> GetListCategoryContentByCategoryID(@Field("CategoryID") String CategoryID,
                                                                        @Field("page") String page,
-                                                                       @Field("limit") String limit );
+                                                                       @Field("limit") String limit);
 
 
     /**
@@ -914,12 +935,28 @@ public interface ApiService {
 
 
     /*
-    *提取诚意金记录
-    * state:0 待提现，
-    * state:1 提现成功
-    * */
+     *提取诚意金记录
+     * state:0 待提现，
+     * state:1 提现成功
+     * */
     @FormUrlEncoded
     @POST("Account/GetDepositWithDrawList")
     Observable<BaseResult<DepositWithDraw>> GetDepositWithDrawList(@Field("UserID") String UserID,
-                                                                         @Field("state") String state);
+                                                                   @Field("state") String state);
+
+    /**
+     * 留言
+     */
+    @FormUrlEncoded
+    @POST("LeaveMessage/AddLeaveMessageForOrder ")
+    Observable<BaseResult<Data<String>>> AddLeaveMessageForOrder(@Field("UserId") String UserID,
+                                                                 @Field("Type") String Type,
+                                                                 @Field("OrderId") String OrderId,
+                                                                 @Field("Content") String Content);
+
+    /*
+     * 留言图片
+     * */
+    @POST("Upload/LeaveMessageImg")
+    Observable<BaseResult<Data<String>>> LeaveMessageImg(@Body RequestBody json);
 }

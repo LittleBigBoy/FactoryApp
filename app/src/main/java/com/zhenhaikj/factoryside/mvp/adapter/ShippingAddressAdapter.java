@@ -16,7 +16,7 @@ public class ShippingAddressAdapter extends BaseQuickAdapter<Address,BaseViewHol
         helper.setText(R.id.tv_name_first,item.getUserName().substring(0,1));
         helper.setText(R.id.tv_name,item.getUserName());
         helper.setText(R.id.tv_phone,item.getPhone());
-        helper.setText(R.id.tv_address,item.getAddress());
+        helper.setText(R.id.tv_address,item.getProvince()+item.getCity()+ item.getArea()+item.getDistrict()+item.getAddress());
         helper.addOnClickListener(R.id.tv_edit);
         if ("1".equals(item.getIsDefault())){
             helper.setGone(R.id.tv_default,true);

@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.baidu.aip.asrwakeup3.core.recog.MyRecognizer;
 import com.baidu.aip.asrwakeup3.core.recog.listener.ChainRecogListener;
@@ -36,23 +45,28 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.donkingliang.labels.LabelsView;
+import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.adapter.AccessoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.AreaAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.BrandChooseAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ChooseCategoryAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.ChooseParentCategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CityAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.DistrictAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.Pre_order_Add_Ac_Adapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ProductTypeAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ProvinceAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
+import com.zhenhaikj.factoryside.mvp.bean.Accessory2;
+import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
@@ -60,13 +74,16 @@ import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
+import com.zhenhaikj.factoryside.mvp.bean.FAccessory;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
+import com.zhenhaikj.factoryside.mvp.bean.Service;
 import com.zhenhaikj.factoryside.mvp.contract.HomeMaintenanceContract;
 import com.zhenhaikj.factoryside.mvp.model.HomeMaintenanceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.HomeMaintenancePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.utils.SingleClick;
+import com.zhenhaikj.factoryside.mvp.widget.AdderView;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 import com.zhenhaikj.factoryside.mvp.widget.RecyclerViewDivider;
 import com.zyao89.view.zloading.ZLoadingDialog;
@@ -76,15 +93,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresenter, HomeMaintenanceModel> implements View.OnClickListener, HomeMaintenanceContract.View {
 
@@ -118,8 +130,8 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     TextView mTvBrandNumber;
     @BindView(R.id.ll_product)
     LinearLayout mLlProduct;
-    @BindView(R.id.et_num)
-    EditText mEtNum;
+//    @BindView(R.id.et_num)
+//    EditText mEtNum;
     @BindView(R.id.tv_choose_property)
     TextView mTvChooseProperty;
     @BindView(R.id.et_name)
@@ -200,6 +212,52 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     TextView mTvChooseBrand;
     @BindView(R.id.ll_choose_brand)
     LinearLayout mLlChooseBrand;
+    @BindView(R.id.iv_n)
+    ImageView mIvN;
+    @BindView(R.id.ll_n)
+    LinearLayout mLlN;
+    @BindView(R.id.iv_y)
+    ImageView mIvY;
+    @BindView(R.id.ll_y)
+    LinearLayout mLlY;
+    @BindView(R.id.tv_addressback)
+    TextView mTvAddressback;
+    @BindView(R.id.tv_modify)
+    TextView mTvModify;
+    @BindView(R.id.iv_pay)
+    ImageView mIvPay;
+    @BindView(R.id.ll_pay)
+    LinearLayout mLlPay;
+    @BindView(R.id.iv_pay2)
+    ImageView mIvPay2;
+    @BindView(R.id.ll_pay2)
+    LinearLayout mLlPay2;
+    @BindView(R.id.tv_post_money)
+    TextView mTvPostMoney;
+    @BindView(R.id.ll_post_money)
+    LinearLayout mLlPostMoney;
+    @BindView(R.id.ll_address_info)
+    LinearLayout mLlAddressInfo;
+    @BindView(R.id.tv_submit)
+    TextView mTvSubmit;
+    @BindView(R.id.ll_old_accessory)
+    LinearLayout mLlOldAccessory;
+    @BindView(R.id.tv_add_accessories)
+    TextView mTvAddAccessories;
+    @BindView(R.id.rv_accessories)
+    RecyclerView mRvAccessories;
+    @BindView(R.id.ll_accessory)
+    LinearLayout mLlAccessory;
+    @BindView(R.id.ll_accessories_new)
+    LinearLayout mLlAccessoriesNew;
+    @BindView(R.id.et_logistics)
+    EditText mEtLogistics;
+    @BindView(R.id.ll_scan_logistics)
+    LinearLayout mLlScanLogistics;
+    @BindView(R.id.ll_logistics)
+    LinearLayout mLlLogistics;
+    @BindView(R.id.addview)
+    AdderView mAddview;
 
 
     private PopupWindow popupWindow;
@@ -229,7 +287,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private String SubCategoryID;
     private String SubCategoryName;
     private String ProductTypeName;
-    private String OrderMoney="0";
+    private String OrderMoney = "0";
     private String Address;//详细地址
     private String DetailAddress;//详细地址
     private String Name;//客户姓名
@@ -285,6 +343,20 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private String TypeName;
     private ChooseCategoryAdapter firstAdapter;
     private LinearLayoutManager linearLayoutManager;
+    private String PostPayType;
+    private String IsReturn;
+    private Address address;
+    private String AddressBack;
+    private List<Address> addressList;
+    private List<FAccessory.OrderAccessoryStrBean.OrderAccessoryBean> fAcList = new ArrayList<>();// 用于存放预接单页面显示的数据
+    private FAccessory.OrderAccessoryStrBean.OrderAccessoryBean mfAccessory;
+    private Pre_order_Add_Ac_Adapter mPre_order_add_ac_adapter;
+    private FAccessory.OrderAccessoryStrBean orderAccessoryStrBean;
+    private Gson gson = new Gson();
+    private Service service;
+    private String s;
+    private RequestBody body;
+    private List<Category> categoryNewList = new ArrayList<>();
 
     @Override
     protected int setLayoutId() {
@@ -296,6 +368,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         initPermission();
         SPUtils spUtils = SPUtils.getInstance("token");
         userID = spUtils.getString("userName");
+        mPresenter.GetAccountAddress(userID);
 //        mPresenter.GetFactoryBrand(userID);
 
         IRecogListener listener = new MessageStatusRecogListener(handler);
@@ -327,7 +400,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
             default:
                 break;
         }
-        mEtNum.setText("1");
+//        mEtNum.setText("1");
 
         //默认保内
         mCbUnderWarranty.setChecked(true);
@@ -338,6 +411,9 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         mCbNo.setChecked(true);
         AccessorySendState = "N";
 //        mPresenter.GetFactoryBrand(userID);
+
+        mIvY.setSelected(true);
+        IsReturn = "1";
 
         switch (type) {
             case 0:
@@ -350,6 +426,30 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 break;
 
         }
+
+        mPre_order_add_ac_adapter = new Pre_order_Add_Ac_Adapter(R.layout.item_pre_order_add_accessories, fAcList, "0");
+        mRvAccessories.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRvAccessories.setAdapter(mPre_order_add_ac_adapter);
+        mPre_order_add_ac_adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.iv_accessories_delete:
+                        mPre_order_add_ac_adapter.remove(position);
+//                        if (mPre_order_add_ac_adapter.getData().size() > 0) {
+//                            mTvSubmitAddAccessories.setBackgroundResource(R.drawable.ed_order_detail_submit);
+//                            mTvSubmitAddAccessories.setTextColor(Color.WHITE);
+//                        } else {
+//                            mTvSubmitAddAccessories.setBackgroundResource(R.drawable.tv_order_detail_btn);
+//                            mTvSubmitAddAccessories.setTextColor(Color.parseColor("#6a6a6a"));
+//                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
 
     }
 
@@ -385,7 +485,13 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         mLlYesSigning.setOnClickListener(this);
         mLlNoSigning.setOnClickListener(this);
         mLlScan.setOnClickListener(this);
-
+        mLlN.setOnClickListener(this);
+        mLlY.setOnClickListener(this);
+        mLlPay.setOnClickListener(this);
+        mLlPay2.setOnClickListener(this);
+        mTvModify.setOnClickListener(this);
+        mTvAddAccessories.setOnClickListener(this);
+        mLlScanLogistics.setOnClickListener(this);
 
         mBtnRelease.setOnClickListener(this);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -423,29 +529,29 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 ExtraFee = "0";
             }
         });
-        mEtNum.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String text = s.toString();
-                int len = s.toString().length();
-                if (len > 1 && text.startsWith("0")) {
-                    Num = s.replace(0, 1, "").toString();
-                } else {
-                    Num = s.toString();
-                }
-//                mTvActualArrival.setText(value);
-            }
-        });
+//        mEtNum.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                String text = s.toString();
+//                int len = s.toString().length();
+//                if (len > 1 && text.startsWith("0")) {
+//                    Num = s.replace(0, 1, "").toString();
+//                } else {
+//                    Num = s.toString();
+//                }
+////                mTvActualArrival.setText(value);
+//            }
+//        });
     }
 
 
@@ -466,17 +572,18 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 startActivity(new Intent(mActivity, ModelActivity.class));
                 break;
             case R.id.ll_choose_brand:
-                if (SubCategoryID==null){
+                if (SubCategoryID == null) {
                     ToastUtils.showShort("请先选择分类");
                     return;
                 }
                 mPresenter.GetFactoryBrand(userID);
                 break;
             case R.id.ll_choose_category:
-                mPresenter.GetFactoryCategory("999");
+//                mPresenter.GetFactoryCategory("999");
+                mPresenter.GetBrandCategory(userID);
                 break;
             case R.id.ll_choose_type:
-                if (SubCategoryID==null){
+                if (SubCategoryID == null) {
                     ToastUtils.showShort("请先选择分类");
                     return;
                 }
@@ -508,11 +615,35 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 mCbYes.setChecked(true);
                 mCbNo.setChecked(false);
                 AccessorySendState = "Y";
+                mLlAccessoriesNew.setVisibility(View.VISIBLE);
                 break;
             case R.id.ll_no:
                 mCbYes.setChecked(false);
                 mCbNo.setChecked(true);
                 AccessorySendState = "N";
+                mLlAccessoriesNew.setVisibility(View.GONE);
+                break;
+            case R.id.ll_y:
+                mIvY.setSelected(true);
+                mIvN.setSelected(false);
+                mLlAddressInfo.setVisibility(View.VISIBLE);
+                IsReturn = "1";
+                break;
+            case R.id.ll_n:
+                mIvY.setSelected(false);
+                mIvN.setSelected(true);
+                mLlAddressInfo.setVisibility(View.GONE);
+                IsReturn = "2";
+                break;
+            case R.id.ll_pay:
+                mIvPay.setSelected(true);
+                mIvPay2.setSelected(false);
+                PostPayType = "1";
+                break;
+            case R.id.ll_pay2:
+                mIvPay.setSelected(false);
+                mIvPay2.setSelected(true);
+                PostPayType = "2";
                 break;
             case R.id.ll_yes_signing:
                 mCbYesSigning.setChecked(true);
@@ -539,24 +670,51 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 integrator.setBarcodeImageEnabled(true);
                 integrator.initiateScan();
                 break;
+            case R.id.ll_scan_logistics:
+                IntentIntegrator integrator1 = new IntentIntegrator(HomeMaintenanceActivity2.this);
+                // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
+                integrator1.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+                integrator1.setCaptureActivity(ScanActivity.class); //设置打开摄像头的Activity
+                integrator1.setPrompt("请扫描快递码"); //底部的提示文字，设为""可以置空
+                integrator1.setCameraId(0); //前置或者后置摄像头
+                integrator1.setBeepEnabled(true); //扫描成功的「哔哔」声，默认开启
+                integrator1.setBarcodeImageEnabled(true);
+                integrator1.initiateScan();
+                break;
+            case R.id.tv_modify:
+                Intent intent1 = new Intent(mActivity, ShippingAddressActivity.class);
+                intent1.putExtra("type", "0");
+                startActivityForResult(intent1, 1000);
+                break;
+            case R.id.tv_add_accessories:
+                if (TypeID == null) {
+                    ToastUtils.showShort("请先选择型号");
+                } else {
+                    Intent intent2 = new Intent(mActivity, NewAddAccessoriesActivity.class);
+                    intent2.putExtra("SubCategoryID", TypeID);
+                    startActivityForResult(intent2, Config.APPLY_REQUEST);
+                }
+
+                break;
             case R.id.btn_release:
                 showLoading();
-                if (SubCategoryID==null) {
+                if (SubCategoryID == null) {
                     ToastUtils.showShort("请选择分类！");
                     cancleLoading();
                     return;
                 }
-                if (FBrandID==null) {
+                if (FBrandID == null) {
                     ToastUtils.showShort("请选择品牌！");
                     cancleLoading();
                     return;
                 }
-                if (TypeID==null) {
+                if (TypeID == null) {
                     ToastUtils.showShort("请选择型号！");
                     cancleLoading();
                     return;
                 }
-                Num = mEtNum.getText().toString();
+//                Num = mEtNum.getText().toString();
+                Num=String.valueOf(mAddview.getValue());
                 if (Num == null) {
                     MyUtils.showToast(mActivity, "请输入数量！");
                     cancleLoading();
@@ -637,6 +795,8 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 //                    cancleLoading();
 //                    return;
 //                }
+
+
                 if (FaultDescription == null || "".equals(FaultDescription)) {
                     switch (type) {
                         case 0:
@@ -668,17 +828,144 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                                 return;
                             }
                         }
-
-                        mPresenter.AddOrder("2", "安装", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, Num, SigningState, number);
+                        service = new Service();
+                        service.setTypeID("2");
+                        service.setTypeName("安装");
+                        service.setUserID(userID);
+                        service.setFBrandID(FBrandID);
+                        service.setBrandName(BrandName);
+                        service.setFCategoryID(SubCategoryID);
+                        service.setCategoryName(SubCategoryName);
+                        service.setSubCategoryID(TypeID);
+                        service.setSubCategoryName(TypeName);
+                        service.setProvinceCode(ProvinceCode);
+                        service.setCityCode(CityCode);
+                        service.setAreaCode(AreaCode);
+                        service.setDistrictCode(DistrictCode);
+                        service.setAddress(Address);
+                        service.setUserName(Name);
+                        service.setPhone(Phone);
+                        service.setMemo(FaultDescription);
+                        service.setOrderMoney(OrderMoney);
+                        service.setRecycleOrderHour(RecycleOrderHour);
+                        service.setGuarantee(Guarantee);
+                        service.setExtra(Extra);
+                        service.setExtraTime(ExtraTime);
+                        service.setExtraFee(ExtraFee);
+                        service.setNum(Num);
+                        service.setIsRecevieGoods(SigningState);
+                        service.setExpressNo(number);
+                        s = gson.toJson(service);
+                        body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
+                        mPresenter.AddOrder(body);
                         break;
                     case 1:
+                        number = mEtLogistics.getText().toString();
                         if (AccessorySendState == null || "".equals(AccessorySendState)) {
                             MyUtils.showToast(mActivity, "请选择是否为已发配件！");
                             cancleLoading();
                             return;
+                        } else if ("Y".equals(AccessorySendState)) {
+                            if ("".equals(IsReturn) || IsReturn == null) {
+                                MyUtils.showToast(mActivity, "请选择是否需要旧件返厂！");
+                                cancleLoading();
+                                return;
+                            } else if ("1".equals(IsReturn)) {
+                                if ("".equals(mTvAddressback)) {
+                                    MyUtils.showToast(mActivity, "请选择寄件地址！");
+                                    cancleLoading();
+                                    return;
+                                }
+                            }
+
+                            if ("".equals(PostPayType) || PostPayType == null) {
+                                MyUtils.showToast(mActivity, "请选择邮费支付方式！");
+                                cancleLoading();
+                                return;
+                            }
+                            if (fAcList.size() == 0) {
+                                MyUtils.showToast(mActivity, "请添加配件！");
+                                cancleLoading();
+                                return;
+                            }
+
+                            if ("".equals(number)) {
+                                MyUtils.showToast(mActivity, "请输入快递单号！");
+                                cancleLoading();
+                                return;
+                            }
+
+                            orderAccessoryStrBean = new FAccessory.OrderAccessoryStrBean();
+                            orderAccessoryStrBean.setOrderAccessory(mPre_order_add_ac_adapter.getData());
+                            String s1 = gson.toJson(orderAccessoryStrBean);
+                            service = new Service();
+                            service.setTypeID("1");
+                            service.setTypeName("维修");
+                            service.setUserID(userID);
+                            service.setFBrandID(FBrandID);
+                            service.setBrandName(BrandName);
+                            service.setFCategoryID(SubCategoryID);
+                            service.setCategoryName(SubCategoryName);
+                            service.setSubCategoryID(TypeID);
+                            service.setSubCategoryName(TypeName);
+                            service.setProvinceCode(ProvinceCode);
+                            service.setCityCode(CityCode);
+                            service.setAreaCode(AreaCode);
+                            service.setDistrictCode(DistrictCode);
+                            service.setAddress(Address);
+                            service.setUserName(Name);
+                            service.setPhone(Phone);
+                            service.setMemo(FaultDescription);
+                            service.setOrderMoney(OrderMoney);
+                            service.setRecycleOrderHour(RecycleOrderHour);
+                            service.setGuarantee(Guarantee);
+                            service.setExtra(Extra);
+                            service.setExtraTime(ExtraTime);
+                            service.setExtraFee(ExtraFee);
+                            service.setNum(Num);
+                            service.setIsRecevieGoods(AccessorySendState);
+                            service.setExpressNo(null);
+                            service.setOrderAccessoryStr(s1);
+                            String s2 = gson.toJson(service);
+//                            s = gson.toJson(s2);
+                            Log.d("添加的配件有", s1);
+                            body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s2);
+                            mPresenter.AddOrder(body);
+
+                        } else {
+                            service = new Service();
+                            service.setTypeID("1");
+                            service.setTypeName("维修");
+                            service.setUserID(userID);
+                            service.setFBrandID(FBrandID);
+                            service.setBrandName(BrandName);
+                            service.setFCategoryID(SubCategoryID);
+                            service.setCategoryName(SubCategoryName);
+                            service.setSubCategoryID(TypeID);
+                            service.setSubCategoryName(TypeName);
+                            service.setProvinceCode(ProvinceCode);
+                            service.setCityCode(CityCode);
+                            service.setAreaCode(AreaCode);
+                            service.setDistrictCode(DistrictCode);
+                            service.setAddress(Address);
+                            service.setUserName(Name);
+                            service.setPhone(Phone);
+                            service.setMemo(FaultDescription);
+                            service.setOrderMoney(OrderMoney);
+                            service.setRecycleOrderHour(RecycleOrderHour);
+                            service.setGuarantee(Guarantee);
+                            service.setExtra(Extra);
+                            service.setExtraTime(ExtraTime);
+                            service.setExtraFee(ExtraFee);
+                            service.setNum(Num);
+                            service.setIsRecevieGoods(AccessorySendState);
+                            service.setExpressNo(null);
+                            s = gson.toJson(service);
+                            body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
+                            mPresenter.AddOrder(body);
+
                         }
 //                        OrderMoney = Double.parseDouble(category.getInitPrice()) * Double.parseDouble(Num) + "";
-                        mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num, null, null);
                         break;
                     default:
                         break;
@@ -733,6 +1020,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 return;
             } else {
                 mEtExpressno.setText(result);
+                mEtLogistics.setText(result);
             }
 
         }
@@ -764,6 +1052,57 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 }
             }
         }
+
+        if (requestCode == 1000) {
+            if (data != null) {
+                address = (Address) data.getSerializableExtra("address");
+                if (address != null) {
+                    AddressBack = address.getProvince() + address.getCity() + address.getArea() + address.getDistrict() + address.getAddress() + "(" + address.getUserName() + "收)" + address.getPhone();
+                    mTvAddressback.setText(AddressBack);
+                }
+            }
+        }
+
+
+        /*获取返回的配件*/
+        if (requestCode == Config.APPLY_REQUEST) {
+            if (resultCode == Config.APPLY_RESULT) {
+                ArrayList<Accessory2> list = (ArrayList<Accessory2>) data.getSerializableExtra("list_collect");
+                fAcList.clear();
+                String expressno = mEtLogistics.getText().toString();
+                /*商城*/
+                for (int i = 0; i < list.size(); i++) {
+                    mfAccessory = new FAccessory.OrderAccessoryStrBean.OrderAccessoryBean();
+                    mfAccessory.setFAccessoryID(list.get(i).getFAccessoryID());//获取id
+                    mfAccessory.setFAccessoryName(list.get(i).getAccessoryName()); //获取名字
+                    mfAccessory.setFCategoryID(list.get(i).getFCategoryID() + ""); //分类id
+                    mfAccessory.setQuantity(list.get(i).getCount() + ""); //数量 默认数字为1
+                    mfAccessory.setPrice(Double.valueOf("0"));//原价
+                    mfAccessory.setDiscountPrice(Double.valueOf("0"));//折扣价
+                    mfAccessory.setSizeID("1");//小修中修大修
+                    mfAccessory.setSendState("Y");
+                    mfAccessory.setRelation("");
+                    mfAccessory.setState("1");
+                    mfAccessory.setIsPay("Y");
+                    mfAccessory.setExpressNo(expressno);
+                    mfAccessory.setNeedPlatformAuth("N");
+//                   if (select_state == 0) {//厂家自购
+//                       mfAccessory.setPrice(list.get(i).getAccessoryPrice());//原价
+//                       mfAccessory.setDiscountPrice(list.get(i).getAccessoryPrice());//原价
+//                   }
+                    fAcList.add(mfAccessory);
+                }
+                mPre_order_add_ac_adapter.notifyDataSetChanged();
+//               if (mPre_order_add_ac_adapter.getData().size() > 0) {
+//                   mTvSubmitAddAccessories.setBackgroundResource(R.drawable.ed_order_detail_submit);
+//                   mTvSubmitAddAccessories.setTextColor(Color.WHITE);
+//               } else {
+//                   mTvSubmitAddAccessories.setBackgroundResource(R.drawable.tv_order_detail_btn);
+//                   mTvSubmitAddAccessories.setTextColor(Color.parseColor("#6a6a6a"));
+//               }
+            }
+        }
+
     }
 
 
@@ -828,35 +1167,62 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         MyUtils.setWindowAlpa(mActivity, true);
     }
 
-    public void showPopWindowGetCategory(final TextView tv) {
+    public void showPopWindowGetCategory(final TextView tv, List<Category> categoryNewList) {
 
-        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
-        lv_popular = contentView.findViewById(R.id.lv_popular);
-        rv_choose = contentView.findViewById(R.id.rv_choose);
-        iv_close = contentView.findViewById(R.id.iv_close);
-        iv_close.setOnClickListener(new View.OnClickListener() {
+//        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
+//        lv_popular = contentView.findViewById(R.id.lv_popular);
+//        rv_choose = contentView.findViewById(R.id.rv_choose);
+//        iv_close = contentView.findViewById(R.id.iv_close);
+//        iv_close.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                popupWindow.dismiss();
+//            }
+//        });
+//        firstAdapter = new ChooseCategoryAdapter(popularList);
+//        linearLayoutManager = new LinearLayoutManager(mActivity);
+//        lv_popular.setLayoutManager(linearLayoutManager);
+//        lv_popular.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
+//        lv_popular.setAdapter(firstAdapter);
+//        FCategoryID = popularList.get(0).getId();
+//        CategoryName = popularList.get(0).getFCategoryName();
+//        mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
+//        popularList.get(0).setSelected(true);
+//        firstAdapter.setOnItemClickListener((adapter, view, position) -> {
+//            scrollToMiddleH(view, position);
+//            setSelect(position);
+//            mPresenter.GetChildFactoryCategory(popularList.get(position).getFCategoryID());
+//
+//        });
+
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop2, null);
+        final RecyclerView rv = contentView.findViewById(R.id.rv);
+        TextView tv_add = contentView.findViewById(R.id.tv_add);
+        tv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupWindow.dismiss();
+                startActivity(new Intent(mActivity, ModelActivity.class));
             }
         });
-        firstAdapter = new ChooseCategoryAdapter(popularList);
-        linearLayoutManager = new LinearLayoutManager(mActivity);
-        lv_popular.setLayoutManager(linearLayoutManager);
-        lv_popular.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
-        lv_popular.setAdapter(firstAdapter);
-        FCategoryID = popularList.get(0).getId();
-        CategoryName = popularList.get(0).getFCategoryName();
-        mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
-        popularList.get(0).setSelected(true);
-        firstAdapter.setOnItemClickListener((adapter, view, position) -> {
-            scrollToMiddleH(view, position);
-            setSelect(position);
-            mPresenter.GetChildFactoryCategory(popularList.get(position).getFCategoryID());
+        ChooseParentCategoryAdapter firstAdapter = new ChooseParentCategoryAdapter(R.layout.item_category, categoryNewList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+        rv.setLayoutManager(linearLayoutManager);
+        rv.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
+        rv.setAdapter(firstAdapter);
 
+        firstAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                SubCategoryID = categoryNewList.get(position).getFCategoryID();
+                SubCategoryName = categoryNewList.get(position).getFCategoryName();
+                tv.setText(categoryNewList.get(position).getFCategoryName());
+//                ToastUtils.showShort(SubCategoryID);
+                popupWindow.dismiss();
+                mPresenter.GetFactoryBrand(userID);
+            }
         });
 
-        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 //        popupWindow.setWidth(tv.getWidth());
         popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -950,17 +1316,17 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     DistrictCode = ((District) list.get(position)).getCode();
                     mTvPca.setText(ProvinceName + CityName + AreaName + DistrictName);
                 }
-                if (list.get(position) instanceof Brand) {
-                    FBrandID = ((Brand) list.get(position)).getFBrandID();
-                    BrandName = ((Brand) list.get(position)).getFBrandName();
-                    tv.setText(BrandName);
-                    mPresenter.GetChildFactoryCategory2(SubCategoryID);
-                }
-                if (list.get(position) instanceof Category) {
-                    TypeID = ((Category) list.get(position)).getFCategoryID();
-                    TypeName = ((Category) list.get(position)).getFCategoryName();
-                    tv.setText(TypeName);
-                }
+//                if (list.get(position) instanceof Brand) {
+//                    FBrandID = ((Brand) list.get(position)).getFBrandID();
+//                    BrandName = ((Brand) list.get(position)).getFBrandName();
+//                    tv.setText(BrandName);
+//                    mPresenter.GetChildFactoryCategory2(SubCategoryID);
+//                }
+//                if (list.get(position) instanceof Category) {
+//                    TypeID = ((Category) list.get(position)).getFCategoryID();
+//                    TypeName = ((Category) list.get(position)).getFCategoryName();
+//                    tv.setText(TypeName);
+//                }
             }
         });
         popupWindow = new PopupWindow(contentView);
@@ -968,7 +1334,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 //        if (list.size() > 5) {
 //            popupWindow.setHeight(600);
 //        } else {
-            popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
 //        }
 //        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -997,7 +1363,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     if (popularList.size() == 0) {
                         ToastUtils.showShort("无分类，请联系管理员添加！");
                     } else {
-                        showPopWindowGetCategory(mTvChooseCategory);
+//                        showPopWindowGetCategory(mTvChooseCategory);
 
                     }
                 } else {
@@ -1057,9 +1423,12 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     if (chooseList.size() == 0) {
                         ToastUtils.showShort("无型号，请联系管理员添加！");
                     } else {
-                        rv_choose.setLayoutManager(new LinearLayoutManager(mActivity));
-                        chooseAdapter = new CategoryAdapter(R.layout.item_choose, chooseList);
-                        showPopWindow(mTvChooseType, chooseAdapter, chooseList);
+
+//                        rv_choose.setLayoutManager(new LinearLayoutManager(mActivity));
+                        chooseAdapter = new CategoryAdapter(R.layout.item_category, chooseList);
+//                        rv_choose.setAdapter(chooseAdapter);
+//                        showPopWindow(mTvChooseType, chooseAdapter, chooseList);
+                        showBrand(mTvChooseType, chooseAdapter, chooseList, "category");
                     }
                 } else {
                     ToastUtils.showShort("获取型号失败！");
@@ -1082,14 +1451,75 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     ToastUtils.showShort("你还没添加品牌，请先添加品牌！");
                     startActivity(new Intent(mActivity, BrandActivity.class));
                 } else {
-                    brandsAdapter = new BrandChooseAdapter(R.layout.category_item, brandList);
-                    showPopWindow(mTvChooseBrand, brandsAdapter, brandList);
+                    brandsAdapter = new BrandChooseAdapter(R.layout.item_category, brandList);
+                    showBrand(mTvChooseBrand, brandsAdapter, brandList, "brand");
+//                    showPopWindow(mTvChooseBrand, brandsAdapter, brandList);
                 }
                 break;
             default:
 //                ToastUtils.showShort(baseResult.getData());
                 break;
         }
+    }
+
+    private void showBrand(TextView tv, BaseQuickAdapter adapter, final List list, String judge) {
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop2, null);
+        final RecyclerView rv = contentView.findViewById(R.id.rv);
+        TextView tv_add = contentView.findViewById(R.id.tv_add);
+        TextView tv_title = contentView.findViewById(R.id.tv_title);
+        if ("brand".equals(judge)) {
+            tv_title.setText("选择品牌");
+            tv_add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(mActivity, BrandActivity.class));
+                }
+            });
+            tv_add.setText("添加品牌");
+        } else {
+            tv_title.setText("选择型号");
+            tv_add.setVisibility(View.GONE);
+        }
+
+        rv.setLayoutManager(new LinearLayoutManager(mActivity));
+        rv.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
+        rv.setAdapter(adapter);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (list.get(position) instanceof Brand) {
+                    FBrandID = ((Brand) list.get(position)).getFBrandID();
+                    BrandName = ((Brand) list.get(position)).getFBrandName();
+                    tv.setText(BrandName);
+                    mPresenter.GetChildFactoryCategory2(SubCategoryID);
+                    popupWindow.dismiss();
+                }
+                if (list.get(position) instanceof Category) {
+                    TypeID = ((Category) list.get(position)).getFCategoryID();
+                    TypeName = ((Category) list.get(position)).getFCategoryName();
+                    tv.setText(TypeName);
+                    popupWindow.dismiss();
+                }
+            }
+        });
+
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        popupWindow.setWidth(tv.getWidth());
+        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (popupWindow != null && !popupWindow.isShowing()) {
+//            popupWindow.showAsDropDown(tv, 0, 10);
+            popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
     }
 
     @Override
@@ -1254,7 +1684,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             tv_area.setVisibility(View.VISIBLE);
                             tv_district.setVisibility(View.VISIBLE);
                             popupWindow.dismiss();
-                            mTvAddress.setText(ProvinceName + CityName + AreaName + DistrictName);
+                            mTvAddress.setText(ProvinceName + " " + CityName + " " + AreaName + " " + DistrictName);
                             mTvPca.setText(ProvinceName + CityName + AreaName + DistrictName);
                         }
                     });
@@ -1333,6 +1763,55 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 break;
         }
 
+    }
+
+    @Override
+    public void GetAccountAddress(BaseResult<List<com.zhenhaikj.factoryside.mvp.bean.Address>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                addressList = baseResult.getData();
+                if (addressList.size() != 0) {
+                    for (int i = 0; i < addressList.size(); i++) {
+                        if ("1".equals(addressList.get(i).getIsDefault())) {
+                            AddressBack = addressList.get(i).getAddress() + "(" + addressList.get(i).getUserName() + "收)" + addressList.get(i).getPhone();
+                            mTvAddressback.setText(AddressBack);
+                            mTvModify.setText("修改地址");
+                        } else {
+                            AddressBack = addressList.get(0).getProvince() + addressList.get(0).getCity() + addressList.get(0).getArea() + addressList.get(0).getDistrict() + addressList.get(0).getAddress() + "(" + addressList.get(0).getUserName() + "收)" + addressList.get(0).getPhone();
+                            mTvAddressback.setText(AddressBack);
+                            mTvModify.setText("修改地址");
+                        }
+                    }
+                } else {
+                    AddressBack = "";
+                    mTvAddressback.setText(AddressBack);
+                    mTvModify.setText("添加地址");
+                }
+                break;
+            default:
+                ToastUtils.showShort("获取失败");
+                break;
+        }
+    }
+
+    @Override
+    public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                categoryNewList = baseResult.getData().getItem2();
+                if (categoryNewList.size() == 0) {
+                    ToastUtils.showShort("无分类，请添加分类！");
+                    startActivity(new Intent(mActivity, ModelActivity.class));
+                } else {
+                    showPopWindowGetCategory(mTvChooseCategory, categoryNewList);
+
+                }
+
+                break;
+            default:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
     }
 
 

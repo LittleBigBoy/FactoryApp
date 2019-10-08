@@ -1,212 +1,264 @@
 <?xml version="1.0" encoding="utf-8"?><!--旧件收货信息-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_old_accessory"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@color/white"
-    android:padding="@dimen/dp_10"
-    android:id="@+id/ll_old_accessory">
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="是否需要旧件返厂："/>
-        <LinearLayout
-            android:id="@+id/ll_n"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-            <ImageView
-                android:id="@+id/iv_n"
-                android:layout_width="19dp"
-                android:layout_height="19dp"
-                android:src="@drawable/pay_check_selector" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_marginRight="10dp"
-                android:textColor="@color/black"
-                android:text="否"/>
-        </LinearLayout>
+            android:layout_weight="1"
+            android:text="旧件是否返厂："
+            android:textColor="#333333" />
+
+
         <LinearLayout
             android:id="@+id/ll_y"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp">
+
             <ImageView
                 android:id="@+id/iv_y"
                 android:layout_width="19dp"
                 android:layout_height="19dp"
-                android:src="@drawable/pay_check_selector"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/pay_check_selector2" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+                android:text="是"
                 android:textColor="@color/black"
-                android:text="是"/>
+                android:textSize="16sp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_n"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:id="@+id/iv_n"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:src="@drawable/pay_check_selector2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="否"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ll_address_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="寄送至："
-                android:textSize="16sp"/>
-            <TextView
-                android:id="@+id/tv_addressback"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="浙江省宁波市江北区企协大厦"
-                android:textColor="@color/black"
-                android:textSize="16sp"/>
+                android:textColor="#333333"
+                android:textSize="16sp" />
 
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_modify"
-            android:layout_width="match_parent"
-            android:gravity="right"
-            android:layout_height="match_parent"
-            android:text="修改地址"
-            android:textColor="#808080"
-            android:textSize="14sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_addressback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:textColor="#b9b9b9"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_modify"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:gravity="right"
+                android:text="修改地址"
+                android:textColor="#FF6565"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
+
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="邮费支付方式："/>
+                android:layout_weight="1"
+                android:text="邮费支付方式："
+                android:textColor="#333333" />
+
             <LinearLayout
                 android:id="@+id/ll_pay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="10dp">
+
                 <ImageView
                     android:id="@+id/iv_pay"
                     android:layout_width="19dp"
                     android:layout_height="19dp"
-                    android:src="@drawable/pay_check_selector" />
+                    android:src="@drawable/pay_check_selector2" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:textColor="@color/black"
-                    android:text="厂商到付"/>
+                    android:text="厂商到付"
+                    android:textColor="@color/black" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_pay2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp">
+
                 <ImageView
                     android:id="@+id/iv_pay2"
                     android:layout_width="19dp"
                     android:layout_height="19dp"
-                    android:src="@drawable/pay_check_selector"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/pay_check_selector2" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
-                    android:text="维修商现付"/>
+                    android:layout_marginLeft="10dp"
+                    android:text="师傅现付"
+                    android:textColor="@color/black" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ll_post_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="邮费："/>
+                android:text="邮费：" />
+
             <TextView
                 android:id="@+id/tv_post_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/red"/>
+                android:textColor="@color/red" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="#eee"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:background="#eee" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="现付：由师傅暂代付邮费，到付：由您收到旧配件时自行支付邮费"
-            android:textColor="@color/red"
-            android:textSize="12sp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:text="现付：师傅暂代付邮费   到付：收到旧配件时自行支付邮费"
+            android:textColor="#FF6565"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:background="@color/white"
         android:gravity="center"
-        android:visibility="gone"
-        android:background="@color/white">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_submit"
-            android:layout_gravity="center"
             android:layout_width="110dp"
-            android:gravity="center"
             android:layout_height="wrap_content"
-            android:text="提交"
-            android:textColor="#6A6A6A"
-            android:textSize="14sp"
+            android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/edit_shape"
-            android:padding="10dp"/>
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="提交"
+            android:textColor="#6A6A6A"
+            android:textSize="14sp" />
     </LinearLayout>
 
 </LinearLayout>
+
+

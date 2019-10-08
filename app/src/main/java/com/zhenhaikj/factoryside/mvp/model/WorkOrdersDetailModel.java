@@ -39,8 +39,8 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> ApproveBeyondMoney(String OrderID, String BeyondState) {
-        return ApiRetrofit.getDefault().ApproveBeyondMoney(OrderID, BeyondState)
+    public Observable<BaseResult<Data<String>>> ApproveBeyondMoney(String OrderID, String BeyondState,String BeyondMoney) {
+        return ApiRetrofit.getDefault().ApproveBeyondMoney(OrderID, BeyondState,BeyondMoney)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

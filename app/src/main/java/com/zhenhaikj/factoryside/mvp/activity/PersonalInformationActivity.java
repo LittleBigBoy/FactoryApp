@@ -49,6 +49,7 @@ import com.zhenhaikj.factoryside.mvp.contract.InfoManageContract;
 import com.zhenhaikj.factoryside.mvp.model.InfoManageModel;
 import com.zhenhaikj.factoryside.mvp.presenter.InfoManagePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.utils.imageutil.CompressHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -471,7 +472,7 @@ public class PersonalInformationActivity extends BaseActivity<InfoManagePresente
     public void uploadImg(File f) {
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         builder.addFormDataPart("img", f.getName(), RequestBody.create(MediaType.parse("img/png"), f));
-        builder.addFormDataPart("UserId", userId);
+        builder.addFormDataPart("UserID", userId);
         MultipartBody requestBody = builder.build();
         mPresenter.UploadAvator(requestBody);
     }
@@ -521,8 +522,8 @@ public class PersonalInformationActivity extends BaseActivity<InfoManagePresente
                        File file1=uritoFile(resultUri);
 
                         if (file1!=null){
-                           /* File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(file1);*/
-                            uploadImg(file1);
+                            File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(file1);
+                            uploadImg(newFile);
                         }
 
 

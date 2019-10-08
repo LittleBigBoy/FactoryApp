@@ -12,5 +12,5 @@
         android:padding="@dimen/dp_10"
         android:textSize="14sp"
         android:textColor="@color/black"
-        android:text="冰箱类"/>
+        android:text="冰箱类" />
 </LinearLayout>

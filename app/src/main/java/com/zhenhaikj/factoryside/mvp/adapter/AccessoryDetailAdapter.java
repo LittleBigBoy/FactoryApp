@@ -1,5 +1,8 @@
 package com.zhenhaikj.factoryside.mvp.adapter;
 
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenhaikj.factoryside.R;
@@ -16,6 +19,8 @@ public class AccessoryDetailAdapter extends BaseQuickAdapter<GAccessory,BaseView
     @Override
     protected void convert(BaseViewHolder helper, GAccessory item) {
         helper.setText(R.id.tv_accessories_name,item.getFAccessoryName());
+        Glide.with(mContext).load("https://img.xigyu.com/Pics/Accessory/"+item.getPhoto1()).into((ImageView) helper.getView(R.id.iv_host));
+        Glide.with(mContext).load("https://img.xigyu.com/Pics/Accessory/"+item.getPhoto2()).into((ImageView) helper.getView(R.id.iv_accessories));
         if ("0".equals(AccessoryState)){
             helper.setText(R.id.tv_accessories_number,item.getQuantity()+"个");
         }else {
@@ -23,6 +28,8 @@ public class AccessoryDetailAdapter extends BaseQuickAdapter<GAccessory,BaseView
         }
         helper.addOnClickListener(R.id.tv_reject);
         helper.addOnClickListener(R.id.tv_pass);
+        helper.addOnClickListener(R.id.iv_accessories);
+        helper.addOnClickListener(R.id.iv_host);
         if ("Y".equals(item.getNeedPlatformAuth())){
             helper.setGone(R.id.ll_accessories,false);
         }

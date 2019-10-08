@@ -48,6 +48,7 @@ import com.zhenhaikj.factoryside.mvp.adapter.ProvinceAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
+import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
@@ -521,7 +522,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     MyUtils.showToast(mActivity, "请输入故障描述！");
                     return;
                 }
-                mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName , ProvinceCode, CityCode, AreaCode,DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, Num,null,null);
+//                mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, FCategoryID, CategoryName, SubCategoryID, SubCategoryName , ProvinceCode, CityCode, AreaCode,DistrictCode, Address, Name, Phone, FaultDescription, OrderMoney, RecycleOrderHour, Guarantee, Extra, ExtraTime, ExtraFee, Num, AccessorySendState,null);
                 break;
 
             case R.id.ll_microphone:
@@ -1074,6 +1075,16 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
 //                ToastUtils.showShort(baseResult.getData());
                 break;
         }
+
+    }
+
+    @Override
+    public void GetAccountAddress(BaseResult<List<com.zhenhaikj.factoryside.mvp.bean.Address>> baseResult) {
+
+    }
+
+    @Override
+    public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
 
     }
 

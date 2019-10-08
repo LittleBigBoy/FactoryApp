@@ -92,6 +92,12 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     TextView mTvMessage;
     @BindView(R.id.ll_message)
     LinearLayout mLlMessage;
+    @BindView(R.id.tv_send_address)
+    TextView mTvSendAddress;
+    @BindView(R.id.ll_select_time)
+    LinearLayout mLlSelectTime;
+    @BindView(R.id.tv_modify_beyond)
+    TextView mTvModifyBeyond;
 
     private String mParam1;
     private String mParam2;
@@ -278,6 +284,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private EditText et_new_money;
     private String newmoney;
     private AlertDialog editDialog;
+    private AlertDialog beyondDialog;
 
     public static OrderDetailFragment newInstance(String param1, String param2) {
         OrderDetailFragment fragment = new OrderDetailFragment();
@@ -393,6 +400,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
         mIvHost.setOnClickListener(this);
         mIvAccessories.setOnClickListener(this);
+
+        mTvModifyBeyond.setOnClickListener(this);
     }
 
 
@@ -464,28 +473,28 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
             case R.id.iv_bar_code:
                 for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
                     if ("img1".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
-                        scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl());
+                        scaleview("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl());
                     }
                 }
                 break;
             case R.id.iv_machine:
                 for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
                     if ("img2".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
-                        scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl());
+                        scaleview("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl());
                     }
                 }
                 break;
             case R.id.iv_fault_location:
                 for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
                     if ("img3".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
-                        scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl());
+                        scaleview("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl());
                     }
                 }
                 break;
             case R.id.iv_new_and_old_accessories:
                 for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
                     if ("img4".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
-                        scaleview("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl());
+                        scaleview("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl());
                     }
                 }
                 break;
@@ -514,7 +523,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
             case R.id.tv_modify:
                 Intent intent = new Intent(mActivity, ShippingAddressActivity.class);
                 intent.putExtra("type", "0");
-                startActivityForResult(intent, 100);
+                startActivityForResult(intent, 1000);
                 break;
             case R.id.tv_submit:
                 mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
@@ -538,7 +547,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
                 Glide.with(mActivity)
                         .asBitmap()
-                        .load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl())
+                        .load("https://img.xigyu.com/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl())
                         .into(simpleTarget);
                 break;
             case R.id.iv_host:
@@ -560,7 +569,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
                 Glide.with(mActivity)
                         .asBitmap()
-                        .load("http://47.96.126.145:8820/Pics/Accessory/" + data.getOrderAccessroyDetail().get(0).getPhoto1())
+                        .load("https://img.xigyu.com/Pics/Accessory/" + data.getOrderAccessroyDetail().get(0).getPhoto1())
                         .into(simpleTarget);
                 break;
             case R.id.iv_accessories:
@@ -582,7 +591,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
                 Glide.with(mActivity)
                         .asBitmap()
-                        .load("http://47.96.126.145:8820/Pics/Accessory/" + data.getOrderAccessroyDetail().get(0).getPhoto2())
+                        .load("https://img.xigyu.com/Pics/Accessory/" + data.getOrderAccessroyDetail().get(0).getPhoto2())
                         .into(simpleTarget);
                 break;
             case R.id.ll_contact_customer_service:
@@ -776,7 +785,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID, "-1");
+                        mPresenter.ApproveBeyondMoney(OrderID, "-1","");
                     }
 
                     @Override
@@ -796,7 +805,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         pass.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID, "1");
+                        mPresenter.ApproveBeyondMoney(OrderID, "1","");
                     }
 
                     @Override
@@ -805,6 +814,43 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
                     }
                 }).show();
+                break;
+            case R.id.tv_modify_beyond:
+                View BeyondView=LayoutInflater.from(mActivity).inflate(R.layout.customdialog_newmoney,null);
+                TextView message=BeyondView.findViewById(R.id.message);
+                TextView title=BeyondView.findViewById(R.id.title);
+                EditText et_new_money=BeyondView.findViewById(R.id.et_new_money);
+                Button negtive=BeyondView.findViewById(R.id.negtive);
+                Button positive=BeyondView.findViewById(R.id.positive);
+                title.setText("提示");
+                message.setText("若您对师傅申请的远程费价格不满意，请您修改您满意的远程费价格");
+
+                negtive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        beyondDialog.dismiss();
+                    }
+                });
+
+                positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String money=et_new_money.getText().toString();
+                        if (money.isEmpty()){
+                            ToastUtils.showShort("请输入修改的金额");
+                        }else {
+                            mPresenter.ApproveBeyondMoney(OrderID, "2",money);
+                            beyondDialog.dismiss();
+                        }
+                    }
+                });
+
+                beyondDialog = new AlertDialog.Builder(mActivity).setView(BeyondView).create();
+                beyondDialog.show();
+                Window window= beyondDialog.getWindow();
+                WindowManager.LayoutParams lp=window.getAttributes();
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                window.setAttributes(lp);
                 break;
         }
     }
@@ -842,8 +888,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 //                mTvServiceMoney.setVisibility(View.GONE);
 
                 if (data.getOrderAccessroyDetail().size() > 0) {
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/Accessory/" + data.getOrderAccessroyDetail().get(0).getPhoto1()).into(mIvHost);
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/Accessory/" + data.getOrderAccessroyDetail().get(0).getPhoto2()).into(mIvAccessories);
+                    Glide.with(mActivity).load("https://img.xigyu.com/Pics/Accessory/" + data.getOrderAccessroyDetail().get(0).getPhoto1()).into(mIvHost);
+                    Glide.with(mActivity).load("https://img.xigyu.com/Pics/Accessory/" + data.getOrderAccessroyDetail().get(0).getPhoto2()).into(mIvAccessories);
 
                 } else {
                     mLlHost.setVisibility(View.GONE);
@@ -883,6 +929,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
                 mTvAccessoryMemo.setText("备注：" + data.getAccessoryMemo());
                 mTvAccessorySequency.setText("寄件类型：" + data.getAccessorySequencyStr());
+                mTvSendAddress.setText("寄件地址：" + data.getSendAddress());
                 mTvPhone.setText(data.getPhone());
                 mTvAddress.setText(data.getAddress());
                 mTvTime.setText(data.getCreateDate());
@@ -1009,6 +1056,18 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                                 switch (view.getId()) {
                                     case R.id.tv_pass:
+                                        if (!"2".equals(data.getTypeID())) {
+                                            if ("1".equals(IsReturn)) {
+                                                if ("".equals(AddressBack)) {
+                                                    MyUtils.showToast(mActivity, "请添加旧件寄送地址");
+                                                    return;
+                                                } else {
+                                                    mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+                                                }
+                                            } else {
+                                                mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+                                            }
+                                        }
 //                                        showEdit(data.getOrderAccessroyDetail(),position);
                                         reject = new CommonDialog_Home(mActivity);
                                         reject.setMessage("是否同意申请的配件")
@@ -1051,6 +1110,50 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                                             }
                                         }).show();
                                         break;
+                                    case R.id.iv_host:
+                                        if (data.getOrderAccessroyDetail() == null) {
+                                            return;
+                                        }
+                                        if (data.getOrderAccessroyDetail().size() == 0) {
+                                            return;
+                                        }
+                                        simpleTarget = new SimpleTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
+                                                    super Bitmap> transition) {
+                                                RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
+                                                rxDialogScaleView.setImage(resource);
+                                                rxDialogScaleView.show();
+                                            }
+                                        };
+
+                                        Glide.with(mActivity)
+                                                .asBitmap()
+                                                .load("https://img.xigyu.com/Pics/Accessory/" + data.getOrderAccessroyDetail().get(position).getPhoto1())
+                                                .into(simpleTarget);
+                                        break;
+                                    case R.id.iv_accessories:
+                                        if (data.getOrderAccessroyDetail() == null) {
+                                            return;
+                                        }
+                                        if (data.getOrderAccessroyDetail().size() == 0) {
+                                            return;
+                                        }
+                                        simpleTarget = new SimpleTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
+                                                    super Bitmap> transition) {
+                                                RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
+                                                rxDialogScaleView.setImage(resource);
+                                                rxDialogScaleView.show();
+                                            }
+                                        };
+
+                                        Glide.with(mActivity)
+                                                .asBitmap()
+                                                .load("https://img.xigyu.com/Pics/Accessory/" + data.getOrderAccessroyDetail().get(position).getPhoto2())
+                                                .into(simpleTarget);
+                                        break;
                                 }
                             }
                         });
@@ -1073,24 +1176,33 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 if ("1".equals(data.getBeyondState())) {
                     mTvPassBeyond.setVisibility(View.GONE);
                     mTvRejectBeyond.setVisibility(View.GONE);
+                    mTvModifyBeyond.setVisibility(View.GONE);
                     mTvStatus.setVisibility(View.VISIBLE);
                     mTvStatus.setText("已审核通过");
                 } else if ("-1".equals(data.getBeyondState())) {
                     mTvPassBeyond.setVisibility(View.GONE);
                     mTvRejectBeyond.setVisibility(View.GONE);
+                    mTvModifyBeyond.setVisibility(View.GONE);
                     mTvStatus.setVisibility(View.VISIBLE);
                     mTvStatus.setText("已拒绝");
+                }else if ("2".equals(data.getBeyondState())){
+                    mTvPassBeyond.setVisibility(View.GONE);
+                    mTvRejectBeyond.setVisibility(View.GONE);
+                    mTvModifyBeyond.setVisibility(View.GONE);
+                    mTvStatus.setVisibility(View.VISIBLE);
+                    mTvStatus.setText("已修改");
                 } else {
                     mTvPassBeyond.setVisibility(View.VISIBLE);
                     mTvRejectBeyond.setVisibility(View.VISIBLE);
+                    mTvModifyBeyond.setVisibility(View.VISIBLE);
                     mTvStatus.setVisibility(View.GONE);
                 }
                 if (data.getOrderBeyondImg() == null) {
                     return;
                 }
                 if (data.getOrderBeyondImg().size() == 1) {
-                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl()).into(mIvRangeOne);
-//                    Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(1).getUrl()).into(mIvRangeTwo);
+                    Glide.with(mActivity).load("https://img.xigyu.com/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(0).getUrl()).into(mIvRangeOne);
+//                    Glide.with(mActivity).load("https://img.xigyu.com/Pics/OrderByondImg/" + data.getOrderBeyondImg().get(1).getUrl()).into(mIvRangeTwo);
                     mIvRangeOne.setVisibility(View.VISIBLE);
                     mIvRangeTwo.setVisibility(View.GONE);
                 } else {
@@ -1117,9 +1229,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         mLlConfirm.setVisibility(View.GONE);
                     }
                     mLlReturnInformation.setVisibility(View.VISIBLE);
-                    if ("".equals(data.getEndRemark())){
+                    if ("".equals(data.getEndRemark())) {
                         mLlMessage.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         mLlMessage.setVisibility(View.VISIBLE);
                         mTvMessage.setText(data.getEndRemark());
                     }
@@ -1127,16 +1239,16 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         List<String> list = new ArrayList<>();
                         for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
                             if ("img1".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
-                                Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl()).into(mIvBarCode);
+                                Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl()).into(mIvBarCode);
                             }
                             if ("img2".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
-                                Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl()).into(mIvMachine);
+                                Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl()).into(mIvMachine);
                             }
                             if ("img3".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
-                                Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl()).into(mIvFaultLocation);
+                                Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl()).into(mIvFaultLocation);
                             }
                             if ("img4".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
-                                Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl()).into(mIvNewAndOldAccessories);
+                                Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(i).getUrl()).into(mIvNewAndOldAccessories);
                             }
                             list.add(data.getReturnaccessoryImg().get(i).getRelation());
                         }
@@ -1152,30 +1264,30 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         if (!list.contains("img4")) {
                             mLlNewAndOldAccessories.setVisibility(View.GONE);
                         }
-//                        Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(0).getUrl()).into(mIvBarCode);
-//                        Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(1).getUrl()).into(mIvMachine);
-//                        Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(2).getUrl()).into(mIvFaultLocation);
-//                        Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(3).getUrl()).into(mIvNewAndOldAccessories);
+//                        Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(0).getUrl()).into(mIvBarCode);
+//                        Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(1).getUrl()).into(mIvMachine);
+//                        Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(2).getUrl()).into(mIvFaultLocation);
+//                        Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(3).getUrl()).into(mIvNewAndOldAccessories);
                     } else {
-//                        Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/FinishOrder/" + data.getOrderImg().get(0).getUrl()).into(mIvBarCode);
-//                        Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/FinishOrder/" + data.getOrderImg().get(1).getUrl()).into(mIvMachine);
-//                        Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/FinishOrder/" + data.getOrderImg().get(2).getUrl()).into(mIvFaultLocation);
-//                        Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/FinishOrder/" + data.getOrderImg().get(3).getUrl()).into(mIvNewAndOldAccessories);
+//                        Glide.with(mActivity).load("https://img.xigyu.com/Pics/FinishOrder/" + data.getOrderImg().get(0).getUrl()).into(mIvBarCode);
+//                        Glide.with(mActivity).load("https://img.xigyu.com/Pics/FinishOrder/" + data.getOrderImg().get(1).getUrl()).into(mIvMachine);
+//                        Glide.with(mActivity).load("https://img.xigyu.com/Pics/FinishOrder/" + data.getOrderImg().get(2).getUrl()).into(mIvFaultLocation);
+//                        Glide.with(mActivity).load("https://img.xigyu.com/Pics/FinishOrder/" + data.getOrderImg().get(3).getUrl()).into(mIvNewAndOldAccessories);
                         List<String> list = new ArrayList<>();
                         for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
                             if ("img1".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
-                                Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(0).getUrl()).into(mIvBarCode);
+                                Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(0).getUrl()).into(mIvBarCode);
                             }
                             if ("img2".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
-                                Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(1).getUrl()).into(mIvMachine);
+                                Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(1).getUrl()).into(mIvMachine);
 
                             }
                             if ("img3".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
-                                Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(2).getUrl()).into(mIvFaultLocation);
+                                Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(2).getUrl()).into(mIvFaultLocation);
 
                             }
                             if ("img4".equals(data.getReturnaccessoryImg().get(i).getRelation())) {
-                                Glide.with(mActivity).load("http://47.96.126.145:8820/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(3).getUrl()).into(mIvNewAndOldAccessories);
+                                Glide.with(mActivity).load("https://img.xigyu.com/Pics/OldAccessory/" + data.getReturnaccessoryImg().get(3).getUrl()).into(mIvNewAndOldAccessories);
 
                             }
                             list.add(data.getReturnaccessoryImg().get(i).getRelation());
@@ -1202,7 +1314,12 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     mLlMessage.setVisibility(View.GONE);
                 }
                 if (data.getSendOrderList().size() != 0) {
-                    mTvSelectTime.setText(data.getSendOrderList().get(0).getServiceDate());
+                    if ("".equals(data.getSendOrderList().get(0).getServiceDate())) {
+                        mLlSelectTime.setVisibility(View.GONE);
+                    } else {
+                        mTvSelectTime.setText(data.getSendOrderList().get(0).getServiceDate());
+                        mLlSelectTime.setVisibility(View.VISIBLE);
+                    }
                 }
                 if ("2".equals(data.getTypeID())) {
                     mLlOldAccessory.setVisibility(View.GONE);
@@ -1407,6 +1524,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                             AddressBack = addressList.get(i).getAddress() + "(" + addressList.get(i).getUserName() + "收)" + addressList.get(i).getPhone();
                             mTvAddressback.setText(AddressBack);
                             mTvModify.setText("修改地址");
+                        } else {
+                            AddressBack = addressList.get(0).getProvince() + addressList.get(0).getCity() + addressList.get(0).getArea() + addressList.get(0).getDistrict() + addressList.get(0).getAddress() + "(" + addressList.get(0).getUserName() + "收)" + addressList.get(0).getPhone();
+                            mTvAddressback.setText(AddressBack);
+                            mTvModify.setText("添加地址");
                         }
                     }
                 } else {
@@ -1466,11 +1587,11 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 }
             }
         }
-        if (requestCode == 100) {
+        if (requestCode == 1000) {
             if (data != null) {
                 address = (Address) data.getSerializableExtra("address");
                 if (address != null) {
-                    AddressBack = address.getAddress() + "(" + address.getUserName() + "收)" + address.getPhone();
+                    AddressBack = address.getProvince() + address.getCity() + address.getArea() + address.getDistrict() + address.getAddress() + "(" + address.getUserName() + "收)" + address.getPhone();
                     mTvAddressback.setText(AddressBack);
                 }
             }
