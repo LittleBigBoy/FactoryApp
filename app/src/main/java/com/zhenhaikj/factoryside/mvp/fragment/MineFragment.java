@@ -30,6 +30,12 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
+
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
@@ -54,7 +60,6 @@ import com.zhenhaikj.factoryside.mvp.activity.AboutUsActivity;
 import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
 import com.zhenhaikj.factoryside.mvp.activity.BrandActivity;
 import com.zhenhaikj.factoryside.mvp.activity.DetailRecordActivity;
-import com.zhenhaikj.factoryside.mvp.activity.HomeMaintenanceActivity2;
 import com.zhenhaikj.factoryside.mvp.activity.ModelActivity;
 import com.zhenhaikj.factoryside.mvp.activity.OpinionActivity;
 import com.zhenhaikj.factoryside.mvp.activity.PersonalInformationActivity;
@@ -84,11 +89,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.FileProvider;
 import butterknife.BindView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -149,6 +149,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     LinearLayout mLlSetting;
     @BindView(R.id.iv_code)
     ImageView mIvCode;
+    @BindView(R.id.ll_share)
+    LinearLayout mLlShare;
 
     private String mParam1;
     private String mParam2;
@@ -168,7 +170,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private View btn_share_one;
     private View btn_share_two;
     private ShareAction mShareAction;
+    private ShareAction mShareAction2;
     private CustomShareListener mShareListener;
+    private CustomShareListener mShareListener2;
     private SPUtils spUtils;
     private String userID;
     private ImageView iv_code_one;
@@ -178,6 +182,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private AlertDialog underReviewDialog;
     private VerifiedDialog customDialog;
     private CompanyInfo companyDean;
+    private View dialog_share;
+    private AlertDialog dialogShare;
 
 
     public MineFragment() {
@@ -244,6 +250,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         config.isNeedAuthOnGetUserInfo(true);
         UMShareAPI.get(mActivity).setShareConfig(config);
         mShareListener = new CustomShareListener(mActivity);
+        mShareListener2 = new CustomShareListener(mActivity);
         /*增加自定义按钮的分享面板*/
         mShareAction = new ShareAction(mActivity).setDisplayList(
                 SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
@@ -259,7 +266,33 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                             Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
 
                         } else {
-                            UMWeb web = new UMWeb("http://47.96.126.145:8080/sign?phone=" + userID + "&type=6");
+                            UMWeb web = new UMWeb("http://admin.xigyu.com/factorysign?phone=" + userID + "&type=6");
+                            web.setTitle("西瓜鱼");
+                            web.setDescription("注册送西瓜币了！！！！");
+                            web.setThumb(new UMImage(mActivity, R.drawable.icon));
+                            new ShareAction(mActivity).withMedia(web)
+                                    .setPlatform(share_media)
+                                    .setCallback(mShareListener)
+                                    .share();
+                        }
+                    }
+                });
+
+        mShareAction2 = new ShareAction(mActivity).setDisplayList(
+                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.MORE)
+                .addButton("复制文本", "复制文本", "umeng_socialize_copy", "umeng_socialize_copy")
+                .addButton("复制链接", "复制链接", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
+                .setShareboardclickCallback(new ShareBoardlistener() {
+                    @Override
+                    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                        if (snsPlatform.mShowWord.equals("复制文本")) {
+                            Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+                        } else if (snsPlatform.mShowWord.equals("复制链接")) {
+                            Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            UMWeb web = new UMWeb("http://admin.xigyu.com/NewSign?phone=" + userID + "&type=8");
                             web.setTitle("西瓜鱼");
                             web.setDescription("注册送西瓜币了！！！！");
                             web.setThumb(new UMImage(mActivity, R.drawable.icon));
@@ -308,6 +341,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mLlModelAddition.setOnClickListener(this);
         mLlSetting.setOnClickListener(this);
         mIvCode.setOnClickListener(this);
+        mLlShare.setOnClickListener(this);
     }
 
 
@@ -352,13 +386,13 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 btn_share_one = shareView.findViewById(R.id.btn_share_one);
                 iv_code_one = shareView.findViewById(R.id.iv_code_one);
                 btn_go_to_the_mall = shareView.findViewById(R.id.btn_go_to_the_mall);
-                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone=" + userID + "&type=7", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
+                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/NewSign?phone=" + userID + "&type=8", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
                 iv_code_one.setImageBitmap(bitmap);
                 btn_share_one.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         shareDialog.dismiss();
-                        mShareAction.open();
+                        mShareAction2.open();
                     }
                 });
 
@@ -376,6 +410,51 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //                Display display = mActivity.getWindowManager().getDefaultDisplay();
 //                lp.width = (int) (display.getWidth() * 0.6);
                 window.setAttributes(lp);
+                window.setBackgroundDrawable(new ColorDrawable());
+                break;
+            case R.id.ll_share:
+                dialog_share = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share, null);
+                btn_share_one = dialog_share.findViewById(R.id.btn_share_one);
+//                btn_share_two = dialog_share.findViewById(R.id.btn_share_two);
+                TextView tv_title = dialog_share.findViewById(R.id.tv_title);
+                tv_title.setText("扫描加入西瓜鱼工厂");
+
+                iv_code_one = dialog_share.findViewById(R.id.iv_code_one);
+                btn_go_to_the_mall = dialog_share.findViewById(R.id.btn_go_to_the_mall);
+                Bitmap bitmap1 = ZXingUtils.createQRImage("http://admin.xigyu.com/factorysign?phone=" + userID + "&type=6", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
+                iv_code_one.setImageBitmap(bitmap1);
+
+                btn_share_one.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogShare.dismiss();
+                        mShareAction.open();
+                    }
+                });
+                btn_go_to_the_mall.setVisibility(View.GONE);
+//                btn_share_two.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        dialogShare.dismiss();
+//                        mShareAction.open();
+//                    }
+//                });
+                dialogShare = new AlertDialog.Builder(mActivity).setView(dialog_share)
+                        .create();
+                dialogShare.show();
+                window = dialogShare.getWindow();
+//                window.setContentView(dialog_share);
+                WindowManager.LayoutParams lp2 = window.getAttributes();
+//                lp.alpha = 0.5f;
+                // 也可按屏幕宽高比例进行设置宽高
+//                Display display = mActivity.getWindowManager().getDefaultDisplay();
+//                lp.width = (int) (display.getWidth() * 0.6);
+//                lp.height = dialog_share.getHeight();
+//                lp.width = 300;
+//                lp.height = 400;
+
+                window.setAttributes(lp2);
+//                window.setDimAmount(0.1f);
                 window.setBackgroundDrawable(new ColorDrawable());
                 break;
             case R.id.tv_recharge:
@@ -707,7 +786,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                                 .into(mIvProfileImage);
                     }
-                    if ("1".equals(userInfoDean.getIfAuth())){
+                    if ("1".equals(userInfoDean.getIfAuth())) {
                         mPresenter.GetmessageBytype(userId);
                     }
 //                    mTvNickname.setText(userInfoDean.getTrueName());
@@ -751,7 +830,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     companyDean = baseResult.getData().getItem2();
                     if ("1".equals(companyDean.getIfAuth())) {
                         mTvNickname.setText(companyDean.getCompanyName());
-                    }else {
+                    } else {
                         mTvNickname.setText("未设置公司名称");
                     }
                 }
@@ -875,7 +954,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     public void showRejectDialog() {
         under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_audit_failure, null);
         TextView content = under_review.findViewById(R.id.tv_content);
-        content.setText(userInfoDean.getAuthMessage()+",有疑问请咨询客服电话。");
+        content.setText(userInfoDean.getAuthMessage() + ",有疑问请咨询客服电话。");
         btnConfirm = under_review.findViewById(R.id.btn_confirm);
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -887,6 +966,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review).create();
         underReviewDialog.show();
     }
+
     public void showUnderDialog() {
         under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_under_review, null);
         btnConfirm = under_review.findViewById(R.id.btn_confirm);

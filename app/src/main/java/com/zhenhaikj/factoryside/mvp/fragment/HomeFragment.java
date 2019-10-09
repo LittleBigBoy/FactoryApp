@@ -145,7 +145,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private UserInfo.UserInfoDean userInfoDean;
 
     private Integer[] icons = new Integer[]{
-            R.mipmap.one_bg, R.mipmap.two_bg, R.mipmap.three_bg, R.mipmap.four_bg, R.drawable.suoyou1,
+            R.mipmap.one_bg, R.mipmap.two_bg, R.mipmap.three_bg, R.mipmap.four_bg,R.drawable.remote_bill, R.drawable.suoyou1,
             R.mipmap.daijiedan,R.drawable.yijiedan, R.mipmap.daishenhe, R.mipmap.daizhifu, R.mipmap.yiwanjie, R.drawable.zhibao, R.mipmap.tuidan
     };
 
@@ -155,7 +155,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             R.drawable.remote_bill, R.drawable.warranty, R.drawable.undone, R.drawable.leave_a_message
     };
     private String[] names = new String[]{
-            "发布安装", "发布维修", "发布送修", "批量发单", "所有工单",
+            "发布安装", "发布维修", "发布送修", "批量发单", "远程费审核","所有工单",
             "待接单","已接单", "待审核", "待支付", "已完结", "质保单", "退单处理"
     };
     private MenuAdapter2 mMainAdapter;
@@ -416,7 +416,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                             Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
 
                         } else {
-                            UMWeb web = new UMWeb("http://47.96.126.145:8080/sign?phone=" + userId + "&type=6");
+                            UMWeb web = new UMWeb("http://admin.xigyu.com/NewSign?phone=" + userId + "&type=8");
                             web.setTitle("西瓜鱼");
                             web.setDescription("注册送西瓜币了！！！！");
                             web.setThumb(new UMImage(mActivity, R.drawable.icon));
@@ -464,7 +464,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 btn_share_one = shareView.findViewById(R.id.btn_share_one);
                 iv_code_one = shareView.findViewById(R.id.iv_code_one);
                 btn_go_to_the_mall = shareView.findViewById(R.id.btn_go_to_the_mall);
-                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone=" + userId + "&type=7", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
+                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/NewSign?phone=" + userId+ "&type=8", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
                 iv_code_one.setImageBitmap(bitmap);
                 btn_share_one.setOnClickListener(new View.OnClickListener() {
                     @Override
