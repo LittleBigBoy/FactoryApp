@@ -592,11 +592,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_quantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="0.5dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@color/white"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -651,7 +653,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:gravity="center"
                 android:orientation="horizontal"

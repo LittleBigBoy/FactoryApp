@@ -46,6 +46,7 @@
         android:textColor="#999999"
         tools:text="提示消息提示消息提示消息提示消息提示消息提示消息提示消息提示消息" />
     <LinearLayout
+        android:id="@+id/ll_new_money"
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:layout_marginLeft="20dp"

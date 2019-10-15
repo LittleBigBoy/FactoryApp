@@ -52,7 +52,7 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
 
-
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
             <meta-data
                 android:name="com.amap.api.v2.apikey"
                 android:value="3227ad117a43d540e49fc6863670a499"/>

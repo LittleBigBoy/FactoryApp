@@ -375,6 +375,11 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
     }
 
     @Override
+    public void ApproveOrderAccessoryAndService(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
     public void AddOrUpdateExpressNo(BaseResult<Data<String>> baseResult) {
 
     }

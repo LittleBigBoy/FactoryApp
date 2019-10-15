@@ -1,6 +1,9 @@
 package com.zhenhaikj.factoryside.mvp.fragment;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
@@ -98,6 +101,22 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     LinearLayout mLlSelectTime;
     @BindView(R.id.tv_modify_beyond)
     TextView mTvModifyBeyond;
+    @BindView(R.id.iv_copy)
+    ImageView mIvCopy;
+    @BindView(R.id.ll_accessory_sequency)
+    LinearLayout mLlAccessorySequency;
+    @BindView(R.id.tv_y)
+    TextView mTvY;
+    @BindView(R.id.tv_post)
+    TextView mTvPost;
+    @BindView(R.id.tv_addressback2)
+    TextView mTvAddressback2;
+    @BindView(R.id.ll_return)
+    LinearLayout mLlReturn;
+    @BindView(R.id.ll_address)
+    LinearLayout mLlAddress;
+    @BindView(R.id.ll_post)
+    LinearLayout mLlPost;
 
     private String mParam1;
     private String mParam2;
@@ -249,10 +268,6 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     LinearLayout mLlReturnInformation;
     @BindView(R.id.negtive)
     Button mNegtive;
-    @BindView(R.id.column_line)
-    View mColumnLine;
-    @BindView(R.id.positive)
-    Button mPositive;
     @BindView(R.id.ll_confirm)
     LinearLayout mLlConfirm;
     private String OrderID;
@@ -272,8 +287,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private TextView tv_message;
     private String expressno;
     private SimpleTarget<Bitmap> simpleTarget;
-    private String IsReturn;
-    private String PostPayType;
+    private String IsReturn = "";
+    private String PostPayType = "";
     private String AddressBack = "";
     private List<Address> addressList;
     private String userId;
@@ -285,6 +300,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private String newmoney;
     private AlertDialog editDialog;
     private AlertDialog beyondDialog;
+    private LinearLayout ll_new_money;
+    private ClipboardManager myClipboard;
+    private ClipData myClip;
 
     public static OrderDetailFragment newInstance(String param1, String param2) {
         OrderDetailFragment fragment = new OrderDetailFragment();
@@ -339,16 +357,18 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 mRefreshLayout.finishRefresh(3000);
             }
         });
+
+        myClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
     }
 
     @Override
     protected void initView() {
 //        mIvY.setSelected(true);
-        mIvN.setSelected(false);
-        mIvPay.setSelected(true);
-        mIvPay2.setSelected(false);
+//        mIvN.setSelected(false);
+//        mIvPay.setSelected(true);
+//        mIvPay2.setSelected(false);
 //        IsReturn = "1";
-        PostPayType = "1";
+//        PostPayType = "1";
     }
 
     public void scaleview(String url) {
@@ -396,18 +416,24 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         mIvFaultLocation.setOnClickListener(this);
         mIvNewAndOldAccessories.setOnClickListener(this);
         mNegtive.setOnClickListener(this);
-        mPositive.setOnClickListener(this);
 
         mIvHost.setOnClickListener(this);
         mIvAccessories.setOnClickListener(this);
 
         mTvModifyBeyond.setOnClickListener(this);
+        mIvCopy.setOnClickListener(this);
     }
 
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.iv_copy:
+                String id = mTvWorkOrderNumber.getText().toString();
+                myClip = ClipData.newPlainText("", id);
+                myClipboard.setPrimaryClip(myClip);
+                ToastUtils.showShort("复制成功");
+                break;
             case R.id.tv_send_accessory:
                 expressno_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_add_expressno2, null);
                 btn_negtive = expressno_view.findViewById(R.id.negtive);
@@ -466,9 +492,6 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 break;
             case R.id.negtive:
                 mPresenter.FactoryEnsureOrder(OrderID, "888888");
-                break;
-            case R.id.positive:
-                mPresenter.EnSureOrder(OrderID, "888888");
                 break;
             case R.id.iv_bar_code:
                 for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
@@ -614,40 +637,81 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 }).show();
                 break;
             case R.id.tv_reject:
-                reject = new CommonDialog_Home(mActivity);
-                reject.setMessage("是否拒绝申请的配件")
+                if ("厂家自购件".equals(data.getAccessorySequencyStr())) {
+                    reject = new CommonDialog_Home(mActivity);
+                    reject.setMessage("是否拒绝申请")
 
-                        //.setImageResId(R.mipmap.ic_launcher)
-                        .setTitle("提示")
-                        .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
-                    @Override
-                    public void onPositiveClick() {
-                        reject.dismiss();
+                            //.setImageResId(R.mipmap.ic_launcher)
+                            .setTitle("提示")
+                            .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                        @Override
+                        public void onPositiveClick() {
+                            reject.dismiss();
 //                        mPresenter.ApproveOrderAccessory(OrderID, "-1", "0",data.getOrderAccessroyDetail().get(position).getId());
-                    }
-
-                    @Override
-                    public void onNegtiveClick() {//取消
-                        reject.dismiss();
-                        // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
-                    }
-                }).show();
-                break;
-            case R.id.tv_pass:
-                if (!"2".equals(data.getTypeID())) {
-                    if ("1".equals(IsReturn)) {
-                        if ("".equals(AddressBack)) {
-                            MyUtils.showToast(mActivity, "请添加旧件寄送地址");
-                            return;
-                        } else {
-                            mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+                            mPresenter.ApproveOrderAccessoryAndService(OrderID, "-1","","");
                         }
-                    } else {
-                        mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
-                    }
+
+                        @Override
+                        public void onNegtiveClick() {//取消
+                            reject.dismiss();
+                            // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
+                } else if ("师傅自购件".equals(data.getAccessorySequencyStr())) {
+
+                    reject = new CommonDialog_Home(mActivity);
+                    reject.setMessage("如您拒绝师傅自购件，请点击厂家寄件")
+
+                            //.setImageResId(R.mipmap.ic_launcher)
+                            .setTitle("提示")
+                            .setPositive("厂家寄件")
+                            .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                        @Override
+                        public void onPositiveClick() {
+                            reject.dismiss();
+                            if (data.getOrderAccessroyDetail().size() > 0) {
+                                if (!"2".equals(data.getTypeID())) {
+                                    if ("1".equals(IsReturn)) {
+                                        if ("".equals(AddressBack)) {
+                                            MyUtils.showToast(mActivity, "请添加旧件寄送地址");
+                                            return;
+                                        } else {
+                                            if ("".equals(PostPayType)) {
+                                                MyUtils.showToast(mActivity, "请选择邮费方式");
+                                                return;
+
+                                            } else {
+                                                mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+                                                mPresenter.ApproveOrderAccessoryAndService(OrderID, "2",PostPayType,IsReturn);
+                                            }
+
+                                        }
+                                    } else if ("".equals(IsReturn)) {
+                                        MyUtils.showToast(mActivity, "请选择是否需要返件");
+                                        return;
+                                    } else {
+                                        mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+                                        mPresenter.ApproveOrderAccessoryAndService(OrderID, "2",PostPayType,IsReturn);
+                                    }
+                                }
+                            }
+
+//                        mPresenter.ApproveOrderAccessory(OrderID, "-1", "0",data.getOrderAccessroyDetail().get(position).getId());
+
+                        }
+
+                        @Override
+                        public void onNegtiveClick() {//取消
+                            reject.dismiss();
+                            // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
                 }
 
-                if ("0".equals(data.getAccessoryState())) {
+                break;
+            case R.id.tv_pass:
+
+                if ("0".equals(data.getAccessoryAndServiceApplyState())) {
                     expressno_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_add_expressno, null);
                     btn_negtive = expressno_view.findViewById(R.id.negtive);
                     btn_positive = expressno_view.findViewById(R.id.positive);
@@ -656,12 +720,14 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     et_expressno = expressno_view.findViewById(R.id.et_expressno);
                     et_new_money = expressno_view.findViewById(R.id.et_new_money);
                     ll_scan = expressno_view.findViewById(R.id.ll_scan);
+                    ll_new_money = expressno_view.findViewById(R.id.ll_new_money);
+                    ll_new_money.setVisibility(View.GONE);
                     expressno_dialog = new AlertDialog.Builder(mActivity)
                             .setView(expressno_view)
                             .create();
                     expressno_dialog.show();
                     tv_title.setText("提示");
-                    tv_message.setText("是否同意申请的配件");
+                    tv_message.setText("是否同意申请");
                     ll_scan.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -677,21 +743,47 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     btn_positive.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            expressno = et_expressno.getText().toString();
-                            newmoney = et_new_money.getText().toString();
-                            if ("".equals(expressno)) {
-                                expressno = "123";
-                            }
-                            if ("".equals(newmoney)) {
-                                newmoney = "0";
-                            }
+//                            expressno = et_expressno.getText().toString();
+//                            newmoney = et_new_money.getText().toString();
+//                            if ("".equals(expressno)) {
+//                                expressno = "123";
+//                            }
+//                            if ("".equals(newmoney)) {
+//                                newmoney = "0";
+//                            }
                             expressno_dialog.dismiss();
-//                            mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney,data.getOrderAccessroyDetail().get(position).getId());
+                            if (data.getOrderAccessroyDetail().size() > 0) {
+                                if (!"2".equals(data.getTypeID())) {
+                                    if ("1".equals(IsReturn)) {
+                                        if ("".equals(AddressBack)) {
+                                            MyUtils.showToast(mActivity, "请添加旧件寄送地址");
+                                            return;
+                                        } else {
+                                            if ("".equals(PostPayType)) {
+                                                MyUtils.showToast(mActivity, "请选择邮费方式");
+                                                return;
 
+                                            } else {
+                                                mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+                                                mPresenter.ApproveOrderAccessoryAndService(OrderID, "1",PostPayType,IsReturn);
+                                            }
+
+                                        }
+                                    } else if ("".equals(IsReturn)) {
+                                        MyUtils.showToast(mActivity, "请选择是否需要返件");
+                                        return;
+                                    } else {
+                                        mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+                                        mPresenter.ApproveOrderAccessoryAndService(OrderID, "1",PostPayType,IsReturn);
+                                    }
+                                }
+                            }
+
+//                            mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney,data.getOrderAccessroyDetail().get(position).getId());
 //                            mPresenter.AddOrUpdateExpressNo(OrderID, expressno);
                         }
                     });
-                } else if ("1".equals(data.getAccessoryState())) {
+                } else if ("1".equals(data.getAccessoryAndServiceApplyState())) {
                     expressno_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_newmoney, null);
                     btn_negtive = expressno_view.findViewById(R.id.negtive);
                     btn_positive = expressno_view.findViewById(R.id.positive);
@@ -745,7 +837,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-                        mPresenter.ApproveOrderService(OrderID, "-1");
+//                        mPresenter.ApproveOrderService(OrderID, "-1");
                     }
 
                     @Override
@@ -765,7 +857,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         pass.dismiss();
-                        mPresenter.ApproveOrderService(OrderID, "1");
+//                        mPresenter.ApproveOrderService(OrderID, "1");
                     }
 
                     @Override
@@ -785,7 +877,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID, "-1","");
+                        mPresenter.ApproveBeyondMoney(OrderID, "-1", "");
                     }
 
                     @Override
@@ -805,7 +897,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         pass.dismiss();
-                        mPresenter.ApproveBeyondMoney(OrderID, "1","");
+                        mPresenter.ApproveBeyondMoney(OrderID, "1", "");
                     }
 
                     @Override
@@ -816,12 +908,12 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 }).show();
                 break;
             case R.id.tv_modify_beyond:
-                View BeyondView=LayoutInflater.from(mActivity).inflate(R.layout.customdialog_newmoney,null);
-                TextView message=BeyondView.findViewById(R.id.message);
-                TextView title=BeyondView.findViewById(R.id.title);
-                EditText et_new_money=BeyondView.findViewById(R.id.et_new_money);
-                Button negtive=BeyondView.findViewById(R.id.negtive);
-                Button positive=BeyondView.findViewById(R.id.positive);
+                View BeyondView = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_newmoney, null);
+                TextView message = BeyondView.findViewById(R.id.message);
+                TextView title = BeyondView.findViewById(R.id.title);
+                EditText et_new_money = BeyondView.findViewById(R.id.et_new_money);
+                Button negtive = BeyondView.findViewById(R.id.negtive);
+                Button positive = BeyondView.findViewById(R.id.positive);
                 title.setText("提示");
                 message.setText("若您对师傅申请的远程费价格不满意，请您修改您满意的远程费价格");
 
@@ -835,11 +927,11 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 positive.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String money=et_new_money.getText().toString();
-                        if (money.isEmpty()){
+                        String money = et_new_money.getText().toString();
+                        if (money.isEmpty()) {
                             ToastUtils.showShort("请输入修改的金额");
-                        }else {
-                            mPresenter.ApproveBeyondMoney(OrderID, "2",money);
+                        } else {
+                            mPresenter.ApproveBeyondMoney(OrderID, "2", money);
                             beyondDialog.dismiss();
                         }
                     }
@@ -847,8 +939,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
                 beyondDialog = new AlertDialog.Builder(mActivity).setView(BeyondView).create();
                 beyondDialog.show();
-                Window window= beyondDialog.getWindow();
-                WindowManager.LayoutParams lp=window.getAttributes();
+                Window window = beyondDialog.getWindow();
+                WindowManager.LayoutParams lp = window.getAttributes();
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                 window.setAttributes(lp);
                 break;
@@ -915,27 +1007,33 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     mLlPostMoney.setVisibility(View.GONE);
                 }
 
-                if ("保内".equals(data.getGuarantee())) {
-                    mIvY.setSelected(true);
-                    mIvN.setSelected(false);
-                    mLlAddressInfo.setVisibility(View.VISIBLE);
-                    IsReturn = "1";
+//                if ("保内".equals(data.getGuarantee())) {
+//                    mIvY.setSelected(true);
+//                    mIvN.setSelected(false);
+//                    mLlAddressInfo.setVisibility(View.VISIBLE);
+//                    IsReturn = "1";
+//                } else {
+//                    mIvY.setSelected(false);
+//                    mIvN.setSelected(true);
+//                    mLlAddressInfo.setVisibility(View.GONE);
+//                    IsReturn = "2";
+//                }
+
+                if (!"".equals(data.getAccessorySequencyStr())) {
+                    mTvAccessorySequency.setText(data.getAccessorySequencyStr());
                 } else {
-                    mIvY.setSelected(false);
-                    mIvN.setSelected(true);
-                    mLlAddressInfo.setVisibility(View.GONE);
-                    IsReturn = "2";
+                    mLlAccessorySequency.setVisibility(View.GONE);
                 }
 
                 mTvAccessoryMemo.setText("备注：" + data.getAccessoryMemo());
-                mTvAccessorySequency.setText("寄件类型：" + data.getAccessorySequencyStr());
+
                 mTvSendAddress.setText("寄件地址：" + data.getSendAddress());
                 mTvPhone.setText(data.getPhone());
                 mTvAddress.setText(data.getAddress());
                 mTvTime.setText(data.getCreateDate());
                 mTvWorkOrderStatus.setText(data.getState());
                 mTvWorkOrderNumber.setText(data.getOrderID());
-                mTvWarrantyType.setText(data.getGuarantee());
+                mTvWarrantyType.setText(data.getGuarantee() + data.getTypeName());
                 mTvWorkOrderType.setText(data.getTypeName());
                 mTvRecoveryTime.setText(data.getRecycleOrderHour());
                 mTvSentOutAccessories.setText(data.getAccessorySendState());
@@ -970,137 +1068,25 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     if (data.getOrderServiceDetail().size() == 0) {
                         mLlAuditService.setVisibility(View.GONE);
                     } else {
-                        mLlAuditService.setVisibility(View.VISIBLE);
+                        mLlAuditService.setVisibility(View.GONE);
                         serviceAdapter = new ServiceAdapter(R.layout.item_accessories, data.getOrderServiceDetail());
                         mRvService.setLayoutManager(new LinearLayoutManager(mActivity));
                         mRvService.setAdapter(serviceAdapter);
-                    }
-
-                }
-                if (data.getOrderAccessroyDetail() == null) {
-                    mLlApproveAccessory.setVisibility(View.GONE);
-                    mLlOldAccessory.setVisibility(View.GONE);
-                    mLlSendAccessory.setVisibility(View.GONE);
-                } else {
-                    if (data.getOrderAccessroyDetail().size() == 0) {
-                        mLlApproveAccessory.setVisibility(View.GONE);
-                        mLlOldAccessory.setVisibility(View.GONE);
-                        mLlSendAccessory.setVisibility(View.GONE);
-                    } else {
-                        for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
-                            if ("".equals(data.getOrderAccessroyDetail().get(i).getExpressNo())) {
-                                mLlSendAccessory.setVisibility(View.VISIBLE);
-                            } else {
-                                mLlSendAccessory.setVisibility(View.GONE);
-                            }
-                        }
-                        if ("1".equals(data.getAccessoryApplyState())) {
-                            mTvPass.setVisibility(View.GONE);
-                            mTvReject.setVisibility(View.GONE);
-                            mTvStatusAccessory.setVisibility(View.GONE);
-                            mTvStatusAccessory.setText("已审核通过");
-                            if (data.getIsReturn() != null) {
-                                if ("1".equals(data.getIsReturn())) {
-                                    mTvAddressback.setText(data.getAddressBack());
-                                    mLlAddressInfo.setVisibility(View.VISIBLE);
-                                    mLlY.setVisibility(View.VISIBLE);
-                                    mIvY.setVisibility(View.GONE);
-                                    mLlN.setVisibility(View.GONE);
-                                    mTvModify.setVisibility(View.GONE);
-                                    if ("1".equals(data.getPostPayType())) {
-                                        mLlPay.setVisibility(View.VISIBLE);
-                                        mIvPay.setVisibility(View.GONE);
-                                        mLlPay2.setVisibility(View.GONE);
-                                    } else {
-                                        mLlPay.setVisibility(View.GONE);
-                                        mIvPay2.setVisibility(View.GONE);
-                                        mLlPay2.setVisibility(View.VISIBLE);
-                                    }
-                                } else {
-                                    mLlAddressInfo.setVisibility(View.GONE);
-                                    mLlY.setVisibility(View.GONE);
-                                    mIvN.setVisibility(View.GONE);
-                                    mLlN.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        } else if ("-1".equals(data.getAccessoryApplyState())) {
-                            mTvPass.setVisibility(View.GONE);
-                            mTvReject.setVisibility(View.GONE);
-                            mTvStatusAccessory.setVisibility(View.GONE);
-                            mTvStatusAccessory.setText("已拒绝");
-                            mLlOldAccessory.setVisibility(View.GONE);
-                        } else {
-                            mTvPass.setVisibility(View.GONE);
-                            mTvReject.setVisibility(View.GONE);
-                            mTvStatusAccessory.setVisibility(View.GONE);
-                        }
-
-                        if ("4".equals(data.getOrderAccessroyDetail().get(0).getSizeID())) {
-                            mLlApproveAccessory.setVisibility(View.GONE);
-                            mLlSendAccessory.setVisibility(View.GONE);
-                            mLlOldAccessory.setVisibility(View.GONE);
-                        } else {
-                            mLlApproveAccessory.setVisibility(View.VISIBLE);
-                        }
-                        mLlOldAccessory.setVisibility(View.VISIBLE);
-                        for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
-                            if ("2".equals(data.getOrderAccessroyDetail().get(i).getState())) {
-                                data.getOrderAccessroyDetail().remove(i);
-                            }
-                        }
-                        accessoryDetailAdapter = new AccessoryDetailAdapter(R.layout.item_accessories, data.getOrderAccessroyDetail(), data.getAccessoryState());
-                        mRvAccessories.setLayoutManager(new LinearLayoutManager(mActivity));
-                        mRvAccessories.setAdapter(accessoryDetailAdapter);
-                        accessoryDetailAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                        serviceAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                             @Override
                             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                                 switch (view.getId()) {
-                                    case R.id.tv_pass:
-                                        if (!"2".equals(data.getTypeID())) {
-                                            if ("1".equals(IsReturn)) {
-                                                if ("".equals(AddressBack)) {
-                                                    MyUtils.showToast(mActivity, "请添加旧件寄送地址");
-                                                    return;
-                                                } else {
-                                                    mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
-                                                }
-                                            } else {
-                                                mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
-                                            }
-                                        }
-//                                        showEdit(data.getOrderAccessroyDetail(),position);
-                                        reject = new CommonDialog_Home(mActivity);
-                                        reject.setMessage("是否同意申请的配件")
-
-                                                //.setImageResId(R.mipmap.ic_launcher)
-                                                .setTitle("提示")
-                                                .setPositive("确定")
-                                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
-                                            @Override
-                                            public void onPositiveClick() {
-                                                reject.dismiss();
-                                                mPresenter.ApproveOrderAccessory(OrderID, "1", "0", data.getOrderAccessroyDetail().get(position).getId());
-                                            }
-
-                                            @Override
-                                            public void onNegtiveClick() {//取消
-                                                reject.dismiss();
-                                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
-                                            }
-                                        }).show();
-                                        break;
                                     case R.id.tv_reject:
                                         reject = new CommonDialog_Home(mActivity);
-                                        reject.setMessage("是否拒绝申请的配件")
+                                        reject.setMessage("是否拒绝申请的服务")
 
                                                 //.setImageResId(R.mipmap.ic_launcher)
                                                 .setTitle("提示")
-                                                .setPositive("确定")
                                                 .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
                                             @Override
                                             public void onPositiveClick() {
                                                 reject.dismiss();
-                                                mPresenter.ApproveOrderAccessory(OrderID, "-1", "0", data.getOrderAccessroyDetail().get(position).getId());
+                                                mPresenter.ApproveOrderService(OrderID, "-1", data.getOrderServiceDetail().get(position).getOrderServiceID());
                                             }
 
                                             @Override
@@ -1110,54 +1096,269 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                                             }
                                         }).show();
                                         break;
-                                    case R.id.iv_host:
-                                        if (data.getOrderAccessroyDetail() == null) {
-                                            return;
-                                        }
-                                        if (data.getOrderAccessroyDetail().size() == 0) {
-                                            return;
-                                        }
-                                        simpleTarget = new SimpleTarget<Bitmap>() {
-                                            @Override
-                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
-                                                    super Bitmap> transition) {
-                                                RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
-                                                rxDialogScaleView.setImage(resource);
-                                                rxDialogScaleView.show();
-                                            }
-                                        };
+                                    case R.id.tv_pass:
+                                        pass = new CommonDialog_Home(mActivity);
+                                        pass.setMessage("是否同意申请的服务")
 
-                                        Glide.with(mActivity)
-                                                .asBitmap()
-                                                .load("https://img.xigyu.com/Pics/Accessory/" + data.getOrderAccessroyDetail().get(position).getPhoto1())
-                                                .into(simpleTarget);
-                                        break;
-                                    case R.id.iv_accessories:
-                                        if (data.getOrderAccessroyDetail() == null) {
-                                            return;
-                                        }
-                                        if (data.getOrderAccessroyDetail().size() == 0) {
-                                            return;
-                                        }
-                                        simpleTarget = new SimpleTarget<Bitmap>() {
+                                                //.setImageResId(R.mipmap.ic_launcher)
+                                                .setTitle("提示")
+                                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
                                             @Override
-                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
-                                                    super Bitmap> transition) {
-                                                RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
-                                                rxDialogScaleView.setImage(resource);
-                                                rxDialogScaleView.show();
+                                            public void onPositiveClick() {
+                                                pass.dismiss();
+                                                mPresenter.ApproveOrderService(OrderID, "1", data.getOrderServiceDetail().get(position).getOrderServiceID());
                                             }
-                                        };
 
-                                        Glide.with(mActivity)
-                                                .asBitmap()
-                                                .load("https://img.xigyu.com/Pics/Accessory/" + data.getOrderAccessroyDetail().get(position).getPhoto2())
-                                                .into(simpleTarget);
+                                            @Override
+                                            public void onNegtiveClick() {//取消
+                                                pass.dismiss();
+                                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                                            }
+                                        }).show();
                                         break;
                                 }
                             }
                         });
                     }
+
+                }
+                if (data.getAccessoryAndServiceApplyState() == null) {
+                    mLlApproveAccessory.setVisibility(View.GONE);
+                    mLlOldAccessory.setVisibility(View.GONE);
+                    mLlSendAccessory.setVisibility(View.GONE);
+                    mTvSendAddress.setVisibility(View.GONE);
+                } else {
+//                    if (data.getOrderAccessroyDetail().size() == 0) {
+//                        mLlApproveAccessory.setVisibility(View.GONE);
+//                        mLlOldAccessory.setVisibility(View.GONE);
+//                        mLlSendAccessory.setVisibility(View.GONE);
+//                    } else {
+
+                    mLlOldAccessory.setVisibility(View.VISIBLE);
+                    for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
+                        if ("".equals(data.getOrderAccessroyDetail().get(i).getExpressNo())) {
+                            mLlSendAccessory.setVisibility(View.VISIBLE);
+                        } else {
+                            mLlSendAccessory.setVisibility(View.GONE);
+                        }
+                    }
+                    if ("1".equals(data.getAccessoryAndServiceApplyState())) {
+                        mTvPass.setVisibility(View.GONE);
+                        mTvReject.setVisibility(View.GONE);
+                        mTvStatusAccessory.setVisibility(View.VISIBLE);
+                        mTvStatusAccessory.setText("已审核通过");
+                        mLlOldAccessory.setVisibility(View.GONE);
+                        mLlReturn.setVisibility(View.VISIBLE);
+                        if (data.getIsReturn() != null) {
+                            if ("1".equals(data.getIsReturn())) {
+                                mTvAddressback2.setText(data.getAddressBack());
+                                mLlAddressInfo.setVisibility(View.VISIBLE);
+                                mLlY.setVisibility(View.GONE);
+                                mIvY.setVisibility(View.GONE);
+                                mLlN.setVisibility(View.GONE);
+                                mTvModify.setVisibility(View.GONE);
+                                mTvY.setText("是");
+                                mTvY.setVisibility(View.VISIBLE);
+                                if ("1".equals(data.getPostPayType())) {
+                                    mLlPay.setVisibility(View.GONE);
+                                    mIvPay.setVisibility(View.GONE);
+                                    mLlPay2.setVisibility(View.GONE);
+                                    mTvPost.setText("厂商到付");
+                                    mTvPost.setVisibility(View.VISIBLE);
+                                } else {
+                                    mLlPay.setVisibility(View.GONE);
+                                    mIvPay2.setVisibility(View.GONE);
+                                    mLlPay2.setVisibility(View.GONE);
+                                    mTvPost.setVisibility(View.VISIBLE);
+                                    mTvPost.setText("师傅现付");
+                                }
+                            } else {
+                                mLlAddressInfo.setVisibility(View.GONE);
+                                mLlY.setVisibility(View.GONE);
+                                mIvN.setVisibility(View.GONE);
+                                mLlN.setVisibility(View.GONE);
+                                mTvY.setVisibility(View.VISIBLE);
+                                mTvY.setText("否");
+                                mLlPost.setVisibility(View.GONE);
+                                mLlAddress.setVisibility(View.GONE);
+                            }
+                        }
+                    } else if ("-1".equals(data.getAccessoryAndServiceApplyState())) {
+                        mTvPass.setVisibility(View.GONE);
+                        mTvReject.setVisibility(View.GONE);
+                        mTvStatusAccessory.setVisibility(View.VISIBLE);
+                        mTvStatusAccessory.setText("已拒绝");
+                        mLlOldAccessory.setVisibility(View.GONE);
+                    } else if ("2".equals(data.getAccessoryAndServiceApplyState())) {
+                        mTvPass.setVisibility(View.GONE);
+                        mTvReject.setVisibility(View.GONE);
+                        mTvStatusAccessory.setVisibility(View.VISIBLE);
+                        mTvStatusAccessory.setText("厂家寄件");
+                        mLlOldAccessory.setVisibility(View.GONE);
+                        mLlReturn.setVisibility(View.VISIBLE);
+                        if (data.getIsReturn() != null) {
+                            if ("1".equals(data.getIsReturn())) {
+                                mTvAddressback2.setText(data.getAddressBack());
+                                mLlAddressInfo.setVisibility(View.VISIBLE);
+                                mLlY.setVisibility(View.GONE);
+                                mIvY.setVisibility(View.GONE);
+                                mLlN.setVisibility(View.GONE);
+                                mTvModify.setVisibility(View.GONE);
+                                mTvY.setText("是");
+                                mTvY.setVisibility(View.VISIBLE);
+                                if ("1".equals(data.getPostPayType())) {
+                                    mLlPay.setVisibility(View.GONE);
+                                    mIvPay.setVisibility(View.GONE);
+                                    mLlPay2.setVisibility(View.GONE);
+                                    mTvPost.setText("厂商到付");
+                                    mTvPost.setVisibility(View.VISIBLE);
+                                } else {
+                                    mLlPay.setVisibility(View.GONE);
+                                    mIvPay2.setVisibility(View.GONE);
+                                    mLlPay2.setVisibility(View.GONE);
+                                    mTvPost.setVisibility(View.VISIBLE);
+                                    mTvPost.setText("师傅现付");
+                                }
+                            } else {
+                                mLlAddressInfo.setVisibility(View.GONE);
+                                mLlY.setVisibility(View.GONE);
+                                mIvN.setVisibility(View.GONE);
+                                mLlN.setVisibility(View.GONE);
+                                mTvY.setVisibility(View.VISIBLE);
+                                mTvY.setText("否");
+                                mLlPost.setVisibility(View.GONE);
+                                mLlAddress.setVisibility(View.GONE);
+                            }
+                        }
+                    } else {
+                        mTvPass.setVisibility(View.VISIBLE);
+                        mTvReject.setVisibility(View.VISIBLE);
+                        mTvStatusAccessory.setVisibility(View.GONE);
+                    }
+
+//                        if ("4".equals(data.getOrderAccessroyDetail().get(0).getSizeID())) {
+//                            mLlApproveAccessory.setVisibility(View.GONE);
+//                            mLlSendAccessory.setVisibility(View.GONE);
+//                            mLlOldAccessory.setVisibility(View.GONE);
+//                        } else {
+//                            mLlApproveAccessory.setVisibility(View.VISIBLE);
+//                        }
+//                    mLlOldAccessory.setVisibility(View.VISIBLE);
+                    for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
+                        if ("2".equals(data.getOrderAccessroyDetail().get(i).getState())) {
+                            data.getOrderAccessroyDetail().remove(i);
+                        }
+                    }
+                    accessoryDetailAdapter = new AccessoryDetailAdapter(R.layout.item_accessories, data.getOrderAccessroyDetail(), data.getAccessoryState());
+                    mRvAccessories.setLayoutManager(new LinearLayoutManager(mActivity));
+                    mRvAccessories.setAdapter(accessoryDetailAdapter);
+                    accessoryDetailAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                        @Override
+                        public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                            switch (view.getId()) {
+                                case R.id.tv_pass:
+                                    if (!"2".equals(data.getTypeID())) {
+                                        if ("1".equals(IsReturn)) {
+                                            if ("".equals(AddressBack)) {
+                                                MyUtils.showToast(mActivity, "请添加旧件寄送地址");
+                                                return;
+                                            } else {
+                                                mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+                                            }
+                                        } else {
+                                            mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+                                        }
+                                    }
+//                                        showEdit(data.getOrderAccessroyDetail(),position);
+                                    reject = new CommonDialog_Home(mActivity);
+                                    reject.setMessage("是否同意申请的配件")
+
+                                            //.setImageResId(R.mipmap.ic_launcher)
+                                            .setTitle("提示")
+                                            .setPositive("确定")
+                                            .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                                        @Override
+                                        public void onPositiveClick() {
+                                            reject.dismiss();
+                                            mPresenter.ApproveOrderAccessory(OrderID, "1", "0", data.getOrderAccessroyDetail().get(position).getId());
+                                        }
+
+                                        @Override
+                                        public void onNegtiveClick() {//取消
+                                            reject.dismiss();
+                                            // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).show();
+                                    break;
+                                case R.id.tv_reject:
+                                    reject = new CommonDialog_Home(mActivity);
+                                    reject.setMessage("是否拒绝申请的配件")
+
+                                            //.setImageResId(R.mipmap.ic_launcher)
+                                            .setTitle("提示")
+                                            .setPositive("确定")
+                                            .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                                        @Override
+                                        public void onPositiveClick() {
+                                            reject.dismiss();
+                                            mPresenter.ApproveOrderAccessory(OrderID, "-1", "0", data.getOrderAccessroyDetail().get(position).getId());
+                                        }
+
+                                        @Override
+                                        public void onNegtiveClick() {//取消
+                                            reject.dismiss();
+                                            // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).show();
+                                    break;
+                                case R.id.iv_host:
+                                    if (data.getOrderAccessroyDetail() == null) {
+                                        return;
+                                    }
+                                    if (data.getOrderAccessroyDetail().size() == 0) {
+                                        return;
+                                    }
+                                    simpleTarget = new SimpleTarget<Bitmap>() {
+                                        @Override
+                                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
+                                                super Bitmap> transition) {
+                                            RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
+                                            rxDialogScaleView.setImage(resource);
+                                            rxDialogScaleView.show();
+                                        }
+                                    };
+
+                                    Glide.with(mActivity)
+                                            .asBitmap()
+                                            .load("https://img.xigyu.com/Pics/Accessory/" + data.getOrderAccessroyDetail().get(position).getPhoto1())
+                                            .into(simpleTarget);
+                                    break;
+                                case R.id.iv_accessories:
+                                    if (data.getOrderAccessroyDetail() == null) {
+                                        return;
+                                    }
+                                    if (data.getOrderAccessroyDetail().size() == 0) {
+                                        return;
+                                    }
+                                    simpleTarget = new SimpleTarget<Bitmap>() {
+                                        @Override
+                                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<?
+                                                super Bitmap> transition) {
+                                            RxDialogScaleView rxDialogScaleView = new RxDialogScaleView(mActivity);
+                                            rxDialogScaleView.setImage(resource);
+                                            rxDialogScaleView.show();
+                                        }
+                                    };
+
+                                    Glide.with(mActivity)
+                                            .asBitmap()
+                                            .load("https://img.xigyu.com/Pics/Accessory/" + data.getOrderAccessroyDetail().get(position).getPhoto2())
+                                            .into(simpleTarget);
+                                    break;
+                            }
+                        }
+                    });
+//                    }
                 }
                 if (data.getBeyondState() != null) {
                     mLlApproveBeyondMoney.setVisibility(View.VISIBLE);
@@ -1185,7 +1386,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     mTvModifyBeyond.setVisibility(View.GONE);
                     mTvStatus.setVisibility(View.VISIBLE);
                     mTvStatus.setText("已拒绝");
-                }else if ("2".equals(data.getBeyondState())){
+                } else if ("2".equals(data.getBeyondState())) {
                     mTvPassBeyond.setVisibility(View.GONE);
                     mTvRejectBeyond.setVisibility(View.GONE);
                     mTvModifyBeyond.setVisibility(View.GONE);
@@ -1318,7 +1519,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         mLlSelectTime.setVisibility(View.GONE);
                     } else {
                         mTvSelectTime.setText(data.getSendOrderList().get(0).getServiceDate());
-                        mLlSelectTime.setVisibility(View.VISIBLE);
+                        mLlSelectTime.setVisibility(View.GONE);
                     }
                 }
                 if ("2".equals(data.getTypeID())) {
@@ -1413,6 +1614,23 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
     @Override
     public void ApproveOrderService(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                result = baseResult.getData();
+                if (result.isItem1()) {
+                    ToastUtils.showShort("审核成功！");
+                    mPresenter.GetOrderInfo(OrderID);
+                } else {
+                    ToastUtils.showShort("审核失败！" + result.getItem2());
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void ApproveOrderAccessoryAndService(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
                 result = baseResult.getData();

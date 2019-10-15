@@ -521,7 +521,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         reject.dismiss();
-                        mPresenter.ApproveOrderService(OrderID, "-1");
+//                        mPresenter.ApproveOrderService(OrderID, "-1");
                     }
 
                     @Override
@@ -541,7 +541,7 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
                     @Override
                     public void onPositiveClick() {
                         pass.dismiss();
-                        mPresenter.ApproveOrderService(OrderID, "1");
+//                        mPresenter.ApproveOrderService(OrderID, "1");
                     }
 
                     @Override
@@ -843,6 +843,11 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
             default:
                 break;
         }
+    }
+
+    @Override
+    public void ApproveOrderAccessoryAndService(BaseResult<Data<String>> baseResult) {
+
     }
 
     @Override

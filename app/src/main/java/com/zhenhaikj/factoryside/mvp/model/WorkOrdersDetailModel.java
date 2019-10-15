@@ -46,8 +46,15 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> ApproveOrderService(String OrderID, String State) {
-        return ApiRetrofit.getDefault().ApproveOrderService(OrderID, State)
+    public Observable<BaseResult<Data<String>>> ApproveOrderService(String OrderID, String State,String OrderServiceID) {
+        return ApiRetrofit.getDefault().ApproveOrderService(OrderID, State,OrderServiceID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> ApproveOrderAccessoryAndService(String OrderID, String AccessoryAndServiceApplyState, String PostPayType, String IsReturn) {
+        return ApiRetrofit.getDefault().ApproveOrderAccessoryAndService(OrderID, AccessoryAndServiceApplyState,PostPayType,IsReturn)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

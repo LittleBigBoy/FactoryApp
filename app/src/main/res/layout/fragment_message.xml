@@ -18,10 +18,10 @@
                 android:id="@+id/ll_message_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/white_round_shape">
+                android:layout_marginRight="10dp"
+                android:background="@color/white">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -37,14 +37,15 @@
                         android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
                 </RelativeLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_picture_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/white_round_shape">
+                android:layout_marginRight="10dp"
+                android:background="@color/white">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -60,74 +61,73 @@
                         android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
                 </RelativeLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/white_round_shape">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/white"
+                android:paddingTop="16dp">
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="#F25037" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="3dp"
+                    android:layout_marginLeft="10dp"
                     android:text="添加留言"
                     android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/white_round_shape"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/white"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/et_message"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="9"
-                    android:padding="@dimen/dp_10"
-                    android:background="@null"
-                    android:hint="请输入留言信息"
-                    android:gravity="top"
-                    android:textSize="14dp"
-                    android:textColorHint="#B1B1B1"
-                    android:textColor="#333333" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/gray_shape2">
 
-                <ImageView
-                    android:id="@+id/annex_iv"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="right"
-                    android:layout_margin="15dp"
-                    android:src="@drawable/annex" />
+                    <EditText
+                        android:id="@+id/et_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="9"
+                        android:background="@null"
+                        android:gravity="top"
+                        android:hint="请输入留言信息"
+                        android:textColor="#333333"
+                        android:textColorHint="#B1B1B1"
+                        android:textSize="14sp"
+                        android:padding="10dp"/>
+
+                    <ImageView
+                        android:id="@+id/annex_iv"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="right"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/annex" />
+                </LinearLayout>
+
+
             </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
                 android:background="#F25037"
                 android:text="提  交"

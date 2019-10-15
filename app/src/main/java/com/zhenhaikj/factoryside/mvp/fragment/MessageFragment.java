@@ -137,6 +137,7 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
         leaveMessageAdapter = new LeaveMessageAdapter(R.layout.item_leave_message, list);
         mMessageRv.setLayoutManager(new LinearLayoutManager(mActivity));
         mMessageRv.setAdapter(leaveMessageAdapter);
+        leaveMessageAdapter.setEmptyView(getEmptyMessage());
 
         leaveMessageImgAdapter = new LeaveMessageImgAdapter(R.layout.item_message_picture, pictureList);
         mRvPicture.setLayoutManager(new GridLayoutManager(mActivity,3));
@@ -175,8 +176,10 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
                     ToastUtils.showShort("请输入留言内容");
                 } else {
                     mPresenter.AddLeaveMessageForOrder(userID, orderId, message);
-                    if (img != null) {
+                    if (img.size()>0) {
                         uploadImg(img);
+                    }else {
+                        return;
                     }
                 }
                 break;
@@ -200,6 +203,7 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
                 leaveMessageAdapter.notifyDataSetChanged();
                 pictureList.clear();
                 leaveMessageImgAdapter.notifyDataSetChanged();
+                mEtMessage.setText("");
                 mPresenter.GetOrderInfo(orderId);
                 break;
         }
@@ -210,13 +214,13 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
-                if (data.getLeavemessageList().size() == 0) {
-                    mLlMessageList.setVisibility(View.GONE);
-                } else {
+//                if (data.getLeavemessageList().size() == 0) {
+//                    mLlMessageList.setVisibility(View.VISIBLE);
+//                } else {
                     list.addAll(data.getLeavemessageList());
                     Collections.reverse(list);
                     leaveMessageAdapter.setNewData(list);
-                }
+//                }
                 if (data.getLeavemessageimgList().size()==0){
                     mLlPictureList.setVisibility(View.GONE);
                 }else {

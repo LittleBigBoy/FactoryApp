@@ -10,8 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -130,7 +128,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     TextView mTvBrandNumber;
     @BindView(R.id.ll_product)
     LinearLayout mLlProduct;
-//    @BindView(R.id.et_num)
+    //    @BindView(R.id.et_num)
 //    EditText mEtNum;
     @BindView(R.id.tv_choose_property)
     TextView mTvChooseProperty;
@@ -258,6 +256,8 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     LinearLayout mLlLogistics;
     @BindView(R.id.addview)
     AdderView mAddview;
+    @BindView(R.id.ll_quantity)
+    LinearLayout mLlQuantity;
 
 
     private PopupWindow popupWindow;
@@ -396,6 +396,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 break;
             case 1:
                 mTvTitle.setText("上门维修");
+                mLlQuantity.setVisibility(View.GONE);
                 break;
             default:
                 break;
@@ -713,18 +714,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     cancleLoading();
                     return;
                 }
-//                Num = mEtNum.getText().toString();
-                Num=String.valueOf(mAddview.getValue());
-                if (Num == null) {
-                    MyUtils.showToast(mActivity, "请输入数量！");
-                    cancleLoading();
-                    return;
-                }
-                if ("".equals(Num)) {
-                    MyUtils.showToast(mActivity, "请输入数量！");
-                    cancleLoading();
-                    return;
-                }
+//
 
                 /*if (FAccessoryID == null) {
                     MyUtils.showToast(mActivity, "请选择属性！");
@@ -828,6 +818,18 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                                 return;
                             }
                         }
+//                        Num = mEtNum.getText().toString();
+                        Num = String.valueOf(mAddview.getValue());
+                        if (Num == null) {
+                            MyUtils.showToast(mActivity, "请输入数量！");
+                            cancleLoading();
+                            return;
+                        }
+                        if ("".equals(Num)) {
+                            MyUtils.showToast(mActivity, "请输入数量！");
+                            cancleLoading();
+                            return;
+                        }
                         service = new Service();
                         service.setTypeID("2");
                         service.setTypeName("安装");
@@ -922,7 +924,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             service.setExtra(Extra);
                             service.setExtraTime(ExtraTime);
                             service.setExtraFee(ExtraFee);
-                            service.setNum(Num);
+                            service.setNum("1");
                             service.setIsRecevieGoods(AccessorySendState);
                             service.setExpressNo(null);
                             service.setOrderAccessoryStr(s1);
@@ -957,7 +959,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             service.setExtra(Extra);
                             service.setExtraTime(ExtraTime);
                             service.setExtraFee(ExtraFee);
-                            service.setNum(Num);
+                            service.setNum("1");
                             service.setIsRecevieGoods(AccessorySendState);
                             service.setExpressNo(null);
                             s = gson.toJson(service);
@@ -1079,7 +1081,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     mfAccessory.setQuantity(list.get(i).getCount() + ""); //数量 默认数字为1
                     mfAccessory.setPrice(Double.valueOf("0"));//原价
                     mfAccessory.setDiscountPrice(Double.valueOf("0"));//折扣价
-                    mfAccessory.setSizeID("1");//小修中修大修
+//                    mfAccessory.setSizeID("1");//小修中修大修
                     mfAccessory.setSendState("Y");
                     mfAccessory.setRelation("");
                     mfAccessory.setState("1");

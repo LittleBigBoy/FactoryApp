@@ -115,8 +115,8 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         setSwipeBackEnable(false);
         mFragments = new ArrayList<>();
         mFragments.add(HomeFragment.newInstance("", ""));
-        mFragments.add(NewsFragment.newInstance("", ""));
         mFragments.add(AllWorkOrdersFragment.newInstance("", ""));
+        mFragments.add(NewsFragment.newInstance("", ""));
         mFragments.add(DiscoveryFragment.newInstance("", ""));
         mFragments.add(MineFragment.newInstance("", ""));
         startService(new Intent(mActivity, LogcatScannerService.class));
@@ -167,7 +167,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 tabSelected(ll_home);
                 break;
             case R.id.ll_message:
-                viewPager.setCurrentItem(1);
+                viewPager.setCurrentItem(2);
                 tabSelected(ll_message);
                 break;
             case R.id.ll_category:
@@ -215,10 +215,10 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
             case 0:
                 tabSelected(ll_home);
                 break;
-            case 1:
+            case 2:
                 tabSelected(ll_message);
                 break;
-            case 2:
+            case 1:
                 tabSelected(ll_category);
                 break;
             case 3:

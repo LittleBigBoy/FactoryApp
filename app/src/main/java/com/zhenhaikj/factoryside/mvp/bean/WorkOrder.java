@@ -214,6 +214,15 @@ public class WorkOrder implements Serializable {
         private List<LeavemessageListBean> LeavemessageList;
         private List<LeavemessageimgListBean> LeavemessageimgList;
         private String SendAddress;
+        private String AccessoryAndServiceApplyState;
+
+        public String getAccessoryAndServiceApplyState() {
+            return AccessoryAndServiceApplyState;
+        }
+
+        public void setAccessoryAndServiceApplyState(String accessoryAndServiceApplyState) {
+            AccessoryAndServiceApplyState = accessoryAndServiceApplyState;
+        }
 
         public String getSendAddress() {
             return SendAddress==null?"":SendAddress;
@@ -643,6 +652,9 @@ public class WorkOrder implements Serializable {
                     break;
                 case "7":
                     status="已完成";
+                    break;
+                case "9":
+                    status="远程费审核";
                     break;
             }
             return status;

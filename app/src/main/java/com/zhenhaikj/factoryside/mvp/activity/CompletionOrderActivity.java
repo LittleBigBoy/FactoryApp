@@ -253,6 +253,11 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
     }
 
     @Override
+    public void ApproveOrderAccessoryAndService(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
     public void AddOrUpdateExpressNo(BaseResult<Data<String>> baseResult) {
 
     }

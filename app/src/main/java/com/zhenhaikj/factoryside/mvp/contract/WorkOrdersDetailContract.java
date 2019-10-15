@@ -20,7 +20,8 @@ public interface WorkOrdersDetailContract {
         Observable<BaseResult<Data<String>>> ApplyCustomService(String OrderID);
         Observable<BaseResult<Data<String>>> ApproveOrderAccessory(String OrderID,String AccessoryApplyState,String NewMoney,String OrderAccessoryID);
         Observable<BaseResult<Data<String>>> ApproveBeyondMoney(String OrderID,String BeyondState,String BeyondMoney);
-        Observable<BaseResult<Data<String>>> ApproveOrderService(String OrderID,String State);
+        Observable<BaseResult<Data<String>>> ApproveOrderService(String OrderID,String State,String OrderServiceID);
+        Observable<BaseResult<Data<String>>> ApproveOrderAccessoryAndService(String OrderID,String AccessoryAndServiceApplyState, String PostPayType, String IsReturn);
         Observable<BaseResult<Data<String>>> AddOrUpdateExpressNo(String OrderID,String ExpressNo);
 
         Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword);
@@ -60,6 +61,7 @@ public interface WorkOrdersDetailContract {
          * @param baseResult
          */
         void ApproveOrderService(BaseResult<Data<String>> baseResult);
+        void ApproveOrderAccessoryAndService(BaseResult<Data<String>> baseResult);
         void AddOrUpdateExpressNo(BaseResult<Data<String>> baseResult);
 
         void EnSureOrder(BaseResult<Data<String>> baseResult);
@@ -76,7 +78,8 @@ public interface WorkOrdersDetailContract {
         public abstract void ApplyCustomService(String OrderID);
         public abstract void ApproveOrderAccessory(String OrderID,String AccessoryApplyState,String NewMoney,String OrderAccessoryID);
         public abstract void ApproveBeyondMoney(String OrderID,String BeyondState,String BeyondMoney);
-        public abstract void ApproveOrderService(String OrderID,String State);
+        public abstract void ApproveOrderService(String OrderID,String State,String OrderServiceID);
+        public abstract void ApproveOrderAccessoryAndService(String OrderID,String AccessoryAndServiceApplyState, String PostPayType, String IsReturn);
         public abstract void AddOrUpdateExpressNo(String OrderID,String ExpressNo);
 
         public abstract void EnSureOrder(String OrderID, String PayPassword);

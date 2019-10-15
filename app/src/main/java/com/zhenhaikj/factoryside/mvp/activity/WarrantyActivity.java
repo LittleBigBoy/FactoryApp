@@ -247,7 +247,7 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
                 colorTransitionPagerTitleView.setNormalColor(Color.BLACK);
                 colorTransitionPagerTitleView.setSelectedColor(Color.RED);
                 colorTransitionPagerTitleView.setText(mTitleDataList[index]);
-                colorTransitionPagerTitleView.setTextSize(18);
+                colorTransitionPagerTitleView.setTextSize(16);
                 colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -433,6 +433,11 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
 
     @Override
     public void ApproveOrderService(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void ApproveOrderAccessoryAndService(BaseResult<Data<String>> baseResult) {
 
     }
 

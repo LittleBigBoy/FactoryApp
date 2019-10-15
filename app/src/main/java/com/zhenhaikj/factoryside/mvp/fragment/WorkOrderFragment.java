@@ -35,6 +35,7 @@ import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
 import com.zhenhaikj.factoryside.mvp.model.AllWorkOrdersModel;
 import com.zhenhaikj.factoryside.mvp.presenter.AllWorkOrdersPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.widget.LinearLayoutManagerWrapper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,7 +47,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.BindView;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.widget.TextView;
@@ -70,7 +73,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     private WorkOrderAdapter mWorkOrderAdapter;
     private List<WorkOrder.DataBean> workOrderList = new ArrayList<>();
     private String[] mTitleDataList = new String[]{
-            "待接单","待审核", "待支付", "已完成", "质保单","所有工单","退单处理"
+            "待接单", "待审核", "待支付", "已完成", "质保单", "所有工单", "退单处理"
     };
     private static SPUtils spUtils;
     private String UserID;
@@ -149,8 +152,8 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 //获取消息内容
             String s = clickedResult.getContent();
             MyUtils.e("推送",ster+"|"+set+"|"+s);*/
-        spUtils=SPUtils.getInstance("token");
-        UserID =spUtils.getString("userName");
+        spUtils = SPUtils.getInstance("token");
+        UserID = spUtils.getString("userName");
         getData();
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -172,48 +175,51 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
         myClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
     }
 
-/*    工厂端state
+    /*    工厂端state
 
-0、所有工单
-1、待接单
-2、已接待预约
-3、退单处理
-4、已完结
-5、配件单
-6、待支付
-7、远程费单
-8、质保单
-9、未完成单
-10、费用变更
-11、留言工单*/
+    0、所有工单
+    1、待接单
+    2、已接待预约
+    3、退单处理
+    4、已完结
+    5、配件单
+    6、待支付
+    7、远程费单
+    8、质保单
+    9、未完成单
+    10、费用变更
+    11、留言工单*/
     public void getData() {
         switch (mParam1) {
             case "待接单":
-                mPresenter.GetOrderInfoList(UserID,"0", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID, "0", Integer.toString(pageIndex), "3");
                 break;
             case "待审核":
-                mPresenter.GetOrderInfoList(UserID,"1", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID, "1", Integer.toString(pageIndex), "3");
                 break;
             case "已接单":
-                mPresenter.GetOrderInfoList(UserID,"7", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID, "7", Integer.toString(pageIndex), "3");
                 break;
             case "待支付":
-                mPresenter.GetOrderInfoList(UserID,"2", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID, "2", Integer.toString(pageIndex), "3");
                 break;
             case "已完成":
-                mPresenter.GetOrderInfoList(UserID,"3", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID, "3", Integer.toString(pageIndex), "3");
                 break;
             case "质保单":
-                mPresenter.GetOrderInfoList(UserID,"4", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID, "4", Integer.toString(pageIndex), "3");
                 break;
             case "所有工单":
-                mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID, "5", Integer.toString(pageIndex), "3");
                 break;
             case "退单处理":
-                mPresenter.GetOrderInfoList(UserID,"6", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID, "6", Integer.toString(pageIndex), "3");
                 break;
             case "远程费审核":
-                mPresenter.GetOrderInfoList(UserID,"9", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderInfoList(UserID, "9", Integer.toString(pageIndex), "3");
+                break;
+            case "待寄件":
+                mPresenter.GetOrderInfoList(UserID, "10", Integer.toString(pageIndex), "3");
                 break;
 
         }
@@ -222,14 +228,14 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
     @Override
     protected void initView() {
-        mRvWorkOrder.setLayoutManager(new LinearLayoutManager(mActivity));
-        mWorkOrderAdapter = new WorkOrderAdapter(R.layout.order_item, workOrderList,mParam1);
+        mRvWorkOrder.setLayoutManager(new LinearLayoutManagerWrapper(mActivity));
+        mWorkOrderAdapter = new WorkOrderAdapter(R.layout.order_item, workOrderList, mParam1);
         mWorkOrderAdapter.setEmptyView(getEmptyView());
         mRvWorkOrder.setAdapter(mWorkOrderAdapter);
         mWorkOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.tv_complaint:
                         complaint_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_complaint, null);
                         title = complaint_view.findViewById(R.id.title);
@@ -251,11 +257,11 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                             @Override
                             public void onClick(View v) {
                                 content = et_content.getText().toString().trim();
-                        if ("".equals(content)){
-                            MyUtils.showToast(mActivity,"请输入投诉原因");
-                        }else{
-                                mPresenter.FactoryComplaint(workOrderList.get(position).getOrderID(), content);
-                        }
+                                if ("".equals(content)) {
+                                    MyUtils.showToast(mActivity, "请输入投诉原因");
+                                } else {
+                                    mPresenter.FactoryComplaint(workOrderList.get(position).getOrderID(), content);
+                                }
                             }
                         });
                         break;
@@ -281,10 +287,10 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 //                            startActivity(intent);
 //                        }
 //                        if (mParam1=="质保单"){
-                             mPresenter.UpdateOrderFIsLook(workOrderList.get(position).getOrderID(),"2","2");
-                            Intent intent1=new Intent(mActivity, WarrantyActivity.class);
-                            intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
-                            startActivity(intent1);
+                        mPresenter.UpdateOrderFIsLook(workOrderList.get(position).getOrderID(), "2", "2");
+                        Intent intent1 = new Intent(mActivity, WarrantyActivity.class);
+                        intent1.putExtra("OrderID", workOrderList.get(position).getOrderID());
+                        startActivity(intent1);
 //                        }else{
 //                            Intent intent1=new Intent(mActivity, AccessoriesListActivity.class);
 //                            intent1.putExtra("OrderID",workOrderList.get(position).getOrderID());
@@ -292,20 +298,38 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 //                        }
                         break;
                     case R.id.iv_copy:
-                         String id=workOrderList.get(position).getOrderID();
+                        String id = workOrderList.get(position).getOrderID();
                         myClip = ClipData.newPlainText("", id);
                         myClipboard.setPrimaryClip(myClip);
                         ToastUtils.showShort("复制成功");
                         break;
                     case R.id.tv_obsolete:
-                        String orderId=workOrderList.get(position).getOrderID();
+                        String orderId = workOrderList.get(position).getOrderID();
 //                        mPresenter.UpdateOrderState(orderId,"-2");
                         mPresenter.ApplyCancelOrder(orderId);
                         workOrderList.clear();
                         getData();
                         mRefreshLayout.finishRefresh();
                         break;
+                    case R.id.iv_star:
+                        if (view.isSelected()){
+                            view.setSelected(false);
+                        }else {
+                            view.setSelected(true);
+                        }
+                        adapter.notifyDataSetChanged();
+                        break;
                 }
+            }
+        });
+
+        mWorkOrderAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                mPresenter.UpdateOrderFIsLook(workOrderList.get(position).getOrderID(), "2", "2");
+                Intent intent1 = new Intent(mActivity, WarrantyActivity.class);
+                intent1.putExtra("OrderID", workOrderList.get(position).getOrderID());
+                startActivity(intent1);
             }
         });
     }
@@ -372,15 +396,15 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
     @Override
     public void UpdateOrderFIsLook(BaseResult<Data<String>> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().isItem1()){
+                if (baseResult.getData().isItem1()) {
                     EventBus.getDefault().post(Config.ORDER_READ);
                 }
 
                 break;
-                default:
-                    break;
+            default:
+                break;
         }
     }
 
@@ -394,14 +418,14 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
         switch (baseResult.getStatusCode()) {
             case 200:
                 workOrder = baseResult.getData();
-                if (workOrder.getData()!=null){
+                if (workOrder.getData() != null) {
                     workOrderList.addAll(workOrder.getData());
                     mWorkOrderAdapter.setNewData(workOrderList);
                 }
                 mRefreshLayout.finishRefresh();
-                if (pageIndex!=1&&"0".equals(workOrder.getCount())){
+                if (pageIndex != 1 && "0".equals(workOrder.getCount())) {
                     mRefreshLayout.finishLoadMoreWithNoMoreData();
-                }else{
+                } else {
                     mRefreshLayout.finishLoadMore();
                 }
                 break;
@@ -413,7 +437,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
     @Override
     public void UpdateOrderState(BaseResult<Data<String>> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
                 ToastUtils.showShort("取消成功");
                 break;
@@ -421,4 +445,5 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                 break;
         }
     }
+
 }

@@ -240,6 +240,11 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
     }
 
     @Override
+    public void ApproveOrderAccessoryAndService(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
     public void AddOrUpdateExpressNo(BaseResult<Data<String>> baseResult) {
 
 

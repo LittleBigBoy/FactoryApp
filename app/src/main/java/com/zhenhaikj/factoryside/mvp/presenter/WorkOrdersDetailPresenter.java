@@ -58,12 +58,23 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
     }
 
     @Override
-    public void ApproveOrderService(String OrderID, String State) {
-        mModel.ApproveOrderService(OrderID, State)
+    public void ApproveOrderService(String OrderID, String State,String OrderServiceID) {
+        mModel.ApproveOrderService(OrderID, State,OrderServiceID)
                 .subscribe(new BaseObserver<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
                         mView.ApproveOrderService(value);
+                    }
+                });
+    }
+
+    @Override
+    public void ApproveOrderAccessoryAndService(String OrderID, String AccessoryAndServiceApplyState, String PostPayType, String IsReturn) {
+        mModel.ApproveOrderAccessoryAndService(OrderID, AccessoryAndServiceApplyState,PostPayType,IsReturn)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.ApproveOrderAccessoryAndService(value);
                     }
                 });
     }

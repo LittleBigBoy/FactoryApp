@@ -529,7 +529,25 @@ public interface ApiService {
     @POST("Order/ApproveOrderService")
     Observable<BaseResult<Data<String>>> ApproveOrderService(
             @Field("OrderID") String OrderID,
-            @Field("State") String State
+            @Field("State") String State,
+            @Field("OrderServiceID") String OrderServiceID
+    );
+
+
+    /**
+     * 审核配件跟服务申请
+     *
+     * @param OrderID 订单id
+     * @param AccessoryAndServiceApplyState   -1拒绝 1通过
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/ApproveOrderAccessoryAndService")
+    Observable<BaseResult<Data<String>>> ApproveOrderAccessoryAndService(
+            @Field("OrderID") String OrderID,
+            @Field("AccessoryAndServiceApplyState") String AccessoryAndServiceApplyState,
+            @Field("PostPayType") String PostPayType,
+            @Field("IsReturn") String IsReturn
     );
 
     /**
