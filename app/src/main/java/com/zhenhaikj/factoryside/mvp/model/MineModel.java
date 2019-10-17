@@ -4,6 +4,7 @@ import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.Search;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.MineContract;
 
@@ -30,6 +31,13 @@ public class MineModel implements MineContract.Model {
     @Override
     public Observable<BaseResult<Data<CompanyInfo>>> GetmessageBytype(String UserId) {
         return ApiRetrofit.getDefault().GetmessageBytype(UserId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Search>> GetOrderInfoList(String Phone, String OrderID, String UserID, String limit, String page) {
+        return ApiRetrofit.getDefault().GetOrderInfoList(Phone, OrderID, UserID,limit, page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

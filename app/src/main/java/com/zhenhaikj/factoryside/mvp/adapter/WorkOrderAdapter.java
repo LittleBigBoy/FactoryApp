@@ -1,5 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.adapter;
 
+import android.graphics.Color;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenhaikj.factoryside.R;
@@ -38,6 +40,10 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
 //        }
         if ("维修".equals(item.getTypeName())){
             helper.setText(R.id.tv_malfunction,"故障:"+item.getMemo());
+
+        }else if ("安装".equals(item.getTypeName())){
+            helper.setText(R.id.tv_malfunction,"安装备注:"+item.getMemo());
+            helper.setBackgroundColor(R.id.tv_warranty, Color.parseColor("#ff3359"));
         }else {
             helper.setText(R.id.tv_malfunction,item.getMemo());
         }
@@ -110,6 +116,11 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
 //            }
 //        }
 
+        if (item.getFStarOrder()==null||"N".equals(item.getFStarOrder())){
+            helper.getView(R.id.iv_star).setSelected(false);
+        }else {
+            helper.getView(R.id.iv_star).setSelected(true);
+        }
     }
 
 }

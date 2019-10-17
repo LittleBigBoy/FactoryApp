@@ -72,6 +72,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.Search;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.MineContract;
 import com.zhenhaikj.factoryside.mvp.model.MineModel;
@@ -233,17 +234,20 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     protected void initData() {
+        spUtils = SPUtils.getInstance("token");
+        userID = spUtils.getString("userName");
 //        Glide.with(mActivity).load(R.drawable.avatar).apply(RequestOptions.circleCropTransform().placeholder(R.drawable.default_avatar).error(R.drawable.default_avatar)).into(mIvProfileImage);
         mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mPresenter.GetUserInfoList(userId, "1");
-
+                mPresenter.GetOrderInfoList("","",userID,"1","999");
                 mRefreshLayout.finishRefresh(1000);
             }
         });
         mPresenter.GetUserInfoList(userId, "1");
+        mPresenter.GetOrderInfoList("","",userID,"1","999");
 //        mPresenter.GetmessageBytype(userId);
 
         UMShareConfig config = new UMShareConfig();
@@ -303,8 +307,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                         }
                     }
                 });
-        spUtils = SPUtils.getInstance("token");
-        userID = spUtils.getString("userName");
+
 
     }
 
@@ -351,6 +354,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             return;
         }
         mPresenter.GetUserInfoList(userId, "1");
+        mPresenter.GetOrderInfoList("","",userID,"1","999");
     }
 
     @Override
@@ -465,7 +469,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     if (userInfoDean.getIfAuth().equals("1")) {
                         bundle = new Bundle();
                         bundle.putString("title", "所有订单");
-                        bundle.putInt("position", 0);
+                        bundle.putInt("position", 2);
                         intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                         intent.putExtras(bundle);
                         ActivityUtils.startActivity(intent);
@@ -485,7 +489,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     if (userInfoDean.getIfAuth().equals("1")) {
                         bundle = new Bundle();
                         bundle.putString("title", "待审核");
-                        bundle.putInt("position", 3);
+                        bundle.putInt("position", 5);
                         intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                         intent.putExtras(bundle);
                         ActivityUtils.startActivity(intent);
@@ -506,7 +510,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     if (userInfoDean.getIfAuth().equals("1")) {
                         bundle = new Bundle();
                         bundle.putString("title", "待支付");
-                        bundle.putInt("position", 4);
+                        bundle.putInt("position", 7);
                         intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                         intent.putExtras(bundle);
                         ActivityUtils.startActivity(intent);
@@ -527,7 +531,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     if (userInfoDean.getIfAuth().equals("1")) {
                         bundle = new Bundle();
                         bundle.putString("title", "已完成");
-                        bundle.putInt("position", 5);
+                        bundle.putInt("position", 8);
                         intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                         intent.putExtras(bundle);
                         ActivityUtils.startActivity(intent);
@@ -791,7 +795,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     }
 //                    mTvNickname.setText(userInfoDean.getTrueName());
                     String format = String.format("%.2f", userInfoDean.getTotalMoney() - userInfoDean.getFrozenMoney());
-                    mTvMoney.setText("可用金额（元） " + format);
+
                 }
 
                 break;
@@ -833,6 +837,20 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     } else {
                         mTvNickname.setText("未设置公司名称");
                     }
+                }
+
+                break;
+        }
+    }
+
+    @Override
+    public void GetOrderInfoList(BaseResult<Search> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult!=null){
+                    mTvMoney.setText("已发工单数量："+baseResult.getData().getCount());
+                }else {
+                    return;
                 }
 
                 break;

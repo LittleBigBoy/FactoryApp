@@ -306,4 +306,14 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
     public void ApproveOrderAccessoryByModifyPrice(BaseResult<Data<String>> baseResult) {
 
     }
+
+    @Override
+    public void NowEnSureOrder(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void FactoryComplaint(BaseResult<Data<String>> baseResult) {
+
+    }
 }

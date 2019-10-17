@@ -57,7 +57,7 @@
             android:paddingRight="15dp"
             android:layout_gravity="right"
             android:visibility="gone"
-            android:src="@drawable/search"/>
+            android:src="@drawable/search2"/>
     </androidx.appcompat.widget.Toolbar>
     <View
         android:layout_width="match_parent"

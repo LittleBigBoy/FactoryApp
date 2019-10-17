@@ -1,83 +1,110 @@
 package com.zhenhaikj.factoryside.mvp.adapter;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
-
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenhaikj.factoryside.R;
-import com.zhenhaikj.factoryside.mvp.bean.Product;
-import com.zhenhaikj.factoryside.mvp.utils.GlideUtil;
+import com.zhenhaikj.factoryside.mvp.bean.Search;
+import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-/**
- * Created by cyl on 2018年5月10日 09:52:49.
- */
-
-public class SearchAdapter extends BaseAdapter {
-    private Context mContext;
-
-    private ArrayList<Product> grouplists = new ArrayList<>();
-    private LayoutInflater mInflater;
-
-    public SearchAdapter(Context mContext, ArrayList<Product> grouplists) {
-        super();
-        this.mContext = mContext;
-        this.grouplists = grouplists;
-        this.mInflater = LayoutInflater.from(mContext);
+public class SearchAdapter extends BaseQuickAdapter<Search.DataBean,BaseViewHolder> {
+    public SearchAdapter(int layoutResId, List<Search.DataBean> data) {
+        super(layoutResId, data);
     }
-
     @Override
-    public int getCount() {
-        return grouplists.size();
-    }
-
-    @Override
-    public Product getItem(int position) {
-        return grouplists.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if (convertView == null) {// 如果是第一次显示该页面(要记得保存到viewholder中供下次直接从缓存中调用)
-            convertView = mInflater.inflate(R.layout.search_item, null);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
-        } else {// 如果之前已经显示过该页面，则用viewholder中的缓存直接刷屏
-            holder = (ViewHolder) convertView.getTag();
+    protected void convert(BaseViewHolder helper, Search.DataBean item) {
+        helper.setText(R.id.tv_order_num,"工单号："+item.getOrderID())
+                .setText(R.id.tv_name,item.getCategoryName() + " " + item.getBrandName() + " " + item.getSubCategoryName())
+                .setText(R.id.tv_warranty,item.getTypeName()+"/"+item.getGuarantee())
+                .setText(R.id.tv_status,item.getState())
+                .setText(R.id.tv_info,item.getUserName()+"   "+item.getPhone())
+                .setText(R.id.tv_address,item.getAddress())
+//                .setText(R.id.tv_cost,"¥" + item.getQuaMoney())
+                .addOnClickListener(R.id.tv_complaint)
+                .addOnClickListener(R.id.tv_leave_message)
+                .addOnClickListener(R.id.tv_see_detail)
+                .addOnClickListener(R.id.iv_copy)
+                .addOnClickListener(R.id.iv_star)
+                .addOnClickListener(R.id.tv_obsolete);
+//        if (item.getAccessoryMoney()!=null&&!"0.00".equals(item.getAccessoryMoney())){
+//            helper.setText(R.id.tv_cost,"¥" + (Double.parseDouble(item.getAccessoryMoney())+Double.parseDouble(item.getBeyondMoney())+Double.parseDouble(item.getPostMoney())) + "");
+//        }else{
+//            helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney() + "");
+//        }
+        if ("维修".equals(item.getTypeName())){
+            helper.setText(R.id.tv_malfunction,"故障:"+item.getMemo());
+        }else {
+            helper.setText(R.id.tv_malfunction,item.getMemo());
+        }
+        if ("3".equals(item.getTypeID())) {
+            helper.setText(R.id.tv_cost,"¥" + item.getQuaMoney());
+        } else {
+            if ("1".equals(item.getAccessoryApplyState())) {
+                helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney());
+            } else {
+                helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney());
+            }
         }
 
-        Product item = grouplists.get(position);
-        GlideUtil.loadImageView(mContext, item.getImages(), holder.mIcon);
-        holder.mTxtName.setText(item.getName());
-        holder.mTxtPrice.setText("¥" + item.getPrice());
 
-        return convertView;
-    }
+        //        if ("待接单".equals(name)){
+//            helper.setVisible(R.id.tv_obsolete,true);
+//        }
+//
+//        if ("已接单待联系客户".equals(item.getState())||"待接单".equals(item.getState())){
+//            helper.setVisible(R.id.tv_obsolete,true);
+//        }
 
-    static class ViewHolder {
-        @BindView(R.id.icon)
-        ImageView mIcon;
-        @BindView(R.id.txt_name)
-        TextView mTxtName;
-        @BindView(R.id.txt_price)
-        TextView mTxtPrice;
+//        if ("0".equals(item.getBeyondState())){
+//            helper.setText(R.id.tv_remind,"远程费待审核");
+//        }else {
+//            helper.setText(R.id.tv_remind,"");
+//        }
+        if (item.getBeyondState()==null){
+            helper.setText(R.id.tv_remind,"");
+            helper.setGone(R.id.tv_remind,false);
+        }else if ("0".equals(item.getBeyondState())) {
+            helper.setText(R.id.tv_remind,"远程费待审核");
+        } else if ("1".equals(item.getBeyondState())) {
+            helper.setText(R.id.tv_remind,"远程费审核通过");
 
-        ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+        }else if ("2".equals(item.getBeyondState())){
+            helper.setText(R.id.tv_remind,"远程费已修改");
+        } else {
+            helper.setText(R.id.tv_remind,"远程费已拒绝");
+        }
+
+//        if ("0".equals(item.getAccessoryApplyState())){
+//            helper.setText(R.id.tv_remind_two,"配件待审核");
+//        }else {
+//            helper.setText(R.id.tv_remind_two,"");
+//        }
+        if(item.getAccessoryAndServiceApplyState()==null){
+            helper.setText(R.id.tv_remind_two,"");
+            helper.setGone(R.id.tv_remind_two,false);
+        } else if ("0".equals(item.getAccessoryAndServiceApplyState())) {
+            helper.setText(R.id.tv_remind_two,"待审核");
+        } else if ("1".equals(item.getAccessoryAndServiceApplyState())) {
+            helper.setText(R.id.tv_remind_two,"审核通过");
+        }else if ("2".equals(item.getAccessoryAndServiceApplyState())) {
+            helper.setText(R.id.tv_remind_two,"厂家寄件");
+        } else {
+            helper.setText(R.id.tv_remind_two,"已拒绝");
+        }
+
+//        if ("质保单".equals(name)){
+//            if (!"".equals(item.getAppointmentMessage())){
+//                helper.setVisible(R.id.tv_remind,true);
+//                helper.setText(R.id.tv_remind,item.getAppointmentMessage());
+//            }
+//        }
+
+        if (item.getFStarOrder()==null||"N".equals(item.getFStarOrder())){
+            helper.getView(R.id.iv_star).setSelected(false);
+        }else {
+            helper.getView(R.id.iv_star).setSelected(true);
         }
     }
+
 }

@@ -330,6 +330,7 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付成功");
+                        finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付失败");
@@ -403,7 +404,11 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
 
     @Override
     public void WXNotifyManual(BaseResult<Data<String>> baseResult) {
-
+        switch (baseResult.getStatusCode()){
+            case 200:
+                finish();
+                break;
+        }
     }
 
     @Override

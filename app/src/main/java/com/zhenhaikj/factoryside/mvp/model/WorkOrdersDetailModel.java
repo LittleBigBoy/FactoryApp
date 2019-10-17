@@ -111,4 +111,19 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> NowEnSureOrder(String OrderID) {
+        return ApiRetrofit.getDefault().NowEnSureOrder(OrderID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> FactoryComplaint(String OrderID, String Content) {
+        return ApiRetrofit.getDefault().FactoryComplaint(OrderID, Content)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
 }

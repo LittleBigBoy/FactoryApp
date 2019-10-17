@@ -215,6 +215,15 @@ public class WorkOrder implements Serializable {
         private List<LeavemessageimgListBean> LeavemessageimgList;
         private String SendAddress;
         private String AccessoryAndServiceApplyState;
+        private String FStarOrder;
+
+        public String getFStarOrder() {
+            return FStarOrder;
+        }
+
+        public void setFStarOrder(String FStarOrder) {
+            this.FStarOrder = FStarOrder;
+        }
 
         public String getAccessoryAndServiceApplyState() {
             return AccessoryAndServiceApplyState;

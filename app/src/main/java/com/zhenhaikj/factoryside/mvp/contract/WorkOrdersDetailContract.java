@@ -34,6 +34,10 @@ public interface WorkOrdersDetailContract {
                                                                                 String AccessoryApplyState,
                                                                                 String NewMoney,
                                                                                 String OrderAccessoryID);
+        Observable<BaseResult<Data<String>>> NowEnSureOrder(String OrderID);
+
+        Observable<BaseResult<Data<String>>> FactoryComplaint(String OrderID, String Content);
+
     }
 
     interface View extends BaseView {
@@ -71,6 +75,9 @@ public interface WorkOrdersDetailContract {
         void GetOrderAccessoryMoney(BaseResult<Data<String>> baseResult);
         void UpdateFactoryAccessorybyFactory(BaseResult<Data<String>> baseResult);
         void ApproveOrderAccessoryByModifyPrice(BaseResult<Data<String>> baseResult);
+        void NowEnSureOrder(BaseResult<Data<String>> baseResult);
+        void FactoryComplaint(BaseResult<Data<String>> baseResult);
+
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -92,5 +99,7 @@ public interface WorkOrdersDetailContract {
                                                                 String AccessoryApplyState,
                                                                 String NewMoney,
                                                                 String OrderAccessoryID);
+        public abstract void NowEnSureOrder(String OrderID);
+        public abstract void FactoryComplaint(String OrderID,String Content);
     }
 }

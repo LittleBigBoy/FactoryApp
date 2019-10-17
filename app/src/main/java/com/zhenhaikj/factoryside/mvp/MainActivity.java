@@ -175,7 +175,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                     if (userInfo.getIfAuth().equals("1")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("title", "所有工单");
-                        bundle.putInt("position", 0);
+                        bundle.putInt("position", 1);
                         intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                         intent.putExtras(bundle);
                         ActivityUtils.startActivity(intent);

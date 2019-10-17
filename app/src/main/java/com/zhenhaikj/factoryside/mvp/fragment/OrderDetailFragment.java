@@ -52,7 +52,10 @@ import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.utils.SingleClick;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +120,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     LinearLayout mLlAddress;
     @BindView(R.id.ll_post)
     LinearLayout mLlPost;
+    @BindView(R.id.ll_service_item)
+    LinearLayout mLlServiceItem;
+    @BindView(R.id.tv_description)
+    TextView mTvDescription;
 
     private String mParam1;
     private String mParam2;
@@ -425,6 +432,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     }
 
 
+    @SingleClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -491,7 +499,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 }).show();
                 break;
             case R.id.negtive:
-                mPresenter.FactoryEnsureOrder(OrderID, "888888");
+//                mPresenter.FactoryEnsureOrder(OrderID, "888888");
+                mPresenter.NowEnSureOrder(OrderID);
                 break;
             case R.id.iv_bar_code:
                 for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
@@ -648,7 +657,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         public void onPositiveClick() {
                             reject.dismiss();
 //                        mPresenter.ApproveOrderAccessory(OrderID, "-1", "0",data.getOrderAccessroyDetail().get(position).getId());
-                            mPresenter.ApproveOrderAccessoryAndService(OrderID, "-1","","");
+                            mPresenter.ApproveOrderAccessoryAndService(OrderID, "-1", "", "");
                         }
 
                         @Override
@@ -682,7 +691,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
                                             } else {
                                                 mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
-                                                mPresenter.ApproveOrderAccessoryAndService(OrderID, "2",PostPayType,IsReturn);
+                                                mPresenter.ApproveOrderAccessoryAndService(OrderID, "2", PostPayType, IsReturn);
                                             }
 
                                         }
@@ -691,7 +700,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                                         return;
                                     } else {
                                         mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
-                                        mPresenter.ApproveOrderAccessoryAndService(OrderID, "2",PostPayType,IsReturn);
+                                        mPresenter.ApproveOrderAccessoryAndService(OrderID, "2", PostPayType, IsReturn);
                                     }
                                 }
                             }
@@ -765,7 +774,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
                                             } else {
                                                 mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
-                                                mPresenter.ApproveOrderAccessoryAndService(OrderID, "1",PostPayType,IsReturn);
+                                                mPresenter.ApproveOrderAccessoryAndService(OrderID, "1", PostPayType, IsReturn);
                                             }
 
                                         }
@@ -774,9 +783,12 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                                         return;
                                     } else {
                                         mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
-                                        mPresenter.ApproveOrderAccessoryAndService(OrderID, "1",PostPayType,IsReturn);
+                                        mPresenter.ApproveOrderAccessoryAndService(OrderID, "1", PostPayType, IsReturn);
                                     }
                                 }
+                            } else {
+                                mPresenter.ApproveOrderAccessoryAndService(OrderID, "1", PostPayType, IsReturn);
+
                             }
 
 //                            mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney,data.getOrderAccessroyDetail().get(position).getId());
@@ -1046,6 +1058,11 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 mTvOrderSource.setText(data.getExpressNo());
                 mTvThirdParty.setText(data.getThirdPartyNo());
 
+                if ("安装".equals(data.getTypeName())){
+                    mTvDescription.setText("安装备注");
+                }else {
+                    mTvDescription.setText("故障描述");
+                }
 
                 if ("1".equals(data.getServiceApplyState())) {
                     mTvPassService.setVisibility(View.GONE);
@@ -1124,6 +1141,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 }
                 if (data.getAccessoryAndServiceApplyState() == null) {
                     mLlApproveAccessory.setVisibility(View.GONE);
+                    mLlServiceItem.setVisibility(View.GONE);
                     mLlOldAccessory.setVisibility(View.GONE);
                     mLlSendAccessory.setVisibility(View.GONE);
                     mTvSendAddress.setVisibility(View.GONE);
@@ -1134,21 +1152,36 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 //                        mLlSendAccessory.setVisibility(View.GONE);
 //                    } else {
 
-                    mLlOldAccessory.setVisibility(View.VISIBLE);
-                    for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
-                        if ("".equals(data.getOrderAccessroyDetail().get(i).getExpressNo())) {
-                            mLlSendAccessory.setVisibility(View.VISIBLE);
-                        } else {
-                            mLlSendAccessory.setVisibility(View.GONE);
-                        }
-                    }
+
                     if ("1".equals(data.getAccessoryAndServiceApplyState())) {
                         mTvPass.setVisibility(View.GONE);
                         mTvReject.setVisibility(View.GONE);
+                        mLlServiceItem.setVisibility(View.GONE);
                         mTvStatusAccessory.setVisibility(View.VISIBLE);
                         mTvStatusAccessory.setText("已审核通过");
-                        mLlOldAccessory.setVisibility(View.GONE);
-                        mLlReturn.setVisibility(View.VISIBLE);
+                        if (data.getOrderAccessroyDetail().size() > 0) {
+                            for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
+                                if ("".equals(data.getOrderAccessroyDetail().get(i).getExpressNo())) {
+                                    mLlSendAccessory.setVisibility(View.VISIBLE);
+                                    mLlOldAccessory.setVisibility(View.VISIBLE);
+                                } else {
+                                    mLlSendAccessory.setVisibility(View.GONE);
+                                    mLlOldAccessory.setVisibility(View.GONE);
+                                }
+                            }
+                        } else {
+                            mLlSendAccessory.setVisibility(View.GONE);
+                            mLlOldAccessory.setVisibility(View.GONE);
+                        }
+
+                        if (data.getOrderAccessroyDetail().size() > 0) {
+                            mLlOldAccessory.setVisibility(View.GONE);
+                            mLlReturn.setVisibility(View.VISIBLE);
+                        } else {
+                            mLlOldAccessory.setVisibility(View.GONE);
+                            mLlReturn.setVisibility(View.GONE);
+                        }
+
                         if (data.getIsReturn() != null) {
                             if ("1".equals(data.getIsReturn())) {
                                 mTvAddressback2.setText(data.getAddressBack());
@@ -1186,16 +1219,39 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     } else if ("-1".equals(data.getAccessoryAndServiceApplyState())) {
                         mTvPass.setVisibility(View.GONE);
                         mTvReject.setVisibility(View.GONE);
+                        mLlServiceItem.setVisibility(View.GONE);
                         mTvStatusAccessory.setVisibility(View.VISIBLE);
                         mTvStatusAccessory.setText("已拒绝");
                         mLlOldAccessory.setVisibility(View.GONE);
                     } else if ("2".equals(data.getAccessoryAndServiceApplyState())) {
                         mTvPass.setVisibility(View.GONE);
                         mTvReject.setVisibility(View.GONE);
+                        mLlServiceItem.setVisibility(View.GONE);
                         mTvStatusAccessory.setVisibility(View.VISIBLE);
                         mTvStatusAccessory.setText("厂家寄件");
-                        mLlOldAccessory.setVisibility(View.GONE);
-                        mLlReturn.setVisibility(View.VISIBLE);
+                        if (data.getOrderAccessroyDetail().size() > 0) {
+                            for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
+                                if ("".equals(data.getOrderAccessroyDetail().get(i).getExpressNo())) {
+                                    mLlSendAccessory.setVisibility(View.VISIBLE);
+                                    mLlOldAccessory.setVisibility(View.VISIBLE);
+                                } else {
+                                    mLlSendAccessory.setVisibility(View.GONE);
+                                    mLlOldAccessory.setVisibility(View.GONE);
+                                }
+                            }
+                        } else {
+                            mLlSendAccessory.setVisibility(View.GONE);
+                            mLlOldAccessory.setVisibility(View.GONE);
+                        }
+
+                        if (data.getOrderAccessroyDetail().size() > 0) {
+                            mLlOldAccessory.setVisibility(View.GONE);
+                            mLlReturn.setVisibility(View.VISIBLE);
+                        } else {
+                            mLlOldAccessory.setVisibility(View.GONE);
+                            mLlReturn.setVisibility(View.GONE);
+                        }
+
                         if (data.getIsReturn() != null) {
                             if ("1".equals(data.getIsReturn())) {
                                 mTvAddressback2.setText(data.getAddressBack());
@@ -1233,7 +1289,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     } else {
                         mTvPass.setVisibility(View.VISIBLE);
                         mTvReject.setVisibility(View.VISIBLE);
+                        mLlServiceItem.setVisibility(View.VISIBLE);
                         mTvStatusAccessory.setVisibility(View.GONE);
+                        mLlSendAccessory.setVisibility(View.GONE);
                     }
 
 //                        if ("4".equals(data.getOrderAccessroyDetail().get(0).getSizeID())) {
@@ -1637,6 +1695,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 if (result.isItem1()) {
                     ToastUtils.showShort("审核成功！");
                     mPresenter.GetOrderInfo(OrderID);
+                    EventBus.getDefault().post("10");
                 } else {
                     ToastUtils.showShort("审核失败！" + result.getItem2());
                 }
@@ -1672,6 +1731,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     ToastUtils.showShort("添加成功！");
                     expressno_dialog.dismiss();
 //                    mPresenter.ApproveOrderAccessory(OrderID, "1", newmoney);
+                    mPresenter.GetOrderInfo(OrderID);
+                    EventBus.getDefault().post("post");
                 } else {
                     ToastUtils.showShort("添加失败！" + result.getItem2());
                 }
@@ -1788,6 +1849,29 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
     @Override
     public void ApproveOrderAccessoryByModifyPrice(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void NowEnSureOrder(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
+                    ToastUtils.showShort(data.getItem2());
+                    mPresenter.GetOrderInfo(OrderID);
+                    EventBus.getDefault().post("7");
+                } else {
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void FactoryComplaint(BaseResult<Data<String>> baseResult) {
 
     }
 

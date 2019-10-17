@@ -976,6 +976,16 @@ public class AccessoriesListActivity extends BaseActivity<WorkOrdersDetailPresen
     }
 
     @Override
+    public void NowEnSureOrder(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void FactoryComplaint(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentIntegrator.REQUEST_CODE) {

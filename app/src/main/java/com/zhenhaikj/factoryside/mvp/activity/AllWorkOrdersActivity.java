@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -70,7 +71,7 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
 
 
     private String[] mTitleDataList = new String[]{
-            "远程费审核","所有工单","待接单","已接单","待审核","待寄件" ,"待支付", "已完成", "质保单","退单处理"
+            "远程费审核","所有工单","待接单","已接单","星标工单","待审核","待寄件" ,"待支付", "已完成", "质保单","退单处理"
     };
 
     //private CommonNavigator commonNavigator;
@@ -111,6 +112,7 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
 
         setSwipeBackEnable(false);
         mTvTitle.setVisibility(View.VISIBLE);
+        mIconSearch.setVisibility(View.VISIBLE);
         bundle = getIntent().getExtras();
         mTvTitle.setText(bundle.getString("title"));
         mViewPager.setCurrentItem(bundle.getInt("position"));
@@ -182,6 +184,7 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mIconSearch.setOnClickListener(this);
     }
 
 
@@ -204,7 +207,7 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
                 finish();
                 break;
             case R.id.icon_search:
-                finish();
+                startActivity(new Intent(mActivity,SearchActivity.class));
                 break;
         }
     }

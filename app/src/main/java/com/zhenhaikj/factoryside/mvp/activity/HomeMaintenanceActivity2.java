@@ -258,6 +258,10 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     AdderView mAddview;
     @BindView(R.id.ll_quantity)
     LinearLayout mLlQuantity;
+    @BindView(R.id.iv_microphone_one)
+    ImageView mIvMicrophoneOne;
+    @BindView(R.id.ll_microphone_one)
+    LinearLayout mLlMicrophoneOne;
 
 
     private PopupWindow popupWindow;
@@ -493,6 +497,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         mTvModify.setOnClickListener(this);
         mTvAddAccessories.setOnClickListener(this);
         mLlScanLogistics.setOnClickListener(this);
+        mLlMicrophoneOne.setOnClickListener(this);
 
         mBtnRelease.setOnClickListener(this);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -834,9 +839,9 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                         service.setTypeID("2");
                         service.setTypeName("安装");
                         service.setUserID(userID);
-                        service.setFBrandID(FBrandID);
+                        service.setBrandID(FBrandID);
                         service.setBrandName(BrandName);
-                        service.setFCategoryID(SubCategoryID);
+                        service.setCategoryID(SubCategoryID);
                         service.setCategoryName(SubCategoryName);
                         service.setSubCategoryID(TypeID);
                         service.setSubCategoryName(TypeName);
@@ -857,6 +862,9 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                         service.setNum(Num);
                         service.setIsRecevieGoods(SigningState);
                         service.setExpressNo(number);
+                        service.setIsReturn("");
+                        service.setPostPayType("");
+                        service.setAddressBack("");
                         s = gson.toJson(service);
                         body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
                         mPresenter.AddOrder(body);
@@ -873,7 +881,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                                 cancleLoading();
                                 return;
                             } else if ("1".equals(IsReturn)) {
-                                if ("".equals(mTvAddressback)) {
+                                if ("".equals(mTvAddressback.getText().toString())) {
                                     MyUtils.showToast(mActivity, "请选择寄件地址！");
                                     cancleLoading();
                                     return;
@@ -904,9 +912,9 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             service.setTypeID("1");
                             service.setTypeName("维修");
                             service.setUserID(userID);
-                            service.setFBrandID(FBrandID);
+                            service.setBrandID(FBrandID);
                             service.setBrandName(BrandName);
-                            service.setFCategoryID(SubCategoryID);
+                            service.setCategoryID(SubCategoryID);
                             service.setCategoryName(SubCategoryName);
                             service.setSubCategoryID(TypeID);
                             service.setSubCategoryName(TypeName);
@@ -927,6 +935,9 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             service.setNum("1");
                             service.setIsRecevieGoods(AccessorySendState);
                             service.setExpressNo(null);
+                            service.setIsReturn(IsReturn);
+                            service.setPostPayType(PostPayType);
+                            service.setAddressBack(mTvAddressback.getText().toString());
                             service.setOrderAccessoryStr(s1);
                             String s2 = gson.toJson(service);
 //                            s = gson.toJson(s2);
@@ -939,9 +950,9 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             service.setTypeID("1");
                             service.setTypeName("维修");
                             service.setUserID(userID);
-                            service.setFBrandID(FBrandID);
+                            service.setBrandID(FBrandID);
                             service.setBrandName(BrandName);
-                            service.setFCategoryID(SubCategoryID);
+                            service.setCategoryID(SubCategoryID);
                             service.setCategoryName(SubCategoryName);
                             service.setSubCategoryID(TypeID);
                             service.setSubCategoryName(TypeName);
@@ -962,6 +973,9 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             service.setNum("1");
                             service.setIsRecevieGoods(AccessorySendState);
                             service.setExpressNo(null);
+                            service.setIsReturn("");
+                            service.setPostPayType("");
+                            service.setAddressBack("");
                             s = gson.toJson(service);
                             body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
                             mPresenter.AddOrder(body);
@@ -991,6 +1005,20 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 running = true;
                 startActivityForResult(intent, 2);
 //                startActivity(new Intent(mActivity,ActivityUiDialog.class));
+                break;
+            case R.id.ll_microphone_one:
+                final Map<String, Object> params1 = fetchParams();
+
+                // BaiduASRDigitalDialog的输入参数
+                input = new DigitalDialogInput(myRecognizer, chainRecogListener, params1);
+                BaiduASRDigitalDialog.setInput(input); // 传递input信息，在BaiduASRDialog中读取,
+                Intent intent2 = new Intent(this, BaiduASRDigitalDialog.class);
+
+                // 修改对话框样式
+                // intent.putExtra(BaiduASRDigitalDialog.PARAM_DIALOG_THEME, BaiduASRDigitalDialog.THEME_ORANGE_DEEPBG);
+
+                running = true;
+                startActivityForResult(intent2, 3);
                 break;
         }
     }
@@ -1039,6 +1067,18 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 message += "";
             }
             mEtDetail.setText(message);
+        }
+        if (requestCode==3){
+            String message = "";
+            if (resultCode == RESULT_OK) {
+                ArrayList results = data.getStringArrayListExtra("results");
+                if (results != null && results.size() > 0) {
+                    message += results.get(0);
+                }
+            } else {
+                message += "";
+            }
+            mEtFaultDescription.setText(message);
         }
         if (requestCode == 100) {
             if (data != null) {

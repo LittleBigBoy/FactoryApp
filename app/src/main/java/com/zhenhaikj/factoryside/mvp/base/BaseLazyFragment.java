@@ -31,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -38,7 +39,7 @@ import butterknife.Unbinder;
  * 当使用viewpager加载Fragment，沉浸式的使用，原理懒加载
  * Created by geyifeng on 2017/4/7.
  */
-public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseModel> extends Fragment implements HandleBackInterface,BaseView {
+public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseModel> extends Fragment implements HandleBackInterface, BaseView {
     public P mPresenter;
     public M mModel;
 
@@ -86,6 +87,7 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
 
         mRxManage = new RxManager();
     }
+
     protected P obtainPresenter() {
         return TUtil.getT(this, 0);
     }
@@ -93,6 +95,7 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
     protected M obtainModel() {
         return TUtil.getT(this, 1);
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -104,7 +107,7 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, mRootView);
-        if (!EventBus.getDefault().isRegistered(this)){
+        if (!EventBus.getDefault().isRegistered(this)) {
             try {
                 EventBus.getDefault().register(this);
             } catch (Exception e) {
@@ -127,7 +130,7 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (EventBus.getDefault().isRegistered(this)){
+        if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
         unbinder.unbind();
@@ -194,12 +197,17 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
      * 初始化数据
      */
     protected abstract void initData();
+
     public View getEmptyView() {
-        return  LayoutInflater.from(mActivity).inflate(R.layout.layout_no_data,null);
+        return LayoutInflater.from(mActivity).inflate(R.layout.layout_no_data, null);
     }
 
     public View getEmptyMessage() {
-        return  LayoutInflater.from(mActivity).inflate(R.layout.layout_no_message,null);
+        return LayoutInflater.from(mActivity).inflate(R.layout.layout_no_message, null);
+    }
+
+    public View getEmptyLogistics() {
+        return LayoutInflater.from(mActivity).inflate(R.layout.layout_no_logistics, null);
     }
 
     /**
@@ -245,13 +253,15 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
 
     /*电话*/
     public static final int REQUEST_CALL_PERMISSION = 10111; //拨号请求码
+
     /**
      * 判断是否有某项权限
+     *
      * @param string_permission 权限
-     * @param request_code 请求码
+     * @param request_code      请求码
      * @return
      */
-    public boolean checkReadPermission(String string_permission,int request_code) {
+    public boolean checkReadPermission(String string_permission, int request_code) {
         boolean flag = false;
         if (ContextCompat.checkSelfPermission(getActivity(), string_permission) == PackageManager.PERMISSION_GRANTED) {//已有权限
             flag = true;
@@ -263,10 +273,11 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
 
     /**
      * 拨打电话（直接拨打）
+     *
      * @param telPhone 电话
      */
-    public void call(String telPhone){
-        if(checkReadPermission(Manifest.permission.CALL_PHONE,REQUEST_CALL_PERMISSION)){
+    public void call(String telPhone) {
+        if (checkReadPermission(Manifest.permission.CALL_PHONE, REQUEST_CALL_PERMISSION)) {
             Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(telPhone));
             startActivity(intent);
         }
@@ -274,6 +285,7 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
 
     /**
      * 检查网络状态
+     *
      * @return
      */
     public boolean checkNetwork() {
@@ -322,7 +334,7 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String message) {
-        if ("账号在别处登录".equals(message)){
+        if ("账号在别处登录".equals(message)) {
             final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
             dialog.setMessage("账号在别处登录是否重新登录")
                     //.setImageResId(R.mipmap.ic_launcher)

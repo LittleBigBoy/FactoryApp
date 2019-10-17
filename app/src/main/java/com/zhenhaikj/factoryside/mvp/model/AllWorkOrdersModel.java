@@ -60,4 +60,11 @@ public class AllWorkOrdersModel implements AllWorkOrdersContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> GetFStarOrder(String OrderID, String FStarOrder) {
+        return ApiRetrofit.getDefault().GetFStarOrder(OrderID, FStarOrder)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

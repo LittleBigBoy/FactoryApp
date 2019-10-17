@@ -84,4 +84,15 @@ public class AllWorkOrdersPresenter extends AllWorkOrdersContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void GetFStarOrder(String OrderID, String FStarOrder) {
+        mModel.GetFStarOrder(OrderID, FStarOrder)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.GetFStarOrder(value);
+                    }
+                });
+    }
 }

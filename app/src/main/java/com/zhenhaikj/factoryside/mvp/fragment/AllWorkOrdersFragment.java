@@ -43,7 +43,7 @@ public class AllWorkOrdersFragment extends BaseLazyFragment<RedPointPresenter, R
     private String mParam1;
     private String mParam2;
     private String[] mTitleDataList = new String[]{
-            "所有工单","待接单","已接单","待审核","待寄件", "待支付", "已完成", "质保单","退单处理"
+            "远程费审核","所有工单","待接单","已接单","星标工单","待审核","待寄件", "待支付", "已完成", "质保单","退单处理"
     };
    // private CommonNavigator commonNavigator;
     private List<Fragment> mWorkOrderFragmentList=new ArrayList<>();

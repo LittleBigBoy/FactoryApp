@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.MainActivity;
 
 import androidx.annotation.Nullable;
@@ -34,6 +35,7 @@ public class SplashActivity extends AppCompatActivity {
             finish();
             return;
         }
+        setContentView(R.layout.activity_splash);
         init();
     }
 

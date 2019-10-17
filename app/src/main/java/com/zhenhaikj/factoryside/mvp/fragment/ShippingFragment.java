@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,7 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, ExpressInfoModel> implements ExpressInfoContract.View , View.OnClickListener{
+public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, ExpressInfoModel> implements ExpressInfoContract.View, View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
     @BindView(R.id.courier_company_tv)
@@ -42,6 +43,10 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
     RecyclerView mShippingRv;
     @BindView(R.id.iv_copy)
     ImageView mIvCopy;
+    @BindView(R.id.tv_no_logistics)
+    TextView mTvNoLogistics;
+    @BindView(R.id.sv_logistics)
+    ScrollView mSvLogistics;
 
     private String mParam1;
     private String mParam2;
@@ -83,6 +88,7 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
         adapter = new LogisticsAdapter(R.layout.logistics_recycle_item, list);
         mShippingRv.setLayoutManager(new LinearLayoutManager(mActivity));
         mShippingRv.setAdapter(adapter);
+        adapter.setEmptyView(getEmptyLogistics());
         myClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
 
     }
@@ -122,8 +128,12 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
             case 200:
                 data = baseResult.getData();
                 if (data.getOrderAccessroyDetail().size() == 0) {
+                    mTvNoLogistics.setVisibility(View.VISIBLE);
+                    mSvLogistics.setVisibility(View.GONE);
                     return;
                 } else {
+                    mTvNoLogistics.setVisibility(View.GONE);
+                    mSvLogistics.setVisibility(View.VISIBLE);
                     if (!"".equals(data.getOrderAccessroyDetail().get(0).getExpressNo())) {
                         mPresenter.GetExpressInfo(data.getOrderAccessroyDetail().get(0).getExpressNo());
                     }
@@ -135,7 +145,7 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_copy:
                 String id = mTvNumber.getText().toString();
                 myClip = ClipData.newPlainText("", id);

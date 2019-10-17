@@ -320,6 +320,16 @@ public class CompletionOrderActivity extends BaseActivity<WorkOrdersDetailPresen
     }
 
     @Override
+    public void NowEnSureOrder(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void FactoryComplaint(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation

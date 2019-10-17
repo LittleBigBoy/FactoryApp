@@ -6,9 +6,9 @@ public class Service implements Serializable {
     private String TypeID;
     private String TypeName;
     private String UserID;
-    private String FBrandID;
+    private String BrandID;
     private String BrandName;
-    private String FCategoryID;
+    private String CategoryID;
     private String CategoryName;
     private String SubCategoryID;
     private String SubCategoryName;
@@ -30,6 +30,33 @@ public class Service implements Serializable {
     private String IsRecevieGoods;
     private String ExpressNo;
     private String OrderAccessoryStr;
+    private String IsReturn;
+    private String PostPayType;
+    private String AddressBack;
+
+    public String getIsReturn() {
+        return IsReturn;
+    }
+
+    public void setIsReturn(String isReturn) {
+        IsReturn = isReturn;
+    }
+
+    public String getPostPayType() {
+        return PostPayType;
+    }
+
+    public void setPostPayType(String postPayType) {
+        PostPayType = postPayType;
+    }
+
+    public String getAddressBack() {
+        return AddressBack;
+    }
+
+    public void setAddressBack(String addressBack) {
+        AddressBack = addressBack;
+    }
 
     public String getOrderAccessoryStr() {
         return OrderAccessoryStr;
@@ -63,13 +90,6 @@ public class Service implements Serializable {
         UserID = userID;
     }
 
-    public String getFBrandID() {
-        return FBrandID;
-    }
-
-    public void setFBrandID(String FBrandID) {
-        this.FBrandID = FBrandID;
-    }
 
     public String getBrandName() {
         return BrandName;
@@ -79,12 +99,20 @@ public class Service implements Serializable {
         BrandName = brandName;
     }
 
-    public String getFCategoryID() {
-        return FCategoryID;
+    public String getBrandID() {
+        return BrandID;
     }
 
-    public void setFCategoryID(String FCategoryID) {
-        this.FCategoryID = FCategoryID;
+    public void setBrandID(String brandID) {
+        BrandID = brandID;
+    }
+
+    public String getCategoryID() {
+        return CategoryID;
+    }
+
+    public void setCategoryID(String categoryID) {
+        CategoryID = categoryID;
     }
 
     public String getCategoryName() {

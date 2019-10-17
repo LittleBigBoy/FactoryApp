@@ -201,6 +201,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private Button btn_verified_update;
     private CompanyInfo companyDean;
     private boolean flag;
+    private Bundle bundle;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -364,9 +365,15 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (userInfoDean.getIfAuth() != null) {
                     if (userInfoDean.getIfAuth().equals("1")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("title", mCommonMenus.get(position).getName());
-                        bundle.putInt("position", position);
+                        if (position<=3){
+                            bundle = new Bundle();
+                            bundle.putString("title", mCommonMenus.get(position).getName());
+                            bundle.putInt("position", position);
+                        } else if (position>=4) {
+                            bundle = new Bundle();
+                            bundle.putString("title", mCommonMenus.get(position).getName());
+                            bundle.putInt("position", position+1);
+                        }
                         Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                         intent.putExtras(bundle);
                         ActivityUtils.startActivity(intent);

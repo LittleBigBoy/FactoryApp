@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +43,10 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
     TextView mTvNumber;
     @BindView(R.id.iv_copy)
     ImageView mIvCopy;
+    @BindView(R.id.tv_no_logistics)
+    TextView mTvNoLogistics;
+    @BindView(R.id.sv_logistics)
+    ScrollView mSvLogistics;
     private ClipboardManager myClipboard;
     private ClipData myClip;
 
@@ -118,9 +123,13 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
             case 200:
                 data = baseResult.getData();
                 if ("".equals(data.getReturnAccessoryMsg()) || data.getReturnAccessoryMsg() == null) {
+                    mTvNoLogistics.setVisibility(View.VISIBLE);
+                    mSvLogistics.setVisibility(View.GONE);
                     return;
 
                 } else {
+                    mTvNoLogistics.setVisibility(View.GONE);
+                    mSvLogistics.setVisibility(View.VISIBLE);
                     mPresenter.GetExpressInfo(data.getReturnAccessoryMsg());
                     mTvNumber.setText(data.getReturnAccessoryMsg());
                 }
@@ -131,7 +140,7 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_copy:
                 String id = mTvNumber.getText().toString();
                 myClip = ClipData.newPlainText("", id);

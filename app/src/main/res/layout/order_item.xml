@@ -6,8 +6,6 @@
     android:paddingLeft="10dp"
     android:paddingBottom="10dp"
     android:paddingTop="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
     android:background="@color/white"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
@@ -55,12 +53,11 @@
 
             <ImageView
                 android:id="@+id/iv_star"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/star_selector"
                 android:layout_gravity="center"
-                android:padding="8dp"
-                android:visibility="gone"/>
+                android:padding="8dp" />
 
         </LinearLayout>
         <View
@@ -172,7 +169,8 @@
                     android:text="故障"
                     android:singleLine="true"
                     android:textSize="14sp"
-                    android:layout_marginTop="5dp"/>
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="75dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

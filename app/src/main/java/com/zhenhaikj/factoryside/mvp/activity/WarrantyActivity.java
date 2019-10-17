@@ -1,10 +1,13 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -30,6 +33,7 @@ import com.zhenhaikj.factoryside.mvp.fragment.ShippingFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.TrackFragment;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
+import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -179,6 +183,12 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
             "详情","留言", "工单跟踪", "寄件物流", "返件物流"
     };
     private XGPushClickedResult clickedResult;
+    private View complaint_view;
+    private Button btn_negtive;
+    private Button btn_positive;
+    private EditText et_content;
+    private TextView title;
+    private AlertDialog complaint_dialog;
 
     @Override
     protected int setLayoutId() {
@@ -198,7 +208,8 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
     protected void initData() {
         mTvTitle.setText("工单详情");
         mTvTitle.setVisibility(View.VISIBLE);
-
+        mTvSave.setVisibility(View.VISIBLE);
+        mTvSave.setText("投诉");
         //this必须为点击消息要跳转到页面的上下文。
         clickedResult = XGPushManager.onActivityStarted(this);
         if (clickedResult !=null){
@@ -290,6 +301,7 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
         mShippingLogisticsTv.setOnClickListener(this);
         mReturnLogisticsTv.setOnClickListener(this);
         mWpWarranty.addOnPageChangeListener(this);
+        mTvSave.setOnClickListener(this);
     }
 
 
@@ -333,6 +345,35 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
             case R.id.return_logistics_tv:
                 mWpWarranty.setCurrentItem(4);
                 tabSelected(mReturnLogisticsTv);
+                break;
+            case R.id.tv_save:
+                complaint_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_complaint, null);
+                title = complaint_view.findViewById(R.id.title);
+                btn_negtive = complaint_view.findViewById(R.id.negtive);
+                btn_positive = complaint_view.findViewById(R.id.positive);
+                et_content = complaint_view.findViewById(R.id.et_content);
+                title.setText("投诉");
+                complaint_dialog = new AlertDialog.Builder(mActivity)
+                        .setView(complaint_view)
+                        .create();
+                complaint_dialog.show();
+                btn_negtive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        complaint_dialog.dismiss();
+                    }
+                });
+                btn_positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String content = et_content.getText().toString().trim();
+                        if ("".equals(content)) {
+                            MyUtils.showToast(mActivity, "请输入投诉原因");
+                        } else {
+                            mPresenter.FactoryComplaint(OrderId, content);
+                        }
+                    }
+                });
                 break;
         }
     }
@@ -501,6 +542,28 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
     @Override
     public void ApproveOrderAccessoryByModifyPrice(BaseResult<Data<String>> baseResult) {
 
+    }
+
+    @Override
+    public void NowEnSureOrder(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void FactoryComplaint(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
+                    ToastUtils.showShort(data.getItem2());
+                    complaint_dialog.dismiss();
+                } else {
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     private class MyAdapter extends FragmentPagerAdapter {

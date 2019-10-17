@@ -26,8 +26,8 @@ public class Config {
 //    public static final String URL = "https://www.jbshch.com/app/";
 //    public static final String URL = "https://api.emjiayuan.com/";//正式服
 //    public static final String URL = "http://emapi.jb.emjiayuan.com/";//测试服
-//    public static final String URL = "https://api.xigyu.com/api/";//正式服
-    public static final String URL = "http://47.96.126.145:8090/api/";//测试服
+    public static final String URL = "https://api.xigyu.com/api/";//正式服
+//    public static final String URL = "http://47.96.126.145:8090/api/";//测试服
 //    public static final String URL = "http://47.96.126.145:8001/api/";//正式服
     public static final String URL_test = "http://42.51.69.35:8810/api/";//测试服
     public static final String HEAD_URL="https://img.xigyu.com/Pics/Avator/";//头像地址

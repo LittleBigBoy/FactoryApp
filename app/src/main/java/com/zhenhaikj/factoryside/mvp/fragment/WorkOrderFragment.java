@@ -221,6 +221,9 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
             case "待寄件":
                 mPresenter.GetOrderInfoList(UserID, "10", Integer.toString(pageIndex), "3");
                 break;
+            case "星标工单":
+                mPresenter.GetOrderInfoList(UserID, "11", Integer.toString(pageIndex), "3");
+                break;
 
         }
     }
@@ -314,10 +317,11 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                     case R.id.iv_star:
                         if (view.isSelected()){
                             view.setSelected(false);
+                            mPresenter.GetFStarOrder(workOrderList.get(position).getOrderID(),"N");
                         }else {
                             view.setSelected(true);
+                            mPresenter.GetFStarOrder(workOrderList.get(position).getOrderID(),"Y");
                         }
-                        adapter.notifyDataSetChanged();
                         break;
                 }
             }
@@ -343,6 +347,17 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 //        getData();
+        switch (name){
+            case "7":
+                getData();
+                break;
+            case "10":
+                getData();
+                break;
+            case "post":
+                getData();
+                break;
+        }
     }
 
     @Override
@@ -414,6 +429,16 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     }
 
     @Override
+    public void GetFStarOrder(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                ToastUtils.showShort(baseResult.getData().getItem2());
+//                getData();
+                break;
+        }
+    }
+
+    @Override
     public void GetOrderInfoList(BaseResult<WorkOrder> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
@@ -421,6 +446,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                 if (workOrder.getData() != null) {
                     workOrderList.addAll(workOrder.getData());
                     mWorkOrderAdapter.setNewData(workOrderList);
+//                    mWorkOrderAdapter.notifyDataSetChanged();
                 }
                 mRefreshLayout.finishRefresh();
                 if (pageIndex != 1 && "0".equals(workOrder.getCount())) {

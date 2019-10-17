@@ -28,6 +28,7 @@ import com.zhenhaikj.factoryside.mvp.bean.MonthBill;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.bean.RedPointData;
+import com.zhenhaikj.factoryside.mvp.bean.Search;
 import com.zhenhaikj.factoryside.mvp.bean.SubUserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Track;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
@@ -486,6 +487,12 @@ public interface ApiService {
     Observable<BaseResult<Data<String>>> FactoryEnsureOrder(
             @Field("OrderID") String OrderID,
             @Field("PayPassword") String PayPassword
+    );
+
+    @FormUrlEncoded
+    @POST("Order/NowEnSureOrder")
+    Observable<BaseResult<Data<String>>> NowEnSureOrder(
+            @Field("OrderID") String OrderID
     );
 
     /**
@@ -977,4 +984,27 @@ public interface ApiService {
      * */
     @POST("Upload/LeaveMessageImg")
     Observable<BaseResult<Data<String>>> LeaveMessageImg(@Body RequestBody json);
+
+    /*
+     * 星标工单
+     * */
+    @FormUrlEncoded
+    @POST("Order/GetFStarOrder")
+    Observable<BaseResult<Data<String>>> GetFStarOrder(@Field("OrderID") String OrderID,
+                                                       @Field("FStarOrder") String FStarOrder);
+
+    /*
+     * 根据手机号搜索
+     * */
+    @FormUrlEncoded
+    @POST("Order/GetOrderInfoList")
+    Observable<BaseResult<Search>> GetOrderInfoList(@Field("Phone") String Phone,
+                                                          @Field("OrderID") String OrderID,
+                                                          @Field("UserID") String UserID,
+                                                          @Field("limit") String limit,
+                                                          @Field("page") String page);
+
+
+
+
 }

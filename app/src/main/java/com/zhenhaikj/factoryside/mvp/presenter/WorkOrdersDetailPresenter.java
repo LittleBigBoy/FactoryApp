@@ -162,4 +162,27 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
                     }
                 });
     }
+
+
+    @Override
+    public void NowEnSureOrder(String OrderID) {
+        mModel.NowEnSureOrder(OrderID)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.NowEnSureOrder(value);
+                    }
+                });
+    }
+
+    @Override
+    public void FactoryComplaint(String OrderID, String Content) {
+        mModel.FactoryComplaint(OrderID, Content)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.FactoryComplaint(value);
+                    }
+                });
+    }
 }

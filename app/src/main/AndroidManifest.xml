@@ -178,6 +178,7 @@
         <activity android:name=".mvp.activity.CardListActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.PhotoViewActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.NewAddAccessoriesActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.SearchActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name="com.amap.searchdemo.MainActivity"
             android:launchMode="singleTask"/>
 
