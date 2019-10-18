@@ -1748,7 +1748,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     ToastUtils.showShort(data.getItem2());
                     Bundle bundle = new Bundle();
                     bundle.putString("title", "待接单");
-                    bundle.putInt("position", 0);
+                    bundle.putInt("position", 3);
                     Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                     cancleLoading();
                     intent.putExtras(bundle);
