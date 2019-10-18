@@ -8,8 +8,10 @@ import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.utils.DensityUtil;
+import com.zhenhaikj.factoryside.mvp.utils.GlideUtil;
 import com.zhenhaikj.factoryside.mvp.viewholder.LayoutParamsViewHolder;
 
 import java.util.List;
@@ -26,7 +28,8 @@ public class LeaveMessageAdapter extends BaseQuickAdapter<WorkOrder.Leavemessage
         helper.setText(R.id.tv_status,item.getContent())
                 .setText(R.id.tv_date,time)
                 .setText(R.id.tv_time,item.getUserId());
-
+        helper.addOnClickListener(R.id.iv_image);
+        GlideUtil.loadImageViewLoding(mContext, Config.Leave_Message_URL +item.getPhoto(),helper.getView(R.id.iv_image), R.drawable.image_loading,R.drawable.image_loading);
         int position=helper.getAdapterPosition();
         if (position==0){
             helper.setImageResource(R.id.iv_status,R.drawable.red_bot);

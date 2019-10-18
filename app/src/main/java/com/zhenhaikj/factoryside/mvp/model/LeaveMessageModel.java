@@ -13,8 +13,8 @@ import okhttp3.RequestBody;
 
 public class LeaveMessageModel implements LeaveMessageContract.Model {
     @Override
-    public Observable<BaseResult<Data<String>>> AddLeaveMessageForOrder(String UserID, String OrderId, String Content) {
-        return ApiRetrofit.getDefault().AddLeaveMessageForOrder(UserID, "2", OrderId, Content)
+    public Observable<BaseResult<Data<String>>> AddLeaveMessageForOrder(String UserID, String OrderId, String Content,String photo) {
+        return ApiRetrofit.getDefault().AddLeaveMessageForOrder(UserID, "2", OrderId, Content,photo)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

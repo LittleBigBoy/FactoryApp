@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -76,10 +77,6 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
     ImageView mAnnexIv;
     @BindView(R.id.btn_submit)
     Button mBtnSubmit;
-    @BindView(R.id.rv_picture)
-    RecyclerView mRvPicture;
-    @BindView(R.id.ll_picture_list)
-    LinearLayout mLlPictureList;
 
     private String mParam1;
     private String mParam2;
@@ -87,7 +84,6 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
     private String userID;
     private LeaveMessageAdapter leaveMessageAdapter;
     private List<WorkOrder.LeavemessageListBean> list = new ArrayList<>();
-    private List<WorkOrder.LeavemessageimgListBean> pictureList=new ArrayList<>();
     private WorkOrder.DataBean data;
     private ArrayList<String> permissions;
     private int size;
@@ -96,7 +92,6 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
     private PopupWindow mPopupWindow;
     private Uri uri;
     private HashMap<Integer, File> img = new HashMap<>();
-    private LeaveMessageImgAdapter leaveMessageImgAdapter;
 
     public static MessageFragment newInstance(String param1, String param2) {
         MessageFragment fragment = new MessageFragment();
@@ -138,17 +133,13 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
         mMessageRv.setLayoutManager(new LinearLayoutManager(mActivity));
         mMessageRv.setAdapter(leaveMessageAdapter);
         leaveMessageAdapter.setEmptyView(getEmptyMessage());
-
-        leaveMessageImgAdapter = new LeaveMessageImgAdapter(R.layout.item_message_picture, pictureList);
-        mRvPicture.setLayoutManager(new GridLayoutManager(mActivity,3));
-        mRvPicture.setAdapter(leaveMessageImgAdapter);
-        leaveMessageImgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        leaveMessageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()){
                     case R.id.iv_image:
                         Intent intent = new Intent(mActivity, PhotoViewActivity.class);
-                        intent.putExtra("PhotoUrl", Config.Leave_Message_URL+pictureList.get(position).getUrl());
+                        intent.putExtra("PhotoUrl", Config.Leave_Message_URL+((WorkOrder.LeavemessageListBean)adapter.getData().get(position)).getPhoto());
                         startActivity(intent);
                         break;
                 }
@@ -160,8 +151,45 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
     protected void setListener() {
         mBtnSubmit.setOnClickListener(this);
         mAnnexIv.setOnClickListener(this);
+        mEtMessage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (v.getId()) {
+                    case R.id.et_message:
+                        // 解决scrollView中嵌套EditText导致不能上下滑动的问题
+                        if (canVerticalScroll(mEtMessage))
+                            v.getParent().requestDisallowInterceptTouchEvent(true);
+                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                            case MotionEvent.ACTION_UP:
+                                v.getParent().requestDisallowInterceptTouchEvent(false);
+                                break;
+                        }
+                }
+                return false;
+            }
+        });
     }
+    /**
+     * EditText竖直方向是否可以滚动
+     * @param editText 需要判断的EditText
+     * @return true：可以滚动  false：不可以滚动
+     */
+    public static  boolean canVerticalScroll(EditText editText) {
+        //滚动的距离
+        int scrollY = editText.getScrollY();
+        //控件内容的总高度
+        int scrollRange = editText.getLayout().getHeight();
+        //控件实际显示的高度
+        int scrollExtent = editText.getHeight() - editText.getCompoundPaddingTop() -editText.getCompoundPaddingBottom();
+        //控件内容总高度与实际显示高度的差值
+        int scrollDifference = scrollRange - scrollExtent;
 
+        if(scrollDifference == 0) {
+            return false;
+        }
+
+        return (scrollY > 0) || (scrollY < scrollDifference - 1);
+    }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 
@@ -171,15 +199,14 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_submit:
-                String message = mEtMessage.getText().toString();
-                if (message == null || "".equals(message)) {
-                    ToastUtils.showShort("请输入留言内容");
-                } else {
-                    mPresenter.AddLeaveMessageForOrder(userID, orderId, message);
-                    if (img.size()>0) {
-                        uploadImg(img);
-                    }else {
-                        return;
+                if (img.size()>0) {
+                    uploadImg(img);
+                }else{
+                    String message = mEtMessage.getText().toString();
+                    if (message == null || "".equals(message)) {
+                        ToastUtils.showShort("请输入留言内容");
+                    } else {
+                        mPresenter.AddLeaveMessageForOrder(userID, orderId, message,"");
                     }
                 }
                 break;
@@ -199,11 +226,11 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
         switch (baseResult.getStatusCode()) {
             case 200:
                 ToastUtils.showShort(baseResult.getData().getItem2());
-                list.clear();
-                leaveMessageAdapter.notifyDataSetChanged();
-                pictureList.clear();
-                leaveMessageImgAdapter.notifyDataSetChanged();
                 mEtMessage.setText("");
+                img.clear();
+                Glide.with(mActivity)
+                        .load(R.drawable.annex)
+                        .into(mAnnexIv);
                 mPresenter.GetOrderInfo(orderId);
                 break;
         }
@@ -214,20 +241,9 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
-//                if (data.getLeavemessageList().size() == 0) {
-//                    mLlMessageList.setVisibility(View.VISIBLE);
-//                } else {
-                    list.addAll(data.getLeavemessageList());
-                    Collections.reverse(list);
-                    leaveMessageAdapter.setNewData(list);
-//                }
-                if (data.getLeavemessageimgList().size()==0){
-                    mLlPictureList.setVisibility(View.GONE);
-                }else {
-                    pictureList.addAll(data.getLeavemessageimgList());
-                    Collections.reverse(pictureList);
-                    leaveMessageImgAdapter.setNewData(pictureList);
-                }
+                list=data.getLeavemessageList();
+                Collections.reverse(list);
+                leaveMessageAdapter.setNewData(list);
                 break;
         }
     }
@@ -237,9 +253,13 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
         switch (baseResult.getStatusCode()) {
             case 200:
                 if (baseResult.getData().isItem1()) {
-                    Glide.with(mActivity)
-                            .load(R.drawable.annex)
-                            .into(mAnnexIv);
+                    String message = mEtMessage.getText().toString();
+                    if (message == null || "".equals(message)) {
+                        ToastUtils.showShort("请输入留言内容");
+                    } else {
+                        mPresenter.AddLeaveMessageForOrder(userID, orderId, message,baseResult.getData().getItem2());
+                    }
+
                 }
                 break;
             default:
@@ -457,10 +477,7 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
     public void uploadImg(HashMap<Integer, File> map) {
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         builder.addFormDataPart("img", map.get(0).getName(), RequestBody.create(MediaType.parse("img/png"), map.get(0)));
-        builder.addFormDataPart("UserId", userID);
-        builder.addFormDataPart("OrderId", orderId);
         MultipartBody requestBody = builder.build();
         mPresenter.LeaveMessageImg(requestBody);
-
     }
 }
