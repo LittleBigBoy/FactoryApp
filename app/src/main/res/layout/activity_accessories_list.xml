@@ -1477,7 +1477,7 @@
                             android:id="@+id/tv_beyond_money"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="#F25037"
+                            android:textColor="#888"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -1500,7 +1500,7 @@
                             android:id="@+id/tv_accessory_money"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="#F25037"
+                            android:textColor="#888"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -1523,7 +1523,7 @@
                             android:id="@+id/tv_service_money"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="#F25037"
+                            android:textColor="#888"
                             android:textSize="15sp" />
                     </LinearLayout>
 

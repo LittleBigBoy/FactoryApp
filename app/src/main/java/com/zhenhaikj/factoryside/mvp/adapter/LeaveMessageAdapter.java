@@ -28,6 +28,11 @@ public class LeaveMessageAdapter extends BaseQuickAdapter<WorkOrder.Leavemessage
         helper.setText(R.id.tv_status,item.getContent())
                 .setText(R.id.tv_date,time)
                 .setText(R.id.tv_time,item.getUserId());
+        if (item.getPhoto()==null){
+            helper.setGone(R.id.iv_image,false);
+        }else{
+            helper.setGone(R.id.iv_image,true);
+        }
         helper.addOnClickListener(R.id.iv_image);
         GlideUtil.loadImageViewLoding(mContext, Config.Leave_Message_URL +item.getPhoto(),helper.getView(R.id.iv_image), R.drawable.image_loading,R.drawable.image_loading);
         int position=helper.getAdapterPosition();

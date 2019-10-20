@@ -262,6 +262,8 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     ImageView mIvMicrophoneOne;
     @BindView(R.id.ll_microphone_one)
     LinearLayout mLlMicrophoneOne;
+    @BindView(R.id.tv_description)
+    TextView mTvDescription;
 
 
     private PopupWindow popupWindow;
@@ -397,6 +399,8 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         switch (type) {
             case 0:
                 mTvTitle.setText("上门安装");
+                mTvDescription.setText("安装说明");
+                mEtFaultDescription.setHint("请填写安装说明");
                 break;
             case 1:
                 mTvTitle.setText("上门维修");
@@ -408,13 +412,13 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 //        mEtNum.setText("1");
 
         //默认保内
-        mCbUnderWarranty.setChecked(true);
-        mCbOutsideTheWarranty.setChecked(false);
-        Guarantee = "Y";
+//        mCbUnderWarranty.setChecked(true);
+//        mCbOutsideTheWarranty.setChecked(false);
+//        Guarantee = "Y";
         //已发配件默认否
-        mCbYes.setChecked(false);
-        mCbNo.setChecked(true);
-        AccessorySendState = "N";
+//        mCbYes.setChecked(false);
+//        mCbNo.setChecked(true);
+//        AccessorySendState = "N";
 //        mPresenter.GetFactoryBrand(userID);
 
         mIvY.setSelected(true);
@@ -865,6 +869,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                         service.setIsReturn("");
                         service.setPostPayType("");
                         service.setAddressBack("");
+                        service.setAccessoryState("");
                         s = gson.toJson(service);
                         body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
                         mPresenter.AddOrder(body);
@@ -886,13 +891,14 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                                     cancleLoading();
                                     return;
                                 }
+                                if ("".equals(PostPayType) || PostPayType == null) {
+                                    MyUtils.showToast(mActivity, "请选择邮费支付方式！");
+                                    cancleLoading();
+                                    return;
+                                }
+
                             }
 
-                            if ("".equals(PostPayType) || PostPayType == null) {
-                                MyUtils.showToast(mActivity, "请选择邮费支付方式！");
-                                cancleLoading();
-                                return;
-                            }
                             if (fAcList.size() == 0) {
                                 MyUtils.showToast(mActivity, "请添加配件！");
                                 cancleLoading();
@@ -939,6 +945,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             service.setPostPayType(PostPayType);
                             service.setAddressBack(mTvAddressback.getText().toString());
                             service.setOrderAccessoryStr(s1);
+                            service.setAccessoryState("0");
                             String s2 = gson.toJson(service);
 //                            s = gson.toJson(s2);
                             Log.d("添加的配件有", s1);
@@ -976,6 +983,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             service.setIsReturn("");
                             service.setPostPayType("");
                             service.setAddressBack("");
+                            service.setAccessoryState("");
                             s = gson.toJson(service);
                             body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
                             mPresenter.AddOrder(body);
@@ -1068,7 +1076,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
             }
             mEtDetail.setText(message);
         }
-        if (requestCode==3){
+        if (requestCode == 3) {
             String message = "";
             if (resultCode == RESULT_OK) {
                 ArrayList results = data.getStringArrayListExtra("results");

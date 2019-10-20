@@ -1058,9 +1058,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 mTvOrderSource.setText(data.getExpressNo());
                 mTvThirdParty.setText(data.getThirdPartyNo());
 
-                if ("安装".equals(data.getTypeName())){
+                if ("安装".equals(data.getTypeName())) {
                     mTvDescription.setText("安装备注");
-                }else {
+                } else {
                     mTvDescription.setText("故障描述");
                 }
 
@@ -1159,15 +1159,21 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         mLlServiceItem.setVisibility(View.GONE);
                         mTvStatusAccessory.setVisibility(View.VISIBLE);
                         mTvStatusAccessory.setText("已审核通过");
-                        if (data.getOrderAccessroyDetail().size() > 0) {
-                            for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
-                                if ("".equals(data.getOrderAccessroyDetail().get(i).getExpressNo())) {
-                                    mLlSendAccessory.setVisibility(View.VISIBLE);
-                                    mLlOldAccessory.setVisibility(View.VISIBLE);
-                                } else {
-                                    mLlSendAccessory.setVisibility(View.GONE);
-                                    mLlOldAccessory.setVisibility(View.GONE);
+                        if ("0".equals(data.getAccessoryState())) {
+
+                            if (data.getOrderAccessroyDetail().size() > 0) {
+                                for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
+                                    if ("".equals(data.getOrderAccessroyDetail().get(i).getExpressNo())) {
+                                        mLlSendAccessory.setVisibility(View.VISIBLE);
+                                        mLlOldAccessory.setVisibility(View.VISIBLE);
+                                    } else {
+                                        mLlSendAccessory.setVisibility(View.GONE);
+                                        mLlOldAccessory.setVisibility(View.GONE);
+                                    }
                                 }
+                            } else {
+                                mLlSendAccessory.setVisibility(View.GONE);
+                                mLlOldAccessory.setVisibility(View.GONE);
                             }
                         } else {
                             mLlSendAccessory.setVisibility(View.GONE);
@@ -1800,7 +1806,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 if (addressList.size() != 0) {
                     for (int i = 0; i < addressList.size(); i++) {
                         if ("1".equals(addressList.get(i).getIsDefault())) {
-                            AddressBack = addressList.get(i).getAddress() + "(" + addressList.get(i).getUserName() + "收)" + addressList.get(i).getPhone();
+                            AddressBack = addressList.get(0).getProvince() + addressList.get(0).getCity() + addressList.get(0).getArea() + addressList.get(0).getDistrict() + addressList.get(0).getAddress() + "(" + addressList.get(i).getUserName() + "收)" + addressList.get(i).getPhone();
                             mTvAddressback.setText(AddressBack);
                             mTvModify.setText("修改地址");
                         } else {

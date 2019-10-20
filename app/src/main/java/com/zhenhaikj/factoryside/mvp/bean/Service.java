@@ -33,6 +33,15 @@ public class Service implements Serializable {
     private String IsReturn;
     private String PostPayType;
     private String AddressBack;
+    private String AccessoryState;
+
+    public String getAccessoryState() {
+        return AccessoryState;
+    }
+
+    public void setAccessoryState(String accessoryState) {
+        AccessoryState = accessoryState;
+    }
 
     public String getIsReturn() {
         return IsReturn;
