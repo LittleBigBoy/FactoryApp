@@ -72,9 +72,6 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     private WorkOrder workOrder;
     private WorkOrderAdapter mWorkOrderAdapter;
     private List<WorkOrder.DataBean> workOrderList = new ArrayList<>();
-    private String[] mTitleDataList = new String[]{
-            "待接单", "待审核", "待支付", "已完成", "质保单", "所有工单", "退单处理"
-    };
     private static SPUtils spUtils;
     private String UserID;
     private View complaint_view;

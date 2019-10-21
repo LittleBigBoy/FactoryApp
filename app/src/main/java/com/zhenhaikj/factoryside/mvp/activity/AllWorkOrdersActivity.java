@@ -101,7 +101,7 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
     @Override
     protected void initView() {
 
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 11; i++) {
             mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i], ""));
         }
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
