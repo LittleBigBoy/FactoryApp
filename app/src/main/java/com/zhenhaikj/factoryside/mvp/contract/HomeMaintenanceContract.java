@@ -14,6 +14,7 @@ import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
+import com.zhenhaikj.factoryside.mvp.bean.GetCategory;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 
@@ -78,6 +79,8 @@ public interface HomeMaintenanceContract {
 
         Observable<BaseResult<Data<List<Category>>>> GetBrandCategory(String UserID);
 
+        Observable<BaseResult<Data<List<GetCategory>>>> GetBrandWithCategory( String UserID, String BrandID);
+
     }
 
     interface View extends BaseView {
@@ -106,6 +109,8 @@ public interface HomeMaintenanceContract {
         void GetAccountAddress(BaseResult<List<Address>> baseResult);
 
         void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult);
+
+        void GetBrandWithCategory(BaseResult<Data<List<GetCategory>>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -161,5 +166,7 @@ public interface HomeMaintenanceContract {
         public abstract void GetAccountAddress(String UserId);
 
         public abstract void GetBrandCategory(String UserID);
+
+        public abstract void GetBrandWithCategory(String UserID, String BrandID);
     }
 }

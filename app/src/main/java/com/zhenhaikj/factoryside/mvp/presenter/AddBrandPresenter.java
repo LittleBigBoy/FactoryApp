@@ -94,8 +94,8 @@ public class AddBrandPresenter extends AddBrandContract.Presenter {
     }
 
     @Override
-    public void AddBrandCategory(String BrandID, String Categorys) {
-        mModel.AddBrandCategory(BrandID,Categorys)
+    public void AddBrandCategory(String BrandID, String Categorys, String SubCategoryID, String  ProductTypeID) {
+        mModel.AddBrandCategory(BrandID,Categorys,SubCategoryID,ProductTypeID)
                 .subscribe(new BaseObserver<Data>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data> value) {
@@ -122,6 +122,28 @@ public class AddBrandPresenter extends AddBrandContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data> value) {
                         mView.DeleteFactoryBrand(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetChildFactoryCategory2(String ParentID) {
+        mModel.GetChildFactoryCategory2(ParentID)
+                .subscribe(new BaseObserver<CategoryData>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<CategoryData> value) {
+                        mView.GetChildFactoryCategory2(value);
+                    }
+                });
+    }
+
+    @Override
+    public void DeleteFactoryProduct(String UserID, String BrandID, String ProductTypeID) {
+        mModel.DeleteFactoryProduct(UserID, BrandID, ProductTypeID)
+                .subscribe(new BaseObserver<Data>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data> value) {
+                        mView.DeleteFactoryProduct(value);
                     }
                 });
     }

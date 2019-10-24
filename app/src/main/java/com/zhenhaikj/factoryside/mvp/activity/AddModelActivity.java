@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -13,6 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -22,7 +27,6 @@ import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.BrandChooseAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ChooseCategoryAdapter;
-import com.zhenhaikj.factoryside.mvp.adapter.ChooseParentCategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
@@ -38,9 +42,6 @@ import com.zhenhaikj.factoryside.mvp.widget.RecyclerViewDivider;
 
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -76,6 +77,10 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     EditText mEtPrice;
     @BindView(R.id.lv_popular)
     LabelsView mLvPopular;
+    @BindView(R.id.tv_choose_model)
+    TextView mTvChooseModel;
+    @BindView(R.id.ll_choose_model)
+    LinearLayout mLlChooseModel;
     private SPUtils spUtils;
     private String userID;
     private List<Category> popularList;
@@ -89,15 +94,18 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     private CategoryAdapter chooseAdapter;
     private String SubCategoryName;
     private String SubCategoryID;
+    private String CategoryID;
     private String FProductTypeID;
     private String ProductTypeName;
     private List<Brand> brandList;
     private BrandChooseAdapter brandsAdapter;
-    private String BrandName="";
+    private String BrandName = "";
     private String FBrandID;
     private String InitPrice;
     private List<Category> selectLabelDatas;
-    private String categorys="";
+    private String categorys = "";
+    private ChooseCategoryAdapter firstAdapter;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected int setLayoutId() {
@@ -136,6 +144,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
         mLlChooseBrand.setOnClickListener(this);
         mLlChooseCategory.setOnClickListener(this);
         mBtnAdd.setOnClickListener(this);
+        mLlChooseModel.setOnClickListener(this);
 
     }
 
@@ -157,6 +166,13 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                 break;
             case R.id.ll_choose_category:
                 mPresenter.GetFactoryCategory("999");
+                break;
+            case R.id.ll_choose_model:
+                if (SubCategoryID == null) {
+                    ToastUtils.showShort("请先选择分类");
+                    return;
+                }
+                mPresenter.GetChildFactoryCategory2(SubCategoryID);
                 break;
             case R.id.btn_add:
 //                ProductTypeName = mEtType.getText().toString().trim();
@@ -186,7 +202,11 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                     ToastUtils.showShort("请选择分类！");
                     return;
                 }
-                mPresenter.AddBrandCategory(FBrandID, SubCategoryID);
+                if ("".equals(FProductTypeID)) {
+                    ToastUtils.showShort("请选择型号！");
+                    return;
+                }
+                mPresenter.AddBrandCategory(FBrandID,FCategoryID ,SubCategoryID,FProductTypeID);
                 break;
         }
     }
@@ -219,7 +239,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
 //                                return data.getFCategoryName();
 //                            }
 //                        });
-                        showPopWindowGetCategory(mTvChooseCategory,popularList);
+                        showPopWindowGetCategory(mTvChooseCategory, popularList);
                     }
                 } else {
                     ToastUtils.showShort("获取分类失败！");
@@ -303,11 +323,45 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                     ToastUtils.showShort("添加成功！");
                     setResult(100);
                     finish();
+                }else {
+                    ToastUtils.showShort(baseResult.getData().getItem2()+"");
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                CategoryData data = baseResult.getData();
+                if ("0".equals(data.getCode())) {
+                    chooseList = data.getData();
+                    if (chooseList.size() == 0) {
+                        ToastUtils.showShort("无型号，请联系管理员添加！");
+                    } else {
+
+//                        rv_choose.setLayoutManager(new LinearLayoutManager(mActivity));
+                        chooseAdapter = new CategoryAdapter(R.layout.item_category, chooseList);
+//                        rv_choose.setAdapter(chooseAdapter);
+                        showPopWindow(mTvChooseModel, chooseAdapter, chooseList);
+//                        showBrand(mTvChooseType, chooseAdapter, chooseList, "category");
+                    }
+                } else {
+                    ToastUtils.showShort("获取型号失败！");
+                }
+                break;
+            default:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void DeleteFactoryProduct(BaseResult<Data> baseResult) {
+
     }
 
     @Override
@@ -327,56 +381,53 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
 
     public void showPopWindowGetCategory(final TextView tv, List<Category> list) {
 
-//        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
-//        lv_popular = contentView.findViewById(R.id.lv_popular);
-//        rv_choose = contentView.findViewById(R.id.rv_choose);
-//        iv_close = contentView.findViewById(R.id.iv_close);
-//        iv_close.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                popupWindow.dismiss();
-//            }
-//        });
-//        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
-//            @Override
-//            public CharSequence getLabelText(TextView label, int position, Category data) {
-//                return data.getFCategoryName();
-//            }
-//        });
-//        FCategoryID = popularList.get(0).getId();
-//        CategoryName = popularList.get(0).getFCategoryName();
-//        mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
-//        lv_popular.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
-//            @Override
-//            public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
-//                if (isSelect) {
-//                    FCategoryID = ((Category) data).getId();
-//                    CategoryName = ((Category) data).getFCategoryName();
-//                    mPresenter.GetChildFactoryCategory(((Category) data).getId());
-//                }
-//            }
-//        });
-
-
-        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop, null);
-        final RecyclerView rv = contentView.findViewById(R.id.rv);
-        rv.setLayoutManager(new LinearLayoutManager(mActivity));
-        ChooseParentCategoryAdapter firstAdapter = new ChooseParentCategoryAdapter(R.layout.item_category,popularList);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
-        rv.setLayoutManager(linearLayoutManager);
-        rv.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
-        rv.setAdapter(firstAdapter);
-
-        firstAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
+        lv_popular = contentView.findViewById(R.id.lv_popular);
+        rv_choose = contentView.findViewById(R.id.rv_choose);
+        iv_close = contentView.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                SubCategoryID=list.get(position).getFCategoryID();
-                mTvChooseCategory.setText(list.get(position).getFCategoryName());
-//                ToastUtils.showShort(SubCategoryID);
+            public void onClick(View v) {
                 popupWindow.dismiss();
             }
         });
+        firstAdapter = new ChooseCategoryAdapter(popularList);
+        linearLayoutManager = new LinearLayoutManager(mActivity);
+        lv_popular.setLayoutManager(linearLayoutManager);
+        lv_popular.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
+        lv_popular.setAdapter(firstAdapter);
+        FCategoryID = popularList.get(0).getId();
+        CategoryName = popularList.get(0).getFCategoryName();
+        CategoryID=popularList.get(0).getFCategoryID();
+        mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
+        popularList.get(0).setSelected(true);
+        firstAdapter.setOnItemClickListener((adapter, view, position) -> {
+            scrollToMiddleH(view, position);
+            setSelect(position);
+            CategoryID=popularList.get(position).getFCategoryID();
+            FCategoryID = popularList.get(position).getId();
+            mPresenter.GetChildFactoryCategory(popularList.get(position).getFCategoryID());
+        });
 
+
+//        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop, null);
+//        final RecyclerView rv = contentView.findViewById(R.id.rv);
+//        rv.setLayoutManager(new LinearLayoutManager(mActivity));
+//        ChooseParentCategoryAdapter firstAdapter = new ChooseParentCategoryAdapter(R.layout.item_category,popularList);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+//        rv.setLayoutManager(linearLayoutManager);
+//        rv.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
+//        rv.setAdapter(firstAdapter);
+//
+//        firstAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//                SubCategoryID=list.get(position).getFCategoryID();
+//                mTvChooseCategory.setText(list.get(position).getFCategoryName());
+////                ToastUtils.showShort(SubCategoryID);
+//                popupWindow.dismiss();
+//            }
+//        });
 
 
         popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -420,6 +471,11 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                     SubCategoryID = null;
                     SubCategoryName = null;
                 }
+                if (list.get(position) instanceof Category) {
+                    FProductTypeID= ((Category) list.get(position)).getFCategoryID();
+                    ProductTypeName = ((Category) list.get(position)).getFCategoryName();
+                    tv.setText(ProductTypeName);
+                }
             }
         });
         popupWindow = new PopupWindow(contentView);
@@ -451,5 +507,39 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    private void scrollToMiddleH(View view, int position) {
+
+        int vHeight = view.getHeight();
+
+        Rect rect = new Rect();
+
+        lv_popular.getGlobalVisibleRect(rect);
+
+//        int reHeight = rect.top- rect.bottom - vHeight;
+        int reHeight = rect.bottom - rect.top - vHeight;
+
+
+        final int firstPosition = linearLayoutManager.findFirstVisibleItemPosition();
+
+        int top = lv_popular.getChildAt(position - firstPosition).getTop();
+
+        int half = reHeight / 2;
+
+        lv_popular.smoothScrollBy(0, top - half);
+
+    }
+
+
+    public void setSelect(int position) {
+        for (int i = 0; i < popularList.size(); i++) {
+            if (i == position) {
+                popularList.get(i).setSelected(true);
+            } else {
+                popularList.get(i).setSelected(false);
+            }
+        }
+        firstAdapter.setNewData(popularList);
     }
 }

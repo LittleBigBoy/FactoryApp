@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -32,10 +35,6 @@ import com.zhenhaikj.factoryside.mvp.presenter.WalletPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -63,8 +62,6 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
     TextView mAvailableTv;
     @BindView(R.id.freeze_tv)
     TextView mFreezeTv;
-    @BindView(R.id.gift_tv)
-    TextView mGiftTv;
     @BindView(R.id.recharge_tv)
     TextView mRechargeTv;
     @BindView(R.id.pay_the_deposi_tv)
@@ -73,20 +70,16 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
     LinearLayout mLlInvoice;
     @BindView(R.id.ll_recharge_record)
     LinearLayout mLlRechargeRecord;
-    @BindView(R.id.rechargerecord_rv)
-    RecyclerView mRechargerecordRv;
     @BindView(R.id.ll_monthly_bill)
     LinearLayout mLlMonthlyBill;
-    @BindView(R.id.bill_rv)
-    RecyclerView mBillRv;
     @BindView(R.id.ll_frozen_amount)
     LinearLayout mLlFrozenAmount;
-    @BindView(R.id.frozen_amount_rv)
-    RecyclerView mFrozenAmountRv;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.tv_margin)
     TextView mTvMargin;
+    @BindView(R.id.ll_single_record)
+    LinearLayout mLlSingleRecord;
     private List<Bill.DataBean> billList = new ArrayList<>();
     private List<Bill.DataBean> rechargeRecordList = new ArrayList<>();
     private BillAdapter billAdapter;
@@ -122,10 +115,10 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
         mHideIv.setSelected(flag);
         mPresenter.GetUserInfoList(userId, "1");
 
-        mPresenter.AccountBill(userId, "1","1","999");//充值
+        mPresenter.AccountBill(userId, "1", "1", "999");//充值
 //        mPresenter.AccountBill(userId, "3");//提现
 //        mPresenter.AccountBill(userId, "2,5");//收入和支出
-        mPresenter.MonthBill(userId,"1,2");
+        mPresenter.MonthBill(userId, "1,2");
         mPresenter.GetFrozenMoney(userId);
     }
 
@@ -149,18 +142,10 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
         }
 
 
-        mBillRv.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRechargerecordRv.setLayoutManager(new LinearLayoutManager(mActivity));
-        mBillRv.setAdapter(billAdapter);
-        mRechargerecordRv.setAdapter(rechargeRecordAdapter);
+        monthBillAdapter = new MonthBillAdapter(R.layout.bill_item, MonthBillList);
 
-        monthBillAdapter = new MonthBillAdapter(R.layout.bill_item,MonthBillList);
-        mBillRv.setLayoutManager(new LinearLayoutManager(mActivity));
-        mBillRv.setAdapter(monthBillAdapter);
 
-        frozenMoneyAdapter = new FrozenMoneyAdapter(R.layout.item_frozen_amount,FrozenMoneyList);
-        mFrozenAmountRv.setLayoutManager(new LinearLayoutManager(mActivity));
-        mFrozenAmountRv.setAdapter(frozenMoneyAdapter);
+        frozenMoneyAdapter = new FrozenMoneyAdapter(R.layout.item_frozen_amount, FrozenMoneyList);
     }
 
     @Override
@@ -173,6 +158,8 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
         mLlMonthlyBill.setOnClickListener(this);
         mLlFrozenAmount.setOnClickListener(this);
         mHideIv.setOnClickListener(this);
+        mLlSingleRecord.setOnClickListener(this);
+
     }
 
 
@@ -200,33 +187,40 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
                 startActivity(new Intent(mActivity, RechargeActivity.class));
                 break;
             case R.id.ll_recharge_record:
-                Intent intent = new Intent(this, DetailRecordActivity.class);
-                intent.putExtra("openwhich", "1");
-                startActivity(intent);
+//                Intent intent = new Intent(this, DetailRecordActivity.class);
+//                intent.putExtra("openwhich", "1");
+//                startActivity(intent);
+                startActivity(new Intent(mActivity, RechargeRecordActivity.class));
                 break;
             case R.id.ll_monthly_bill:
-                Intent intent1 = new Intent(this, DetailRecordActivity.class);
-                intent1.putExtra("openwhich", "2");
-                startActivity(intent1);
+//                Intent intent1 = new Intent(this, DetailRecordActivity.class);
+//                intent1.putExtra("openwhich", "2");
+//                startActivity(intent1);
+                startActivity(new Intent(mActivity, MonthlyBillActivity.class));
                 break;
             case R.id.ll_frozen_amount:
-                Intent intent2 = new Intent(this, DetailRecordActivity.class);
-                intent2.putExtra("openwhich", "3");
-                startActivity(intent2);
+//                Intent intent2 = new Intent(this, DetailRecordActivity.class);
+//                intent2.putExtra("openwhich", "3");
+//                startActivity(intent2);
+                startActivity(new Intent(mActivity, FrozenAmountActivity.class));
+
                 break;
             case R.id.hide_iv:
-                if (!flag){
-                    flag=true;
+                if (!flag) {
+                    flag = true;
                     mAvailableTv.setText("****");//钱包余额
 //                    mTvWatermelonBalance.setText("****");//西瓜币
-                }else{
-                    flag=false;
+                } else {
+                    flag = false;
                     String format = String.format("%.2f", userInfo.getTotalMoney() - userInfo.getFrozenMoney());
-                    mAvailableTv.setText( format+ "");//钱包余额
+                    mAvailableTv.setText(format + "");//钱包余额
 //                    mTvWatermelonBalance.setText("¥" + userInfo.getCon() + "");//西瓜币
                 }
                 mHideIv.setSelected(flag);
-                spUtils.put("flag",flag);
+                spUtils.put("flag", flag);
+                break;
+            case R.id.ll_single_record:
+                startActivity(new Intent(mActivity,SingleQuantityActivity.class));
                 break;
 
         }
@@ -265,9 +259,7 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
                         switch (baseResult.getData().getItem2().getData().get(0).getState()) {
                             case "1"://充值
                                 rechargeRecordList.addAll(baseResult.getData().getItem2().getData());
-                                mRechargerecordRv.setLayoutManager(new LinearLayoutManager(mActivity));
-                                mRechargerecordRv.setHasFixedSize(true);
-                                mRechargerecordRv.setNestedScrollingEnabled(false);
+
 
                                 if (rechargeRecordList.size() <= 4) {
 //
@@ -282,8 +274,6 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
                                     rechargeRecordAdapter = new RechargeRecordAdapter(R.layout.rechargerecord_item, rechargeRecordList);
 
                                 }
-
-                                mRechargerecordRv.setAdapter(rechargeRecordAdapter);
 
                                 break;
                             case "2"://支出
@@ -304,15 +294,15 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
 
     @Override
     public void MonthBill(BaseResult<Data<MonthBill>> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().getItem2().getData()!=null){
+                if (baseResult.getData().getItem2().getData() != null) {
                     MonthBillList.addAll(baseResult.getData().getItem2().getData());
-                    if (MonthBillList.size()<=4){
+                    if (MonthBillList.size() <= 4) {
                         monthBillAdapter.setNewData(MonthBillList);
-                    }else {
+                    } else {
                         List<MonthBill.DataBean> List = new ArrayList<>();
-                        for (int i=0;i<5;i++){
+                        for (int i = 0; i < 5; i++) {
                             List.add(MonthBillList.get(i));
                         }
                         monthBillAdapter.setNewData(List);
@@ -326,15 +316,15 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
 
     @Override
     public void GetFrozenMoney(BaseResult<Data<FrozenMoney>> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().getItem2().getData()!=null){
+                if (baseResult.getData().getItem2().getData() != null) {
                     FrozenMoneyList.addAll(baseResult.getData().getItem2().getData());
-                    if (FrozenMoneyList.size()<=4){
+                    if (FrozenMoneyList.size() <= 4) {
                         frozenMoneyAdapter.setNewData(FrozenMoneyList);
-                    }else {
+                    } else {
                         List<FrozenMoney.DataBean> List = new ArrayList<>();
-                        for (int i = 0; i <5 ; i++) {
+                        for (int i = 0; i < 5; i++) {
                             List.add(FrozenMoneyList.get(i));
                         }
                         frozenMoneyAdapter.setNewData(List);

@@ -286,7 +286,7 @@ public class VerifiedActivity extends BaseActivity<VerifiedPresenter, VerifiedMo
                 }
                 showLoading();
 //                mPresenter.ApplyAuthInfo(UserID, mActualName, Sex, mIdNumber, mAddress, NodeIds, mProvince, mCity, mDistrict, mStreet, Double.toString(mLongitude), Double.toString(mLatitude), codestr, "1");
-                mPresenter.FactoryApplyAuthInfo(userID, mActualName, mIdNumber,name,phone,consumer_hotline,financial_phone,technical_phone,null,mProvince, mCity, mDistrict, mStreet,null,"0","Y");
+                mPresenter.FactoryApplyAuthInfo(userID, mActualName, mIdNumber,name,phone,consumer_hotline,financial_phone,technical_phone,null,mProvince, mCity, mDistrict, mStreet,mStreetNum,"0","Y");
                 break;
         }
     }

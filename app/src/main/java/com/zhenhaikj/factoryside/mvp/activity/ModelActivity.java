@@ -86,7 +86,8 @@ public class ModelActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
                 switch (view.getId()) {
                     case R.id.iv_delete:
                         FProductTypeID = productTypeList.get(position).getFCategoryID();
-                        mPresenter.DeleteFactoryProducttype(FProductTypeID);
+//                        mPresenter.DeleteFactoryProducttype(FProductTypeID);
+                        mPresenter.DeleteFactoryProduct(userID,productTypeList.get(position).getBrandID(),FProductTypeID);
                         break;
                     case R.id.rl_brand:
 
@@ -193,6 +194,24 @@ public class ModelActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     @Override
     public void AddBrandCategory(BaseResult<Data> baseResult) {
 
+    }
+
+    @Override
+    public void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult) {
+
+    }
+
+    @Override
+    public void DeleteFactoryProduct(BaseResult<Data> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                ToastUtils.showShort("删除成功！");
+                mPresenter.GetBrandCategory(userID);
+                break;
+            default:
+                ToastUtils.showShort("删除失败！");
+                break;
+        }
     }
 
     @Override

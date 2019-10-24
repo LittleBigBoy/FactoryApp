@@ -1,6 +1,8 @@
 package com.zhenhaikj.factoryside.mvp.fragment;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -20,18 +26,14 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.Config;
-import com.zhenhaikj.factoryside.mvp.activity.AccessoriesListActivity;
-import com.zhenhaikj.factoryside.mvp.activity.CompletionOrderActivity;
-import com.zhenhaikj.factoryside.mvp.activity.RemoteBillActivity;
+import com.zhenhaikj.factoryside.mvp.activity.SearchActivity;
 import com.zhenhaikj.factoryside.mvp.activity.WarrantyActivity;
-import com.zhenhaikj.factoryside.mvp.activity.WorkOrderDetailsActivity;
 import com.zhenhaikj.factoryside.mvp.adapter.WorkOrderAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.AllWorkOrdersContract;
-import com.zhenhaikj.factoryside.mvp.event.UpdateEvent;
 import com.zhenhaikj.factoryside.mvp.model.AllWorkOrdersModel;
 import com.zhenhaikj.factoryside.mvp.presenter.AllWorkOrdersPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
@@ -44,15 +46,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import butterknife.BindView;
-
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.widget.TextView;
 
 public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, AllWorkOrdersModel> implements AllWorkOrdersContract.View {
     private static final String ARG_PARAM1 = "param1";//
@@ -63,6 +57,10 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.empty_view)
     LinearLayout mEmptyView;
+    @BindView(R.id.view)
+    View mView;
+    @BindView(R.id.ll_search)
+    LinearLayout mLlSearch;
     private ClipboardManager myClipboard;
     private ClipData myClip;
 
@@ -170,6 +168,13 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
         });
 
         myClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+
+        mLlSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mActivity, SearchActivity.class));
+            }
+        });
     }
 
     /*    工厂端state
@@ -190,36 +195,46 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
         switch (mParam1) {
             case "待接单":
                 mPresenter.GetOrderInfoList(UserID, "0", Integer.toString(pageIndex), "3");
+                mLlSearch.setVisibility(View.GONE);
                 break;
             case "待审核":
                 mPresenter.GetOrderInfoList(UserID, "1", Integer.toString(pageIndex), "3");
+                mLlSearch.setVisibility(View.GONE);
                 break;
             case "已接单":
                 mPresenter.GetOrderInfoList(UserID, "7", Integer.toString(pageIndex), "3");
+                mLlSearch.setVisibility(View.GONE);
                 break;
             case "待支付":
                 mPresenter.GetOrderInfoList(UserID, "2", Integer.toString(pageIndex), "3");
+                mLlSearch.setVisibility(View.GONE);
                 break;
             case "已完成":
                 mPresenter.GetOrderInfoList(UserID, "3", Integer.toString(pageIndex), "3");
                 break;
             case "质保单":
                 mPresenter.GetOrderInfoList(UserID, "4", Integer.toString(pageIndex), "3");
+                mLlSearch.setVisibility(View.GONE);
                 break;
             case "所有工单":
                 mPresenter.GetOrderInfoList(UserID, "5", Integer.toString(pageIndex), "3");
+                mLlSearch.setVisibility(View.VISIBLE);
                 break;
             case "退单处理":
                 mPresenter.GetOrderInfoList(UserID, "6", Integer.toString(pageIndex), "3");
+                mLlSearch.setVisibility(View.GONE);
                 break;
             case "远程费审核":
                 mPresenter.GetOrderInfoList(UserID, "9", Integer.toString(pageIndex), "3");
+                mLlSearch.setVisibility(View.GONE);
                 break;
             case "待寄件":
                 mPresenter.GetOrderInfoList(UserID, "10", Integer.toString(pageIndex), "3");
+                mLlSearch.setVisibility(View.GONE);
                 break;
             case "星标工单":
                 mPresenter.GetOrderInfoList(UserID, "11", Integer.toString(pageIndex), "3");
+                mLlSearch.setVisibility(View.GONE);
                 break;
 
         }
@@ -312,12 +327,12 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                         mRefreshLayout.finishRefresh();
                         break;
                     case R.id.iv_star:
-                        if (view.isSelected()){
+                        if (view.isSelected()) {
                             view.setSelected(false);
-                            mPresenter.GetFStarOrder(workOrderList.get(position).getOrderID(),"N");
-                        }else {
+                            mPresenter.GetFStarOrder(workOrderList.get(position).getOrderID(), "N");
+                        } else {
                             view.setSelected(true);
-                            mPresenter.GetFStarOrder(workOrderList.get(position).getOrderID(),"Y");
+                            mPresenter.GetFStarOrder(workOrderList.get(position).getOrderID(), "Y");
                         }
                         break;
                 }
@@ -344,7 +359,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 //        getData();
-        switch (name){
+        switch (name) {
             case "7":
                 getData();
                 break;
@@ -427,7 +442,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
     @Override
     public void GetFStarOrder(BaseResult<Data<String>> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
                 ToastUtils.showShort(baseResult.getData().getItem2());
 //                getData();

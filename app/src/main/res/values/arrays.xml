@@ -10,4 +10,11 @@
         <item>增值税普通发票</item>
         <item>增值税专用发票（一般纳税人）先审核</item>
     </string-array>
+
+    <string-array name="single">
+        <item>筛选</item>
+        <item>安装单</item>
+        <item>维修单</item>
+        <item>送修单</item>
+    </string-array>
 </resources>

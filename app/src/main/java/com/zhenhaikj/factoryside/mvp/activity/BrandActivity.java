@@ -266,7 +266,12 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     public void DeleteFactoryBrand(BaseResult<Data> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                ToastUtils.showShort("删除成功！");
+                if (baseResult.getData().isItem1()){
+                    ToastUtils.showShort("删除成功！");
+                }else {
+                    ToastUtils.showShort(baseResult.getData().getItem2()+"");
+                }
+
                 mPresenter.GetBrand(userID);
                 break;
             default:
@@ -294,6 +299,16 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
 
     @Override
     public void AddBrandCategory(BaseResult<Data> baseResult) {
+
+    }
+
+    @Override
+    public void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult) {
+
+    }
+
+    @Override
+    public void DeleteFactoryProduct(BaseResult<Data> baseResult) {
 
     }
 

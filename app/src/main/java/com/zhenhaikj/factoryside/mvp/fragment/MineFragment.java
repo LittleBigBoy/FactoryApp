@@ -36,7 +36,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -57,10 +56,10 @@ import com.umeng.socialize.utils.ShareBoardlistener;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.activity.AboutUsActivity;
-import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
 import com.zhenhaikj.factoryside.mvp.activity.BrandActivity;
 import com.zhenhaikj.factoryside.mvp.activity.DetailRecordActivity;
 import com.zhenhaikj.factoryside.mvp.activity.ModelActivity;
+import com.zhenhaikj.factoryside.mvp.activity.MonthlyBillActivity;
 import com.zhenhaikj.factoryside.mvp.activity.OpinionActivity;
 import com.zhenhaikj.factoryside.mvp.activity.PersonalInformationActivity;
 import com.zhenhaikj.factoryside.mvp.activity.RechargeActivity;
@@ -98,60 +97,49 @@ import okhttp3.RequestBody;
 public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    @BindView(R.id.iv_service)
-    ImageView mIvService;
     @BindView(R.id.iv_setting)
     ImageView mIvSetting;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.iv_profile_image)
-    ImageView mIvProfileImage;
     @BindView(R.id.tv_nickname)
     TextView mTvNickname;
-    @BindView(R.id.ll_gift)
-    LinearLayout mLlGift;
-    @BindView(R.id.my_top)
-    LinearLayout mMyTop;
-    @BindView(R.id.tv_money)
-    TextView mTvMoney;
-    @BindView(R.id.tv_recharge)
-    TextView mTvRecharge;
-    @BindView(R.id.ll_all_order)
-    LinearLayout mLlAllOrder;
-    @BindView(R.id.ll_to_be_returned)
-    LinearLayout mLlToBeReturned;
-    @BindView(R.id.ll_to_be_confirmed)
-    LinearLayout mLlToBeConfirmed;
-    @BindView(R.id.ll_complete)
-    LinearLayout mLlComplete;
+    @BindView(R.id.tv_phone)
+    TextView mTvPhone;
+    @BindView(R.id.tv_issued_amount)
+    TextView mTvIssuedAmount;
+    @BindView(R.id.tv_complaint)
+    TextView mTvComplaint;
+    @BindView(R.id.iv_profile_image)
+    ImageView mIvProfileImage;
     @BindView(R.id.ll_my_wallet)
     LinearLayout mLlMyWallet;
-    @BindView(R.id.ll_service_phone)
-    LinearLayout mLlServicePhone;
     @BindView(R.id.ll_personal_info)
     LinearLayout mLlPersonalInfo;
+    @BindView(R.id.ll_add_brand)
+    LinearLayout mLlAddBrand;
+    @BindView(R.id.ll_model_addition)
+    LinearLayout mLlModelAddition;
     @BindView(R.id.ll_sub_account_management)
     LinearLayout mLlSubAccountManagement;
     @BindView(R.id.ll_qr_code)
     LinearLayout mLlQrCode;
     @BindView(R.id.ll_consume)
     LinearLayout mLlConsume;
-    @BindView(R.id.ll_add_brand)
-    LinearLayout mLlAddBrand;
+    @BindView(R.id.ll_service_phone)
+    LinearLayout mLlServicePhone;
     @BindView(R.id.ll_feedback)
     LinearLayout mLlFeedback;
+    @BindView(R.id.ll_share)
+    LinearLayout mLlShare;
+    @BindView(R.id.ll_setting)
+    LinearLayout mLlSetting;
     @BindView(R.id.ll_about)
     LinearLayout mLlAbout;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
-    @BindView(R.id.ll_model_addition)
-    LinearLayout mLlModelAddition;
-    @BindView(R.id.ll_setting)
-    LinearLayout mLlSetting;
-    @BindView(R.id.iv_code)
-    ImageView mIvCode;
-    @BindView(R.id.ll_share)
-    LinearLayout mLlShare;
+    @BindView(R.id.tv_real_name)
+    TextView mTvRealName;
+
 
     private String mParam1;
     private String mParam2;
@@ -185,6 +173,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private CompanyInfo companyDean;
     private View dialog_share;
     private AlertDialog dialogShare;
+    private Window window;
 
 
     public MineFragment() {
@@ -242,12 +231,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mPresenter.GetUserInfoList(userId, "1");
-                mPresenter.GetOrderInfoList("","",userID,"1","999");
+                mPresenter.GetOrderInfoList("", "", userID, "1", "999");
                 mRefreshLayout.finishRefresh(1000);
             }
         });
         mPresenter.GetUserInfoList(userId, "1");
-        mPresenter.GetOrderInfoList("","",userID,"1","999");
+        mPresenter.GetOrderInfoList("", "", userID, "1", "999");
 //        mPresenter.GetmessageBytype(userId);
 
         UMShareConfig config = new UMShareConfig();
@@ -322,14 +311,14 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     @Override
     protected void setListener() {
         mIvSetting.setOnClickListener(this);
-        mIvService.setOnClickListener(this);
-        mLlGift.setOnClickListener(this);
-        mTvRecharge.setOnClickListener(this);
-
-        mLlAllOrder.setOnClickListener(this);
-        mLlToBeReturned.setOnClickListener(this);
-        mLlToBeConfirmed.setOnClickListener(this);
-        mLlComplete.setOnClickListener(this);
+//        mIvService.setOnClickListener(this);
+//        mLlGift.setOnClickListener(this);
+//        mTvRecharge.setOnClickListener(this);
+//
+//        mLlAllOrder.setOnClickListener(this);
+//        mLlToBeReturned.setOnClickListener(this);
+//        mLlToBeConfirmed.setOnClickListener(this);
+//        mLlComplete.setOnClickListener(this);
 
         mLlMyWallet.setOnClickListener(this);
         mLlServicePhone.setOnClickListener(this);
@@ -343,8 +332,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mIvProfileImage.setOnClickListener(this);
         mLlModelAddition.setOnClickListener(this);
         mLlSetting.setOnClickListener(this);
-        mIvCode.setOnClickListener(this);
+//        mIvCode.setOnClickListener(this);
         mLlShare.setOnClickListener(this);
+//        mLlPersonal.setOnClickListener(this);
     }
 
 
@@ -354,7 +344,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             return;
         }
         mPresenter.GetUserInfoList(userId, "1");
-        mPresenter.GetOrderInfoList("","",userID,"1","999");
+        mPresenter.GetOrderInfoList("", "", userID, "1", "999");
     }
 
     @Override
@@ -383,39 +373,39 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     }
                 }).show();
                 break;
-            case R.id.iv_code:
-            case R.id.ll_gift:
-//                startActivity(new Intent(mActivity,WalletActivity.class));
-                shareView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share, null);
-                btn_share_one = shareView.findViewById(R.id.btn_share_one);
-                iv_code_one = shareView.findViewById(R.id.iv_code_one);
-                btn_go_to_the_mall = shareView.findViewById(R.id.btn_go_to_the_mall);
-                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/NewSign?phone=" + userID + "&type=8", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
-                iv_code_one.setImageBitmap(bitmap);
-                btn_share_one.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        shareDialog.dismiss();
-                        mShareAction2.open();
-                    }
-                });
-
-                btn_go_to_the_mall.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        openShopApp("com.zhenghaikj.shop");
-                        shareDialog.dismiss();
-                    }
-                });
-                shareDialog = new AlertDialog.Builder(mActivity).setView(shareView).create();
-                shareDialog.show();
-                Window window = shareDialog.getWindow();
-                WindowManager.LayoutParams lp = window.getAttributes();
-//                Display display = mActivity.getWindowManager().getDefaultDisplay();
-//                lp.width = (int) (display.getWidth() * 0.6);
-                window.setAttributes(lp);
-                window.setBackgroundDrawable(new ColorDrawable());
-                break;
+//            case R.id.iv_code:
+//            case R.id.ll_gift:
+////                startActivity(new Intent(mActivity,WalletActivity.class));
+//                shareView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share, null);
+//                btn_share_one = shareView.findViewById(R.id.btn_share_one);
+//                iv_code_one = shareView.findViewById(R.id.iv_code_one);
+//                btn_go_to_the_mall = shareView.findViewById(R.id.btn_go_to_the_mall);
+//                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/NewSign?phone=" + userID + "&type=8", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
+//                iv_code_one.setImageBitmap(bitmap);
+//                btn_share_one.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        shareDialog.dismiss();
+//                        mShareAction2.open();
+//                    }
+//                });
+//
+//                btn_go_to_the_mall.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        openShopApp("com.zhenghaikj.shop");
+//                        shareDialog.dismiss();
+//                    }
+//                });
+//                shareDialog = new AlertDialog.Builder(mActivity).setView(shareView).create();
+//                shareDialog.show();
+//                Window window = shareDialog.getWindow();
+//                WindowManager.LayoutParams lp = window.getAttributes();
+////                Display display = mActivity.getWindowManager().getDefaultDisplay();
+////                lp.width = (int) (display.getWidth() * 0.6);
+//                window.setAttributes(lp);
+//                window.setBackgroundDrawable(new ColorDrawable());
+//                break;
             case R.id.ll_share:
                 dialog_share = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share, null);
                 btn_share_one = dialog_share.findViewById(R.id.btn_share_one);
@@ -464,89 +454,89 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.tv_recharge:
                 startActivity(new Intent(mActivity, RechargeActivity.class));
                 break;
-            case R.id.ll_all_order:
-                if (userInfoDean.getIfAuth() != null) {
-                    if (userInfoDean.getIfAuth().equals("1")) {
-                        bundle = new Bundle();
-                        bundle.putString("title", "所有订单");
-                        bundle.putInt("position", 2);
-                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
-                        intent.putExtras(bundle);
-                        ActivityUtils.startActivity(intent);
-                    } else if (userInfoDean.getIfAuth().equals("0")) {
-                        showUnderDialog();
-                    } else if (userInfoDean.getIfAuth().equals("-1")) {
-                        showRejectDialog();
-                    } else {
-                        showVerifiedDialog();
-                    }
-                } else {
-                    showVerifiedDialog();
-                }
-                break;
-            case R.id.ll_to_be_returned:
-                if (userInfoDean.getIfAuth() != null) {
-                    if (userInfoDean.getIfAuth().equals("1")) {
-                        bundle = new Bundle();
-                        bundle.putString("title", "待审核");
-                        bundle.putInt("position", 5);
-                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
-                        intent.putExtras(bundle);
-                        ActivityUtils.startActivity(intent);
-                    } else if (userInfoDean.getIfAuth().equals("0")) {
-                        showUnderDialog();
-                    } else if (userInfoDean.getIfAuth().equals("-1")) {
-                        showRejectDialog();
-                    } else {
-                        showVerifiedDialog();
-                    }
-                } else {
-                    showVerifiedDialog();
-                }
-
-                break;
-            case R.id.ll_to_be_confirmed:
-                if (userInfoDean.getIfAuth() != null) {
-                    if (userInfoDean.getIfAuth().equals("1")) {
-                        bundle = new Bundle();
-                        bundle.putString("title", "待支付");
-                        bundle.putInt("position", 7);
-                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
-                        intent.putExtras(bundle);
-                        ActivityUtils.startActivity(intent);
-                    } else if (userInfoDean.getIfAuth().equals("0")) {
-                        showUnderDialog();
-                    } else if (userInfoDean.getIfAuth().equals("-1")) {
-                        showRejectDialog();
-                    } else {
-                        showVerifiedDialog();
-                    }
-                } else {
-                    showVerifiedDialog();
-                }
-
-                break;
-            case R.id.ll_complete:
-                if (userInfoDean.getIfAuth() != null) {
-                    if (userInfoDean.getIfAuth().equals("1")) {
-                        bundle = new Bundle();
-                        bundle.putString("title", "已完成");
-                        bundle.putInt("position", 8);
-                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
-                        intent.putExtras(bundle);
-                        ActivityUtils.startActivity(intent);
-                    } else if (userInfoDean.getIfAuth().equals("0")) {
-                        showUnderDialog();
-                    } else if (userInfoDean.getIfAuth().equals("-1")) {
-                        showRejectDialog();
-                    } else {
-                        showVerifiedDialog();
-                    }
-                } else {
-                    showVerifiedDialog();
-                }
-
-                break;
+//            case R.id.ll_all_order:
+//                if (userInfoDean.getIfAuth() != null) {
+//                    if (userInfoDean.getIfAuth().equals("1")) {
+//                        bundle = new Bundle();
+//                        bundle.putString("title", "所有订单");
+//                        bundle.putInt("position", 2);
+//                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+//                        intent.putExtras(bundle);
+//                        ActivityUtils.startActivity(intent);
+//                    } else if (userInfoDean.getIfAuth().equals("0")) {
+//                        showUnderDialog();
+//                    } else if (userInfoDean.getIfAuth().equals("-1")) {
+//                        showRejectDialog();
+//                    } else {
+//                        showVerifiedDialog();
+//                    }
+//                } else {
+//                    showVerifiedDialog();
+//                }
+//                break;
+//            case R.id.ll_to_be_returned:
+//                if (userInfoDean.getIfAuth() != null) {
+//                    if (userInfoDean.getIfAuth().equals("1")) {
+//                        bundle = new Bundle();
+//                        bundle.putString("title", "待审核");
+//                        bundle.putInt("position", 5);
+//                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+//                        intent.putExtras(bundle);
+//                        ActivityUtils.startActivity(intent);
+//                    } else if (userInfoDean.getIfAuth().equals("0")) {
+//                        showUnderDialog();
+//                    } else if (userInfoDean.getIfAuth().equals("-1")) {
+//                        showRejectDialog();
+//                    } else {
+//                        showVerifiedDialog();
+//                    }
+//                } else {
+//                    showVerifiedDialog();
+//                }
+//
+//                break;
+//            case R.id.ll_to_be_confirmed:
+//                if (userInfoDean.getIfAuth() != null) {
+//                    if (userInfoDean.getIfAuth().equals("1")) {
+//                        bundle = new Bundle();
+//                        bundle.putString("title", "待支付");
+//                        bundle.putInt("position", 7);
+//                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+//                        intent.putExtras(bundle);
+//                        ActivityUtils.startActivity(intent);
+//                    } else if (userInfoDean.getIfAuth().equals("0")) {
+//                        showUnderDialog();
+//                    } else if (userInfoDean.getIfAuth().equals("-1")) {
+//                        showRejectDialog();
+//                    } else {
+//                        showVerifiedDialog();
+//                    }
+//                } else {
+//                    showVerifiedDialog();
+//                }
+//
+//                break;
+//            case R.id.ll_complete:
+//                if (userInfoDean.getIfAuth() != null) {
+//                    if (userInfoDean.getIfAuth().equals("1")) {
+//                        bundle = new Bundle();
+//                        bundle.putString("title", "已完成");
+//                        bundle.putInt("position", 8);
+//                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+//                        intent.putExtras(bundle);
+//                        ActivityUtils.startActivity(intent);
+//                    } else if (userInfoDean.getIfAuth().equals("0")) {
+//                        showUnderDialog();
+//                    } else if (userInfoDean.getIfAuth().equals("-1")) {
+//                        showRejectDialog();
+//                    } else {
+//                        showVerifiedDialog();
+//                    }
+//                } else {
+//                    showVerifiedDialog();
+//                }
+//
+//                break;
             case R.id.ll_my_wallet:
                 startActivity(new Intent(mActivity, WalletActivity.class));
                 break;
@@ -579,8 +569,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 startActivity(new Intent(mActivity, WalletActivity.class));
                 break;
             case R.id.ll_consume:
-                Intent intent = new Intent(mActivity, DetailRecordActivity.class);
-                intent.putExtra("openwhich", "1");
+                Intent intent = new Intent(mActivity, MonthlyBillActivity.class);
+//                intent.putExtra("openwhich", "1");
                 startActivity(intent);
                 break;
             case R.id.ll_add_brand:
@@ -602,6 +592,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_model_addition:
                 startActivity(new Intent(mActivity, ModelActivity.class));
                 break;
+//            case R.id.ll_personal:
+//                startActivity(new Intent(mActivity, PersonalInformationActivity.class));
+//                break;
         }
     }
 
@@ -792,7 +785,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     }
                     if ("1".equals(userInfoDean.getIfAuth())) {
                         mPresenter.GetmessageBytype(userId);
+                        mTvRealName.setText("已实名");
+                    }else {
+                        mTvRealName.setText("未实名");
                     }
+                    mTvPhone.setText(userInfoDean.getUserID());
+                    mTvComplaint.setText(userInfoDean.getServiceComplaintNum());
 //                    mTvNickname.setText(userInfoDean.getTrueName());
                     String format = String.format("%.2f", userInfoDean.getTotalMoney() - userInfoDean.getFrozenMoney());
 
@@ -845,11 +843,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     public void GetOrderInfoList(BaseResult<Search> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult!=null){
-                    mTvMoney.setText("已发工单数量："+baseResult.getData().getCount());
-                }else {
+                if (baseResult != null) {
+//                    mTvMoney.setText("已发工单数量：" + baseResult.getData().getCount());
+                    mTvIssuedAmount.setText(baseResult.getData().getCount());
+                } else {
                     return;
                 }
 

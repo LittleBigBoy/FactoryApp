@@ -53,6 +53,7 @@ import com.zhenhaikj.factoryside.mvp.adapter.AccessoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.AreaAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.BrandChooseAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter2;
 import com.zhenhaikj.factoryside.mvp.adapter.ChooseCategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ChooseParentCategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CityAdapter;
@@ -73,6 +74,7 @@ import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.FAccessory;
+import com.zhenhaikj.factoryside.mvp.bean.GetCategory;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.bean.Service;
@@ -278,6 +280,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private String userID;//用户id
     private String FBrandID;//品牌id
     private String FCategoryID;//分类id
+    private String FCategoryName;
     private String FProductTypeID;//型号id
     private String FAccessoryID;//配件id
     private String ProvinceCode;//省code
@@ -363,6 +366,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private String s;
     private RequestBody body;
     private List<Category> categoryNewList = new ArrayList<>();
+    private CategoryAdapter2 chooseAdapter2;
 
     @Override
     protected int setLayoutId() {
@@ -582,22 +586,23 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 startActivity(new Intent(mActivity, ModelActivity.class));
                 break;
             case R.id.ll_choose_brand:
-                if (SubCategoryID == null) {
-                    ToastUtils.showShort("请先选择分类");
-                    return;
-                }
+//                if (SubCategoryID == null) {
+//                    ToastUtils.showShort("请先选择分类");
+//                    return;
+//                }
                 mPresenter.GetFactoryBrand(userID);
                 break;
             case R.id.ll_choose_category:
 //                mPresenter.GetFactoryCategory("999");
-                mPresenter.GetBrandCategory(userID);
+//                mPresenter.GetBrandCategory(userID);
                 break;
             case R.id.ll_choose_type:
-                if (SubCategoryID == null) {
-                    ToastUtils.showShort("请先选择分类");
+                if (FBrandID == null) {
+                    ToastUtils.showShort("请先选择品牌");
                     return;
                 }
-                mPresenter.GetChildFactoryCategory2(SubCategoryID);
+//                mPresenter.GetChildFactoryCategory2(SubCategoryID);
+                mPresenter.GetBrandWithCategory(userID, FBrandID);
                 break;
             case R.id.tv_address:
                 mPresenter.GetProvince();
@@ -708,11 +713,11 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 break;
             case R.id.btn_release:
                 showLoading();
-                if (SubCategoryID == null) {
-                    ToastUtils.showShort("请选择分类！");
-                    cancleLoading();
-                    return;
-                }
+//                if (SubCategoryID == null) {
+//                    ToastUtils.showShort("请选择分类！");
+//                    cancleLoading();
+//                    return;
+//                }
                 if (FBrandID == null) {
                     ToastUtils.showShort("请选择品牌！");
                     cancleLoading();
@@ -845,10 +850,12 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                         service.setUserID(userID);
                         service.setBrandID(FBrandID);
                         service.setBrandName(BrandName);
-                        service.setCategoryID(SubCategoryID);
-                        service.setCategoryName(SubCategoryName);
-                        service.setSubCategoryID(TypeID);
-                        service.setSubCategoryName(TypeName);
+                        service.setCategoryID(FCategoryID);
+                        service.setCategoryName(FCategoryName);
+                        service.setSubCategoryID(SubCategoryID);
+                        service.setSubCategoryName(SubCategoryName);
+                        service.setProductTypeID(TypeID);
+                        service.setProductType(TypeName);
                         service.setProvinceCode(ProvinceCode);
                         service.setCityCode(CityCode);
                         service.setAreaCode(AreaCode);
@@ -920,10 +927,12 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             service.setUserID(userID);
                             service.setBrandID(FBrandID);
                             service.setBrandName(BrandName);
-                            service.setCategoryID(SubCategoryID);
-                            service.setCategoryName(SubCategoryName);
-                            service.setSubCategoryID(TypeID);
-                            service.setSubCategoryName(TypeName);
+                            service.setCategoryID(FCategoryID);
+                            service.setCategoryName(FCategoryName);
+                            service.setSubCategoryID(SubCategoryID);
+                            service.setSubCategoryName(SubCategoryName);
+                            service.setProductTypeID(TypeID);
+                            service.setProductType(TypeName);
                             service.setProvinceCode(ProvinceCode);
                             service.setCityCode(CityCode);
                             service.setAreaCode(AreaCode);
@@ -959,10 +968,12 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             service.setUserID(userID);
                             service.setBrandID(FBrandID);
                             service.setBrandName(BrandName);
-                            service.setCategoryID(SubCategoryID);
-                            service.setCategoryName(SubCategoryName);
-                            service.setSubCategoryID(TypeID);
-                            service.setSubCategoryName(TypeName);
+                            service.setCategoryID(FCategoryID);
+                            service.setCategoryName(FCategoryName);
+                            service.setSubCategoryID(SubCategoryID);
+                            service.setSubCategoryName(SubCategoryName);
+                            service.setProductTypeID(TypeID);
+                            service.setProductType(TypeName);
                             service.setProvinceCode(ProvinceCode);
                             service.setCityCode(CityCode);
                             service.setAreaCode(AreaCode);
@@ -1498,8 +1509,26 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     brandList = baseResult.getData();
                 }
                 if (brandList.size() == 0) {
-                    ToastUtils.showShort("你还没添加品牌，请先添加品牌！");
-                    startActivity(new Intent(mActivity, BrandActivity.class));
+//                    ToastUtils.showShort("你还没添加品牌，请先添加品牌！");
+                    final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                    dialog.setMessage("你还没添加品牌，请先添加品牌！")
+                            //.setImageResId(R.mipmap.ic_launcher)
+                            .setTitle("提示")
+                            .setPositive("去添加")
+                            .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                        @Override
+                        public void onPositiveClick() {//拨打电话
+                            dialog.dismiss();
+                            startActivity(new Intent(mActivity, BrandActivity.class));
+                        }
+
+                        @Override
+                        public void onNegtiveClick() {//取消
+                            dialog.dismiss();
+                            // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
+
                 } else {
                     brandsAdapter = new BrandChooseAdapter(R.layout.item_category, brandList);
                     showBrand(mTvChooseBrand, brandsAdapter, brandList, "brand");
@@ -1528,7 +1557,13 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
             tv_add.setText("添加品牌");
         } else {
             tv_title.setText("选择型号");
-            tv_add.setVisibility(View.GONE);
+            tv_add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(mActivity, ModelActivity.class));
+                }
+            });
+            tv_add.setText("添加型号");
         }
 
         rv.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -1541,12 +1576,17 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     FBrandID = ((Brand) list.get(position)).getFBrandID();
                     BrandName = ((Brand) list.get(position)).getFBrandName();
                     tv.setText(BrandName);
-                    mPresenter.GetChildFactoryCategory2(SubCategoryID);
+//                    mPresenter.GetChildFactoryCategory2(SubCategoryID);
+                    mPresenter.GetBrandWithCategory(userID,FBrandID);
                     popupWindow.dismiss();
                 }
-                if (list.get(position) instanceof Category) {
-                    TypeID = ((Category) list.get(position)).getFCategoryID();
-                    TypeName = ((Category) list.get(position)).getFCategoryName();
+                if (list.get(position) instanceof GetCategory) {
+                    FCategoryID=((GetCategory) list.get(position)).getCategoryID();
+                    FCategoryName=((GetCategory) list.get(position)).getCategoryName();
+                    SubCategoryID=((GetCategory) list.get(position)).getSubCategoryID();
+                    SubCategoryName=((GetCategory) list.get(position)).getSubCategoryName();
+                    TypeID = ((GetCategory) list.get(position)).getProductTypeID();
+                    TypeName = ((GetCategory) list.get(position)).getProductTypeName();
                     tv.setText(TypeName);
                     popupWindow.dismiss();
                 }
@@ -1855,6 +1895,48 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 } else {
                     showPopWindowGetCategory(mTvChooseCategory, categoryNewList);
 
+                }
+
+                break;
+            default:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetBrandWithCategory(BaseResult<Data<List<GetCategory>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                List<GetCategory> data = baseResult.getData().getItem2();
+                if (data.size() == 0) {
+//                    ToastUtils.showShort("请添加型号");
+                    final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                    dialog.setMessage("该品牌下面无型号，请添加型号")
+                            //.setImageResId(R.mipmap.ic_launcher)
+                            .setTitle("提示")
+                            .setPositive("去添加")
+                            .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                        @Override
+                        public void onPositiveClick() {//拨打电话
+                            dialog.dismiss();
+                            startActivity(new Intent(mActivity, AddModelActivity.class));
+                        }
+
+                        @Override
+                        public void onNegtiveClick() {//取消
+                            dialog.dismiss();
+                            // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
+
+                } else {
+
+//                        rv_choose.setLayoutManager(new LinearLayoutManager(mActivity));
+                    chooseAdapter2 = new CategoryAdapter2(R.layout.item_category, data);
+//                        rv_choose.setAdapter(chooseAdapter);
+//                        showPopWindow(mTvChooseType, chooseAdapter, chooseList);
+                    showBrand(mTvChooseType, chooseAdapter2, data, "category");
                 }
 
                 break;

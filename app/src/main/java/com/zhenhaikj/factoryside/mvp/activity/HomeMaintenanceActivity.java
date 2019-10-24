@@ -56,6 +56,7 @@ import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
+import com.zhenhaikj.factoryside.mvp.bean.GetCategory;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.contract.HomeMaintenanceContract;
@@ -1085,6 +1086,11 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
 
     @Override
     public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
+
+    }
+
+    @Override
+    public void GetBrandWithCategory(BaseResult<Data<List<GetCategory>>> baseResult) {
 
     }
 

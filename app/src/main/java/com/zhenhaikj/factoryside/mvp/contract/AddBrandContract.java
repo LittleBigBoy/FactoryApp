@@ -33,7 +33,10 @@ public interface AddBrandContract {
         Observable<BaseResult<Data>> AddBrandCategory(
                 String BrandID,
                 String Categorys
+                , String SubCategoryID, String ProductTypeID
         );
+        Observable<BaseResult<CategoryData>> GetChildFactoryCategory2(String ParentId);
+        Observable<BaseResult<Data>> DeleteFactoryProduct(String UserID, String BrandID, String ProductTypeID);
     }
 
     interface View extends BaseView {
@@ -47,6 +50,8 @@ public interface AddBrandContract {
         void DeleteFactoryProducttype(BaseResult<Data> baseResult);
         void DeleteFactoryBrand(BaseResult<Data> baseResult);
         void AddBrandCategory(BaseResult<Data> baseResult);
+        void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult);
+        void DeleteFactoryProduct(BaseResult<Data> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -61,7 +66,9 @@ public interface AddBrandContract {
         public abstract void DeleteFactoryBrand(String FBrandID);
         public abstract void AddBrandCategory(
                 String BrandID,
-                String Categorys
+                String Categorys, String SubCategoryID, String  ProductTypeID
         );
+        public abstract void GetChildFactoryCategory2(String ParentID);
+        public abstract void DeleteFactoryProduct(String UserID, String BrandID, String ProductTypeID);
     }
 }

@@ -71,8 +71,8 @@ public class AddBrandModel implements AddBrandContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data>> AddBrandCategory(String BrandID, String Categorys) {
-        return ApiRetrofit.getDefault().AddBrandCategory(BrandID,Categorys)
+    public Observable<BaseResult<Data>> AddBrandCategory(String BrandID, String Categorys, String SubCategoryID, String  ProductTypeID) {
+        return ApiRetrofit.getDefault().AddBrandCategory(BrandID,Categorys,SubCategoryID,ProductTypeID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
@@ -90,4 +90,19 @@ public class AddBrandModel implements AddBrandContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<CategoryData>> GetChildFactoryCategory2(String ParentID) {
+        return ApiRetrofit.getDefault().GetChildFactoryCategory(ParentID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data>> DeleteFactoryProduct(String UserID, String BrandID, String ProductTypeID) {
+        return ApiRetrofit.getDefault().DeleteFactoryProduct(UserID, BrandID, ProductTypeID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
 }

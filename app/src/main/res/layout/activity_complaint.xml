@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/toolbar"/>
+    <LinearLayout
+        android:id="@+id/ll_choose_brand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_10"
+            android:text="工单号"
+            android:textColor="#333333"
+            android:textColorHint="#333333"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/et_orderid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textColor="#333333"
+            android:textColorHint="#333333"
+            android:paddingTop="17dp"
+            android:paddingBottom="17dp"
+            android:textSize="15sp"
+            android:background="@null"/>
+
+    </LinearLayout>
+</LinearLayout>

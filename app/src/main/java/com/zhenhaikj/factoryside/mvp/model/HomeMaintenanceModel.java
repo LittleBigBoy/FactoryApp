@@ -11,6 +11,7 @@ import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
+import com.zhenhaikj.factoryside.mvp.bean.GetCategory;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.contract.HomeMaintenanceContract;
@@ -110,6 +111,13 @@ public class HomeMaintenanceModel implements HomeMaintenanceContract.Model {
     @Override
     public Observable<BaseResult<Data<List<Category>>>> GetBrandCategory(String UserID) {
         return ApiRetrofit.getDefault().GetBrandCategory(UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<List<GetCategory>>>> GetBrandWithCategory(String UserID, String BrandID) {
+        return ApiRetrofit.getDefault().GetBrandWithCategory(UserID, BrandID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

@@ -12,6 +12,8 @@ public class Service implements Serializable {
     private String CategoryName;
     private String SubCategoryID;
     private String SubCategoryName;
+    private String ProductTypeID;
+    private String ProductType;
     private String ProvinceCode;
     private String CityCode;
     private String AreaCode;
@@ -34,6 +36,22 @@ public class Service implements Serializable {
     private String PostPayType;
     private String AddressBack;
     private String AccessoryState;
+
+    public String getProductTypeID() {
+        return ProductTypeID;
+    }
+
+    public void setProductTypeID(String productTypeID) {
+        ProductTypeID = productTypeID;
+    }
+
+    public String getProductType() {
+        return ProductType;
+    }
+
+    public void setProductType(String productType) {
+        ProductType = productType;
+    }
 
     public String getAccessoryState() {
         return AccessoryState;

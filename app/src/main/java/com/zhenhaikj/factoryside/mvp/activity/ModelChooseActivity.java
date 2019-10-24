@@ -191,6 +191,16 @@ public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBran
     }
 
     @Override
+    public void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult) {
+
+    }
+
+    @Override
+    public void DeleteFactoryProduct(BaseResult<Data> baseResult) {
+
+    }
+
+    @Override
     public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:

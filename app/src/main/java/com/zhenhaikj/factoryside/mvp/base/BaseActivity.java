@@ -153,6 +153,10 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         return  LayoutInflater.from(mActivity).inflate(R.layout.layout_no_data,null);
     }
 
+    public View getEmptyRecord() {
+        return LayoutInflater.from(mActivity).inflate(R.layout.layout_no_record, null);
+    }
+
     public void hideSoftKeyBoard() {
         View localView = getCurrentFocus();
         if (this.imm == null) {

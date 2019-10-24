@@ -112,7 +112,7 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
 
         setSwipeBackEnable(false);
         mTvTitle.setVisibility(View.VISIBLE);
-        mIconSearch.setVisibility(View.VISIBLE);
+//        mIconSearch.setVisibility(View.VISIBLE);
         bundle = getIntent().getExtras();
         mTvTitle.setText(bundle.getString("title"));
         mViewPager.setCurrentItem(bundle.getInt("position"));

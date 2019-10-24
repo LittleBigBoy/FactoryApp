@@ -66,7 +66,6 @@
 
     <style name="ThemeSplash" parent="Theme.AppCompat.Light.NoActionBar">
 
-        <item name="android:background">@drawable/icon_new</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="windowActionBar">false</item>
@@ -132,5 +131,11 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsTranslucent">true</item>
 
+    </style>
+
+
+    <style name="Spinner">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/red</item>
     </style>
 </resources>

@@ -15,10 +15,13 @@ import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.Data2;
 import com.zhenhaikj.factoryside.mvp.bean.DepositRecharge;
 import com.zhenhaikj.factoryside.mvp.bean.DepositWithDraw;
 import com.zhenhaikj.factoryside.mvp.bean.District;
+import com.zhenhaikj.factoryside.mvp.bean.Freezing;
 import com.zhenhaikj.factoryside.mvp.bean.FrozenMoney;
+import com.zhenhaikj.factoryside.mvp.bean.GetCategory;
 import com.zhenhaikj.factoryside.mvp.bean.GetFactoryData;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
 import com.zhenhaikj.factoryside.mvp.bean.Logistics;
@@ -27,8 +30,10 @@ import com.zhenhaikj.factoryside.mvp.bean.MessageData;
 import com.zhenhaikj.factoryside.mvp.bean.MonthBill;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
+import com.zhenhaikj.factoryside.mvp.bean.Recharge;
 import com.zhenhaikj.factoryside.mvp.bean.RedPointData;
 import com.zhenhaikj.factoryside.mvp.bean.Search;
+import com.zhenhaikj.factoryside.mvp.bean.SingleQuantity;
 import com.zhenhaikj.factoryside.mvp.bean.SubUserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Track;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
@@ -137,14 +142,16 @@ public interface ApiService {
      * 添加品牌对应的分类BrandID,Categorys(逗号（,）分割)
      *
      * @param BrandID
-     * @param Categorys
+     * @param CategoryID
      * @return
      */
     @FormUrlEncoded
     @POST("FactoryConfig/AddBrandCategory")
     Observable<BaseResult<Data>> AddBrandCategory(
             @Field("BrandID") String BrandID,
-            @Field("Categorys") String Categorys
+            @Field("CategoryID") String CategoryID,
+            @Field("SubCategoryID") String SubCategoryID,
+            @Field("ProductTypeID") String ProductTypeID
     );
 
     /**
@@ -168,6 +175,14 @@ public interface ApiService {
 //    @FormUrlEncoded
 //    @POST("FactoryConfig/GetFactoryCategory")
 //    Observable<BaseResult<Data<List<ProductType>>>> GetCategory(@Field("ParentID") String ParentID);
+
+    /**
+     * 获取型号
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/GetBrandWithCategory")
+    Observable<BaseResult<Data<List<GetCategory>>>> GetBrandWithCategory(@Field("UserID") String UserID,
+                                                                         @Field("BrandID") String BrandID);
 
     /**
      * 获取子分类
@@ -201,6 +216,15 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("FactoryConfig/DeleteFactoryProducttype")
     Observable<BaseResult<Data>> DeleteFactoryProducttype(@Field("FProductTypeID") String FProductTypeID);
+
+    /**
+     * 删除工厂产品型号新
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/DeleteBrandcategory")
+    Observable<BaseResult<Data>> DeleteFactoryProduct(@Field("UserID") String UserID,
+                                                      @Field("BrandID") String BrandID,
+                                                      @Field("ProductTypeID") String ProductTypeID);
 
     /**
      * 删除工厂品牌
@@ -544,8 +568,8 @@ public interface ApiService {
     /**
      * 审核配件跟服务申请
      *
-     * @param OrderID 订单id
-     * @param AccessoryAndServiceApplyState   -1拒绝 1通过
+     * @param OrderID                       订单id
+     * @param AccessoryAndServiceApplyState -1拒绝 1通过
      * @return
      */
     @FormUrlEncoded
@@ -813,10 +837,10 @@ public interface ApiService {
                                                               @Field("Province") String Province,
                                                               @Field("City") String City,
                                                               @Field("Area") String Area,
-                                                              @Field("PhoneUrl") String District,
-                                                              @Field("Province") String Address,
-                                                              @Field("City") String IfAuth,
-                                                              @Field("Area") String IsUse);
+                                                              @Field("District") String District,
+                                                              @Field("Address") String Address,
+                                                              @Field("IfAuth") String IfAuth,
+                                                              @Field("IsUse") String IsUse);
 
     /**
      * 上传营业执照
@@ -1000,12 +1024,48 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Order/GetOrderInfoList")
     Observable<BaseResult<Search>> GetOrderInfoList(@Field("Phone") String Phone,
-                                                          @Field("OrderID") String OrderID,
-                                                          @Field("UserID") String UserID,
-                                                          @Field("limit") String limit,
-                                                          @Field("page") String page);
+                                                    @Field("OrderID") String OrderID,
+                                                    @Field("UserID") String UserID,
+                                                    @Field("limit") String limit,
+                                                    @Field("page") String page);
 
 
+    /*获取用户充值账单
+     *
+     * 状态 :1充值2支付3提现4待支付 收入=5,支付完成待确认=6,商城支付=7, 退款=8
+     * */
+    @FormUrlEncoded
+    @POST("Account/RechargeRecord")
+    Observable<BaseResult<Data2<Recharge>>> RechargeRecord(@Field("UserID") String UserID,
+                                                                 @Field("CreateTimeStart") String CreateTimeStart,
+                                                                 @Field("CreateTimeEnd") String CreateTimeEnd,
+                                                                 @Field("StateName") String StateName,
+                                                                 @Field("State") String State,
+                                                                 @Field("page") String page,
+                                                                 @Field("limit") String limit);
 
 
+    /*
+     * 冻结金额
+     * */
+    @FormUrlEncoded
+    @POST("Account/FreezingAmount")
+    Observable<BaseResult<Data<Freezing>>> FreezingAmount(@Field("UserID") String UserID,
+                                                    @Field("CreateTimeStart") String CreateTimeStart,
+                                                    @Field("CreateTimeEnd") String CreateTimeEnd,
+                                                    @Field("page") String page,
+                                                    @Field("limit") String limit);
+
+    /*
+     * 冻结金额
+     * TypeID 1维修 2安装 3质保 4送修
+     * */
+    @FormUrlEncoded
+    @POST("Account/WorkOrderTime")
+    Observable<BaseResult<Data<SingleQuantity>>> WorkOrderTime(@Field("UserID") String UserID,
+                                                         @Field("CreateTimeStart") String CreateTimeStart,
+                                                         @Field("CreateTimeEnd") String CreateTimeEnd,
+                                                         @Field("TypeID") String TypeID,
+                                                         @Field("page") String page,
+                                                         @Field("limit") String limit);
 }
