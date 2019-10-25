@@ -691,7 +691,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
                                             } else {
                                                 mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
-                                                mPresenter.ApproveOrderAccessoryAndService(OrderID, "2", PostPayType, IsReturn);
+//                                                mPresenter.ApproveOrderAccessoryAndService(OrderID, "2", PostPayType, IsReturn);
                                             }
 
                                         }
@@ -699,7 +699,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                                         MyUtils.showToast(mActivity, "请选择是否需要返件");
                                         return;
                                     } else {
-                                        mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
+//                                        mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
                                         mPresenter.ApproveOrderAccessoryAndService(OrderID, "2", PostPayType, IsReturn);
                                     }
                                 }
@@ -774,7 +774,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
                                             } else {
                                                 mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
-                                                mPresenter.ApproveOrderAccessoryAndService(OrderID, "1", PostPayType, IsReturn);
+//                                                mPresenter.ApproveOrderAccessoryAndService(OrderID, "1", PostPayType, IsReturn);
                                             }
 
                                         }
@@ -783,7 +783,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                                         return;
                                     } else {
                                         mPresenter.UpdateIsReturnByOrderID(OrderID, IsReturn, AddressBack, PostPayType);
-                                        mPresenter.ApproveOrderAccessoryAndService(OrderID, "1", PostPayType, IsReturn);
+//                                        mPresenter.ApproveOrderAccessoryAndService(OrderID, "1", PostPayType, IsReturn);
                                     }
                                 }
                             } else {
@@ -1789,6 +1789,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 Data<String> data = baseResult.getData();
                 if (data.isItem1()) {
 //                    ToastUtils.showShort(data.getItem2());
+                    mPresenter.ApproveOrderAccessoryAndService(OrderID, "2", PostPayType, IsReturn);
                 } else {
                     ToastUtils.showShort(data.getItem2());
                 }

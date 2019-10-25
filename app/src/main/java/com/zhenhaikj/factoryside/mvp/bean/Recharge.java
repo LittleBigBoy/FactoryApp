@@ -62,7 +62,7 @@ public class Recharge implements Serializable {
         private int FinancialID;
         private String PayTypeCode;
         private String PayTypeName;
-        private int PayMoney;
+        private Double PayMoney;
         private Object ThirdPartyNo;
         private String OutTradeNo;
         private String CreateTime;
@@ -116,11 +116,11 @@ public class Recharge implements Serializable {
             this.PayTypeName = PayTypeName;
         }
 
-        public int getPayMoney() {
+        public Double getPayMoney() {
             return PayMoney;
         }
 
-        public void setPayMoney(int PayMoney) {
+        public void setPayMoney(Double PayMoney) {
             this.PayMoney = PayMoney;
         }
 
