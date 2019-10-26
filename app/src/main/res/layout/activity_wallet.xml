@@ -73,39 +73,44 @@
                                         android:gravity="center"
                                         android:orientation="vertical">
 
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center"
-                                            android:layout_marginTop="20dp"
-                                            android:text="可用余额"
-                                            android:textColor="#7D7D7D"
-                                            android:textSize="20sp"
-                                            android:textStyle="bold" />
-
-
                                         <LinearLayout
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginTop="5dp"
-                                            android:orientation="horizontal">
+                                            android:orientation="horizontal"
+                                            android:layout_marginTop="30dp">
 
                                             <TextView
-                                                android:id="@+id/available_tv"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginLeft="20dp"
-                                                android:text="0.00"
-                                                android:textColor="#101010"
-                                                android:textSize="24sp" />
+                                                android:layout_gravity="center"
+                                                android:text="可用余额"
+                                                android:textColor="#7D7D7D"
+                                                android:textSize="20sp" />
 
                                             <ImageView
                                                 android:id="@+id/hide_iv"
                                                 android:layout_width="20dp"
                                                 android:layout_height="15dp"
                                                 android:layout_gravity="center"
-                                                android:layout_marginLeft="15dp"
+                                                android:layout_marginLeft="5dp"
                                                 android:src="@drawable/eye_selector" />
+                                        </LinearLayout>
+
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="10dp"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:id="@+id/available_tv"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="0.00"
+                                                android:textColor="#101010"
+                                                android:textSize="24sp" />
+
                                         </LinearLayout>
 
                                     </LinearLayout>

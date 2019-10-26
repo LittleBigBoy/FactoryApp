@@ -646,7 +646,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 }).show();
                 break;
             case R.id.tv_reject:
-                if ("厂家自购件".equals(data.getAccessorySequencyStr())) {
+                if ("厂家寄件".equals(data.getAccessorySequencyStr())) {
                     reject = new CommonDialog_Home(mActivity);
                     reject.setMessage("是否拒绝申请")
 
@@ -1786,12 +1786,18 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     public void UpdateIsReturnByOrderID(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data<String> data = baseResult.getData();
-                if (data.isItem1()) {
+                Data<String> data1 = baseResult.getData();
+                if (data1.isItem1()) {
 //                    ToastUtils.showShort(data.getItem2());
-                    mPresenter.ApproveOrderAccessoryAndService(OrderID, "2", PostPayType, IsReturn);
+
+                    if ("师傅自购件".equals(data.getAccessorySequencyStr())){
+                        mPresenter.ApproveOrderAccessoryAndService(OrderID, "2", PostPayType, IsReturn);
+                    }else {
+                        mPresenter.ApproveOrderAccessoryAndService(OrderID, "1", PostPayType, IsReturn);
+
+                    }
                 } else {
-                    ToastUtils.showShort(data.getItem2());
+                    ToastUtils.showShort(data1.getItem2());
                 }
                 break;
             default:

@@ -37,8 +37,8 @@
 
                 <ImageView
                     android:id="@+id/img_home"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:background="@drawable/tab_menu_home"
                     android:gravity="center" />
@@ -64,8 +64,8 @@
 
                 <ImageView
                     android:id="@+id/img_cate"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:background="@drawable/tab_menu_all_workorder"
                     android:gravity="center" />
@@ -91,15 +91,15 @@
                     android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/img_message_invisible"
-                        android:layout_width="45dp"
-                        android:layout_height="25dp"
+                        android:layout_width="40dp"
+                        android:layout_height="20dp"
                         android:layout_gravity="center"
                         android:visibility="invisible"
                         android:gravity="center" />
                     <ImageView
                         android:id="@+id/img_message"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_gravity="center"
                         android:background="@drawable/tab_menu_message"
                         android:gravity="center" />
@@ -149,8 +149,8 @@
 
                 <ImageView
                     android:id="@+id/img_my"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:background="@drawable/tab_menu_mine"
                     android:gravity="center" />

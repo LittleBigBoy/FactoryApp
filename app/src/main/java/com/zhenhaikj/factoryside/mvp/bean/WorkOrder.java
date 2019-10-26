@@ -819,7 +819,7 @@ public class WorkOrder implements Serializable {
             }
             switch(AccessoryState){
                 case "0":
-                    AccessorySequencyStr="厂家自购件";
+                    AccessorySequencyStr="厂家寄件";
                     break;
                 case "1":
                     AccessorySequencyStr="师傅自购件";

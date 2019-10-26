@@ -56,9 +56,9 @@ public class Freezing implements Serializable {
 
         private int Id;
         private int FrozenID;
-        private String Explain;
+        private String ExplainMemo;
         private String UserID;
-        private int Money;
+        private Double Money;
         private String CreateTime;
         private String IsUse;
         private String OrderID;
@@ -82,12 +82,12 @@ public class Freezing implements Serializable {
             this.FrozenID = FrozenID;
         }
 
-        public String getExplain() {
-            return Explain;
+        public String getExplainMemo() {
+            return ExplainMemo;
         }
 
-        public void setExplain(String Explain) {
-            this.Explain = Explain;
+        public void setExplainMemo(String explainMemo) {
+            ExplainMemo = explainMemo;
         }
 
         public String getUserID() {
@@ -98,11 +98,11 @@ public class Freezing implements Serializable {
             this.UserID = UserID;
         }
 
-        public int getMoney() {
+        public Double getMoney() {
             return Money;
         }
 
-        public void setMoney(int Money) {
+        public void setMoney(Double Money) {
             this.Money = Money;
         }
 

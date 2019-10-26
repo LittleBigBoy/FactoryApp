@@ -36,7 +36,7 @@
                         android:layout_height="wrap_content"
                         android:text="可用余额"
                         android:textColor="@color/white"
-                        android:textSize="23sp" />
+                        android:textSize="16sp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
                             android:layout_height="wrap_content"
                             android:text="¥"
                             android:textColor="@color/white"
-                            android:textSize="17sp" />
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/tv_available"
@@ -58,29 +58,28 @@
                             android:layout_height="wrap_content"
                             android:text="53.29"
                             android:textColor="@color/white"
-                            android:textSize="29sp" />
+                            android:textSize="20sp" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
                     android:orientation="vertical"
                     android:layout_toLeftOf="@+id/ll_money">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
                         android:text="总余额"
                         android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="冻结金额"
                         android:textColor="@color/white"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:layout_marginTop="7dp"/>
 
                     <TextView
@@ -89,7 +88,7 @@
                         android:layout_marginTop="7dp"
                         android:text="保证金"
                         android:textColor="@color/white"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         />
 
 
@@ -105,7 +104,7 @@
                     android:id="@+id/ll_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginRight="25dp"
                     android:gravity="right"
                     android:orientation="vertical"
@@ -114,7 +113,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:layout_marginTop="7dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -122,7 +120,7 @@
                             android:layout_height="wrap_content"
                             android:text="¥"
                             android:textColor="@color/white"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tv_money"
@@ -130,7 +128,7 @@
                             android:layout_height="wrap_content"
                             android:text="1230.00"
                             android:textColor="@color/white"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -144,7 +142,7 @@
                             android:layout_height="wrap_content"
                             android:text="¥"
                             android:textColor="@color/white"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tv_frozen_amount"
@@ -152,7 +150,7 @@
                             android:layout_height="wrap_content"
                             android:text="0.00"
                             android:textColor="@color/white"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -168,7 +166,7 @@
                             android:layout_height="wrap_content"
                             android:text="¥"
                             android:textColor="@color/white"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tv_margin"
@@ -176,7 +174,7 @@
                             android:layout_height="wrap_content"
                             android:text="0.00"
                             android:textColor="@color/white"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
 
@@ -224,8 +222,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="实际到账："
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textColor="#333"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tv_actual_arrival"

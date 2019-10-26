@@ -704,7 +704,9 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
             case R.id.tv_add_accessories:
                 if (TypeID == null) {
                     ToastUtils.showShort("请先选择型号");
-                } else {
+                }else if ("".equals(mEtLogistics.getText().toString())){
+                    ToastUtils.showShort("请填写物流信息");
+                }else {
                     Intent intent2 = new Intent(mActivity, NewAddAccessoriesActivity.class);
                     intent2.putExtra("SubCategoryID", TypeID);
                     startActivityForResult(intent2, Config.APPLY_REQUEST);

@@ -1,5 +1,6 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -92,6 +94,14 @@ public class MonthlyBillActivity extends BaseActivity<RecordPresenter, RecordMod
         mRvRecharge.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvRecharge.setAdapter(adapter2);
         adapter2.setEmptyView(getEmptyRecord());
+        adapter2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent1 = new Intent(mActivity, WarrantyActivity.class);
+                intent1.putExtra("OrderID", recharge_list.get(position).getOrderID());
+                startActivity(intent1);
+            }
+        });
         /*下拉刷新*/
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
