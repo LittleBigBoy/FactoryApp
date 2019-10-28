@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.activity.ArticleActivity;
 import com.zhenhaikj.factoryside.mvp.activity.OrderMessageActivity;
+import com.zhenhaikj.factoryside.mvp.activity.OrderMessageActivity2;
 import com.zhenhaikj.factoryside.mvp.activity.TransactionMessageActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
@@ -124,18 +125,23 @@ public class InformationFragment extends BaseLazyFragment<ArticlePresenter, Arti
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.ll_announcement:
-                Intent intent = new Intent(mActivity, ArticleActivity.class);
+                intent = new Intent(mActivity, ArticleActivity.class);
                 intent.putExtra("CategoryId", "3");
                 intent.putExtra("title", "系统消息");
                 startActivity(intent);
                 break;
-            case R.id.ll_work_order_message:
-                startActivity(new Intent(getActivity(), OrderMessageActivity.class));
+            case R.id.ll_work_order_message://工单消息
+                intent=new Intent(getActivity(), OrderMessageActivity2.class);
+                intent.putExtra("type",2);
+                startActivity(intent);
                 break;
-            case R.id.ll_transaction_news:
-                startActivity(new Intent(getActivity(), TransactionMessageActivity.class));
+            case R.id.ll_transaction_news://交易信息
+                intent=new Intent(getActivity(), OrderMessageActivity2.class);
+                intent.putExtra("type",1);
+                startActivity(intent);
                 break;
         }
     }

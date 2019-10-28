@@ -24,9 +24,12 @@ public class MessageAdapter extends BaseQuickAdapter<Message, BaseViewHolder> {
               String time = "" + stringBuilder.replace(10, 11, " "); //替换"T"为" "
             helper.setText(R.id.tv_order_time,"时间:"+time);
             helper.addOnClickListener(R.id.ll_order_message);
-        if (item.getIsLook().equals("2")){
-            helper.getView(R.id.iv_new).setVisibility(View.INVISIBLE);
-//            helper.getView(R.id.ll_all_message).setBackgroundResource(R.drawable.bg_messageread);
+        if ("2".equals(item.getIsLook())){//已读
+            helper.setGone(R.id.iv_new,false);
+        }else if ("1".equals(item.getIsLook())){
+            helper.setGone(R.id.iv_new,true);
+        }else{
+            helper.setGone(R.id.iv_new,false);
         }
     }
 }

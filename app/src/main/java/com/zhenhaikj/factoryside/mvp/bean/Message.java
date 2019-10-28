@@ -24,6 +24,7 @@ public class Message implements Serializable {
     private String UserID;
     private String Nowtime;
     private String Content;
+    private String OrderID;
     private int Type;
     private int SubType;
     private String IsUse;
@@ -31,6 +32,14 @@ public class Message implements Serializable {
     private int limit;
     private int Version;
     private String IsLook;
+
+    public String getOrderID() {
+        return OrderID;
+    }
+
+    public void setOrderID(String orderID) {
+        OrderID = orderID;
+    }
 
     public int getId() {
         return Id;
