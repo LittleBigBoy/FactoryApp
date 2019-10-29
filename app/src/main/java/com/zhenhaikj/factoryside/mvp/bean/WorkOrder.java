@@ -216,6 +216,15 @@ public class WorkOrder implements Serializable {
         private String SendAddress;
         private String AccessoryAndServiceApplyState;
         private String FStarOrder;
+        private String PartyNo;
+
+        public String getPartyNo() {
+            return PartyNo;
+        }
+
+        public void setPartyNo(String partyNo) {
+            PartyNo = partyNo;
+        }
 
         public String getFStarOrder() {
             return FStarOrder;
@@ -962,7 +971,11 @@ public class WorkOrder implements Serializable {
         }
 
         public String getIsRecevieGoods() {
-            return IsRecevieGoods;
+            if ("Y".equals(IsRecevieGoods)){
+                return "是";
+            }else{
+                return "否";
+            }
         }
 
         public void setIsRecevieGoods(String IsRecevieGoods) {

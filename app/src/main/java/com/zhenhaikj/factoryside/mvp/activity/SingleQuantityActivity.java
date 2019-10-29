@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -206,8 +207,9 @@ public class SingleQuantityActivity extends BaseActivity<RecordPresenter, Record
             }
         });
 
-        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        date = sDateFormat.format(new Date());
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));   //修改时区
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  //HH:24小时制  hh:12小时制
+        date = dateFormat.format(new Date());
         startTime = getStringByFormat(getTimesmorning());
         mTvDay.setSelected(true);
         SPUtils spUtils = SPUtils.getInstance("token");

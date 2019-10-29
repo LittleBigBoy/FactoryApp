@@ -232,11 +232,13 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mPresenter.GetUserInfoList(userId, "1");
                 mPresenter.GetOrderInfoList("", "", userID, "1", "999");
+                mPresenter.GetUserOrderNum(userID);
                 mRefreshLayout.finishRefresh(1000);
             }
         });
         mPresenter.GetUserInfoList(userId, "1");
         mPresenter.GetOrderInfoList("", "", userID, "1", "999");
+        mPresenter.GetUserOrderNum(userID);
 //        mPresenter.GetmessageBytype(userId);
 
         UMShareConfig config = new UMShareConfig();
@@ -843,6 +845,21 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     public void GetOrderInfoList(BaseResult<Search> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult != null) {
+//                    mTvMoney.setText("已发工单数量：" + baseResult.getData().getCount());
+//                    mTvIssuedAmount.setText(baseResult.getData().getCount());
+                } else {
+                    return;
+                }
+
+                break;
+        }
+    }
+
+    @Override
+    public void GetUserOrderNum(BaseResult<Search> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
                 if (baseResult != null) {

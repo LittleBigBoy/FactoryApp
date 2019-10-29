@@ -55,4 +55,15 @@ public class MinePresenter extends MineContract.Presenter {
                 });
     }
 
+    @Override
+    public void GetUserOrderNum(String UserID) {
+        mModel.GetUserOrderNum(UserID)
+                .subscribe(new BaseObserver<Search>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Search> value) {
+                        mView.GetUserOrderNum(value);
+                    }
+                });
+    }
+
 }

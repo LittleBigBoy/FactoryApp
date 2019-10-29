@@ -1048,14 +1048,14 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 mTvWarrantyType.setText(data.getGuarantee() + data.getTypeName());
                 mTvWorkOrderType.setText(data.getTypeName());
                 mTvRecoveryTime.setText(data.getRecycleOrderHour());
-                mTvSentOutAccessories.setText(data.getAccessorySendState());
+                mTvSentOutAccessories.setText(data.getIsRecevieGoods());
                 mTvBrand.setText(data.getBrandName());
                 mTvCategory.setText(data.getCategoryName());
                 mTvModel.setText(data.getSubCategoryName());
                 mTvFaultDescription.setText(data.getMemo());
 
                 mTvSpecifyDoorToDoorTime.setText(data.getExtraTime());
-                mTvOrderSource.setText(data.getExpressNo());
+                mTvOrderSource.setText(data.getPartyNo());
                 mTvThirdParty.setText(data.getThirdPartyNo());
 
                 if ("安装".equals(data.getTypeName())) {

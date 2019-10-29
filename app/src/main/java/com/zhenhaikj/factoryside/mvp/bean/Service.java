@@ -36,6 +36,15 @@ public class Service implements Serializable {
     private String PostPayType;
     private String AddressBack;
     private String AccessoryState;
+    private String PartyNo;
+
+    public String getPartyNo() {
+        return PartyNo;
+    }
+
+    public void setPartyNo(String partyNo) {
+        PartyNo = partyNo;
+    }
 
     public String getProductTypeID() {
         return ProductTypeID;

@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -104,7 +105,7 @@ public class RechargeRecordActivity extends BaseActivity<RecordPresenter, Record
             public void onRefresh(RefreshLayout refreshlayout) {
                 pageIndex = 1;
                 recharge_list.clear();
-                mPresenter.RechargeRecord(userId, startTime, date, "", "1",String.valueOf(pageIndex),"10");
+                mPresenter.RechargeRecord(userId, startTime, date, "全部", "1",String.valueOf(pageIndex),"10");
                 refreshlayout.finishRefresh();
             }
         });
@@ -115,7 +116,7 @@ public class RechargeRecordActivity extends BaseActivity<RecordPresenter, Record
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 pageIndex++;
-                mPresenter.RechargeRecord(userId, startTime, date, "", "1",String.valueOf(pageIndex),"10");
+                mPresenter.RechargeRecord(userId, startTime, date, "全部", "1",String.valueOf(pageIndex),"10");
                 refreshLayout.finishLoadMore();
             }
         });
@@ -126,13 +127,14 @@ public class RechargeRecordActivity extends BaseActivity<RecordPresenter, Record
     protected void initView() {
         mTvTitle.setText("充值记录");
         mTvTitle.setVisibility(View.VISIBLE);
-        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        date = sDateFormat.format(new Date());
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));   //修改时区
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  //HH:24小时制  hh:12小时制
+        date = dateFormat.format(new Date());
         startTime = getStringByFormat(getTimesmorning());
         mTvDay.setSelected(true);
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
-        mPresenter.RechargeRecord(userId, startTime, date, "", "1",String.valueOf(pageIndex),"10");
+        mPresenter.RechargeRecord(userId, startTime, date, "全部", "1",String.valueOf(pageIndex),"10");
     }
 
     @Override
@@ -154,25 +156,25 @@ public class RechargeRecordActivity extends BaseActivity<RecordPresenter, Record
                 tabSelected(mTvDay);
                 startTime = getStringByFormat(getTimesmorning());
                 recharge_list.clear();
-                mPresenter.RechargeRecord(userId, startTime, date, "", "1",String.valueOf(pageIndex),"10");
+                mPresenter.RechargeRecord(userId, startTime, date, "全部", "1",String.valueOf(pageIndex),"10");
                 break;
             case R.id.tv_week:
                 tabSelected(mTvWeek);
                 startTime = getStringByFormat(getTimesWeekmorning());
                 recharge_list.clear();
-                mPresenter.RechargeRecord(userId, startTime, date, "", "1",String.valueOf(pageIndex),"10");
+                mPresenter.RechargeRecord(userId, startTime, date, "全部", "1",String.valueOf(pageIndex),"10");
                 break;
             case R.id.tv_month:
                 tabSelected(mTvMonth);
                 startTime = getStringByFormat(getTimesMonthmorning());
                 recharge_list.clear();
-                mPresenter.RechargeRecord(userId, startTime, date, "", "1",String.valueOf(pageIndex),"10");
+                mPresenter.RechargeRecord(userId, startTime, date, "全部", "1",String.valueOf(pageIndex),"10");
                 break;
             case R.id.tv_year:
                 tabSelected(mTvYear);
                 startTime = getStringByFormat(getTimesYearmorning());
                 recharge_list.clear();
-                mPresenter.RechargeRecord(userId, startTime, date, "", "1",String.valueOf(pageIndex),"10");
+                mPresenter.RechargeRecord(userId, startTime, date, "全部", "1",String.valueOf(pageIndex),"10");
                 break;
         }
     }

@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -35,12 +37,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.annotations.NonNull;
 
 public class MonthlyBillActivity extends BaseActivity<RecordPresenter, RecordModel> implements View.OnClickListener, RecordContract.View {
+    private static final String TAG = "MonthlyBillActivity";
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -111,7 +115,7 @@ public class MonthlyBillActivity extends BaseActivity<RecordPresenter, RecordMod
                 }*/
                 pageIndex = 1;
                 recharge_list.clear();
-                mPresenter.RechargeRecord(userId, startTime, date, "", "2",String.valueOf(pageIndex),"10");
+                mPresenter.RechargeRecord(userId, startTime, date, "全部", "2",String.valueOf(pageIndex),"10");
                 refreshlayout.finishRefresh();
             }
         });
@@ -122,7 +126,7 @@ public class MonthlyBillActivity extends BaseActivity<RecordPresenter, RecordMod
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 pageIndex++;
-                mPresenter.RechargeRecord(userId, startTime, date, "", "2",String.valueOf(pageIndex),"10");
+                mPresenter.RechargeRecord(userId, startTime, date, "全部", "2",String.valueOf(pageIndex),"10");
                 refreshLayout.finishLoadMore();
             }
         });
@@ -133,13 +137,14 @@ public class MonthlyBillActivity extends BaseActivity<RecordPresenter, RecordMod
     protected void initView() {
         mTvTitle.setText("消费记录");
         mTvTitle.setVisibility(View.VISIBLE);
-        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        date = sDateFormat.format(new Date());
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));   //修改时区
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  //HH:24小时制  hh:12小时制
+        date = dateFormat.format(new Date());
         startTime = getStringByFormat(getTimesmorning());
         mTvDay.setSelected(true);
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
-        mPresenter.RechargeRecord(userId, startTime, date, "", "2",String.valueOf(pageIndex),"10");
+        mPresenter.RechargeRecord(userId, startTime, date, "全部", "2",String.valueOf(pageIndex),"10");
     }
 
     @Override
@@ -161,25 +166,25 @@ public class MonthlyBillActivity extends BaseActivity<RecordPresenter, RecordMod
                 tabSelected(mTvDay);
                 startTime = getStringByFormat(getTimesmorning());
                 recharge_list.clear();
-                mPresenter.RechargeRecord(userId, startTime, date, "", "2",String.valueOf(pageIndex),"10");
+                mPresenter.RechargeRecord(userId, startTime, date, "全部", "2",String.valueOf(pageIndex),"10");
                 break;
             case R.id.tv_week:
                 tabSelected(mTvWeek);
                 startTime = getStringByFormat(getTimesWeekmorning());
                 recharge_list.clear();
-                mPresenter.RechargeRecord(userId, startTime, date, "", "2",String.valueOf(pageIndex),"10");
+                mPresenter.RechargeRecord(userId, startTime, date, "全部", "2",String.valueOf(pageIndex),"10");
                 break;
             case R.id.tv_month:
                 tabSelected(mTvMonth);
                 startTime = getStringByFormat(getTimesMonthmorning());
                 recharge_list.clear();
-                mPresenter.RechargeRecord(userId, startTime, date, "", "2",String.valueOf(pageIndex),"10");
+                mPresenter.RechargeRecord(userId, startTime, date, "全部", "2",String.valueOf(pageIndex),"10");
                 break;
             case R.id.tv_year:
                 tabSelected(mTvYear);
                 startTime = getStringByFormat(getTimesYearmorning());
                 recharge_list.clear();
-                mPresenter.RechargeRecord(userId, startTime, date, "", "2",String.valueOf(pageIndex),"10");
+                mPresenter.RechargeRecord(userId, startTime, date, "全部", "2",String.valueOf(pageIndex),"10");
                 break;
         }
     }
@@ -197,6 +202,16 @@ public class MonthlyBillActivity extends BaseActivity<RecordPresenter, RecordMod
         mTvWeek.setSelected(false);
         mTvYear.setSelected(false);
         linearLayout.setSelected(true);
+    }
+
+    /**
+     * 获取当前时间
+     * @return
+     */
+    public static String getNowTime(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        return simpleDateFormat.format(date);
     }
 
     // 获得本周一0点时间

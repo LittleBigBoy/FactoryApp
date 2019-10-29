@@ -41,4 +41,11 @@ public class MineModel implements MineContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Search>> GetUserOrderNum(String UserID) {
+        return ApiRetrofit.getDefault().GetUserOrderNum(UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

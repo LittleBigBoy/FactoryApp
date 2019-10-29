@@ -879,6 +879,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                         service.setPostPayType("");
                         service.setAddressBack("");
                         service.setAccessoryState("");
+                        service.setPartyNo("");
                         s = gson.toJson(service);
                         body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
                         mPresenter.AddOrder(body);
@@ -957,6 +958,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             service.setAddressBack(mTvAddressback.getText().toString());
                             service.setOrderAccessoryStr(s1);
                             service.setAccessoryState("0");
+                            service.setPartyNo("");
                             String s2 = gson.toJson(service);
 //                            s = gson.toJson(s2);
                             Log.d("添加的配件有", s1);
@@ -997,6 +999,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             service.setPostPayType("");
                             service.setAddressBack("");
                             service.setAccessoryState("");
+                            service.setPartyNo("");
                             s = gson.toJson(service);
                             body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
                             mPresenter.AddOrder(body);

@@ -32,6 +32,9 @@ import com.zhenhaikj.factoryside.mvp.contract.WalletContract;
 import com.zhenhaikj.factoryside.mvp.model.WalletModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WalletPresenter;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -332,6 +335,14 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
                 }
 
                 break;
+        }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String name) {
+        if ("money".equals(name)){
+            mPresenter.GetUserInfoList(userId, "1");
         }
     }
 }

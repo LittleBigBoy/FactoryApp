@@ -1,5 +1,6 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -148,6 +149,11 @@ public class OrderMessageActivity extends BaseActivity<MessagePresenter, Message
                 switch (view.getId()){
                     case R.id.ll_order_message:
                         mPresenter.AddOrUpdatemessage(((Message)adapter.getData().get(position)).getMessageID(),"2");
+
+                        Intent intent=new Intent(mActivity,WarrantyActivity.class);
+                        intent.putExtra("OrderID",((Message) adapter.getData().get(position)).getOrderID());
+                        startActivity(intent);
+
                 }
             }
         });

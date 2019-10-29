@@ -17,4 +17,14 @@
         <item>维修单</item>
         <item>送修单</item>
     </string-array>
+    <string-array name="object">
+        <item>师傅</item>
+        <item>平台</item>
+        <item>消费者</item>
+    </string-array>
+    <string-array name="type">
+        <item>姓名</item>
+        <item>手机号</item>
+        <item>工号</item>
+    </string-array>
 </resources>

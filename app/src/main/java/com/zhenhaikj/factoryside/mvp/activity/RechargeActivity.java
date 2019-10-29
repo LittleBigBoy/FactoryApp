@@ -38,6 +38,7 @@ import com.zhenhaikj.factoryside.mvp.contract.RechargeContract;
 import com.zhenhaikj.factoryside.mvp.model.RechargeModel;
 import com.zhenhaikj.factoryside.mvp.presenter.RechargePresenter;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -330,6 +331,7 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付成功");
+                        EventBus.getDefault().post("money");
                         finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
@@ -388,6 +390,8 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
         switch (baseResult.getStatusCode()) {
             case 200:
                 if (baseResult.getData().isItem1()) {
+                    mPresenter.GetUserInfoList(userID, "1");
+                    EventBus.getDefault().post("money");
                     wXpayInfo = baseResult.getData().getItem2();
                     if (wXpayInfo != null) {
                         WXpay();

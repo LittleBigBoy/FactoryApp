@@ -1020,7 +1020,7 @@ public interface ApiService {
                                                        @Field("FStarOrder") String FStarOrder);
 
     /*
-     * 根据手机号搜索
+     *根据手机号搜索
      * */
     @FormUrlEncoded
     @POST("Order/GetOrderInfoList")
@@ -1029,6 +1029,11 @@ public interface ApiService {
                                                     @Field("UserID") String UserID,
                                                     @Field("limit") String limit,
                                                     @Field("page") String page);
+
+    /*获取工单数量*/
+    @FormUrlEncoded
+    @POST("Order/GetUserOrderNum")
+    Observable<BaseResult<Search>> GetUserOrderNum(@Field("UserID") String UserID);
 
 
     /*获取用户充值账单

@@ -776,6 +776,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         if (!"GetUserInfoList".equals(name)) {
             return;
         }
+        if ("money".equals(name)){
+            mPresenter.GetUserInfoList(userId, "1");
+        }
         mPresenter.GetUserInfoList(userId, "1");
     }
 

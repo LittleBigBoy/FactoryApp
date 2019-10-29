@@ -184,6 +184,7 @@
         <activity android:name=".mvp.activity.SingleQuantityActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.FrozenAmountActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.MonthlyBillActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.activity.ComplaintActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name="com.amap.searchdemo.MainActivity"
             android:launchMode="singleTask"/>
 

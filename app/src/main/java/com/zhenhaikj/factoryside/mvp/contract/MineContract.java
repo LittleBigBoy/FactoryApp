@@ -19,6 +19,7 @@ public interface MineContract {
         Observable<BaseResult<Data<String>>> UploadAvator(RequestBody josn);
         Observable<BaseResult<Data<CompanyInfo>>> GetmessageBytype(String UserId);
         Observable<BaseResult<Search>> GetOrderInfoList(String Phone, String OrderID, String UserID, String limit, String page);
+        Observable<BaseResult<Search>> GetUserOrderNum( String UserID);
 
     }
 
@@ -27,6 +28,7 @@ public interface MineContract {
         void UploadAvator(BaseResult<Data<String>> baseResult);
         void GetmessageBytype(BaseResult<Data<CompanyInfo>> baseResult);
         void GetOrderInfoList(BaseResult<Search> baseResult);
+        void GetUserOrderNum(BaseResult<Search> baseResult);
 
     }
 
@@ -35,6 +37,7 @@ public interface MineContract {
         public abstract void UploadAvator(RequestBody josn);
         public abstract void GetmessageBytype(String UserId);
         public abstract void GetOrderInfoList(String Phone, String OrderID, String UserID,String limit, String page);
+        public abstract void GetUserOrderNum( String UserID);
 
     }
 }
