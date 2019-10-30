@@ -488,7 +488,7 @@
                                 android:id="@+id/tv_nickname"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
+                                android:layout_marginTop="60dp"
                                 android:gravity="center"
                                 android:text="宁波正海科技有限公司"
                                 android:textColor="#333"
@@ -603,8 +603,8 @@
 
                         <ImageView
                             android:id="@+id/iv_profile_image"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="15dp"
                             android:src="@drawable/avatar_logo" />

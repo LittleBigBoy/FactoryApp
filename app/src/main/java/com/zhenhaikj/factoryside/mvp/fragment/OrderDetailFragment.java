@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,12 +27,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -38,6 +42,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vondear.rxui.view.dialog.RxDialogScaleView;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
+import com.zhenhaikj.factoryside.mvp.activity.PayPasswordActivity;
 import com.zhenhaikj.factoryside.mvp.activity.ScanActivity;
 import com.zhenhaikj.factoryside.mvp.activity.ShippingAddressActivity;
 import com.zhenhaikj.factoryside.mvp.adapter.AccessoryDetailAdapter;
@@ -47,6 +53,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.GAccessory;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
@@ -54,6 +61,8 @@ import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.utils.SingleClick;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
+import com.zhenhaikj.factoryside.mvp.widget.PasswordEditText;
+import com.zhenhaikj.factoryside.mvp.widget.PayPasswordView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -62,7 +71,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresenter, WorkOrdersDetailModel> implements View.OnClickListener, WorkOrdersDetailContract.View {
+public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresenter, WorkOrdersDetailModel> implements View.OnClickListener, WorkOrdersDetailContract.View , PasswordEditText.PasswordFullListener{
 
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
@@ -310,6 +319,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private LinearLayout ll_new_money;
     private ClipboardManager myClipboard;
     private ClipData myClip;
+    private UserInfo.UserInfoDean userInfo;
+    private BottomSheetDialog bottomSheetDialog;
 
     public static OrderDetailFragment newInstance(String param1, String param2) {
         OrderDetailFragment fragment = new OrderDetailFragment();
@@ -500,7 +511,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 break;
             case R.id.negtive:
 //                mPresenter.FactoryEnsureOrder(OrderID, "888888");
-                mPresenter.NowEnSureOrder(OrderID);
+//                mPresenter.NowEnSureOrder(OrderID);
+                mPresenter.GetUserInfoList(userId, "1");
                 break;
             case R.id.iv_bar_code:
                 for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
@@ -1889,6 +1901,40 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     }
 
     @Override
+    public void NowPayEnSureOrder(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                ToastUtils.showShort(baseResult.getData().getItem2());
+                EventBus.getDefault().post(8);
+                mActivity.finish();
+                break;
+        }
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().getData()==null){
+
+                }else {
+                    userInfo = baseResult.getData().getData().get(0);
+                    if ("".equals(userInfo.getPayPassWord())){
+                        Toast.makeText(mActivity,"请设置支付密码",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(mActivity, PayPasswordActivity.class));
+                    }else {
+                        openPayPasswordDialog();
+                    }
+                }
+                break;
+
+            default:
+                break;
+
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentIntegrator.REQUEST_CODE) {
@@ -1913,4 +1959,33 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         }
     }
 
+
+    /*支付密码*/
+    private void openPayPasswordDialog() {
+        PayPasswordView payPasswordView = new PayPasswordView(mActivity);
+        bottomSheetDialog = new BottomSheetDialog(mActivity);
+        bottomSheetDialog.setContentView(payPasswordView);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
+        bottomSheetDialog.show();
+        /*注册监听*/
+        payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
+        /*关闭*/
+        payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void passwordFull(String password) {
+        if (userInfo.getPayPassWord().equals(password)){
+            bottomSheetDialog.dismiss();
+           mPresenter.NowPayEnSureOrder(OrderID,password);
+
+        }else {
+            Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+        }
+    }
 }

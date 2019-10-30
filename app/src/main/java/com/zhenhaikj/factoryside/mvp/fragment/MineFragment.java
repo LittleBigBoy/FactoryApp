@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -79,6 +80,7 @@ import com.zhenhaikj.factoryside.mvp.presenter.MinePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.utils.ZXingUtils;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
+import com.zhenhaikj.factoryside.mvp.widget.GlideCircleWithBorder;
 import com.zhenhaikj.factoryside.mvp.widget.VerifiedDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -780,9 +782,11 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     if (userInfoDean.getAvator() == null) {
                         return;
                     } else {
+                          RequestOptions myOptions = new RequestOptions().transform(new GlideCircleWithBorder(mActivity, 2, Color.parseColor("#DCDCDC")));
                         Glide.with(mActivity)
                                 .load(Config.HEAD_URL + userInfoDean.getAvator())
                                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                .apply(myOptions)
                                 .into(mIvProfileImage);
                     }
                     if ("1".equals(userInfoDean.getIfAuth())) {

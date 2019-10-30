@@ -17,6 +17,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
@@ -314,6 +315,16 @@ public class WorkOrderDetailsActivity extends BaseActivity<WorkOrdersDetailPrese
 
     @Override
     public void FactoryComplaint(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void NowPayEnSureOrder(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
 
     }
 }

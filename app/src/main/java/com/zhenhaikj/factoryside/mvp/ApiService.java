@@ -519,6 +519,16 @@ public interface ApiService {
             @Field("OrderID") String OrderID
     );
 
+    /*
+    * 用户确认订单 结算
+    * */
+    @FormUrlEncoded
+    @POST("Order/NowPayEnSureOrder")
+    Observable<BaseResult<Data<String>>> NowPayEnSureOrder(
+            @Field("OrderID") String OrderID,
+            @Field("PayPassword") String PayPassword
+    );
+
     /**
      * 用户确认订单 结算
      *

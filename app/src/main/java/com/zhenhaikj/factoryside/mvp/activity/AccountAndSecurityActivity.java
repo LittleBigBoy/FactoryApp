@@ -65,7 +65,8 @@ public class AccountAndSecurityActivity extends BaseActivity implements View.OnC
                 startActivity(new Intent(mActivity, ChagePasswordActivity.class));
                 break;
             case R.id.ll_payment_password:
-                startActivity(new Intent(mActivity,PaymentPasswordActivity.class));
+//                startActivity(new Intent(mActivity,PaymentPasswordActivity.class));
+                startActivity(new Intent(mActivity,PayPasswordActivity.class));
                 break;
         }
     }

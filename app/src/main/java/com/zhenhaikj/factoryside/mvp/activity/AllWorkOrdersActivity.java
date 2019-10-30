@@ -198,6 +198,9 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
             case Config.ORDER_READ:
                mPresenter.FactoryGetOrderRed(userid);
                 break;
+            case 8:
+                mViewPager.setCurrentItem(num);
+                break;
         }
     }
     @Override

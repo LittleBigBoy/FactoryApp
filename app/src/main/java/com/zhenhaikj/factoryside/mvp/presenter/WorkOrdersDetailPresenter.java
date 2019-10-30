@@ -5,6 +5,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 
@@ -185,4 +186,27 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
                     }
                 });
     }
+
+    @Override
+    public void NowPayEnSureOrder(String OrderID, String PayPassword) {
+        mModel.NowPayEnSureOrder(OrderID, PayPassword)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.NowPayEnSureOrder(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetUserInfoList(String UserId, String limit) {
+        mModel.GetUserInfoList(UserId, limit)
+                .subscribe(new BaseObserver<UserInfo>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<UserInfo> value) {
+                        mView.GetUserInfoList(value);
+                    }
+                });
+    }
+
 }

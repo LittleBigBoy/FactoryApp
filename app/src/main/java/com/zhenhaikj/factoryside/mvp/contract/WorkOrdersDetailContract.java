@@ -7,6 +7,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.base.BaseView;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public interface WorkOrdersDetailContract {
         Observable<BaseResult<Data<String>>> NowEnSureOrder(String OrderID);
 
         Observable<BaseResult<Data<String>>> FactoryComplaint(String OrderID, String Content);
+        Observable<BaseResult<Data<String>>> NowPayEnSureOrder(String OrderID, String PayPassword);
+        Observable<BaseResult<UserInfo>> GetUserInfoList(String UserId, String limit);
 
     }
 
@@ -77,6 +80,8 @@ public interface WorkOrdersDetailContract {
         void ApproveOrderAccessoryByModifyPrice(BaseResult<Data<String>> baseResult);
         void NowEnSureOrder(BaseResult<Data<String>> baseResult);
         void FactoryComplaint(BaseResult<Data<String>> baseResult);
+        void NowPayEnSureOrder(BaseResult<Data<String>> baseResult);
+        void GetUserInfoList(BaseResult<UserInfo> baseResult);
 
     }
 
@@ -101,5 +106,7 @@ public interface WorkOrdersDetailContract {
                                                                 String OrderAccessoryID);
         public abstract void NowEnSureOrder(String OrderID);
         public abstract void FactoryComplaint(String OrderID,String Content);
+        public abstract void NowPayEnSureOrder(String OrderID, String PayPassword);
+        public abstract void GetUserInfoList(String UserId,String limit);
     }
 }

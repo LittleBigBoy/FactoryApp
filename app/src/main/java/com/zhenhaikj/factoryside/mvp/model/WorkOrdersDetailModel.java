@@ -4,6 +4,7 @@ import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 
@@ -126,4 +127,17 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
                 .subscribeOn(Schedulers.io());
     }
 
+    @Override
+    public Observable<BaseResult<Data<String>>> NowPayEnSureOrder(String OrderID, String PayPassword) {
+        return ApiRetrofit.getDefault().NowPayEnSureOrder(OrderID, PayPassword)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<UserInfo>> GetUserInfoList(String UserId, String limit) {
+        return ApiRetrofit.getDefault().GetUserInfoList(UserId,limit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

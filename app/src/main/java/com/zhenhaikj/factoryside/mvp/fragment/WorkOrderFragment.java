@@ -369,6 +369,10 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
             case "post":
                 getData();
                 break;
+            case "finsh":
+                getData();
+                mRefreshLayout.finishRefresh();
+                break;
         }
     }
 

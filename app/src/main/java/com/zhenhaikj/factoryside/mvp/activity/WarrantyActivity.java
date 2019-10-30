@@ -24,6 +24,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.fragment.MessageFragment;
@@ -567,6 +568,16 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
             default:
                 break;
         }
+    }
+
+    @Override
+    public void NowPayEnSureOrder(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
+
     }
 
     private class MyAdapter extends FragmentPagerAdapter {
