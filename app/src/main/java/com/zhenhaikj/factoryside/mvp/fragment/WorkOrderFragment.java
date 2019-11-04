@@ -236,7 +236,10 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                 mPresenter.GetOrderInfoList(UserID, "11", Integer.toString(pageIndex), "3");
                 mLlSearch.setVisibility(View.GONE);
                 break;
-
+            case "关闭工单":
+                mPresenter.GetOrderInfoList(UserID, "12", Integer.toString(pageIndex), "3");
+                mLlSearch.setVisibility(View.GONE);
+                break;
         }
     }
 
@@ -247,6 +250,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
         mWorkOrderAdapter = new WorkOrderAdapter(R.layout.order_item, workOrderList, mParam1);
         mWorkOrderAdapter.setEmptyView(getEmptyView());
         mRvWorkOrder.setAdapter(mWorkOrderAdapter);
+        mRefreshLayout.autoRefresh();
         mWorkOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
@@ -358,24 +362,12 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-//        getData();
-        switch (name) {
-            case "7":
-                getData();
-                break;
-            case "10":
-                getData();
-                break;
-            case "post":
-                getData();
-                break;
-            case "finsh":
-                getData();
-                mRefreshLayout.finishRefresh();
-                break;
+        if (mParam1.equals(name)){
+            pageIndex=1;
+            workOrderList.clear();
+            getData();
         }
     }
-
     @Override
     public void FactoryComplaint(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {

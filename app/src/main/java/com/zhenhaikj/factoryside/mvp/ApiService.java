@@ -39,6 +39,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Track;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WXpayInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
+import com.zhenhaikj.factoryside.mvp.widget.OrderFreezing;
 
 import org.json.JSONArray;
 
@@ -1084,4 +1085,17 @@ public interface ApiService {
                                                          @Field("TypeID") String TypeID,
                                                          @Field("page") String page,
                                                          @Field("limit") String limit);
+
+
+    /*
+     * 预冻结金额
+     * */
+    @FormUrlEncoded
+    @POST("Account/getOrderFreezing")
+    Observable<BaseResult<Data<List<OrderFreezing>>>> getOrderFreezing(@Field("OrderID") String OrderID);
+
+    /*可用余额*/
+    @FormUrlEncoded
+    @POST("Account/GetRemainMoney")
+    Observable<BaseResult<Data<String>>> GetRemainMoney(@Field("UserID") String UserID);
 }

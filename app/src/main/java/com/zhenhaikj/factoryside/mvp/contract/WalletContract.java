@@ -21,6 +21,7 @@ public interface WalletContract {
         Observable<BaseResult<Data<Bill>>> AccountBill(String UserID, String state,String page, String limit);
         Observable<BaseResult<Data<MonthBill>>> MonthBill(String UserID, String state);
         Observable<BaseResult<Data<FrozenMoney>>> GetFrozenMoney(String UserID);
+        Observable<BaseResult<Data<String>>> GetRemainMoney(String UserID);
     }
 
     interface View extends BaseView{
@@ -28,6 +29,7 @@ public interface WalletContract {
         void AccountBill(BaseResult<Data<Bill>> baseResult);
         void MonthBill(BaseResult<Data<MonthBill>> baseResult);
         void GetFrozenMoney(BaseResult<Data<FrozenMoney>> baseResult);
+        void GetRemainMoney(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -35,5 +37,6 @@ public interface WalletContract {
         public abstract void AccountBill(String UserID,String state,String page, String limit);
         public abstract void MonthBill(String UserID,String state);
         public abstract void GetFrozenMoney(String UserId);
+        public abstract void GetRemainMoney(String UserId);
     }
 }

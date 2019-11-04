@@ -69,7 +69,7 @@ public class Recharge implements Serializable {
         private String State;
         private String StateName;
         private String IsInvoice;
-        private int OrderID;
+        private String OrderID;
         private String IsUse;
         private String UserID;
         private Object BisID;
@@ -172,11 +172,11 @@ public class Recharge implements Serializable {
             this.IsInvoice = IsInvoice;
         }
 
-        public int getOrderID() {
+        public String getOrderID() {
             return OrderID;
         }
 
-        public void setOrderID(int OrderID) {
+        public void setOrderID(String OrderID) {
             this.OrderID = OrderID;
         }
 

@@ -131,7 +131,6 @@
                             android:background="@null"
                             android:gravity="right"
                             android:hint="请输入公司名称否则无法发单"
-                            android:maxLength="10"
                             android:padding="@dimen/dp_10"
                             android:textColor="@color/black"
                             android:textColorHint="#D3D3D3"

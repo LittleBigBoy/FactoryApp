@@ -8,6 +8,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
+import com.zhenhaikj.factoryside.mvp.widget.OrderFreezing;
 
 import java.util.List;
 
@@ -205,6 +206,28 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
                     @Override
                     protected void onHandleSuccess(BaseResult<UserInfo> value) {
                         mView.GetUserInfoList(value);
+                    }
+                });
+    }
+
+    @Override
+    public void getOrderFreezing(String OrderID) {
+        mModel.getOrderFreezing(OrderID)
+                .subscribe(new BaseObserver<Data<List<OrderFreezing>>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<List<OrderFreezing>>> value) {
+                        mView.getOrderFreezing(value);
+                    }
+                });
+    }
+
+    @Override
+    public void ApplyCancelOrder(String OrderID) {
+        mModel.ApplyCancelOrder(OrderID)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.ApplyCancelOrder(value);
                     }
                 });
     }

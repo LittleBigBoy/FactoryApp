@@ -27,6 +27,7 @@ import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
+import com.zhenhaikj.factoryside.mvp.widget.OrderFreezing;
 
 import java.util.List;
 
@@ -459,6 +460,16 @@ public class RemoteBillActivity extends BaseActivity<WorkOrdersDetailPresenter, 
 
     @Override
     public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
+
+    }
+
+    @Override
+    public void getOrderFreezing(BaseResult<Data<List<OrderFreezing>>> baseResult) {
+
+    }
+
+    @Override
+    public void ApplyCancelOrder(BaseResult<Data<String>> baseResult) {
 
     }
 }

@@ -494,7 +494,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:padding="@dimen/dp_10">
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -507,7 +508,7 @@
                     <TextView
                         android:id="@+id/tv_address"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="50dp"
                         android:gravity="right|center"
                         android:layout_weight="1"
                         android:paddingLeft="@dimen/dp_10"

@@ -117,6 +117,7 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
         flag = spUtils.getBoolean("flag", false);
         mHideIv.setSelected(flag);
         mPresenter.GetUserInfoList(userId, "1");
+        mPresenter.GetRemainMoney(userId);
 
 //        mPresenter.AccountBill(userId, "1", "1", "999");//充值
 //        mPresenter.AccountBill(userId, "3");//提现
@@ -135,7 +136,7 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mPresenter.GetUserInfoList(userId, "1");
-
+                mPresenter.GetRemainMoney(userId);
                 mRefreshLayout.finishRefresh(1000);
             }
         });
@@ -244,7 +245,7 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
                 String TotalMoney = String.format("%.2f", userInfo.getTotalMoney());
                 mMoneyTv.setText(TotalMoney);
                 String format = String.format("%.2f", userInfo.getTotalMoney() - userInfo.getFrozenMoney());
-                mAvailableTv.setText(format);
+//                mAvailableTv.setText(format);
                 String FrozenMoney = String.format("%.2f", userInfo.getFrozenMoney());
                 mFreezeTv.setText(FrozenMoney);
                 String DepositMoney = String.format("%.2f", userInfo.getDepositMoney());
@@ -334,6 +335,15 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
                     }
                 }
 
+                break;
+        }
+    }
+
+    @Override
+    public void GetRemainMoney(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                mAvailableTv.setText(baseResult.getData().getItem2());
                 break;
         }
     }

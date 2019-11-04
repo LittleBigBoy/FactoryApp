@@ -56,5 +56,14 @@ public class WalletPresenter extends WalletContract.Presenter {
                 });
     }
 
-
+    @Override
+    public void GetRemainMoney(String UserId) {
+        mModel.GetRemainMoney(UserId)
+                .subscribe(new BaseObserver<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.GetRemainMoney(value);
+                    }
+                });
+    }
 }

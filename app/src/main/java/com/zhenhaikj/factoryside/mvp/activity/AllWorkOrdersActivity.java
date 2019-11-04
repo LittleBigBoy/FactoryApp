@@ -32,6 +32,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTit
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -42,6 +43,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -59,10 +61,10 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
     ImageView mIconSearch;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-   /* @BindView(R.id.magic_indicator)
-    MagicIndicator mMagicIndicator;*/
-     @BindView(R.id.tab_receiving_layout)
-     SlidingTabLayout mTabReceivingLayout;
+    /* @BindView(R.id.magic_indicator)
+     MagicIndicator mMagicIndicator;*/
+    @BindView(R.id.tab_receiving_layout)
+    SlidingTabLayout mTabReceivingLayout;
 
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
@@ -71,12 +73,13 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
 
 
     private String[] mTitleDataList = new String[]{
-            "远程费审核","所有工单","待接单","已接单","星标工单","待审核","待寄件" ,"待支付", "已完成", "质保单","退单处理"
+            "远程费审核", "所有工单", "待接单", "已接单", "星标工单", "待审核", "待寄件", "待支付", "已完成", "质保单", "退单处理","关闭工单"
     };
 
     //private CommonNavigator commonNavigator;
     private MyPagerAdapter mAdapter;
-    private ArrayList<Fragment> mWorkOrderFragmentList=new ArrayList<>();;
+    private ArrayList<Fragment> mWorkOrderFragmentList = new ArrayList<>();
+    ;
     private Bundle bundle;
     private SPUtils spUtils;
     private String userid;
@@ -89,6 +92,7 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
     @Override
     protected void initData() {
     }
+
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
@@ -98,10 +102,11 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
     }
+
     @Override
     protected void initView() {
 
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 12; i++) {
             mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i], ""));
         }
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
@@ -116,8 +121,8 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
         bundle = getIntent().getExtras();
         mTvTitle.setText(bundle.getString("title"));
         mViewPager.setCurrentItem(bundle.getInt("position"));
-        spUtils= SPUtils.getInstance("token");
-        userid=spUtils.getString("userName");
+        spUtils = SPUtils.getInstance("token");
+        userid = spUtils.getString("userName");
         mPresenter.FactoryGetOrderRed(userid);
       /*    mWorkOrderFragmentList = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
@@ -192,17 +197,31 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
     public void onBackPressed() {
         super.onBackPressed();
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(Integer num) {
-        switch (num){
+        switch (num) {
             case Config.ORDER_READ:
-               mPresenter.FactoryGetOrderRed(userid);
+                mPresenter.FactoryGetOrderRed(userid);
                 break;
             case 8:
                 mViewPager.setCurrentItem(num);
                 break;
+            case 6:
+                mViewPager.setCurrentItem(num);
+                break;
+            case 3:
+                mViewPager.setCurrentItem(num);
+                break;
+            case 1:
+                mViewPager.setCurrentItem(num);
+                break;
+            case 9:
+                mViewPager.setCurrentItem(num);
+                break;
         }
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -210,7 +229,7 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
                 finish();
                 break;
             case R.id.icon_search:
-                startActivity(new Intent(mActivity,SearchActivity.class));
+                startActivity(new Intent(mActivity, SearchActivity.class));
                 break;
         }
     }
@@ -224,20 +243,19 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
 
     @Override
     public void FactoryGetOrderRed(BaseResult<RedPointData> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData()!=null){
-                    String data=baseResult.getData().getData();
-                    for (int i =0;i<data.length();i++){
-                        char c=baseResult.getData().getData().charAt(i);
-                        if (c!='n'){
+                if (baseResult.getData() != null) {
+                    String data = baseResult.getData().getData();
+                    for (int i = 0; i < data.length(); i++) {
+                        char c = baseResult.getData().getData().charAt(i);
+                        if (c != 'n') {
                             mTabReceivingLayout.showDot(i);
-                        }else {
+                        } else {
                             mTabReceivingLayout.hideMsg(i);
                         }
                     }
-                }
-                else {
+                } else {
                     return;
                 }
                 break;

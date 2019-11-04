@@ -173,6 +173,8 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
                     list.get(pos).setIsLook("2");
                     messageAdapter.setNewData(list);
                     EventBus.getDefault().post("orderempty");
+                    EventBus.getDefault().post("order_num");
+                    EventBus.getDefault().post("transaction_num");
                 }
                 break;
         }

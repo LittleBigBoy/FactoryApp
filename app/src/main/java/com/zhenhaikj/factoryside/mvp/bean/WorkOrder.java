@@ -217,6 +217,15 @@ public class WorkOrder implements Serializable {
         private String AccessoryAndServiceApplyState;
         private String FStarOrder;
         private String PartyNo;
+        private String ExamineMoney;
+
+        public String getExamineMoney() {
+            return ExamineMoney;
+        }
+
+        public void setExamineMoney(String examineMoney) {
+            ExamineMoney = examineMoney;
+        }
 
         public String getPartyNo() {
             return PartyNo;
@@ -641,6 +650,9 @@ public class WorkOrder implements Serializable {
         public String getState() {
             String status="";
             switch (State){
+                case "-4":
+                    status="关闭工单";
+                    break;
                 case "-2":
                     status="申请废除工单";
                     break;

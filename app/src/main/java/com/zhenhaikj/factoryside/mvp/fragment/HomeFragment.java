@@ -258,6 +258,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         // 将该app注册到微信
         api.registerApp("wxd6509c9c912f0015");
         mPresenter.GetUserInfoList(userId, "1");
+        mPresenter.GetRemainMoney(userId);
 //        mPresenter.GetmessageBytype(userId);
         List<Integer> images = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
@@ -399,6 +400,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 //                getHomeData();
 //                mPresenter.getData("1");
                 mPresenter.GetUserInfoList(userId,"1");
+                mPresenter.GetRemainMoney(userId);
                 mRefreshLayout.finishRefresh(1000);
             }
         });
@@ -835,7 +837,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     }
 //                    mTvFactoryName.setText(userInfoDean.getTrueName());
                     String format = String.format("%.2f", userInfoDean.getTotalMoney() - userInfoDean.getFrozenMoney());
-                    mTvMoney.setText(format);
+//                    mTvMoney.setText(format);
                     if ("1".equals(userInfoDean.getIfAuth())){
                         mPresenter.GetmessageBytype(userId);
                     }
@@ -904,6 +906,15 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
                 break;
         }
+    }
+
+    @Override
+    public void GetRemainMoney(BaseResult<Data<String>> baseResult) {
+            switch (baseResult.getStatusCode()){
+                case 200:
+                    mTvMoney.setText(baseResult.getData().getItem2());
+                    break;
+            }
     }
 
 

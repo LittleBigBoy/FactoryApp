@@ -21,7 +21,7 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
     @Override
     protected void convert(BaseViewHolder helper, WorkOrder.DataBean item) {
         helper.setText(R.id.tv_order_num,"工单号："+item.getOrderID())
-                .setText(R.id.tv_name,item.getCategoryName() + " " + item.getBrandName() + " " + item.getSubCategoryName())
+                .setText(R.id.tv_name, item.getBrandName() + " " + item.getSubCategoryName()+" "+item.getProductType())
                 .setText(R.id.tv_warranty,item.getTypeName()+"/"+item.getGuarantee())
                 .setText(R.id.tv_status,item.getState())
                 .setText(R.id.tv_info,item.getUserName()+"   "+item.getPhone())
@@ -49,12 +49,16 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
         }
         if ("3".equals(item.getTypeID())) {
             helper.setText(R.id.tv_cost,"¥" + item.getQuaMoney());
-        } else {
-            if ("1".equals(item.getAccessoryApplyState())) {
-                helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney());
-            } else {
-                helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney());
-            }
+        } else if ("2".equals(item.getTypeID())){//安装
+            helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney());
+        }else {//维修
+           if ("待接单".equals(item.getState())||"已接单待联系客户".equals(item.getState())||"已联系客户待服务".equals(item.getState())||"远程费审核".equals(item.getState())){
+               helper.setText(R.id.tv_cost,"上门检测");
+           }else if ("待审核".equals(item.getState())){
+               helper.setText(R.id.tv_cost,"¥" + item.getExamineMoney());
+           }else {
+               helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney());
+           }
         }
 
         if ("所有工单".equals(name)){
@@ -77,37 +81,45 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
 //        }else {
 //            helper.setText(R.id.tv_remind,"");
 //        }
-        if (item.getBeyondState()==null){
-            helper.setText(R.id.tv_remind,"");
-            helper.setGone(R.id.tv_remind,false);
-        }else if ("0".equals(item.getBeyondState())) {
-            helper.setText(R.id.tv_remind,"远程费待审核");
-        } else if ("1".equals(item.getBeyondState())) {
-            helper.setText(R.id.tv_remind,"远程费审核通过");
 
-        }else if ("2".equals(item.getBeyondState())){
-            helper.setText(R.id.tv_remind,"远程费已修改");
-        } else {
-            helper.setText(R.id.tv_remind,"远程费已拒绝");
-        }
 
 //        if ("0".equals(item.getAccessoryApplyState())){
 //            helper.setText(R.id.tv_remind_two,"配件待审核");
 //        }else {
 //            helper.setText(R.id.tv_remind_two,"");
 //        }
-        if(item.getAccessoryAndServiceApplyState()==null){
-            helper.setText(R.id.tv_remind_two,"");
+        if ("关闭工单".equals(item.getState())){
             helper.setGone(R.id.tv_remind_two,false);
-        } else if ("0".equals(item.getAccessoryAndServiceApplyState())) {
-            helper.setText(R.id.tv_remind_two,"待审核");
-        } else if ("1".equals(item.getAccessoryAndServiceApplyState())) {
-            helper.setText(R.id.tv_remind_two,"审核通过");
-        }else if ("2".equals(item.getAccessoryAndServiceApplyState())) {
-            helper.setText(R.id.tv_remind_two,"厂家寄件");
-        } else {
-            helper.setText(R.id.tv_remind_two,"已拒绝");
+            helper.setGone(R.id.tv_remind,false);
+        }else {
+            if (item.getBeyondState()==null){
+                helper.setText(R.id.tv_remind,"");
+                helper.setGone(R.id.tv_remind,false);
+            }else if ("0".equals(item.getBeyondState())) {
+                helper.setText(R.id.tv_remind,"远程费待审核");
+            } else if ("1".equals(item.getBeyondState())) {
+                helper.setText(R.id.tv_remind,"远程费审核通过");
+
+            }else if ("2".equals(item.getBeyondState())){
+                helper.setText(R.id.tv_remind,"远程费已修改");
+            } else {
+                helper.setText(R.id.tv_remind,"远程费已拒绝");
+            }
+
+            if(item.getAccessoryAndServiceApplyState()==null){
+                helper.setText(R.id.tv_remind_two,"");
+                helper.setGone(R.id.tv_remind_two,false);
+            } else if ("0".equals(item.getAccessoryAndServiceApplyState())) {
+                helper.setText(R.id.tv_remind_two,"待审核");
+            } else if ("1".equals(item.getAccessoryAndServiceApplyState())) {
+                helper.setText(R.id.tv_remind_two,"审核通过");
+            }else if ("2".equals(item.getAccessoryAndServiceApplyState())) {
+                helper.setText(R.id.tv_remind_two,"厂家寄件");
+            } else {
+                helper.setText(R.id.tv_remind_two,"已拒绝");
+            }
         }
+
 
 //        if ("质保单".equals(name)){
 //            if (!"".equals(item.getAppointmentMessage())){

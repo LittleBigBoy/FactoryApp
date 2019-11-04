@@ -43,4 +43,11 @@ public class WalletModel implements WalletContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> GetRemainMoney(String UserID) {
+        return ApiRetrofit.getDefault().GetRemainMoney(UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

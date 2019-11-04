@@ -7,6 +7,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.WorkOrdersDetailContract;
+import com.zhenhaikj.factoryside.mvp.widget.OrderFreezing;
 
 import java.util.List;
 
@@ -137,6 +138,20 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
     @Override
     public Observable<BaseResult<UserInfo>> GetUserInfoList(String UserId, String limit) {
         return ApiRetrofit.getDefault().GetUserInfoList(UserId,limit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<List<OrderFreezing>>>> getOrderFreezing(String OrderID) {
+        return ApiRetrofit.getDefault().getOrderFreezing(OrderID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> ApplyCancelOrder(String OrderID) {
+        return ApiRetrofit.getDefault().ApplyCancelOrder(OrderID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

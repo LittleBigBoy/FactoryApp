@@ -22,6 +22,7 @@ public interface HomeContract {
         Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String TotalAmount);
         Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo);
         Observable<BaseResult<Data<CompanyInfo>>> GetmessageBytype(String UserId);
+        Observable<BaseResult<Data<String>>> GetRemainMoney(String UserID);
     }
 
     interface View extends BaseView {
@@ -31,6 +32,9 @@ public interface HomeContract {
         void GetWXOrderStr(BaseResult<Data<WXpayInfo>> baseResult);
         void WXNotifyManual(BaseResult<Data<String>> baseResult);
         void GetmessageBytype(BaseResult<Data<CompanyInfo>> baseResult);
+        void GetRemainMoney(BaseResult<Data<String>> baseResult);
+
+
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -40,5 +44,6 @@ public interface HomeContract {
         public abstract void GetWXOrderStr(String userid,String TotalAmount);
         public abstract void WXNotifyManual(String OutTradeNo);
         public abstract void GetmessageBytype(String UserId);
+        public abstract void GetRemainMoney(String UserId);
     }
 }

@@ -82,6 +82,11 @@ public class RecordFragment extends BaseLazyFragment<WalletPresenter, WalletMode
     }
 
     @Override
+    public void GetRemainMoney(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
     public void AccountBill(BaseResult<Data<Bill>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:

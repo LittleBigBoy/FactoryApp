@@ -9,6 +9,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
+import com.zhenhaikj.factoryside.mvp.widget.OrderFreezing;
 
 import java.util.List;
 
@@ -40,6 +41,8 @@ public interface WorkOrdersDetailContract {
         Observable<BaseResult<Data<String>>> FactoryComplaint(String OrderID, String Content);
         Observable<BaseResult<Data<String>>> NowPayEnSureOrder(String OrderID, String PayPassword);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String UserId, String limit);
+        Observable<BaseResult<Data<List<OrderFreezing>>>> getOrderFreezing(String OrderID);
+        Observable<BaseResult<Data<String>>> ApplyCancelOrder(String OrderID);
 
     }
 
@@ -82,7 +85,8 @@ public interface WorkOrdersDetailContract {
         void FactoryComplaint(BaseResult<Data<String>> baseResult);
         void NowPayEnSureOrder(BaseResult<Data<String>> baseResult);
         void GetUserInfoList(BaseResult<UserInfo> baseResult);
-
+        void getOrderFreezing(BaseResult<Data<List<OrderFreezing>>>baseResult);
+        void ApplyCancelOrder(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -108,5 +112,7 @@ public interface WorkOrdersDetailContract {
         public abstract void FactoryComplaint(String OrderID,String Content);
         public abstract void NowPayEnSureOrder(String OrderID, String PayPassword);
         public abstract void GetUserInfoList(String UserId,String limit);
+        public abstract void getOrderFreezing(String OrderID);
+        public abstract void ApplyCancelOrder(String OrderID);
     }
 }

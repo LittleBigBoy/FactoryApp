@@ -58,4 +58,11 @@ public class HomeModel implements HomeContract.Model {
                 .subscribeOn(Schedulers.io());
     }
 
+    @Override
+    public Observable<BaseResult<Data<String>>> GetRemainMoney(String UserID) {
+        return ApiRetrofit.getDefault().GetRemainMoney(UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
 }

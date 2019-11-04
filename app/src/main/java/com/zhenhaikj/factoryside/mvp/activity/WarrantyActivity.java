@@ -35,6 +35,7 @@ import com.zhenhaikj.factoryside.mvp.fragment.TrackFragment;
 import com.zhenhaikj.factoryside.mvp.model.WorkOrdersDetailModel;
 import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
+import com.zhenhaikj.factoryside.mvp.widget.OrderFreezing;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -577,6 +578,16 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
 
     @Override
     public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
+
+    }
+
+    @Override
+    public void getOrderFreezing(BaseResult<Data<List<OrderFreezing>>> baseResult) {
+
+    }
+
+    @Override
+    public void ApplyCancelOrder(BaseResult<Data<String>> baseResult) {
 
     }
 
