@@ -9,8 +9,8 @@ android {
         applicationId "com.zhenhaikj.factoryside"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 43
-        versionName "2.0.5"
+        versionCode 44
+        versionName "2.0.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -226,6 +226,9 @@ dependencies {
     }
 
     implementation 'com.lxj:xpopup:1.8.7'
+
+    //Zloading加载动画
+    implementation 'com.zyao89:zloading:1.2.0'
 
 
 }

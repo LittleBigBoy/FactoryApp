@@ -583,9 +583,9 @@
 
                             <ImageView
                                 android:id="@+id/iv_microphone"
-                                android:layout_width="10dp"
-                                android:layout_height="20dp"
-                                android:src="@mipmap/huatong" />
+                                android:layout_width="50dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/huatong" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -1179,9 +1179,9 @@
 
                         <ImageView
                             android:id="@+id/iv_microphone_one"
-                            android:layout_width="10dp"
-                            android:layout_height="20dp"
-                            android:src="@mipmap/huatong" />
+                            android:layout_width="50dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/huatong" />
                     </LinearLayout>
                 </LinearLayout>
 

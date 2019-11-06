@@ -27,6 +27,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -58,7 +62,6 @@ import com.youth.banner.BannerConfig;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
-import com.zhenhaikj.factoryside.mvp.activity.BatchOrderActivity;
 import com.zhenhaikj.factoryside.mvp.activity.CustomerServiceActivity;
 import com.zhenhaikj.factoryside.mvp.activity.ExcelOrderActivity;
 import com.zhenhaikj.factoryside.mvp.activity.HomeMaintenanceActivity2;
@@ -71,6 +74,7 @@ import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
 import com.zhenhaikj.factoryside.mvp.bean.PayResult;
+import com.zhenhaikj.factoryside.mvp.bean.Search;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WXpayInfo;
 import com.zhenhaikj.factoryside.mvp.contract.HomeContract;
@@ -89,33 +93,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> implements HomeContract.View, View.OnClickListener {
     private static final String TAG = "HomeFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    @BindView(R.id.rv_common_menu)
-    RecyclerView mRvCommonMenu;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout mRefreshLayout;
-    @BindView(R.id.banner_home)
-    Banner mBannerHome;
-    @BindView(R.id.tv_announcement)
-    TextView mTvAnnouncement;
-    @BindView(R.id.rv_main_menu)
-    RecyclerView mRvMainMenu;
-    @BindView(R.id.iv_more)
-    ImageView mIvMore;
     @BindView(R.id.iv_service)
     ImageView mIvService;
     @BindView(R.id.iv_gray_message)
     ImageView mIvGrayMessage;
+    @BindView(R.id.iv_code)
+    ImageView mIvCode;
+    @BindView(R.id.ll_code)
+    LinearLayout mLlCode;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.banner_home)
+    Banner mBannerHome;
     @BindView(R.id.iv_avatar)
     ImageView mIvAvatar;
     @BindView(R.id.tv_factory_name)
@@ -124,18 +119,26 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     TextView mTvVerified;
     @BindView(R.id.iv_verified)
     ImageView mIvVerified;
-    @BindView(R.id.tv_money)
-    TextView mTvMoney;
-    @BindView(R.id.iv_eye)
-    ImageView mIvEye;
-    @BindView(R.id.tv_recharge)
-    TextView mTvRecharge;
-    @BindView(R.id.tv_pay_the_deposit)
-    TextView mTvPayTheDeposit;
-    @BindView(R.id.iv_code)
-    ImageView mIvCode;
     @BindView(R.id.ll_verified)
     LinearLayout mLlVerified;
+    @BindView(R.id.tv_finish)
+    TextView mTvFinish;
+    @BindView(R.id.ll_finsh)
+    LinearLayout mLlFinsh;
+    @BindView(R.id.tv_complaint)
+    TextView mTvComplaint;
+    @BindView(R.id.ll_complaint)
+    LinearLayout mLlComplaint;
+    @BindView(R.id.tv_announcement)
+    TextView mTvAnnouncement;
+    @BindView(R.id.rv_main_menu)
+    RecyclerView mRvMainMenu;
+    @BindView(R.id.iv_more)
+    ImageView mIvMore;
+    @BindView(R.id.rv_common_menu)
+    RecyclerView mRvCommonMenu;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
 
 
     private String mParam1;
@@ -145,8 +148,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private UserInfo.UserInfoDean userInfoDean;
 
     private Integer[] icons = new Integer[]{
-            R.mipmap.one_bg, R.mipmap.two_bg, R.mipmap.three_bg, R.mipmap.four_bg,R.drawable.yuanchengfei, R.drawable.suoyou1,
-            R.drawable.daijiedan,R.drawable.yijiedan, R.drawable.daishenhe,R.drawable.daijijian, R.drawable.daizhifu, R.drawable.yiwanjie, R.drawable.zhibao
+            R.mipmap.one_bg, R.mipmap.two_bg, R.mipmap.three_bg, R.mipmap.four_bg, R.drawable.yuanchengfei, R.drawable.suoyou1,
+            R.drawable.daijiedan, R.drawable.yijiedan, R.drawable.daishenhe, R.drawable.daijijian, R.drawable.daizhifu, R.drawable.yiwanjie, R.drawable.zhibao
     };
 
     private Integer[] icons_content = new Integer[]{
@@ -155,8 +158,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             R.drawable.yuanchengfei, R.drawable.warranty, R.drawable.undone, R.drawable.leave_a_message
     };
     private String[] names = new String[]{
-            "发布安装", "发布维修", "发布送修", "批量发单", "远程费审核","所有工单",
-            "待接单","已接单", "待审核","待寄件", "待支付", "已完结", "质保单", "退单处理"
+            "发布安装", "发布维修", "发布送修", "批量发单", "远程费审核", "所有工单",
+            "待接单", "已接单", "待审核", "待寄件", "待支付", "已完结", "质保单", "退单处理"
     };
     private MenuAdapter2 mMainAdapter;
     private MenuAdapter mCommonAdapter;
@@ -252,13 +255,14 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     protected void initData() {
         spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
-        flag = spUtils.getBoolean("flag",false);
-        mIvEye.setSelected(flag);
+        flag = spUtils.getBoolean("flag", false);
+//        mIvEye.setSelected(flag);
         api = WXAPIFactory.createWXAPI(mActivity, "wxd6509c9c912f0015");
         // 将该app注册到微信
         api.registerApp("wxd6509c9c912f0015");
         mPresenter.GetUserInfoList(userId, "1");
         mPresenter.GetRemainMoney(userId);
+        mPresenter.GetUserOrderNum(userId);
 //        mPresenter.GetmessageBytype(userId);
         List<Integer> images = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
@@ -343,7 +347,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     case 3:
                         if (userInfoDean.getIfAuth() != null) {
                             if (userInfoDean.getIfAuth().equals("1")) {
-                               // startActivity(new Intent(mActivity, BatchOrderActivity.class));
+                                // startActivity(new Intent(mActivity, BatchOrderActivity.class));
                                 startActivity(new Intent(mActivity, ExcelOrderActivity.class));
 
                             } else if (userInfoDean.getIfAuth().equals("0")) {
@@ -366,14 +370,14 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (userInfoDean.getIfAuth() != null) {
                     if (userInfoDean.getIfAuth().equals("1")) {
-                        if (position<=3){
+                        if (position <= 3) {
                             bundle = new Bundle();
                             bundle.putString("title", mCommonMenus.get(position).getName());
                             bundle.putInt("position", position);
-                        } else if (position>=4) {
+                        } else if (position >= 4) {
                             bundle = new Bundle();
                             bundle.putString("title", mCommonMenus.get(position).getName());
-                            bundle.putInt("position", position+1);
+                            bundle.putInt("position", position + 1);
                         }
                         Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                         intent.putExtras(bundle);
@@ -399,8 +403,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             public void onRefresh(RefreshLayout refreshLayout) {
 //                getHomeData();
 //                mPresenter.getData("1");
-                mPresenter.GetUserInfoList(userId,"1");
+                mPresenter.GetUserInfoList(userId, "1");
                 mPresenter.GetRemainMoney(userId);
+                mPresenter.GetUserOrderNum(userId);
                 mRefreshLayout.finishRefresh(1000);
             }
         });
@@ -446,13 +451,13 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     protected void setListener() {
-        mTvPayTheDeposit.setOnClickListener(this);
+//        mTvPayTheDeposit.setOnClickListener(this);
         mIvAvatar.setOnClickListener(this);
         mIvService.setOnClickListener(this);
         mIvCode.setOnClickListener(this);
-        mTvRecharge.setOnClickListener(this);
+//        mTvRecharge.setOnClickListener(this);
         mLlVerified.setOnClickListener(this);
-        mIvEye.setOnClickListener(this);
+//        mIvEye.setOnClickListener(this);
     }
 
     @Override
@@ -473,7 +478,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 btn_share_one = shareView.findViewById(R.id.btn_share_one);
                 iv_code_one = shareView.findViewById(R.id.iv_code_one);
                 btn_go_to_the_mall = shareView.findViewById(R.id.btn_go_to_the_mall);
-                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/NewSign?phone=" + userId+ "&type=8", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
+                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/NewSign?phone=" + userId + "&type=8", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
                 iv_code_one.setImageBitmap(bitmap);
                 btn_share_one.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -553,7 +558,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     } else if (userInfoDean.getIfAuth().equals("-1")) {
                         under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_audit_failure, null);
                         TextView content = under_review.findViewById(R.id.tv_content);
-                        content.setText(userInfoDean.getAuthMessage()+",有疑问请咨询客服电话。");
+                        content.setText(userInfoDean.getAuthMessage() + ",有疑问请咨询客服电话。");
                         btnConfirm = under_review.findViewById(R.id.btn_confirm);
                         btnConfirm.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -571,20 +576,20 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     showVerifiedDialog();
                 }
                 break;
-            case R.id.iv_eye:
-                if (!flag){
-                    flag=true;
-                    mTvMoney.setText("****");//钱包余额
-//                    mTvWatermelonBalance.setText("****");//西瓜币
-                }else{
-                    flag=false;
-                    String format = String.format("%.2f", userInfoDean.getTotalMoney() - userInfoDean.getFrozenMoney());
-                    mTvMoney.setText( format+ "");//钱包余额
-//                    mTvWatermelonBalance.setText("¥" + userInfo.getCon() + "");//西瓜币
-                }
-                mIvEye.setSelected(flag);
-                spUtils.put("flag",flag);
-                break;
+//            case R.id.iv_eye:
+//                if (!flag) {
+//                    flag = true;
+//                    mTvMoney.setText("****");//钱包余额
+////                    mTvWatermelonBalance.setText("****");//西瓜币
+//                } else {
+//                    flag = false;
+//                    String format = String.format("%.2f", userInfoDean.getTotalMoney() - userInfoDean.getFrozenMoney());
+//                    mTvMoney.setText(format + "");//钱包余额
+////                    mTvWatermelonBalance.setText("¥" + userInfo.getCon() + "");//西瓜币
+//                }
+//                mIvEye.setSelected(flag);
+//                spUtils.put("flag", flag);
+//                break;
         }
     }
 
@@ -778,7 +783,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         if (!"GetUserInfoList".equals(name)) {
             return;
         }
-        if ("money".equals(name)){
+        if ("money".equals(name)) {
             mPresenter.GetUserInfoList(userId, "1");
         }
         mPresenter.GetUserInfoList(userId, "1");
@@ -838,7 +843,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 //                    mTvFactoryName.setText(userInfoDean.getTrueName());
                     String format = String.format("%.2f", userInfoDean.getTotalMoney() - userInfoDean.getFrozenMoney());
 //                    mTvMoney.setText(format);
-                    if ("1".equals(userInfoDean.getIfAuth())){
+                    mTvComplaint.setText(userInfoDean.getServiceComplaintNum());
+                    if ("1".equals(userInfoDean.getIfAuth())) {
                         mPresenter.GetmessageBytype(userId);
                     }
                 }
@@ -891,16 +897,16 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     public void GetmessageBytype(BaseResult<Data<CompanyInfo>> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().isItem1()){
+                if (baseResult.getData().isItem1()) {
                     companyDean = baseResult.getData().getItem2();
-                    if ("1".equals(companyDean.getIfAuth())){
+                    if ("1".equals(companyDean.getIfAuth())) {
                         mTvFactoryName.setText(companyDean.getCompanyName());
-                    }else {
+                    } else {
                         mTvFactoryName.setVisibility(View.GONE);
                     }
-                }else {
+                } else {
                     mTvFactoryName.setVisibility(View.GONE);
                 }
 
@@ -910,11 +916,27 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     public void GetRemainMoney(BaseResult<Data<String>> baseResult) {
-            switch (baseResult.getStatusCode()){
-                case 200:
-                    mTvMoney.setText(baseResult.getData().getItem2());
-                    break;
-            }
+        switch (baseResult.getStatusCode()) {
+            case 200:
+//                mTvMoney.setText(baseResult.getData().getItem2());
+                break;
+        }
+    }
+
+    @Override
+    public void GetUserOrderNum(BaseResult<Search> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult != null) {
+//                    mTvMoney.setText("已发工单数量：" + baseResult.getData().getCount());
+//                    mTvIssuedAmount.setText(baseResult.getData().getCount());
+                    mTvFinish.setText(baseResult.getData().getCount());
+                } else {
+                    return;
+                }
+
+                break;
+        }
     }
 
 
@@ -1223,7 +1245,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     public void showRejectDialog() {
         under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_audit_failure, null);
         TextView content = under_review.findViewById(R.id.tv_content);
-        content.setText(userInfoDean.getAuthMessage()+",有疑问请咨询客服电话。");
+        content.setText(userInfoDean.getAuthMessage() + ",有疑问请咨询客服电话。");
         btnConfirm = under_review.findViewById(R.id.btn_confirm);
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1235,6 +1257,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review).create();
         underReviewDialog.show();
     }
+
     public void showUnderDialog() {
         under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_under_review, null);
         btnConfirm = under_review.findViewById(R.id.btn_confirm);

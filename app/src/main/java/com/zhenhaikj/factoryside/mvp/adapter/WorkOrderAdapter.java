@@ -40,12 +40,13 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
 //        }
         if ("维修".equals(item.getTypeName())){
             helper.setText(R.id.tv_malfunction,"故障:"+item.getMemo());
-
+            helper.setBackgroundColor(R.id.tv_warranty, Color.parseColor("#F25037"));
         }else if ("安装".equals(item.getTypeName())){
             helper.setText(R.id.tv_malfunction,"安装备注:"+item.getMemo());
             helper.setBackgroundColor(R.id.tv_warranty, Color.parseColor("#ff3359"));
         }else {
             helper.setText(R.id.tv_malfunction,item.getMemo());
+            helper.setBackgroundColor(R.id.tv_warranty, Color.parseColor("#F25037"));
         }
         if ("3".equals(item.getTypeID())) {
             helper.setText(R.id.tv_cost,"¥" + item.getQuaMoney());

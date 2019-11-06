@@ -4,6 +4,7 @@ package com.zhenhaikj.factoryside.mvp.presenter;
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.Search;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WXpayInfo;
 import com.zhenhaikj.factoryside.mvp.contract.HomeContract;
@@ -111,5 +112,17 @@ public class HomePresenter extends HomeContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void GetUserOrderNum(String UserID) {
+        mModel.GetUserOrderNum(UserID)
+                .subscribe(new BaseObserver<Search>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Search> value) {
+                        mView.GetUserOrderNum(value);
+                    }
+                });
+    }
+
 
 }

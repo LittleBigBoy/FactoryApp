@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -49,6 +50,8 @@ import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.utils.imageutil.CompressHelper;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -92,6 +95,7 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
     private PopupWindow mPopupWindow;
     private Uri uri;
     private HashMap<Integer, File> img = new HashMap<>();
+    private ZLoadingDialog dialog;
 
     public static MessageFragment newInstance(String param1, String param2) {
         MessageFragment fragment = new MessageFragment();
@@ -123,6 +127,10 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
 
     @Override
     protected void initView() {
+        //loading
+        dialog = new ZLoadingDialog(mActivity);
+        showLoading();
+
         orderId = mParam1;
         SPUtils spUtils = SPUtils.getInstance("token");
         //获取用户id
@@ -244,6 +252,7 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
                 list=data.getLeavemessageList();
                 Collections.reverse(list);
                 leaveMessageAdapter.setNewData(list);
+                cancleLoading();
                 break;
         }
     }
@@ -479,5 +488,21 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
         builder.addFormDataPart("img", map.get(0).getName(), RequestBody.create(MediaType.parse("img/png"), map.get(0)));
         MultipartBody requestBody = builder.build();
         mPresenter.LeaveMessageImg(requestBody);
+    }
+
+
+    public void showLoading(){
+        dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
+                .setLoadingColor(Color.BLACK)//颜色
+                .setHintText("请稍后...")
+                .setHintTextSize(14) // 设置字体大小 dp
+                .setHintTextColor(Color.BLACK)  // 设置字体颜色
+                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                .setCanceledOnTouchOutside(false)//点击外部无法取消
+                .show();
+    }
+
+    public void cancleLoading(){
+        dialog.dismiss();
     }
 }

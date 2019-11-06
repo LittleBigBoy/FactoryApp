@@ -238,7 +238,7 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
                 break;
             case R.id.tv_recharge_agreement:
                 Intent intent=new Intent(mActivity,WebActivity.class);
-                intent.putExtra("Url","http://admin.xigyu.com/message/recharge");
+                intent.putExtra("Url","http://admin.xigyu.com/message/ffdbdaa");
                 intent.putExtra("title","充值协议");
                 startActivity(intent);
                 break;

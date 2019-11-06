@@ -48,7 +48,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, AllWorkOrdersModel> implements AllWorkOrdersContract.View {
+public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, AllWorkOrdersModel> implements AllWorkOrdersContract.View,View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
     @BindView(R.id.rv_work_order)
@@ -169,12 +169,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
         myClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
 
-        mLlSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mActivity, SearchActivity.class));
-            }
-        });
+
     }
 
     /*    工厂端state
@@ -356,7 +351,7 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
     @Override
     protected void setListener() {
-
+        mLlSearch.setOnClickListener(this);
     }
 
 
@@ -480,4 +475,12 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ll_search:
+                startActivity(new Intent(mActivity, SearchActivity.class));
+                break;
+        }
+    }
 }

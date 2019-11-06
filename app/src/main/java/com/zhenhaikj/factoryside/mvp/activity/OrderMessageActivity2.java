@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +28,8 @@ import com.zhenhaikj.factoryside.mvp.bean.MessageData;
 import com.zhenhaikj.factoryside.mvp.contract.MessageContract;
 import com.zhenhaikj.factoryside.mvp.model.MessageModel;
 import com.zhenhaikj.factoryside.mvp.presenter.MessagePresenter;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -55,6 +58,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
     private List<Message> list = new ArrayList<>();//未读
     private int pos;
     private int type=1;//1.工单消息  2.交易信息
+    private ZLoadingDialog dialog = new ZLoadingDialog(this); //loading
 
     @Override
     protected int setLayoutId() {
@@ -83,6 +87,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
 
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
+        showLoading();
         mPresenter.GetMessageList(userId, Integer.toString(type), "0", "10", Integer.toString(pageIndex));
     }
 
@@ -142,6 +147,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
                 }
                 list.addAll(baseResult.getData().getData());
                 messageAdapter.setNewData(list);
+                cancleLoading();
                 break;
             default:
                 break;
@@ -187,5 +193,20 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
                 OrderMessageActivity2.this.finish();
                 break;
         }
+    }
+
+    public void showLoading(){
+        dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
+                .setLoadingColor(Color.BLACK)//颜色
+                .setHintText("请稍后...")
+                .setHintTextSize(14) // 设置字体大小 dp
+                .setHintTextColor(Color.BLACK)  // 设置字体颜色
+                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                .setCanceledOnTouchOutside(false)//点击外部无法取消
+                .show();
+    }
+
+    public void cancleLoading(){
+        dialog.dismiss();
     }
 }

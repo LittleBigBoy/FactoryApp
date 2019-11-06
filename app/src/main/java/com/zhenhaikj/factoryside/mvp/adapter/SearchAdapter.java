@@ -61,18 +61,37 @@ public class SearchAdapter extends BaseQuickAdapter<Search.DataBean,BaseViewHold
 //        }else {
 //            helper.setText(R.id.tv_remind,"");
 //        }
-        if (item.getBeyondState()==null){
-            helper.setText(R.id.tv_remind,"");
+        if ("关闭工单".equals(item.getState())){
+            helper.setGone(R.id.tv_remind_two,false);
             helper.setGone(R.id.tv_remind,false);
-        }else if ("0".equals(item.getBeyondState())) {
-            helper.setText(R.id.tv_remind,"远程费待审核");
-        } else if ("1".equals(item.getBeyondState())) {
-            helper.setText(R.id.tv_remind,"远程费审核通过");
+        }else {
+            if (item.getBeyondState() == null) {
+                helper.setText(R.id.tv_remind, "");
+                helper.setGone(R.id.tv_remind, false);
+            } else if ("0".equals(item.getBeyondState())) {
+                helper.setText(R.id.tv_remind, "远程费待审核");
+            } else if ("1".equals(item.getBeyondState())) {
+                helper.setText(R.id.tv_remind, "远程费审核通过");
 
-        }else if ("2".equals(item.getBeyondState())){
-            helper.setText(R.id.tv_remind,"远程费已修改");
-        } else {
-            helper.setText(R.id.tv_remind,"远程费已拒绝");
+            } else if ("2".equals(item.getBeyondState())) {
+                helper.setText(R.id.tv_remind, "远程费已修改");
+            } else {
+                helper.setText(R.id.tv_remind, "远程费已拒绝");
+            }
+
+            if(item.getAccessoryAndServiceApplyState()==null){
+                helper.setText(R.id.tv_remind_two,"");
+                helper.setGone(R.id.tv_remind_two,false);
+            } else if ("0".equals(item.getAccessoryAndServiceApplyState())) {
+                helper.setText(R.id.tv_remind_two,"待审核");
+            } else if ("1".equals(item.getAccessoryAndServiceApplyState())) {
+                helper.setText(R.id.tv_remind_two,"审核通过");
+            }else if ("2".equals(item.getAccessoryAndServiceApplyState())) {
+                helper.setText(R.id.tv_remind_two,"厂家寄件");
+            } else {
+                helper.setText(R.id.tv_remind_two,"已拒绝");
+            }
+
         }
 
 //        if ("0".equals(item.getAccessoryApplyState())){
@@ -80,18 +99,7 @@ public class SearchAdapter extends BaseQuickAdapter<Search.DataBean,BaseViewHold
 //        }else {
 //            helper.setText(R.id.tv_remind_two,"");
 //        }
-        if(item.getAccessoryAndServiceApplyState()==null){
-            helper.setText(R.id.tv_remind_two,"");
-            helper.setGone(R.id.tv_remind_two,false);
-        } else if ("0".equals(item.getAccessoryAndServiceApplyState())) {
-            helper.setText(R.id.tv_remind_two,"待审核");
-        } else if ("1".equals(item.getAccessoryAndServiceApplyState())) {
-            helper.setText(R.id.tv_remind_two,"审核通过");
-        }else if ("2".equals(item.getAccessoryAndServiceApplyState())) {
-            helper.setText(R.id.tv_remind_two,"厂家寄件");
-        } else {
-            helper.setText(R.id.tv_remind_two,"已拒绝");
-        }
+
 
 //        if ("质保单".equals(name)){
 //            if (!"".equals(item.getAppointmentMessage())){

@@ -8,6 +8,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseView;
 import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
+import com.zhenhaikj.factoryside.mvp.bean.Search;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WXpayInfo;
 
@@ -23,6 +24,7 @@ public interface HomeContract {
         Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo);
         Observable<BaseResult<Data<CompanyInfo>>> GetmessageBytype(String UserId);
         Observable<BaseResult<Data<String>>> GetRemainMoney(String UserID);
+        Observable<BaseResult<Search>> GetUserOrderNum(String UserID);
     }
 
     interface View extends BaseView {
@@ -33,6 +35,7 @@ public interface HomeContract {
         void WXNotifyManual(BaseResult<Data<String>> baseResult);
         void GetmessageBytype(BaseResult<Data<CompanyInfo>> baseResult);
         void GetRemainMoney(BaseResult<Data<String>> baseResult);
+        void GetUserOrderNum(BaseResult<Search> baseResult);
 
 
     }
@@ -45,5 +48,6 @@ public interface HomeContract {
         public abstract void WXNotifyManual(String OutTradeNo);
         public abstract void GetmessageBytype(String UserId);
         public abstract void GetRemainMoney(String UserId);
+        public abstract void GetUserOrderNum( String UserID);
     }
 }

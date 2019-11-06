@@ -248,7 +248,8 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
 //                mAvailableTv.setText(format);
                 String FrozenMoney = String.format("%.2f", userInfo.getFrozenMoney());
                 mFreezeTv.setText(FrozenMoney);
-                String DepositMoney = String.format("%.2f", userInfo.getDepositMoney());
+                Double money=userInfo.getDepositMoney()-userInfo.getDepositFrozenMoney();
+                String DepositMoney = String.format("%.2f", money);
                 mTvMargin.setText(DepositMoney);
                 break;
         }

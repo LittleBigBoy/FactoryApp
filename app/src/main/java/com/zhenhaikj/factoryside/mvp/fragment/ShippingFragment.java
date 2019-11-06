@@ -88,7 +88,7 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
         adapter = new LogisticsAdapter(R.layout.logistics_recycle_item, list);
         mShippingRv.setLayoutManager(new LinearLayoutManager(mActivity));
         mShippingRv.setAdapter(adapter);
-        adapter.setEmptyView(getEmptyLogistics());
+//        adapter.setEmptyView(getEmptyLogistics());
         myClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
 
     }

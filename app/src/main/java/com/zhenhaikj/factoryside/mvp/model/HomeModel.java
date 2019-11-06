@@ -5,6 +5,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
+import com.zhenhaikj.factoryside.mvp.bean.Search;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.bean.WXpayInfo;
 import com.zhenhaikj.factoryside.mvp.contract.HomeContract;
@@ -61,6 +62,13 @@ public class HomeModel implements HomeContract.Model {
     @Override
     public Observable<BaseResult<Data<String>>> GetRemainMoney(String UserID) {
         return ApiRetrofit.getDefault().GetRemainMoney(UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Search>> GetUserOrderNum(String UserID) {
+        return ApiRetrofit.getDefault().GetUserOrderNum(UserID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

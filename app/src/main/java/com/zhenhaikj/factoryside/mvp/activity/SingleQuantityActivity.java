@@ -214,7 +214,7 @@ public class SingleQuantityActivity extends BaseActivity<RecordPresenter, Record
         mTvDay.setSelected(true);
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
-        mPresenter.WorkOrderTime(userId,startTime,date,state,String.valueOf(page),"10");
+//        mPresenter.WorkOrderTime(userId,startTime,date,state,String.valueOf(page),"10");
     }
 
     @Override
