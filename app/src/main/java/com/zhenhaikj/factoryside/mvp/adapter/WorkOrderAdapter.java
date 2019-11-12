@@ -22,7 +22,7 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
     protected void convert(BaseViewHolder helper, WorkOrder.DataBean item) {
         helper.setText(R.id.tv_order_num,"工单号："+item.getOrderID())
                 .setText(R.id.tv_name, item.getBrandName() + " " + item.getSubCategoryName()+" "+item.getProductType())
-                .setText(R.id.tv_warranty,item.getTypeName()+"/"+item.getGuarantee())
+//                .setText(R.id.tv_warranty,item.getTypeName()+"/"+item.getGuarantee())
                 .setText(R.id.tv_status,item.getState())
                 .setText(R.id.tv_info,item.getUserName()+"   "+item.getPhone())
                 .setText(R.id.tv_address,item.getAddress())
@@ -38,6 +38,13 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
 //        }else{
 //            helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney() + "");
 //        }
+
+        if ("Y".equals(item.getExtra()) && !"0".equals(item.getExtraTime())) {
+            helper.setText(R.id.tv_warranty, item.getTypeName() + "/" + item.getGuarantee() + "/加急");
+        } else {
+            helper.setText(R.id.tv_warranty, item.getTypeName() + "/" + item.getGuarantee());
+        }
+
         if ("维修".equals(item.getTypeName())){
             helper.setText(R.id.tv_malfunction,"故障:"+item.getMemo());
             helper.setBackgroundColor(R.id.tv_warranty, Color.parseColor("#F25037"));

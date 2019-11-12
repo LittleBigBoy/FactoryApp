@@ -45,7 +45,7 @@ public class AccountAndSecurityActivity extends BaseActivity implements View.OnC
     @Override
     protected void initView() {
         mTvTitle.setVisibility(View.VISIBLE);
-        mTvTitle.setText("账户与安全");
+        mTvTitle.setText("安全设置");
     }
 
     @Override

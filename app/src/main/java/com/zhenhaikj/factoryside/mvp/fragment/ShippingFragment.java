@@ -3,6 +3,7 @@ package com.zhenhaikj.factoryside.mvp.fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +24,8 @@ import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.ExpressInfoContract;
 import com.zhenhaikj.factoryside.mvp.model.ExpressInfoModel;
 import com.zhenhaikj.factoryside.mvp.presenter.ExpressInfoPresenter;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -56,6 +59,7 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
     private LogisticsAdapter adapter;
     private ClipboardManager myClipboard;
     private ClipData myClip;
+    private ZLoadingDialog dialog;
 
     public static ShippingFragment newInstance(String param1, String param2) {
         ShippingFragment fragment = new ShippingFragment();
@@ -82,6 +86,9 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
 
     @Override
     protected void initData() {
+        //loading
+        dialog = new ZLoadingDialog(mActivity);
+//        showLoading();
         orderId = mParam1;
         mPresenter.GetOrderInfo(orderId);
 
@@ -116,7 +123,9 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
                 if (baseResult.getData().getItem2() != null) {
                     list.addAll(baseResult.getData().getItem2());
                     adapter.setNewData(list);
+                    cancleLoading();
                 }
+
 
                 break;
         }
@@ -153,5 +162,20 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
                 ToastUtils.showShort("复制成功");
                 break;
         }
+    }
+
+    public void showLoading(){
+        dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
+                .setLoadingColor(Color.BLACK)//颜色
+                .setHintText("请稍后...")
+                .setHintTextSize(14) // 设置字体大小 dp
+                .setHintTextColor(Color.BLACK)  // 设置字体颜色
+                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                .setCanceledOnTouchOutside(false)//点击外部无法取消
+                .show();
+    }
+
+    public void cancleLoading(){
+        dialog.dismiss();
     }
 }

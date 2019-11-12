@@ -168,7 +168,8 @@
                         android:layout_marginTop="17dp"
                         android:orientation="horizontal"
                         android:paddingLeft="14dp"
-                        android:paddingRight="14dp">
+                        android:paddingRight="14dp"
+                        android:paddingBottom="14dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -194,8 +195,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginLeft="14dp"
-                        android:layout_marginTop="14dp"
-                        android:background="#E4E4E4" />
+                        android:background="#E4E4E4"
+                        android:visibility="gone"/>
 
 
                     <LinearLayout
@@ -206,7 +207,8 @@
                         android:layout_marginBottom="19dp"
                         android:orientation="horizontal"
                         android:paddingLeft="14dp"
-                        android:paddingRight="14dp">
+                        android:paddingRight="14dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="match_parent"

@@ -4,17 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -32,19 +31,17 @@ import com.zhenhaikj.factoryside.mvp.contract.LoginContract;
 import com.zhenhaikj.factoryside.mvp.model.LoginModel;
 import com.zhenhaikj.factoryside.mvp.presenter.LoginPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.DataCleanManager;
-import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 import com.zhenhaikj.factoryside.mvp.widget.CustomDialog;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class SettingActivity extends BaseActivity <LoginPresenter, LoginModel> implements View.OnClickListener, LoginContract.View {
+public class SettingActivity extends BaseActivity<LoginPresenter, LoginModel> implements View.OnClickListener, LoginContract.View {
 
 
     @BindView(R.id.view)
@@ -67,6 +64,20 @@ public class SettingActivity extends BaseActivity <LoginPresenter, LoginModel> i
     TextView mTvCache;
     @BindView(R.id.btn_sign_out_of_your_account)
     Button mBtnSignOutOfYourAccount;
+    @BindView(R.id.switcher_installation_work_order)
+    Switch mSwitcherInstallationWorkOrder;
+    @BindView(R.id.switcher_repair_work_order)
+    Switch mSwitcherRepairWorkOrder;
+    @BindView(R.id.switcher_accept_the_repair_work_order)
+    Switch mSwitcherAcceptTheRepairWorkOrder;
+    @BindView(R.id.switcher_receiving_repair_work_order)
+    Switch mSwitcherReceivingRepairWorkOrder;
+    @BindView(R.id.switcher_whether_to_allow_the_order)
+    Switch mSwitcherWhetherToAllowTheOrder;
+    @BindView(R.id.switcher_allow_order)
+    Switch mSwitcherAllowOrder;
+    @BindView(R.id.ll_safety)
+    LinearLayout mLlSafety;
     private List<Address> billList = new ArrayList<>();
     private List<Address> rechargeRecordList = new ArrayList<>();
     private BillAdapter billAdapter;
@@ -118,6 +129,7 @@ public class SettingActivity extends BaseActivity <LoginPresenter, LoginModel> i
         mLlClean.setOnClickListener(this);
         mBtnSignOutOfYourAccount.setOnClickListener(this);
         mLlUpdate.setOnClickListener(this);
+        mLlSafety.setOnClickListener(this);
     }
 
 
@@ -163,6 +175,9 @@ public class SettingActivity extends BaseActivity <LoginPresenter, LoginModel> i
 //                window.setAttributes(lp);
 //                window.setBackgroundDrawable(new ColorDrawable());
                 Beta.checkUpgrade();
+                break;
+            case R.id.ll_safety:
+                startActivity(new Intent(mActivity,AccountAndSecurityActivity.class));
                 break;
         }
     }
@@ -239,14 +254,14 @@ public class SettingActivity extends BaseActivity <LoginPresenter, LoginModel> i
 
     @Override
     public void LoginOut(BaseResult<Data<String>> baseResult) {
-        switch(baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().isItem1()){
+                if (baseResult.getData().isItem1()) {
                     spUtils.put("isLogin", false);
                     startActivity(new Intent(mActivity, LoginActivity.class));
                     ActivityUtils.finishAllActivities();
                     ToastUtils.showShort("退出成功");
-                }else{
+                } else {
                     ToastUtils.showShort("退出失败");
                 }
                 break;

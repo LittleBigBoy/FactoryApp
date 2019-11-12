@@ -25,7 +25,15 @@ public class Track implements Serializable {
     private String IsUse;
     private String StateName;
     private String Version;
+    private String UserID;
 
+    public String getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(String userID) {
+        UserID = userID;
+    }
 
     public String getId() {
         return Id;

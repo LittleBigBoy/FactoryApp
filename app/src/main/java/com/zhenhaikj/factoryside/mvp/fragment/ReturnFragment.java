@@ -3,6 +3,7 @@ package com.zhenhaikj.factoryside.mvp.fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +24,8 @@ import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.ExpressInfoContract;
 import com.zhenhaikj.factoryside.mvp.model.ExpressInfoModel;
 import com.zhenhaikj.factoryside.mvp.presenter.ExpressInfoPresenter;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -56,6 +59,7 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
     private String mParam2;
     private String orderId;
     private LogisticsAdapter adapter;
+    private ZLoadingDialog dialog;
 
     public static ReturnFragment newInstance(String param1, String param2) {
         ReturnFragment fragment = new ReturnFragment();
@@ -88,6 +92,9 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
 
     @Override
     protected void initView() {
+        //loading
+        dialog = new ZLoadingDialog(mActivity);
+//        showLoading();
         adapter = new LogisticsAdapter(R.layout.logistics_recycle_item, list);
         mReturnRv.setLayoutManager(new LinearLayoutManager(mActivity));
         mReturnRv.setAdapter(adapter);
@@ -112,7 +119,9 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
                 if (baseResult.getData().getItem2() != null) {
                     list.addAll(baseResult.getData().getItem2());
                     adapter.setNewData(list);
+                    cancleLoading();
                 }
+
                 break;
         }
     }
@@ -148,5 +157,20 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
                 ToastUtils.showShort("复制成功");
                 break;
         }
+    }
+
+    public void showLoading(){
+        dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
+                .setLoadingColor(Color.BLACK)//颜色
+                .setHintText("请稍后...")
+                .setHintTextSize(14) // 设置字体大小 dp
+                .setHintTextColor(Color.BLACK)  // 设置字体颜色
+                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                .setCanceledOnTouchOutside(false)//点击外部无法取消
+                .show();
+    }
+
+    public void cancleLoading(){
+        dialog.dismiss();
     }
 }

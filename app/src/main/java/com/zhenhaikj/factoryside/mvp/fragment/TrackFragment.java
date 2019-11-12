@@ -1,5 +1,6 @@
 package com.zhenhaikj.factoryside.mvp.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.zhenhaikj.factoryside.R;
@@ -11,6 +12,8 @@ import com.zhenhaikj.factoryside.mvp.contract.TrackContract;
 import com.zhenhaikj.factoryside.mvp.model.TrackModel;
 import com.zhenhaikj.factoryside.mvp.presenter.TrackPresenter;
 import com.zhenhaikj.factoryside.mvp.widget.Divideritemdecoration;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -35,7 +38,7 @@ public class TrackFragment extends BaseLazyFragment<TrackPresenter, TrackModel> 
     private String mParam1;
     private String mParam2;
     private TrackAdapter adapter;
-
+    private ZLoadingDialog dialog ;
 
     public static TrackFragment newInstance(String param1, String param2) {
         TrackFragment fragment = new TrackFragment();
@@ -65,12 +68,14 @@ public class TrackFragment extends BaseLazyFragment<TrackPresenter, TrackModel> 
 
     @Override
     protected void initData() {
+        dialog = new ZLoadingDialog(mActivity); //loading
+        showLoading();
         mPresenter.GetOrderRecordByOrderID(mParam1);
 
 //        Divideritemdecoration divideritemdecoration=new Divideritemdecoration(mActivity);
 //        mTrackRv.addItemDecoration(divideritemdecoration);
 
-        adapter = new TrackAdapter(R.layout.logistics_recycle_item,list);
+        adapter = new TrackAdapter(R.layout.item_track,list);
         mTrackRv.setLayoutManager(new LinearLayoutManager(mActivity));
         mTrackRv.setAdapter(adapter);
     }
@@ -96,9 +101,25 @@ public class TrackFragment extends BaseLazyFragment<TrackPresenter, TrackModel> 
             case 200:
                 list=baseResult.getData();
                 adapter.setNewData(list);
+                cancleLoading();
                 break;
             case 401:
                 break;
         }
+    }
+
+    public void showLoading(){
+        dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
+                .setLoadingColor(Color.BLACK)//颜色
+                .setHintText("请稍后...")
+                .setHintTextSize(14) // 设置字体大小 dp
+                .setHintTextColor(Color.BLACK)  // 设置字体颜色
+                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                .setCanceledOnTouchOutside(false)//点击外部无法取消
+                .show();
+    }
+
+    public void cancleLoading(){
+        dialog.dismiss();
     }
 }

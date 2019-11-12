@@ -236,20 +236,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/red" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginTop="13dp"
-            android:layout_marginRight="@dimen/dp_10"
             android:background="@color/white"
             android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/ll_safety"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="14dp"
+                android:paddingTop="25dp"
+                android:paddingRight="28dp">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="安全设置"
+                    android:textColor="#858585"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/youjiantou"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="12dp"
+                android:background="#E4E4E4" />
             <LinearLayout
                 android:id="@+id/ll_clean"
                 android:layout_width="match_parent"
