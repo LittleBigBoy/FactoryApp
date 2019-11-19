@@ -168,12 +168,12 @@
                         android:background="#eee" />
 
                     <LinearLayout
+                        android:id="@+id/ll_contact_customer_service"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:id="@+id/ll_contact_customer_service"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="9dp"

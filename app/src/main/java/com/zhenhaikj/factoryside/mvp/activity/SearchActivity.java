@@ -255,6 +255,14 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchModel> i
         super.onDestroy();
         if (!running) {
             myRecognizer.release();
+            finish();
+        }
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!running) {
+            myRecognizer.release();
 //            finish();
         }
     }

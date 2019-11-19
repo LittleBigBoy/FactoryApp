@@ -303,7 +303,7 @@ public class FrozenAmountActivity extends BaseActivity<RecordPresenter, RecordMo
             case 200:
                 list.addAll(result.getData().getItem2().getData());
                 amountAdapter.setNewData(list);
-                mTvMoney.setText(result.getData().getItem2().getTotal()+"");
+                mTvMoney.setText(result.getData().getItem2().getMoney()+"");
                 break;
         }
     }

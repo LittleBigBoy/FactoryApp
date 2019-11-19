@@ -30,6 +30,7 @@ import com.zhenhaikj.factoryside.mvp.bean.MessageData;
 import com.zhenhaikj.factoryside.mvp.bean.MonthBill;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
+import com.zhenhaikj.factoryside.mvp.bean.ReadMessage;
 import com.zhenhaikj.factoryside.mvp.bean.Recharge;
 import com.zhenhaikj.factoryside.mvp.bean.RedPointData;
 import com.zhenhaikj.factoryside.mvp.bean.Search;
@@ -50,6 +51,7 @@ import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiService {
@@ -769,6 +771,14 @@ public interface ApiService {
                                                                       @Field("page") String page,
                                                                       @Field("IsLook") String IsLook);
 
+    /*标记个人消息全部已读  1.交易消息类型  2.订单消息类型*/
+    @FormUrlEncoded
+//    @POST("Cms/GetListmessageByType")//分页无效
+    @POST("Cms/AllRead")//分页有效
+    Observable<BaseResult<MessageData<List<Message>>>> AllRead(@Field("UserID") String UserID,
+                                                                      @Field("Type") String Type,
+                                                                      @Field("SubType") String SubType);
+
 
     /*更新消息状态点击后*/
     @FormUrlEncoded
@@ -1098,4 +1108,22 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/GetRemainMoney")
     Observable<BaseResult<Data<String>>> GetRemainMoney(@Field("UserID") String UserID);
+
+    /*多次发送请求*/
+    @GET("Uniq/GetUniqId")
+    Observable<BaseResult<String>> GetUniqId();
+
+    /*
+     * 留言查看过
+     * 1  未读
+     * 2  已读
+     * */
+    @FormUrlEncoded
+    @POST("LeaveMessage/LeaveMessageWhetherLook")
+    Observable<BaseResult<Data<List<ReadMessage>>>> LeaveMessageWhetherLook(@Field("OrderID") String OrderID,
+                                                                            @Field("factoryIslook") String factoryIslook,
+                                                                            @Field("workerIslook") String workerIslook,
+                                                                            @Field("platformIslook") String platformIslook
+
+    );
 }

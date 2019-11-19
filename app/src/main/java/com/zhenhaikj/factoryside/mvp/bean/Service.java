@@ -37,6 +37,15 @@ public class Service implements Serializable {
     private String AddressBack;
     private String AccessoryState;
     private String PartyNo;
+    private String uniqId;
+
+    public String getUniqId() {
+        return uniqId;
+    }
+
+    public void setUniqId(String uniqId) {
+        this.uniqId = uniqId;
+    }
 
     public String getPartyNo() {
         return PartyNo;

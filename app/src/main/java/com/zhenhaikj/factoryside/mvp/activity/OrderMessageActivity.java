@@ -213,6 +213,11 @@ public class OrderMessageActivity extends BaseActivity<MessagePresenter, Message
     }
 
     @Override
+    public void AllRead(BaseResult<MessageData<List<Message>>> baseResult) {
+
+    }
+
+    @Override
     public void GetReadMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:

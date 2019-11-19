@@ -221,6 +221,11 @@ public class TransactionMessageActivity extends BaseActivity<MessagePresenter, M
     }
 
     @Override
+    public void AllRead(BaseResult<MessageData<List<Message>>> baseResult) {
+
+    }
+
+    @Override
     public void GetReadMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:

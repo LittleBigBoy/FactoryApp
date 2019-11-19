@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,6 +42,7 @@ import com.zhenhaikj.factoryside.mvp.adapter.LeaveMessageImgAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.ReadMessage;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.LeaveMessageContract;
 import com.zhenhaikj.factoryside.mvp.model.LeaveMessageModel;
@@ -116,6 +118,17 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser){
+            showLoading();
+            mPresenter.GetOrderInfo(orderId);
+            mPresenter.LeaveMessageWhetherLook(orderId);
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+
+    }
+
+    @Override
     protected int setLayoutId() {
         return R.layout.fragment_message;
     }
@@ -129,13 +142,19 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
     protected void initView() {
         //loading
         dialog = new ZLoadingDialog(mActivity);
-        showLoading();
+
 
         orderId = mParam1;
         SPUtils spUtils = SPUtils.getInstance("token");
         //获取用户id
         userID = spUtils.getString("userName");
-        mPresenter.GetOrderInfo(orderId);
+
+//        if (getUserVisibleHint()){
+//            showLoading();
+//            mPresenter.GetOrderInfo(orderId);
+//            mPresenter.LeaveMessageWhetherLook(orderId);
+//        }
+
 
         leaveMessageAdapter = new LeaveMessageAdapter(R.layout.item_leave_message, list);
         mMessageRv.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -275,6 +294,11 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
                 ToastUtils.showShort("图片上传失败");
                 break;
         }
+    }
+
+    @Override
+    public void LeaveMessageWhetherLook(BaseResult<Data<List<ReadMessage>>> baseResult) {
+
     }
 
 
@@ -505,4 +529,5 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
     public void cancleLoading(){
         dialog.dismiss();
     }
+
 }

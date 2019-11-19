@@ -438,7 +438,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         mTvSendAccessory.setOnClickListener(this);
 
         mIconBack.setOnClickListener(this);
-        mLlContactCustomerService.setOnClickListener(this);
+//        mLlContactCustomerService.setOnClickListener(this);
         mTvReject.setOnClickListener(this);
         mTvPass.setOnClickListener(this);
         mTvPassService.setOnClickListener(this);
@@ -1097,6 +1097,12 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 //                            mTvOrderMoney.setText("¥" + data.getOrderMoney() + "");
 //                        }
 //                    }
+                    if ("待接单".equals(data.getState())||"已接单待联系客户".equals(data.getState())){
+                        mLlContactCustomerService.setVisibility(View.VISIBLE);
+                    }else {
+                        mLlContactCustomerService.setVisibility(View.GONE);
+                    }
+
                     if ("待接单".equals(data.getState()) || "已接单待联系客户".equals(data.getState()) || "已联系客户待服务".equals(data.getState()) || "远程费审核".equals(data.getState())) {
                         Double Free = freezingMoney + Double.parseDouble(data.getBeyondMoney()) + Double.parseDouble(data.getExtraFee());
                         mTvOrderMoney.setText("¥" + Free);
@@ -1777,11 +1783,16 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     public void ApplyCustomService(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                ToastUtils.showShort("发起质保成功！");
-                EventBus.getDefault().post("质保单");
-                EventBus.getDefault().post("已完成");
-                EventBus.getDefault().post(9);
-                mActivity.finish();
+                if (baseResult.getData().isItem1()){
+                    ToastUtils.showShort("发起质保成功！");
+                    EventBus.getDefault().post("质保单");
+                    EventBus.getDefault().post("已完成");
+                    EventBus.getDefault().post(9);
+                    mActivity.finish();
+                }else {
+                    ToastUtils.showShort(baseResult.getData().getItem2());
+                }
+
                 break;
             default:
                 break;
@@ -2049,7 +2060,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 ToastUtils.showShort(baseResult.getData().getItem2());
                 EventBus.getDefault().post(8);
                 EventBus.getDefault().post("已完成");
-                EventBus.getDefault().post("已接单");
+                EventBus.getDefault().post("待支付");
                 mActivity.finish();
                 break;
         }

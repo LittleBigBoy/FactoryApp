@@ -339,13 +339,19 @@
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/btn_sign_out_of_your_account"
         android:layout_width="match_parent"
         android:layout_height="43dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/red_shape"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="40dp"
+        android:background="#F25037"
         android:text="退出帐号"
         android:textColor="@color/white"
         android:textSize="16sp" />

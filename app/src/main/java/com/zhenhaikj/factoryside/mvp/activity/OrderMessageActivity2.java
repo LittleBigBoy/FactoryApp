@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,6 +49,8 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
     RecyclerView mRvOrdermessage;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.tv_all_read)
+    TextView mTvAllRead;
 
     private MessageAdapter messageAdapter;
     private int pageIndex = 1;
@@ -57,7 +58,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
     private String userId;
     private List<Message> list = new ArrayList<>();//未读
     private int pos;
-    private int type=1;//1.工单消息  2.交易信息
+    private int type = 1;//1.工单消息  2.交易信息
     private ZLoadingDialog dialog = new ZLoadingDialog(this); //loading
 
     @Override
@@ -83,7 +84,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
         mRvOrdermessage.setNestedScrollingEnabled(false);
         messageAdapter = new MessageAdapter(R.layout.item_message, list);
         mRvOrdermessage.setAdapter(messageAdapter);
-        type=getIntent().getIntExtra("type",1);
+        type = getIntent().getIntExtra("type", 1);
 
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
@@ -99,6 +100,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
     @Override
     protected void setListener() {
         mImgActionbarReturn.setOnClickListener(this);
+        mTvAllRead.setOnClickListener(this);
         /*下拉刷新*/
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -115,18 +117,18 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
                 pageIndex++; //页数加1
-                mPresenter.GetMessageList(userId, Integer.toString(type),"0", "10", Integer.toString(pageIndex));
+                mPresenter.GetMessageList(userId, Integer.toString(type), "0", "10", Integer.toString(pageIndex));
                 refreshlayout.finishLoadMore();
             }
         });
         messageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                pos =position;
+                pos = position;
                 switch (view.getId()) {
                     case R.id.ll_order_message:
                         mPresenter.AddOrUpdatemessage(((Message) adapter.getData().get(position)).getMessageID(), "2");
-                        if (!"0".equals(((Message) adapter.getData().get(position)).getOrderID())){
+                        if (!"0".equals(((Message) adapter.getData().get(position)).getOrderID())) {
                             Intent intent = new Intent(mActivity, WarrantyActivity.class);
                             intent.putExtra("OrderID", ((Message) adapter.getData().get(position)).getOrderID());
                             startActivity(intent);
@@ -142,7 +144,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
     public void GetMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                if (pageIndex!=1&&baseResult.getData().getData().size()==0){
+                if (pageIndex != 1 && baseResult.getData().getData().size() == 0) {
                     mRefreshLayout.finishLoadMoreWithNoMoreData();
                 }
                 list.addAll(baseResult.getData().getData());
@@ -152,6 +154,22 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
             default:
                 break;
         }
+    }
+
+    @Override
+    public void AllRead(BaseResult<MessageData<List<Message>>> baseResult) {
+            switch (baseResult.getStatusCode()){
+                case 200:
+//                    if (baseResult.getData().isItem1()) {
+                        list.get(pos).setIsLook("2");
+                        messageAdapter.setNewData(list);
+                        EventBus.getDefault().post("orderempty");
+                        EventBus.getDefault().post("order_num");
+                        EventBus.getDefault().post("transaction_num");
+//                    }
+                    cancleLoading();
+                    break;
+            }
     }
 
     @Override
@@ -181,6 +199,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
                     EventBus.getDefault().post("orderempty");
                     EventBus.getDefault().post("order_num");
                     EventBus.getDefault().post("transaction_num");
+                    mRefreshLayout.autoRefresh();
                 }
                 break;
         }
@@ -192,10 +211,14 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
             case R.id.img_actionbar_return:
                 OrderMessageActivity2.this.finish();
                 break;
+            case R.id.tv_all_read:
+                showLoading();
+                mPresenter.AllRead(userId,Integer.toString(type),"0");
+                break;
         }
     }
 
-    public void showLoading(){
+    public void showLoading() {
         dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
                 .setLoadingColor(Color.BLACK)//颜色
                 .setHintText("请稍后...")
@@ -206,7 +229,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
                 .show();
     }
 
-    public void cancleLoading(){
+    public void cancleLoading() {
         dialog.dismiss();
     }
 }

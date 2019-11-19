@@ -400,6 +400,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     protected void initView() {
         type = getIntent().getIntExtra("type", -1);
         mTvTitle.setVisibility(View.VISIBLE);
+
         switch (type) {
             case 0:
                 mTvTitle.setText("上门安装");
@@ -1951,15 +1952,24 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         }
     }
 
+    @Override
+    public void GetUniqId(BaseResult<String> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                String key=baseResult.getData();
+                break;
+        }
+    }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        if (!running) {
-//            myRecognizer.release();
-////            finish();
-//        }
-//    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!running) {
+            myRecognizer.release();
+//            finish();
+        }
+    }
 
     @Override
     protected void onDestroy() {

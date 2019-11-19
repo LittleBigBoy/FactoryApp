@@ -199,4 +199,15 @@ public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter 
                 });
     }
 
+    @Override
+    public void GetUniqId() {
+        mModel.GetUniqId()
+                .subscribe(new BaseObserver<String>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<String> value) {
+                        mView.GetUniqId(value);
+                    }
+                });
+    }
+
 }

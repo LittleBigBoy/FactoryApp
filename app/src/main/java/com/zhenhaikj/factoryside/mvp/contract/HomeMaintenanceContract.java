@@ -81,6 +81,8 @@ public interface HomeMaintenanceContract {
 
         Observable<BaseResult<Data<List<GetCategory>>>> GetBrandWithCategory( String UserID, String BrandID);
 
+        Observable<BaseResult<String>> GetUniqId();
+
     }
 
     interface View extends BaseView {
@@ -111,6 +113,8 @@ public interface HomeMaintenanceContract {
         void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult);
 
         void GetBrandWithCategory(BaseResult<Data<List<GetCategory>>> baseResult);
+
+        void GetUniqId(BaseResult<String> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -168,5 +172,7 @@ public interface HomeMaintenanceContract {
         public abstract void GetBrandCategory(String UserID);
 
         public abstract void GetBrandWithCategory(String UserID, String BrandID);
+
+        public abstract void GetUniqId();
     }
 }

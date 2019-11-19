@@ -5,30 +5,21 @@ import java.util.List;
 
 public class Freezing implements Serializable {
 
+
     /**
-     * Total : 95
-     * data : [{"Id":2,"FrozenID":2,"Explain":"安装费","UserID":"15757964771","Money":45,"CreateTime":"2019-10-20T00:00:00","IsUse":"Y","OrderID":"2000123123","page":1,"limit":999,"Version":0},{"Id":3,"FrozenID":3,"Explain":"安装费","UserID":"15757964771","Money":25,"CreateTime":"2019-10-20T00:00:00","IsUse":"Y","OrderID":"2000002463","page":1,"limit":999,"Version":0},{"Id":4,"FrozenID":4,"Explain":"维修费","UserID":"15757964771","Money":25,"CreateTime":"2019-10-20T00:00:00","IsUse":"Y","OrderID":"2000002463","page":1,"limit":999,"Version":0}]
+     * Money : 75
+     * data : [{"Id":5074,"PayID":5074,"ItemID":10,"OrderID":2000002968,"PayTypeCode":"Account","PayName":"账户余额","UserID":"15757964771","State":"6","AccessoryState":null,"CreateTime":"2019-11-14T10:26:35","PayMoney":75,"TypeID":"1","ApplyNum":0,"QApplyNum":0,"IsUse":"Y","Relation":"61bb72af-b896-4445-949b-e4dd99cb5560","OrderAccessoryId":0,"page":0,"limit":0,"CreateTimeStart":null,"CreateTimeEnd":null,"Version":0}]
      */
 
-
-    private int Total;
+    private int Money;
     private List<DataBean> data;
-    private String Money;
 
-    public String getMoney() {
+    public int getMoney() {
         return Money;
     }
 
-    public void setMoney(String money) {
-        Money = money;
-    }
-
-    public int getTotal() {
-        return Total;
-    }
-
-    public void setTotal(int Total) {
-        this.Total = Total;
+    public void setMoney(int Money) {
+        this.Money = Money;
     }
 
     public List<DataBean> getData() {
@@ -41,29 +32,51 @@ public class Freezing implements Serializable {
 
     public static class DataBean {
         /**
-         * Id : 2
-         * FrozenID : 2
-         * Explain : 安装费
+         * Id : 5074
+         * PayID : 5074
+         * ItemID : 10
+         * OrderID : 2000002968
+         * PayTypeCode : Account
+         * PayName : 账户余额
          * UserID : 15757964771
-         * Money : 45
-         * CreateTime : 2019-10-20T00:00:00
+         * State : 6
+         * AccessoryState : null
+         * CreateTime : 2019-11-14T10:26:35
+         * PayMoney : 75
+         * TypeID : 1
+         * ApplyNum : 0
+         * QApplyNum : 0
          * IsUse : Y
-         * OrderID : 2000123123
-         * page : 1
-         * limit : 999
+         * Relation : 61bb72af-b896-4445-949b-e4dd99cb5560
+         * OrderAccessoryId : 0
+         * page : 0
+         * limit : 0
+         * CreateTimeStart : null
+         * CreateTimeEnd : null
          * Version : 0
          */
 
         private int Id;
-        private int FrozenID;
-        private String ExplainMemo;
+        private int PayID;
+        private int ItemID;
+        private int OrderID;
+        private String PayTypeCode;
+        private String PayName;
         private String UserID;
-        private Double Money;
+        private String State;
+        private Object AccessoryState;
         private String CreateTime;
+        private String PayMoney;
+        private String TypeID;
+        private int ApplyNum;
+        private int QApplyNum;
         private String IsUse;
-        private String OrderID;
+        private String Relation;
+        private int OrderAccessoryId;
         private int page;
         private int limit;
+        private Object CreateTimeStart;
+        private Object CreateTimeEnd;
         private int Version;
 
         public int getId() {
@@ -74,20 +87,44 @@ public class Freezing implements Serializable {
             this.Id = Id;
         }
 
-        public int getFrozenID() {
-            return FrozenID;
+        public int getPayID() {
+            return PayID;
         }
 
-        public void setFrozenID(int FrozenID) {
-            this.FrozenID = FrozenID;
+        public void setPayID(int PayID) {
+            this.PayID = PayID;
         }
 
-        public String getExplainMemo() {
-            return ExplainMemo;
+        public int getItemID() {
+            return ItemID;
         }
 
-        public void setExplainMemo(String explainMemo) {
-            ExplainMemo = explainMemo;
+        public void setItemID(int ItemID) {
+            this.ItemID = ItemID;
+        }
+
+        public int getOrderID() {
+            return OrderID;
+        }
+
+        public void setOrderID(int OrderID) {
+            this.OrderID = OrderID;
+        }
+
+        public String getPayTypeCode() {
+            return PayTypeCode;
+        }
+
+        public void setPayTypeCode(String PayTypeCode) {
+            this.PayTypeCode = PayTypeCode;
+        }
+
+        public String getPayName() {
+            return PayName;
+        }
+
+        public void setPayName(String PayName) {
+            this.PayName = PayName;
         }
 
         public String getUserID() {
@@ -98,12 +135,47 @@ public class Freezing implements Serializable {
             this.UserID = UserID;
         }
 
-        public Double getMoney() {
-            return Money;
+        public String getState() {
+            String status="";
+            switch (State){
+                case "0":
+                    status="空";
+                    break;
+                case "1":
+                    status="配件";
+                    break;
+                case "2":
+                    status="远程费";
+                    break;
+                case "3":
+                    status="邮费";
+                    break;
+                case "4":
+                    status="简修钱";
+                    break;
+                case "5":
+                    status="加急费";
+                    break;
+                case "6":
+                    status="发单费";
+                    break;
+                case "7":
+                    status="二次上门费";
+                    break;
+            }
+            return status;
         }
 
-        public void setMoney(Double Money) {
-            this.Money = Money;
+        public void setState(String State) {
+            this.State = State;
+        }
+
+        public Object getAccessoryState() {
+            return AccessoryState;
+        }
+
+        public void setAccessoryState(Object AccessoryState) {
+            this.AccessoryState = AccessoryState;
         }
 
         public String getCreateTime() {
@@ -114,6 +186,38 @@ public class Freezing implements Serializable {
             this.CreateTime = CreateTime;
         }
 
+        public String getPayMoney() {
+            return PayMoney;
+        }
+
+        public void setPayMoney(String PayMoney) {
+            this.PayMoney = PayMoney;
+        }
+
+        public String getTypeID() {
+            return TypeID;
+        }
+
+        public void setTypeID(String TypeID) {
+            this.TypeID = TypeID;
+        }
+
+        public int getApplyNum() {
+            return ApplyNum;
+        }
+
+        public void setApplyNum(int ApplyNum) {
+            this.ApplyNum = ApplyNum;
+        }
+
+        public int getQApplyNum() {
+            return QApplyNum;
+        }
+
+        public void setQApplyNum(int QApplyNum) {
+            this.QApplyNum = QApplyNum;
+        }
+
         public String getIsUse() {
             return IsUse;
         }
@@ -122,12 +226,20 @@ public class Freezing implements Serializable {
             this.IsUse = IsUse;
         }
 
-        public String getOrderID() {
-            return OrderID;
+        public String getRelation() {
+            return Relation;
         }
 
-        public void setOrderID(String OrderID) {
-            this.OrderID = OrderID;
+        public void setRelation(String Relation) {
+            this.Relation = Relation;
+        }
+
+        public int getOrderAccessoryId() {
+            return OrderAccessoryId;
+        }
+
+        public void setOrderAccessoryId(int OrderAccessoryId) {
+            this.OrderAccessoryId = OrderAccessoryId;
         }
 
         public int getPage() {
@@ -144,6 +256,22 @@ public class Freezing implements Serializable {
 
         public void setLimit(int limit) {
             this.limit = limit;
+        }
+
+        public Object getCreateTimeStart() {
+            return CreateTimeStart;
+        }
+
+        public void setCreateTimeStart(Object CreateTimeStart) {
+            this.CreateTimeStart = CreateTimeStart;
+        }
+
+        public Object getCreateTimeEnd() {
+            return CreateTimeEnd;
+        }
+
+        public void setCreateTimeEnd(Object CreateTimeEnd) {
+            this.CreateTimeEnd = CreateTimeEnd;
         }
 
         public int getVersion() {

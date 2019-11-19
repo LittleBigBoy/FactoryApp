@@ -23,6 +23,17 @@ public class MessagePresenter extends MessageContract.Presenter {
     }
 
     @Override
+    public void AllRead(String UserID, String Type, String SubType) {
+        mModel.AllRead(UserID, Type, SubType)
+                .subscribe(new BaseObserver<MessageData<List<Message>>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<MessageData<List<Message>>> value) {
+                        mView.AllRead(value);
+                    }
+                });
+    }
+
+    @Override
     public void GetReadMessageList(String UserID, String Type, String SubType, String limit, String page) {
         mModel.GetReadMessageList(UserID, Type,SubType,limit,page)
                 .subscribe(new BaseObserver<MessageData<List<Message>>>() {

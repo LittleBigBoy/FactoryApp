@@ -3,8 +3,11 @@ package com.zhenhaikj.factoryside.mvp.model;
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.ReadMessage;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.LeaveMessageContract;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -29,6 +32,13 @@ public class LeaveMessageModel implements LeaveMessageContract.Model {
     @Override
     public Observable<BaseResult<Data<String>>> LeaveMessageImg(RequestBody json) {
         return  ApiRetrofit.getDefault().LeaveMessageImg(json)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<List<ReadMessage>>>> LeaveMessageWhetherLook(String OrderID) {
+        return ApiRetrofit.getDefault().LeaveMessageWhetherLook(OrderID,"2","1","1")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

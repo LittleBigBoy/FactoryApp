@@ -121,4 +121,11 @@ public class HomeMaintenanceModel implements HomeMaintenanceContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<String>> GetUniqId() {
+        return ApiRetrofit.getDefault().GetUniqId()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

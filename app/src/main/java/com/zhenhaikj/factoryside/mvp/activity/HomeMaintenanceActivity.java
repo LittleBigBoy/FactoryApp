@@ -1094,6 +1094,11 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
 
     }
 
+    @Override
+    public void GetUniqId(BaseResult<String> baseResult) {
+
+    }
+
 
 //    @Override
 //    protected void onPause() {

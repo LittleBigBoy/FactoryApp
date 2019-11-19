@@ -33,6 +33,13 @@ public class MessageModel implements MessageContract.Model {
     }
 
     @Override
+    public Observable<BaseResult<MessageData<List<Message>>>> AllRead(String UserID, String Type, String SubType) {
+        return ApiRetrofit.getDefault().AllRead(UserID, Type, SubType)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
     public Observable<BaseResult<Data<String>>> AddOrUpdatemessage(String MessageID, String IsLook) {
         return ApiRetrofit.getDefault().AddOrUpdatemessage(MessageID,IsLook)
                 .observeOn(AndroidSchedulers.mainThread())

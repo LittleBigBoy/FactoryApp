@@ -119,6 +119,7 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
                 helper.setGone(R.id.tv_remind_two,false);
             } else if ("0".equals(item.getAccessoryAndServiceApplyState())) {
                 helper.setText(R.id.tv_remind_two,"待审核");
+                helper.setGone(R.id.tv_remind_two,false);
             } else if ("1".equals(item.getAccessoryAndServiceApplyState())) {
                 helper.setText(R.id.tv_remind_two,"审核通过");
             }else if ("2".equals(item.getAccessoryAndServiceApplyState())) {

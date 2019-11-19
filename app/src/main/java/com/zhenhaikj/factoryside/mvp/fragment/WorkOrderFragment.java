@@ -445,6 +445,9 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     public void GetOrderInfoList(BaseResult<WorkOrder> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
+                if(pageIndex==1){
+                    workOrderList.clear();
+                }
                 workOrder = baseResult.getData();
                 if (workOrder.getData() != null) {
                     workOrderList.addAll(workOrder.getData());
