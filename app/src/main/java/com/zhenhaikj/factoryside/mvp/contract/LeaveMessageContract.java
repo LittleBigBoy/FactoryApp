@@ -6,7 +6,6 @@ import com.zhenhaikj.factoryside.mvp.base.BasePresenter;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.base.BaseView;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
-import com.zhenhaikj.factoryside.mvp.bean.ReadMessage;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public interface LeaveMessageContract {
         //根据工单号获取工单详情
         Observable<BaseResult<WorkOrder.DataBean>> GetOrderInfo(String OrderID);
         Observable<BaseResult<Data<String>>> LeaveMessageImg(RequestBody json);
-        Observable<BaseResult<Data<List<ReadMessage>>>> LeaveMessageWhetherLook(String OrderID);
+        Observable<BaseResult<Data>> LeaveMessageWhetherLook(String OrderID);
     }
 
     interface View extends BaseView {
@@ -28,7 +27,7 @@ public interface LeaveMessageContract {
         //根据工单号获取工单详情
         void GetOrderInfo(BaseResult<WorkOrder.DataBean> baseResult);
         void LeaveMessageImg(BaseResult<Data<String>> baseResult);
-        void LeaveMessageWhetherLook(BaseResult<Data<List<ReadMessage>>> baseResult);
+        void LeaveMessageWhetherLook(BaseResult<Data> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {

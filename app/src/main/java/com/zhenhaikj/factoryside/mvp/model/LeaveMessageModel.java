@@ -3,7 +3,6 @@ package com.zhenhaikj.factoryside.mvp.model;
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
-import com.zhenhaikj.factoryside.mvp.bean.ReadMessage;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.LeaveMessageContract;
 
@@ -24,7 +23,7 @@ public class LeaveMessageModel implements LeaveMessageContract.Model {
 
     @Override
     public Observable<BaseResult<WorkOrder.DataBean>> GetOrderInfo(String OrderID) {
-        return ApiRetrofit.getDefault().GetOrderInfo(OrderID)
+        return ApiRetrofit.getDefault().GetOrderInfo(OrderID,"1")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
@@ -37,7 +36,7 @@ public class LeaveMessageModel implements LeaveMessageContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<List<ReadMessage>>>> LeaveMessageWhetherLook(String OrderID) {
+    public Observable<BaseResult<Data>> LeaveMessageWhetherLook(String OrderID) {
         return ApiRetrofit.getDefault().LeaveMessageWhetherLook(OrderID,"2","1","1")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());

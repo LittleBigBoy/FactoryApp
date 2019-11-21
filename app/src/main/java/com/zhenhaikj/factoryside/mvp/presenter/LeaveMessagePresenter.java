@@ -3,7 +3,6 @@ package com.zhenhaikj.factoryside.mvp.presenter;
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
-import com.zhenhaikj.factoryside.mvp.bean.ReadMessage;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.LeaveMessageContract;
 
@@ -48,9 +47,9 @@ public class LeaveMessagePresenter extends LeaveMessageContract.Presenter {
     @Override
     public void LeaveMessageWhetherLook(String OrderID) {
         mModel.LeaveMessageWhetherLook(OrderID)
-                .subscribe(new BaseObserver<Data<List<ReadMessage>>>() {
+                .subscribe(new BaseObserver<Data>() {
                     @Override
-                    protected void onHandleSuccess(BaseResult<Data<List<ReadMessage>>> value) {
+                    protected void onHandleSuccess(BaseResult<Data> value) {
                         mView.LeaveMessageWhetherLook(value);
                     }
                 });

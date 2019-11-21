@@ -10,10 +10,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.blankj.utilcode.util.ToastUtils;
+import com.flyco.tablayout.SlidingTabLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
@@ -37,7 +47,6 @@ import com.zhenhaikj.factoryside.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.widget.OrderFreezing;
 
-import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
@@ -46,18 +55,14 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTit
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -174,15 +179,17 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.work_order_detail_tv)
     TextView mWorkOrderDetailTv;
-    @BindView(R.id.magic_indicator)
-    MagicIndicator mMagicIndicator;
+    @BindView(R.id.tab_receiving_layout)
+    SlidingTabLayout mTabReceivingLayout;
+    //    @BindView(R.id.magic_indicator)
+//    MagicIndicator mMagicIndicator;
     private String OrderId;
     private WorkOrder.DataBean data;
 
-    private ArrayList<Fragment> mFragments;
+    private ArrayList<Fragment> mFragments = new ArrayList<>();;
     private CommonNavigator commonNavigator;
     private String[] mTitleDataList = new String[]{
-            "详情","留言", "工单跟踪", "寄件物流", "返件物流"
+            "详情", "留言", "工单跟踪", "寄件物流", "返件物流"
     };
     private XGPushClickedResult clickedResult;
     private View complaint_view;
@@ -191,6 +198,7 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
     private EditText et_content;
     private TextView title;
     private AlertDialog complaint_dialog;
+    private MyPagerAdapter mAdapter;
 
     @Override
     protected int setLayoutId() {
@@ -214,12 +222,12 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
         mTvSave.setText("投诉");
         //this必须为点击消息要跳转到页面的上下文。
         clickedResult = XGPushManager.onActivityStarted(this);
-        if (clickedResult !=null){
+        if (clickedResult != null) {
             //获取消息附近参数
             String ster = clickedResult.getCustomContent();
             try {
-                JSONObject jsonObject=new JSONObject(ster);
-                OrderId=jsonObject.getString("OrderID");
+                JSONObject jsonObject = new JSONObject(ster);
+                OrderId = jsonObject.getString("OrderID");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -227,16 +235,11 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
 //            String set = clickedResult.getTitle();
 //获取消息内容
 //            String s = clickedResult.getContent();
-        }else{
+        } else {
             OrderId = getIntent().getStringExtra("OrderID");
         }
-        mFragments = new ArrayList<>();
-        mFragments.add(OrderDetailFragment.newInstance(OrderId, ""));
-        mFragments.add(MessageFragment.newInstance(OrderId, ""));
-        mFragments.add(TrackFragment.newInstance(OrderId, ""));
-        mFragments.add(ShippingFragment.newInstance(OrderId, ""));
-        mFragments.add(ReturnFragment.newInstance(OrderId, ""));
-//        mPresenter.GetOrderInfo(OrderId);
+
+        mPresenter.GetOrderInfo(OrderId);
 //        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
 //            @Override
 //            public void onRefresh(RefreshLayout refreshlayout) {
@@ -244,53 +247,62 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
 //                mRefreshLayout.finishRefresh(3000);
 //            }
 //        });
-        mWpWarranty.setOffscreenPageLimit(mTitleDataList.length);
-        mWpWarranty.setAdapter(new MyPagerAdapter(getSupportFragmentManager(),mTitleDataList,mFragments));
-        commonNavigator = new CommonNavigator(mActivity);
-        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
-
-            @Override
-            public int getCount() {
-                return mTitleDataList == null ? 0 : mTitleDataList.length;
-            }
-
-            @Override
-            public IPagerTitleView getTitleView(Context context, final int index) {
-                ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
-                colorTransitionPagerTitleView.setNormalColor(Color.BLACK);
-                colorTransitionPagerTitleView.setSelectedColor(Color.RED);
-                colorTransitionPagerTitleView.setText(mTitleDataList[index]);
-                colorTransitionPagerTitleView.setTextSize(16);
-                colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mWpWarranty.setCurrentItem(index);
-//                        mTitle.setText(mTitleDataList[index]);
-                    }
-                });
-                return colorTransitionPagerTitleView;
-            }
-
-            @Override
-            public IPagerIndicator getIndicator(Context context) {
-                LinePagerIndicator indicator = new LinePagerIndicator(context);
-                indicator.setMode(LinePagerIndicator.MODE_WRAP_CONTENT);
-                indicator.setColors(Color.RED);
-                return indicator;
-            }
-        });
-        mMagicIndicator.setBackgroundColor(Color.WHITE);
-        mMagicIndicator.setNavigator(commonNavigator);
-
-        ViewPagerHelper.bind(mMagicIndicator, mWpWarranty);
+//        mWpWarranty.setOffscreenPageLimit(mTitleDataList.length);
+//        mWpWarranty.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), mTitleDataList, mFragments));
+//        commonNavigator = new CommonNavigator(mActivity);
+//        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
+//
+//            @Override
+//            public int getCount() {
+//                return mTitleDataList == null ? 0 : mTitleDataList.length;
+//            }
+//
+//            @Override
+//            public IPagerTitleView getTitleView(Context context, final int index) {
+//                ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
+//                colorTransitionPagerTitleView.setNormalColor(Color.BLACK);
+//                colorTransitionPagerTitleView.setSelectedColor(Color.RED);
+//                colorTransitionPagerTitleView.setText(mTitleDataList[index]);
+//                colorTransitionPagerTitleView.setTextSize(16);
+//                colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        mWpWarranty.setCurrentItem(index);
+////                        mTitle.setText(mTitleDataList[index]);
+//                    }
+//                });
+//                return colorTransitionPagerTitleView;
+//            }
+//
+//            @Override
+//            public IPagerIndicator getIndicator(Context context) {
+//                LinePagerIndicator indicator = new LinePagerIndicator(context);
+//                indicator.setMode(LinePagerIndicator.MODE_WRAP_CONTENT);
+//                indicator.setColors(Color.RED);
+//                return indicator;
+//            }
+//        });
+//        mMagicIndicator.setBackgroundColor(Color.WHITE);
+//        mMagicIndicator.setNavigator(commonNavigator);
+//
+//        ViewPagerHelper.bind(mMagicIndicator, mWpWarranty);
     }
 
     @Override
     protected void initView() {
-        mWpWarranty.setAdapter(new MyAdapter(getSupportFragmentManager()));
-        mWpWarranty.setOffscreenPageLimit(mFragments.size());
 
+        mFragments.add(OrderDetailFragment.newInstance(OrderId, ""));
+        mFragments.add(MessageFragment.newInstance(OrderId, ""));
+        mFragments.add(TrackFragment.newInstance(OrderId, ""));
+        mFragments.add(ShippingFragment.newInstance(OrderId, ""));
+        mFragments.add(ReturnFragment.newInstance(OrderId, ""));
+
+        mAdapter = new MyPagerAdapter(getSupportFragmentManager(), mTitleDataList, mFragments);
+        mWpWarranty.setAdapter(mAdapter);
+        mWpWarranty.setOffscreenPageLimit(mFragments.size());
+        mTabReceivingLayout.setViewPager(mWpWarranty);
         mWpWarranty.setCurrentItem(0);
+
         tabSelected(mWorkOrderDetailTv);
     }
 
@@ -309,10 +321,10 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
 
     @Override
     public void onBackPressed() {
-        if (clickedResult!=null){
+        if (clickedResult != null) {
             startActivity(new Intent(mActivity, MainActivity.class));
             finish();
-        }else{
+        } else {
             finish();
         }
     }
@@ -321,10 +333,10 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.icon_back:
-                if (clickedResult!=null){
+                if (clickedResult != null) {
                     startActivity(new Intent(mActivity, MainActivity.class));
                     finish();
-                }else{
+                } else {
                     finish();
                 }
                 break;
@@ -452,7 +464,11 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
                 mModelTv.setText(data.getProductType());
                 mRemarksTv.setText(data.getMemo());
                 mOrderQuantityTv.setText(data.getNum());
-
+                if ("0".equals(data.getIsOnLookMessage())) {
+                    mTabReceivingLayout.hideMsg(1);
+                } else {
+                    mTabReceivingLayout.showDot(1);
+                }
 //                mTvSpecifyDoorToDoorTime.setText(data.getExtraTime());
 //                mTvOrderSource.setText(data.getExpressNo());
 //                mTvThirdParty.setText(data.getThirdPartyNo());
@@ -607,5 +623,13 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String name) {
+        switch (name){
+            case "read":
+                mPresenter.GetOrderInfo(OrderId);
+                break;
+        }
 
+    }
 }

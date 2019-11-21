@@ -12,6 +12,8 @@ import com.zhenhaikj.factoryside.mvp.adapter.ArticleAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.LeaveMessage;
 import com.zhenhaikj.factoryside.mvp.bean.Message;
 import com.zhenhaikj.factoryside.mvp.bean.MessageData;
 import com.zhenhaikj.factoryside.mvp.contract.ArticleContract;
@@ -108,6 +110,11 @@ public class ArticleActivity extends BaseActivity<ArticlePresenter, ArticleModel
 
     @Override
     public void GetTransactionMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
+
+    }
+
+    @Override
+    public void GetNewsLeaveMessage(BaseResult<Data<LeaveMessage>> baseResult) {
 
     }
 

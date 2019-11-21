@@ -24,13 +24,13 @@ import com.zhenhaikj.factoryside.mvp.bean.FrozenMoney;
 import com.zhenhaikj.factoryside.mvp.bean.GetCategory;
 import com.zhenhaikj.factoryside.mvp.bean.GetFactoryData;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
+import com.zhenhaikj.factoryside.mvp.bean.LeaveMessage;
 import com.zhenhaikj.factoryside.mvp.bean.Logistics;
 import com.zhenhaikj.factoryside.mvp.bean.Message;
 import com.zhenhaikj.factoryside.mvp.bean.MessageData;
 import com.zhenhaikj.factoryside.mvp.bean.MonthBill;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
-import com.zhenhaikj.factoryside.mvp.bean.ReadMessage;
 import com.zhenhaikj.factoryside.mvp.bean.Recharge;
 import com.zhenhaikj.factoryside.mvp.bean.RedPointData;
 import com.zhenhaikj.factoryside.mvp.bean.Search;
@@ -129,10 +129,12 @@ public interface ApiService {
     /**
      * 获取工单详情
      * 通过OrderID获取工单详情
+     * MessageType:1工厂2师傅端3平台
      */
     @FormUrlEncoded
     @POST("Order/GetOrderInfo")
-    Observable<BaseResult<WorkOrder.DataBean>> GetOrderInfo(@Field("OrderID") String OrderID);
+    Observable<BaseResult<WorkOrder.DataBean>> GetOrderInfo(@Field("OrderID") String OrderID,
+                                                            @Field("MessageType") String MessageType);
 
     /**
      * 添加品牌
@@ -1120,10 +1122,25 @@ public interface ApiService {
      * */
     @FormUrlEncoded
     @POST("LeaveMessage/LeaveMessageWhetherLook")
-    Observable<BaseResult<Data<List<ReadMessage>>>> LeaveMessageWhetherLook(@Field("OrderID") String OrderID,
+    Observable<BaseResult<Data>> LeaveMessageWhetherLook(@Field("OrderID") String OrderID,
                                                                             @Field("factoryIslook") String factoryIslook,
                                                                             @Field("workerIslook") String workerIslook,
                                                                             @Field("platformIslook") String platformIslook
+
+    );
+
+    /*
+     * 留言消息
+     * 1  师傅
+     * 2 工厂
+     * 3 平台
+     * */
+    @FormUrlEncoded
+    @POST("LeaveMessage/GetNewsLeaveMessage")
+    Observable<BaseResult<Data<LeaveMessage>>> GetNewsLeaveMessage(@Field("UserID") String UserID,
+                                                                   @Field("Type") String Type,
+                                                                   @Field("limit") String limit,
+                                                                   @Field("page") String page
 
     );
 }

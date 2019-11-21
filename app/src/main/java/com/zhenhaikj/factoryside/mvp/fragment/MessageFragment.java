@@ -42,7 +42,6 @@ import com.zhenhaikj.factoryside.mvp.adapter.LeaveMessageImgAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
-import com.zhenhaikj.factoryside.mvp.bean.ReadMessage;
 import com.zhenhaikj.factoryside.mvp.bean.WorkOrder;
 import com.zhenhaikj.factoryside.mvp.contract.LeaveMessageContract;
 import com.zhenhaikj.factoryside.mvp.model.LeaveMessageModel;
@@ -55,6 +54,7 @@ import com.zhihu.matisse.MimeType;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -122,7 +122,6 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
         if (isVisibleToUser){
             showLoading();
             mPresenter.GetOrderInfo(orderId);
-            mPresenter.LeaveMessageWhetherLook(orderId);
         }
         super.setUserVisibleHint(isVisibleToUser);
 
@@ -271,6 +270,7 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
                 list=data.getLeavemessageList();
                 Collections.reverse(list);
                 leaveMessageAdapter.setNewData(list);
+                mPresenter.LeaveMessageWhetherLook(orderId);
                 cancleLoading();
                 break;
         }
@@ -297,8 +297,12 @@ public class MessageFragment extends BaseLazyFragment<LeaveMessagePresenter, Lea
     }
 
     @Override
-    public void LeaveMessageWhetherLook(BaseResult<Data<List<ReadMessage>>> baseResult) {
-
+    public void LeaveMessageWhetherLook(BaseResult<Data> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                EventBus.getDefault().post("read");
+                break;
+        }
     }
 
 

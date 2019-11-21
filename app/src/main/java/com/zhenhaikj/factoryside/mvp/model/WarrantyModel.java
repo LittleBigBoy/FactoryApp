@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers;
 public class WarrantyModel implements WarrantyContract.Model {
     @Override
     public Observable<BaseResult<WorkOrder.DataBean>> GetOrderInfo(String OrderID) {
-        return ApiRetrofit.getDefault().GetOrderInfo(OrderID)
+        return ApiRetrofit.getDefault().GetOrderInfo(OrderID,"1")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
