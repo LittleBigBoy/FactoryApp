@@ -715,7 +715,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 
                 break;
             case R.id.btn_release:
-                addorder("");
+                addorder("0");
                 break;
 
             case R.id.ll_microphone:
@@ -1815,15 +1815,15 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 } else {
                     if ("该用户已有工单".equals(data.getItem2())) {
                         final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
-                        dialog.setMessage(data.getItem2())
+                        dialog.setMessage(data.getItem2()+"，是否继续发单")
                                 //.setImageResId(R.mipmap.ic_launcher)
                                 .setTitle("提示")
-                                .setPositive("是否继续发单")
+                                .setPositive("是")
                                 .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
                             @Override
                             public void onPositiveClick() {//拨打电话
                                 dialog.dismiss();
-                                addorder("0");
+                                addorder("");
                             }
 
                             @Override
