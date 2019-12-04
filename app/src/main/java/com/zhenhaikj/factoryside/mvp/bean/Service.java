@@ -46,6 +46,15 @@ public class Service implements Serializable {
     public void setUniqId(String uniqId) {
         this.uniqId = uniqId;
     }
+    private String ContinueIssuing;
+
+    public String getContinueIssuing() {
+        return ContinueIssuing;
+    }
+
+    public void setContinueIssuing(String continueIssuing) {
+        ContinueIssuing = continueIssuing;
+    }
 
     public String getPartyNo() {
         return PartyNo;

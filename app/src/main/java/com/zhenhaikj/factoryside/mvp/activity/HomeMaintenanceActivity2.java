@@ -715,303 +715,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 
                 break;
             case R.id.btn_release:
-                showLoading();
-//                if (SubCategoryID == null) {
-//                    ToastUtils.showShort("请选择分类！");
-//                    cancleLoading();
-//                    return;
-//                }
-                if (FBrandID == null) {
-                    ToastUtils.showShort("请选择品牌！");
-                    cancleLoading();
-                    return;
-                }
-                if (TypeID == null) {
-                    ToastUtils.showShort("请选择型号！");
-                    cancleLoading();
-                    return;
-                }
-//
-
-                /*if (FAccessoryID == null) {
-                    MyUtils.showToast(mActivity, "请选择属性！");
-                    return;
-                }*/
-                if (ProvinceCode == null) {
-                    MyUtils.showToast(mActivity, "请选择省！");
-                    cancleLoading();
-                    return;
-                }
-                if (CityCode == null) {
-                    MyUtils.showToast(mActivity, "请选择市！");
-                    cancleLoading();
-                    return;
-                }
-                if (AreaCode == null) {
-                    MyUtils.showToast(mActivity, "请选择区！");
-                    cancleLoading();
-                    return;
-                }
-                if (DistrictCode == null) {
-                    MyUtils.showToast(mActivity, "请选择街道、乡、镇");
-                    cancleLoading();
-                }
-                DetailAddress = mEtDetail.getText().toString();
-                Address = mTvPca.getText().toString() + DetailAddress;
-                Name = mEtName.getText().toString();
-                Phone = mEtPhone.getText().toString();
-                RecycleOrderHour = mEtRecoveryTime.getText().toString();
-                FaultDescription = mEtFaultDescription.getText().toString();
-                if (DetailAddress == null || "".equals(DetailAddress)) {
-                    MyUtils.showToast(mActivity, "请输入详细地址！");
-                    cancleLoading();
-                    return;
-                }
-                if (Name == null || "".equals(Name)) {
-                    MyUtils.showToast(mActivity, "请输入客户姓名！");
-                    cancleLoading();
-                    return;
-                }
-                if (Phone == null || "".equals(Phone)) {
-                    MyUtils.showToast(mActivity, "请输入客户手机！");
-                    cancleLoading();
-                    return;
-                }
-                if (!RegexUtils.isMobileExact(Phone)) {
-                    MyUtils.showToast(mActivity, "手机号格式不正确！");
-                    cancleLoading();
-                    return;
-                }
-                if (Guarantee == null || "".equals(Guarantee)) {
-                    MyUtils.showToast(mActivity, "请选择保修期内或保修期外！");
-                    cancleLoading();
-                    return;
-                }
-                if (RecycleOrderHour == null || "".equals(RecycleOrderHour)) {
-                    MyUtils.showToast(mActivity, "请输入回收时间！");
-                    cancleLoading();
-                    return;
-                }
-                if (!(Integer.parseInt(RecycleOrderHour) >= 12 || Integer.parseInt(RecycleOrderHour) <= 48)) {
-                    MyUtils.showToast(mActivity, "回收时间需大于等于12小于等于48！");
-                    cancleLoading();
-                    return;
-                }
-//                if (AccessorySendState == null || "".equals(AccessorySendState)) {
-//                    MyUtils.showToast(mActivity, "请选择是否为已发配件！");
-//                    cancleLoading();
-//                    return;
-//                }
-
-
-                if (FaultDescription == null || "".equals(FaultDescription)) {
-                    switch (type) {
-                        case 0:
-                            MyUtils.showToast(mActivity, "请输入备注！");
-                            break;
-                        case 1:
-                            MyUtils.showToast(mActivity, "请输入故障描述！");
-                            break;
-                        default:
-                            break;
-                    }
-
-                    cancleLoading();
-                    return;
-                }
-                switch (type) {
-                    case 0:
-//                        OrderMoney = Double.parseDouble(category.getInstallPrice()) * Double.parseDouble(Num) + "";
-                        if (SigningState == null || "".equals(SigningState)) {
-                            MyUtils.showToast(mActivity, "请选择客户是否为已签收产品");
-                            cancleLoading();
-                            return;
-                        }
-                        number = mEtExpressno.getText().toString();
-                        if (mCbNoSigning.isChecked()) {
-                            if ("".equals(number)) {
-                                MyUtils.showToast(mActivity, "请填写快递单号");
-                                cancleLoading();
-                                return;
-                            }
-                        }
-//                        Num = mEtNum.getText().toString();
-                        Num = String.valueOf(mAddview.getValue());
-                        if (Num == null) {
-                            MyUtils.showToast(mActivity, "请输入数量！");
-                            cancleLoading();
-                            return;
-                        }
-                        if ("".equals(Num)) {
-                            MyUtils.showToast(mActivity, "请输入数量！");
-                            cancleLoading();
-                            return;
-                        }
-                        service = new Service();
-                        service.setTypeID("2");
-                        service.setTypeName("安装");
-                        service.setUserID(userID);
-                        service.setBrandID(FBrandID);
-                        service.setBrandName(BrandName);
-                        service.setCategoryID(FCategoryID);
-                        service.setCategoryName(FCategoryName);
-                        service.setSubCategoryID(SubCategoryID);
-                        service.setSubCategoryName(SubCategoryName);
-                        service.setProductTypeID(TypeID);
-                        service.setProductType(TypeName);
-                        service.setProvinceCode(ProvinceCode);
-                        service.setCityCode(CityCode);
-                        service.setAreaCode(AreaCode);
-                        service.setDistrictCode(DistrictCode);
-                        service.setAddress(Address);
-                        service.setUserName(Name);
-                        service.setPhone(Phone);
-                        service.setMemo(FaultDescription);
-                        service.setOrderMoney(OrderMoney);
-                        service.setRecycleOrderHour(RecycleOrderHour);
-                        service.setGuarantee(Guarantee);
-                        service.setExtra(Extra);
-                        service.setExtraTime(ExtraTime);
-                        service.setExtraFee(ExtraFee);
-                        service.setNum(Num);
-                        service.setIsRecevieGoods(SigningState);
-                        service.setExpressNo(number);
-                        service.setIsReturn("");
-                        service.setPostPayType("");
-                        service.setAddressBack("");
-                        service.setAccessoryState("");
-                        service.setPartyNo("");
-                        s = gson.toJson(service);
-                        body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
-                        mPresenter.AddOrder(body);
-                        break;
-                    case 1:
-                        number = mEtLogistics.getText().toString();
-                        if (AccessorySendState == null || "".equals(AccessorySendState)) {
-                            MyUtils.showToast(mActivity, "请选择是否为已发配件！");
-                            cancleLoading();
-                            return;
-                        } else if ("Y".equals(AccessorySendState)) {
-                            if ("".equals(IsReturn) || IsReturn == null) {
-                                MyUtils.showToast(mActivity, "请选择是否需要旧件返厂！");
-                                cancleLoading();
-                                return;
-                            } else if ("1".equals(IsReturn)) {
-                                if ("".equals(mTvAddressback.getText().toString())) {
-                                    MyUtils.showToast(mActivity, "请选择寄件地址！");
-                                    cancleLoading();
-                                    return;
-                                }
-                                if ("".equals(PostPayType) || PostPayType == null) {
-                                    MyUtils.showToast(mActivity, "请选择邮费支付方式！");
-                                    cancleLoading();
-                                    return;
-                                }
-
-                            }
-
-                            if (fAcList.size() == 0) {
-                                MyUtils.showToast(mActivity, "请添加配件！");
-                                cancleLoading();
-                                return;
-                            }
-
-                            if ("".equals(number)) {
-                                MyUtils.showToast(mActivity, "请输入快递单号！");
-                                cancleLoading();
-                                return;
-                            }
-
-                            orderAccessoryStrBean = new FAccessory.OrderAccessoryStrBean();
-                            orderAccessoryStrBean.setOrderAccessory(mPre_order_add_ac_adapter.getData());
-                            String s1 = gson.toJson(orderAccessoryStrBean);
-                            service = new Service();
-                            service.setTypeID("1");
-                            service.setTypeName("维修");
-                            service.setUserID(userID);
-                            service.setBrandID(FBrandID);
-                            service.setBrandName(BrandName);
-                            service.setCategoryID(FCategoryID);
-                            service.setCategoryName(FCategoryName);
-                            service.setSubCategoryID(SubCategoryID);
-                            service.setSubCategoryName(SubCategoryName);
-                            service.setProductTypeID(TypeID);
-                            service.setProductType(TypeName);
-                            service.setProvinceCode(ProvinceCode);
-                            service.setCityCode(CityCode);
-                            service.setAreaCode(AreaCode);
-                            service.setDistrictCode(DistrictCode);
-                            service.setAddress(Address);
-                            service.setUserName(Name);
-                            service.setPhone(Phone);
-                            service.setMemo(FaultDescription);
-                            service.setOrderMoney(OrderMoney);
-                            service.setRecycleOrderHour(RecycleOrderHour);
-                            service.setGuarantee(Guarantee);
-                            service.setExtra(Extra);
-                            service.setExtraTime(ExtraTime);
-                            service.setExtraFee(ExtraFee);
-                            service.setNum("1");
-                            service.setIsRecevieGoods(AccessorySendState);
-                            service.setExpressNo(null);
-                            service.setIsReturn(IsReturn);
-                            service.setPostPayType(PostPayType);
-                            service.setAddressBack(mTvAddressback.getText().toString());
-                            service.setOrderAccessoryStr(s1);
-                            service.setAccessoryState("0");
-                            service.setPartyNo("");
-                            String s2 = gson.toJson(service);
-//                            s = gson.toJson(s2);
-                            Log.d("添加的配件有", s1);
-                            body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s2);
-                            mPresenter.AddOrder(body);
-
-                        } else {
-                            service = new Service();
-                            service.setTypeID("1");
-                            service.setTypeName("维修");
-                            service.setUserID(userID);
-                            service.setBrandID(FBrandID);
-                            service.setBrandName(BrandName);
-                            service.setCategoryID(FCategoryID);
-                            service.setCategoryName(FCategoryName);
-                            service.setSubCategoryID(SubCategoryID);
-                            service.setSubCategoryName(SubCategoryName);
-                            service.setProductTypeID(TypeID);
-                            service.setProductType(TypeName);
-                            service.setProvinceCode(ProvinceCode);
-                            service.setCityCode(CityCode);
-                            service.setAreaCode(AreaCode);
-                            service.setDistrictCode(DistrictCode);
-                            service.setAddress(Address);
-                            service.setUserName(Name);
-                            service.setPhone(Phone);
-                            service.setMemo(FaultDescription);
-                            service.setOrderMoney(OrderMoney);
-                            service.setRecycleOrderHour(RecycleOrderHour);
-                            service.setGuarantee(Guarantee);
-                            service.setExtra(Extra);
-                            service.setExtraTime(ExtraTime);
-                            service.setExtraFee(ExtraFee);
-                            service.setNum("1");
-                            service.setIsRecevieGoods(AccessorySendState);
-                            service.setExpressNo(null);
-                            service.setIsReturn("");
-                            service.setPostPayType("");
-                            service.setAddressBack("");
-                            service.setAccessoryState("");
-                            service.setPartyNo("");
-                            s = gson.toJson(service);
-                            body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
-                            mPresenter.AddOrder(body);
-
-                        }
-//                        OrderMoney = Double.parseDouble(category.getInitPrice()) * Double.parseDouble(Num) + "";
-                        break;
-                    default:
-                        break;
-                }
-
+                addorder("");
                 break;
 
             case R.id.ll_microphone:
@@ -1044,6 +748,307 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 
                 running = true;
                 startActivityForResult(intent2, 3);
+                break;
+        }
+    }
+    public void addorder(String ContinueIssuing){
+        showLoading();
+//                if (SubCategoryID == null) {
+//                    ToastUtils.showShort("请选择分类！");
+//                    cancleLoading();
+//                    return;
+//                }
+        if (FBrandID == null) {
+            ToastUtils.showShort("请选择品牌！");
+            cancleLoading();
+            return;
+        }
+        if (TypeID == null) {
+            ToastUtils.showShort("请选择型号！");
+            cancleLoading();
+            return;
+        }
+//
+
+                /*if (FAccessoryID == null) {
+                    MyUtils.showToast(mActivity, "请选择属性！");
+                    return;
+                }*/
+        if (ProvinceCode == null) {
+            MyUtils.showToast(mActivity, "请选择省！");
+            cancleLoading();
+            return;
+        }
+        if (CityCode == null) {
+            MyUtils.showToast(mActivity, "请选择市！");
+            cancleLoading();
+            return;
+        }
+        if (AreaCode == null) {
+            MyUtils.showToast(mActivity, "请选择区！");
+            cancleLoading();
+            return;
+        }
+        if (DistrictCode == null) {
+            MyUtils.showToast(mActivity, "请选择街道、乡、镇");
+            cancleLoading();
+        }
+        DetailAddress = mEtDetail.getText().toString();
+        Address = mTvPca.getText().toString() + DetailAddress;
+        Name = mEtName.getText().toString();
+        Phone = mEtPhone.getText().toString();
+        RecycleOrderHour = mEtRecoveryTime.getText().toString();
+        FaultDescription = mEtFaultDescription.getText().toString();
+        if (DetailAddress == null || "".equals(DetailAddress)) {
+            MyUtils.showToast(mActivity, "请输入详细地址！");
+            cancleLoading();
+            return;
+        }
+        if (Name == null || "".equals(Name)) {
+            MyUtils.showToast(mActivity, "请输入客户姓名！");
+            cancleLoading();
+            return;
+        }
+        if (Phone == null || "".equals(Phone)) {
+            MyUtils.showToast(mActivity, "请输入客户手机！");
+            cancleLoading();
+            return;
+        }
+        if (!RegexUtils.isMobileExact(Phone)) {
+            MyUtils.showToast(mActivity, "手机号格式不正确！");
+            cancleLoading();
+            return;
+        }
+        if (Guarantee == null || "".equals(Guarantee)) {
+            MyUtils.showToast(mActivity, "请选择保修期内或保修期外！");
+            cancleLoading();
+            return;
+        }
+        if (RecycleOrderHour == null || "".equals(RecycleOrderHour)) {
+            MyUtils.showToast(mActivity, "请输入回收时间！");
+            cancleLoading();
+            return;
+        }
+        if (!(Integer.parseInt(RecycleOrderHour) >= 12 || Integer.parseInt(RecycleOrderHour) <= 48)) {
+            MyUtils.showToast(mActivity, "回收时间需大于等于12小于等于48！");
+            cancleLoading();
+            return;
+        }
+//                if (AccessorySendState == null || "".equals(AccessorySendState)) {
+//                    MyUtils.showToast(mActivity, "请选择是否为已发配件！");
+//                    cancleLoading();
+//                    return;
+//                }
+
+
+        if (FaultDescription == null || "".equals(FaultDescription)) {
+            switch (type) {
+                case 0:
+                    MyUtils.showToast(mActivity, "请输入备注！");
+                    break;
+                case 1:
+                    MyUtils.showToast(mActivity, "请输入故障描述！");
+                    break;
+                default:
+                    break;
+            }
+
+            cancleLoading();
+            return;
+        }
+        switch (type) {
+            case 0:
+//                        OrderMoney = Double.parseDouble(category.getInstallPrice()) * Double.parseDouble(Num) + "";
+                if (SigningState == null || "".equals(SigningState)) {
+                    MyUtils.showToast(mActivity, "请选择客户是否为已签收产品");
+                    cancleLoading();
+                    return;
+                }
+                number = mEtExpressno.getText().toString();
+                if (mCbNoSigning.isChecked()) {
+                    if ("".equals(number)) {
+                        MyUtils.showToast(mActivity, "请填写快递单号");
+                        cancleLoading();
+                        return;
+                    }
+                }
+//                        Num = mEtNum.getText().toString();
+                Num = String.valueOf(mAddview.getValue());
+                if (Num == null) {
+                    MyUtils.showToast(mActivity, "请输入数量！");
+                    cancleLoading();
+                    return;
+                }
+                if ("".equals(Num)) {
+                    MyUtils.showToast(mActivity, "请输入数量！");
+                    cancleLoading();
+                    return;
+                }
+                service = new Service();
+                service.setTypeID("2");
+                service.setTypeName("安装");
+                service.setUserID(userID);
+                service.setBrandID(FBrandID);
+                service.setBrandName(BrandName);
+                service.setCategoryID(FCategoryID);
+                service.setCategoryName(FCategoryName);
+                service.setSubCategoryID(SubCategoryID);
+                service.setSubCategoryName(SubCategoryName);
+                service.setProductTypeID(TypeID);
+                service.setProductType(TypeName);
+                service.setProvinceCode(ProvinceCode);
+                service.setCityCode(CityCode);
+                service.setAreaCode(AreaCode);
+                service.setDistrictCode(DistrictCode);
+                service.setAddress(Address);
+                service.setUserName(Name);
+                service.setPhone(Phone);
+                service.setMemo(FaultDescription);
+                service.setOrderMoney(OrderMoney);
+                service.setRecycleOrderHour(RecycleOrderHour);
+                service.setGuarantee(Guarantee);
+                service.setExtra(Extra);
+                service.setExtraTime(ExtraTime);
+                service.setExtraFee(ExtraFee);
+                service.setNum(Num);
+                service.setIsRecevieGoods(SigningState);
+                service.setExpressNo(number);
+                service.setIsReturn("");
+                service.setPostPayType("");
+                service.setAddressBack("");
+                service.setAccessoryState("");
+                service.setPartyNo("");
+                service.setContinueIssuing(ContinueIssuing);
+                s = gson.toJson(service);
+                body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
+                mPresenter.AddOrder(body);
+                break;
+            case 1:
+                number = mEtLogistics.getText().toString();
+                if (AccessorySendState == null || "".equals(AccessorySendState)) {
+                    MyUtils.showToast(mActivity, "请选择是否为已发配件！");
+                    cancleLoading();
+                    return;
+                } else if ("Y".equals(AccessorySendState)) {
+                    if ("".equals(IsReturn) || IsReturn == null) {
+                        MyUtils.showToast(mActivity, "请选择是否需要旧件返厂！");
+                        cancleLoading();
+                        return;
+                    } else if ("1".equals(IsReturn)) {
+                        if ("".equals(mTvAddressback.getText().toString())) {
+                            MyUtils.showToast(mActivity, "请选择寄件地址！");
+                            cancleLoading();
+                            return;
+                        }
+                        if ("".equals(PostPayType) || PostPayType == null) {
+                            MyUtils.showToast(mActivity, "请选择邮费支付方式！");
+                            cancleLoading();
+                            return;
+                        }
+
+                    }
+
+                    if (fAcList.size() == 0) {
+                        MyUtils.showToast(mActivity, "请添加配件！");
+                        cancleLoading();
+                        return;
+                    }
+
+                    if ("".equals(number)) {
+                        MyUtils.showToast(mActivity, "请输入快递单号！");
+                        cancleLoading();
+                        return;
+                    }
+
+                    orderAccessoryStrBean = new FAccessory.OrderAccessoryStrBean();
+                    orderAccessoryStrBean.setOrderAccessory(mPre_order_add_ac_adapter.getData());
+                    String s1 = gson.toJson(orderAccessoryStrBean);
+                    service = new Service();
+                    service.setTypeID("1");
+                    service.setTypeName("维修");
+                    service.setUserID(userID);
+                    service.setBrandID(FBrandID);
+                    service.setBrandName(BrandName);
+                    service.setCategoryID(FCategoryID);
+                    service.setCategoryName(FCategoryName);
+                    service.setSubCategoryID(SubCategoryID);
+                    service.setSubCategoryName(SubCategoryName);
+                    service.setProductTypeID(TypeID);
+                    service.setProductType(TypeName);
+                    service.setProvinceCode(ProvinceCode);
+                    service.setCityCode(CityCode);
+                    service.setAreaCode(AreaCode);
+                    service.setDistrictCode(DistrictCode);
+                    service.setAddress(Address);
+                    service.setUserName(Name);
+                    service.setPhone(Phone);
+                    service.setMemo(FaultDescription);
+                    service.setOrderMoney(OrderMoney);
+                    service.setRecycleOrderHour(RecycleOrderHour);
+                    service.setGuarantee(Guarantee);
+                    service.setExtra(Extra);
+                    service.setExtraTime(ExtraTime);
+                    service.setExtraFee(ExtraFee);
+                    service.setNum("1");
+                    service.setIsRecevieGoods(AccessorySendState);
+                    service.setExpressNo(null);
+                    service.setIsReturn(IsReturn);
+                    service.setPostPayType(PostPayType);
+                    service.setAddressBack(mTvAddressback.getText().toString());
+                    service.setOrderAccessoryStr(s1);
+                    service.setAccessoryState("0");
+                    service.setPartyNo("");
+                    service.setContinueIssuing(ContinueIssuing);
+                    String s2 = gson.toJson(service);
+//                            s = gson.toJson(s2);
+                    Log.d("添加的配件有", s1);
+                    body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s2);
+                    mPresenter.AddOrder(body);
+
+                } else {
+                    service = new Service();
+                    service.setTypeID("1");
+                    service.setTypeName("维修");
+                    service.setUserID(userID);
+                    service.setBrandID(FBrandID);
+                    service.setBrandName(BrandName);
+                    service.setCategoryID(FCategoryID);
+                    service.setCategoryName(FCategoryName);
+                    service.setSubCategoryID(SubCategoryID);
+                    service.setSubCategoryName(SubCategoryName);
+                    service.setProductTypeID(TypeID);
+                    service.setProductType(TypeName);
+                    service.setProvinceCode(ProvinceCode);
+                    service.setCityCode(CityCode);
+                    service.setAreaCode(AreaCode);
+                    service.setDistrictCode(DistrictCode);
+                    service.setAddress(Address);
+                    service.setUserName(Name);
+                    service.setPhone(Phone);
+                    service.setMemo(FaultDescription);
+                    service.setOrderMoney(OrderMoney);
+                    service.setRecycleOrderHour(RecycleOrderHour);
+                    service.setGuarantee(Guarantee);
+                    service.setExtra(Extra);
+                    service.setExtraTime(ExtraTime);
+                    service.setExtraFee(ExtraFee);
+                    service.setNum("1");
+                    service.setIsRecevieGoods(AccessorySendState);
+                    service.setExpressNo(null);
+                    service.setIsReturn("");
+                    service.setPostPayType("");
+                    service.setAddressBack("");
+                    service.setAccessoryState("");
+                    service.setPartyNo("");
+                    service.setContinueIssuing(ContinueIssuing);
+                    s = gson.toJson(service);
+                    body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
+                    mPresenter.AddOrder(body);
+
+                }
+//                        OrderMoney = Double.parseDouble(category.getInitPrice()) * Double.parseDouble(Num) + "";
+                break;
+            default:
                 break;
         }
     }
@@ -1808,6 +1813,27 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
+                    if ("该用户已有工单".equals(data.getItem2())) {
+                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                        dialog.setMessage(data.getItem2())
+                                //.setImageResId(R.mipmap.ic_launcher)
+                                .setTitle("提示")
+                                .setPositive("是否继续发单")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {//拨打电话
+                                dialog.dismiss();
+                                addorder("0");
+                            }
+
+                            @Override
+                            public void onNegtiveClick() {//取消
+                                dialog.dismiss();
+                            }
+                        }).show();
+                        cancleLoading();
+                        return;
+                    }
                     if ("保证金低于最低需缴纳金额".equals(data.getItem2())) {
                         final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
                         dialog.setMessage(data.getItem2())
