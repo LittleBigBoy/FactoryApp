@@ -13,17 +13,11 @@
         android:layout_marginRight="50dp"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_close"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="right"
-            android:src="@drawable/clear"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/tc_head"
+            android:layout_height="120dp"
+            android:background="@drawable/tc_head"
             android:gravity="bottom"
             android:orientation="vertical">
 
@@ -93,7 +87,20 @@
                     app:nearOverText="@string/nearOverText"
                     app:overText="@string/overText" />
 
-
+                <com.zhenhaikj.factoryside.mvp.widget.MyProgress
+                    android:id="@+id/progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:progressDrawable="@drawable/progressbar_style"
+                    android:max="100"
+                    android:progress="0"
+                    android:visibility="gone"/>
                 <Button
                     android:id="@+id/btn_start"
                     android:layout_width="match_parent"
@@ -104,7 +111,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
                     android:layout_weight="1"
-                    android:background="#407CFF"
+                    android:background="#F25037"
                     android:tag="beta_confirm_button"
                     android:text="立即更新"
                     android:textColor="@color/white"
@@ -114,5 +121,10 @@
 
         </LinearLayout>
     </LinearLayout>
-
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/guanbi"
+        android:layout_marginTop="10dp"/>
 </LinearLayout>

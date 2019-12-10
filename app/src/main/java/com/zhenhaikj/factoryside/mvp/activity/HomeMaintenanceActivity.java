@@ -208,8 +208,8 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     private CityAdapter cityAdapter;
     private AreaAdapter areaAdapter;
     private DistrictAdapter districtAdapter;
-    private List<Category> popularList;
-    private List<Category> chooseList;
+    private List<Category.DataBean> popularList;
+    private List<Category.DataBean> chooseList;
     private CategoryAdapter popularAdapter;
     private CategoryAdapter chooseAdapter;
     private RecyclerView rv_choose;
@@ -654,9 +654,9 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                 popupWindow.dismiss();
             }
         });
-        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
+        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category.DataBean>() {
             @Override
-            public CharSequence getLabelText(TextView label, int position, Category data) {
+            public CharSequence getLabelText(TextView label, int position, Category.DataBean data) {
                 return data.getFCategoryName();
             }
         });
@@ -667,9 +667,9 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
             @Override
             public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
                 if (isSelect) {
-                    FCategoryID = ((Category) data).getId();
-                    CategoryName = ((Category) data).getFCategoryName();
-                    mPresenter.GetChildFactoryCategory(((Category) data).getId());
+                    FCategoryID = ((Category.DataBean) data).getId();
+                    CategoryName = ((Category.DataBean) data).getFCategoryName();
+                    mPresenter.GetChildFactoryCategory(((Category.DataBean) data).getId());
                 }
             }
         });
@@ -719,10 +719,10 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     ProductTypeName = null;
                     OrderMoney = null;
                 }
-                if (list.get(position) instanceof Category) {
-                    SubCategoryID = ((Category) list.get(position)).getFCategoryID();
-                    SubCategoryName = ((Category) list.get(position)).getFCategoryName();
-                    OrderMoney = ((Category) list.get(position)).getInitPrice();
+                if (list.get(position) instanceof Category.DataBean) {
+                    SubCategoryID = ((Category.DataBean) list.get(position)).getFCategoryID();
+                    SubCategoryName = ((Category.DataBean) list.get(position)).getFCategoryName();
+                    OrderMoney = ((Category.DataBean) list.get(position)).getInitPrice()+"";
                     tv.setText(SubCategoryName);
                     mTvChooseType.setText("");
                     mTvChooseProperty.setText("");
@@ -1084,8 +1084,9 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
 
     }
 
+
     @Override
-    public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetBrandCategory(BaseResult<Data<Category>> baseResult) {
 
     }
 

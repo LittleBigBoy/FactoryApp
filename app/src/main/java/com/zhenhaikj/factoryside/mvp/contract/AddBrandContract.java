@@ -27,7 +27,7 @@ public interface AddBrandContract {
         Observable<BaseResult<List<Brand>>> GetBrand(String UserId);
 //        Observable<BaseResult<Data<List<ProductType>>>> GetCategory(String ParentID);
         Observable<BaseResult<Data<List<ProductType>>>> GetProducttype();
-        Observable<BaseResult<Data<List<Category>>>> GetBrandCategory(String UserID);
+        Observable<BaseResult<Data<Category>>> GetBrandCategory(String UserID);
         Observable<BaseResult<Data>> DeleteFactoryProducttype(String FProductTypeID);
         Observable<BaseResult<Data>> DeleteFactoryBrand(String FBrandID);
         Observable<BaseResult<Data>> AddBrandCategory(
@@ -46,7 +46,7 @@ public interface AddBrandContract {
         void GetBrand(BaseResult<List<Brand>> baseResult);
 //        void GetCategory(BaseResult<Data<List<ProductType>>> baseResult);
         void GetProducttype(BaseResult<Data<List<ProductType>>> baseResult);
-        void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult);
+        void GetBrandCategory(BaseResult<Data<Category>> baseResult);
         void DeleteFactoryProducttype(BaseResult<Data> baseResult);
         void DeleteFactoryBrand(BaseResult<Data> baseResult);
         void AddBrandCategory(BaseResult<Data> baseResult);

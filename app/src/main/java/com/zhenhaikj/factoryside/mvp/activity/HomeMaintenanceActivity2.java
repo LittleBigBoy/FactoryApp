@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -317,8 +319,8 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private CityAdapter cityAdapter;
     private AreaAdapter areaAdapter;
     private DistrictAdapter districtAdapter;
-    private List<Category> popularList;
-    private List<Category> chooseList;
+    private List<Category.DataBean> popularList;
+    private List<Category.DataBean> chooseList;
     private CategoryAdapter popularAdapter;
     private CategoryAdapter chooseAdapter;
     private RecyclerView rv_choose;
@@ -344,7 +346,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private String Num;
     private TextView tv_district;
     String brand;
-    private Category category;
+    private Category.DataBean category;
     ZLoadingDialog dialog = new ZLoadingDialog(this); //loading
     private int type;
     private String number;
@@ -365,7 +367,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private Service service;
     private String s;
     private RequestBody body;
-    private List<Category> categoryNewList = new ArrayList<>();
+    private List<Category.DataBean> categoryNewList = new ArrayList<>();
     private CategoryAdapter2 chooseAdapter2;
 
     @Override
@@ -1112,7 +1114,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         }
         if (requestCode == 100) {
             if (data != null) {
-                category = (Category) data.getSerializableExtra("type");
+                category = (Category.DataBean) data.getSerializableExtra("type");
                 if (category != null) {
                     mLlProduct.setVisibility(View.VISIBLE);
                     mTvBrand.setText(category.getBrandName());
@@ -1180,7 +1182,14 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 
     public void showPopWindowGetAddress(final TextView tv) {
 
-        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.address_pop, null);
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.address_pop, null); InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEtFaultDescription.getWindowToken() , 0);
+        imm.hideSoftInputFromWindow(mEtLogistics.getWindowToken() , 0);
+        imm.hideSoftInputFromWindow(mEtName.getWindowToken() , 0);
+        imm.hideSoftInputFromWindow(mEtPhone.getWindowToken() , 0);
+        imm.hideSoftInputFromWindow(mEtExpressno.getWindowToken() , 0);
+        imm.hideSoftInputFromWindow(mEtDetail.getWindowToken() , 0);
+        imm.hideSoftInputFromWindow(mEtRecoveryTime.getWindowToken() , 0);
         tv_province = contentView.findViewById(R.id.tv_province);
         tv_city = contentView.findViewById(R.id.tv_city);
         tv_area = contentView.findViewById(R.id.tv_area);
@@ -1239,7 +1248,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         MyUtils.setWindowAlpa(mActivity, true);
     }
 
-    public void showPopWindowGetCategory(final TextView tv, List<Category> categoryNewList) {
+    public void showPopWindowGetCategory(final TextView tv, List<Category.DataBean> categoryNewList) {
 
 //        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
 //        lv_popular = contentView.findViewById(R.id.lv_popular);
@@ -1895,7 +1904,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 if (addressList.size() != 0) {
                     for (int i = 0; i < addressList.size(); i++) {
                         if ("1".equals(addressList.get(i).getIsDefault())) {
-                            AddressBack = addressList.get(i).getAddress() + "(" + addressList.get(i).getUserName() + "收)" + addressList.get(i).getPhone();
+                            AddressBack =addressList.get(i).getProvince() + addressList.get(i).getCity() + addressList.get(i).getArea() + addressList.get(i).getDistrict()+ addressList.get(i).getAddress() + "(" + addressList.get(i).getUserName() + "收)" + addressList.get(i).getPhone();
                             mTvAddressback.setText(AddressBack);
                             mTvModify.setText("修改地址");
                         } else {
@@ -1917,10 +1926,10 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     }
 
     @Override
-    public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetBrandCategory(BaseResult<Data<Category>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                categoryNewList = baseResult.getData().getItem2();
+                categoryNewList = baseResult.getData().getItem2().getData();
                 if (categoryNewList.size() == 0) {
                     ToastUtils.showShort("无分类，请添加分类！");
                     startActivity(new Intent(mActivity, ModelActivity.class));

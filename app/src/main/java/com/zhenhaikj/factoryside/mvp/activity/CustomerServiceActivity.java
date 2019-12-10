@@ -140,8 +140,8 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
     Button mBtnAdd;
     private PopupWindow popupWindow;
     private List<Brand> brandList;
-    private List<Category> popularList;
-    private List<Category> chooseList;
+    private List<Category.DataBean> popularList;
+    private List<Category.DataBean> chooseList;
     private String Guarantee;//保内Y保外N
 
     private String userID;//用户id
@@ -690,9 +690,9 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                     tv.setText(BrandName);
                     mPresenter.GetChildFactoryCategory2(SubCategoryID);
                 }
-                if (list.get(position) instanceof Category) {
-                    TypeID = ((Category) list.get(position)).getFCategoryID();
-                    TypeName = ((Category) list.get(position)).getFCategoryName();
+                if (list.get(position) instanceof Category.DataBean) {
+                    TypeID = ((Category.DataBean) list.get(position)).getFCategoryID();
+                    TypeName = ((Category.DataBean) list.get(position)).getFCategoryName();
                     tv.setText(TypeName);
                 }
             }

@@ -107,9 +107,9 @@ public class AddBrandPresenter extends AddBrandContract.Presenter {
     @Override
     public void GetBrandCategory(String UserID) {
         mModel.GetBrandCategory(UserID)
-                .subscribe(new BaseObserver<Data<List<Category>>>() {
+                .subscribe(new BaseObserver<Data<Category>>() {
                     @Override
-                    protected void onHandleSuccess(BaseResult<Data<List<Category>>> value) {
+                    protected void onHandleSuccess(BaseResult<Data<Category>> value) {
                         mView.GetBrandCategory(value);
                     }
                 });

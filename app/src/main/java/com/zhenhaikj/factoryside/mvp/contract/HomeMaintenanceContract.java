@@ -77,7 +77,7 @@ public interface HomeMaintenanceContract {
 
         Observable<BaseResult<List<Address>>> GetAccountAddress(String UserId);
 
-        Observable<BaseResult<Data<List<Category>>>> GetBrandCategory(String UserID);
+        Observable<BaseResult<Data<Category>>> GetBrandCategory(String UserID);
 
         Observable<BaseResult<Data<List<GetCategory>>>> GetBrandWithCategory( String UserID, String BrandID);
 
@@ -110,7 +110,7 @@ public interface HomeMaintenanceContract {
 
         void GetAccountAddress(BaseResult<List<Address>> baseResult);
 
-        void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult);
+        void GetBrandCategory(BaseResult<Data<Category>> baseResult);
 
         void GetBrandWithCategory(BaseResult<Data<List<GetCategory>>> baseResult);
 

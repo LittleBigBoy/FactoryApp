@@ -77,7 +77,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     private AlertDialog alertDialog;
     private AlertDialog categoryDialog;
     private PopupWindow popupWindow;
-    private List<Category> categoryList;
+    private List<Category.DataBean> categoryList;
     private QMUIPopup qmuiPopup;
     private String categoryId;
     private String fBrandID;
@@ -293,7 +293,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     }
 
     @Override
-    public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetBrandCategory(BaseResult<Data<Category>> baseResult) {
 
     }
 

@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,7 +52,7 @@ public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBran
     RecyclerView mRlModel;
     @BindView(R.id.iv_add_model)
     ImageView mIvAddModel;
-    private List<Category> productTypeList;
+    private List<Category.DataBean> productTypeList;
     private TypeAdapter typeAdapter;
     private String userID;
     private String FProductTypeID;
@@ -84,7 +85,7 @@ public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBran
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent=new Intent(mActivity,HomeMaintenanceActivity2.class);
-                intent.putExtra("type",productTypeList.get(position));
+                intent.putExtra("type", (Parcelable) productTypeList.get(position));
                 setResult(100,intent);
                 finish();
             }
@@ -201,10 +202,10 @@ public class ModelChooseActivity extends BaseActivity<AddBrandPresenter, AddBran
     }
 
     @Override
-    public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetBrandCategory(BaseResult<Data<Category>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                productTypeList = baseResult.getData().getItem2();
+                productTypeList = baseResult.getData().getItem2().getData();
                 typeAdapter.setNewData(productTypeList);
                 break;
             default:

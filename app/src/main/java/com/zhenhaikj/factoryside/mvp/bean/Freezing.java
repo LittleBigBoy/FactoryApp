@@ -11,14 +11,14 @@ public class Freezing implements Serializable {
      * data : [{"Id":5074,"PayID":5074,"ItemID":10,"OrderID":2000002968,"PayTypeCode":"Account","PayName":"账户余额","UserID":"15757964771","State":"6","AccessoryState":null,"CreateTime":"2019-11-14T10:26:35","PayMoney":75,"TypeID":"1","ApplyNum":0,"QApplyNum":0,"IsUse":"Y","Relation":"61bb72af-b896-4445-949b-e4dd99cb5560","OrderAccessoryId":0,"page":0,"limit":0,"CreateTimeStart":null,"CreateTimeEnd":null,"Version":0}]
      */
 
-    private int Money;
+    private Double Money;
     private List<DataBean> data;
 
-    public int getMoney() {
+    public Double getMoney() {
         return Money;
     }
 
-    public void setMoney(int Money) {
+    public void setMoney(Double Money) {
         this.Money = Money;
     }
 

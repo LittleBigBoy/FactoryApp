@@ -208,7 +208,9 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("FactoryConfig/GetBrandCategory")
-    Observable<BaseResult<Data<List<Category>>>> GetBrandCategory(@Field("UserID") String UserID);
+    Observable<BaseResult<Data<Category>>> GetBrandCategory(@Field("UserID") String UserID,
+                                                                  @Field("page") String page,
+                                                                  @Field("limit") String limit);
 
 
     @POST("FactoryConfig/GetFactoryProducttype")

@@ -167,7 +167,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 break;
             case R.id.tv_agreement:
                 Intent intent=new Intent(mActivity,WebActivity.class);
-                intent.putExtra("Url","http://admin.xigyu.com/Agreement");
+                intent.putExtra("Url","https://admin.xigyu.com/message/FactoryAgreement");
                 intent.putExtra("title","用户协议");
                 startActivity(intent);
                 break;

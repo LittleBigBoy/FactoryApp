@@ -156,8 +156,8 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
 
     private PopupWindow popupWindow;
     private List<Brand> brandList;
-    private List<Category> popularList;
-    private List<Category> chooseList;
+    private List<Category.DataBean> popularList;
+    private List<Category.DataBean> chooseList;
     private String Guarantee;//保内Y保外N
     private String AccessorySendState;//是否已发配件 Y是N否
     private String Extra;//是否加急Y是N否
@@ -623,9 +623,9 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
                 popupWindow.dismiss();
             }
         });
-        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
+        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category.DataBean>() {
             @Override
-            public CharSequence getLabelText(TextView label, int position, Category data) {
+            public CharSequence getLabelText(TextView label, int position, Category.DataBean data) {
                 return data.getFCategoryName();
             }
         });
@@ -636,9 +636,9 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
             @Override
             public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
                 if (isSelect) {
-                    FCategoryID = ((Category) data).getId();
-                    CategoryName = ((Category) data).getFCategoryName();
-                    mPresenter.GetChildFactoryCategory(((Category) data).getId());
+                    FCategoryID = ((Category.DataBean) data).getId();
+                    CategoryName = ((Category.DataBean) data).getFCategoryName();
+                    mPresenter.GetChildFactoryCategory(((Category.DataBean) data).getId());
                 }
             }
         });
@@ -689,10 +689,10 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
 //                    ProductTypeName = null;
                     OrderMoney = null;
                 }
-                if (list.get(position) instanceof Category) {
-                    SubCategoryID = ((Category) list.get(position)).getFCategoryID();
-                    SubCategoryName = ((Category) list.get(position)).getFCategoryName();
-                    OrderMoney = ((Category) list.get(position)).getInitPrice();
+                if (list.get(position) instanceof Category.DataBean) {
+                    SubCategoryID = ((Category.DataBean) list.get(position)).getFCategoryID();
+                    SubCategoryName = ((Category.DataBean) list.get(position)).getFCategoryName();
+                    OrderMoney = ((Category.DataBean) list.get(position)).getInitPrice()+"";
                     tv.setText(SubCategoryName);
                     mTvChooseType.setText("");
 //                    mTvChooseProperty.setText("");

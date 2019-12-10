@@ -51,7 +51,7 @@ public class ModelActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     RecyclerView mRlModel;
     @BindView(R.id.iv_add_model)
     ImageView mIvAddModel;
-    private List<Category> productTypeList;
+    private List<Category.DataBean> productTypeList;
     private TypeAdapter typeAdapter;
     private String userID;
     private String FProductTypeID;
@@ -215,10 +215,10 @@ public class ModelActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     }
 
     @Override
-    public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetBrandCategory(BaseResult<Data<Category>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                productTypeList = baseResult.getData().getItem2();
+                productTypeList = baseResult.getData().getItem2().getData();
                 typeAdapter.setNewData(productTypeList);
                 break;
             default:

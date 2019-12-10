@@ -216,7 +216,7 @@ public class WalletActivity extends BaseActivity<WalletPresenter, WalletModel> i
 //                    mTvWatermelonBalance.setText("****");//西瓜币
                 } else {
                     flag = false;
-                    String format = String.format("%.2f", userInfo.getTotalMoney() - userInfo.getFrozenMoney());
+                    String format = String.format("%.2f", userInfo.getTotalMoney() - userInfo.getFrozenMoney()-userInfo.getDepositFrozenMoney());
                     mAvailableTv.setText(format + "");//钱包余额
 //                    mTvWatermelonBalance.setText("¥" + userInfo.getCon() + "");//西瓜币
                 }

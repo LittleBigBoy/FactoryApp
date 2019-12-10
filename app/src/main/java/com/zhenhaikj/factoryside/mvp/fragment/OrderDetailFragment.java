@@ -344,6 +344,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private Double freezingMoney;
     private ZLoadingDialog dialog ;
 
+    private long mLastClickTime = 0;
+    public static final long TIME_INTERVAL = 1000L;
+
+
     public static OrderDetailFragment newInstance(String param1, String param2) {
         OrderDetailFragment fragment = new OrderDetailFragment();
         Bundle args = new Bundle();
@@ -510,11 +514,20 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 btn_positive.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        expressno = et_expressno.getText().toString();
-                        if ("".equals(expressno)) {
-                            expressno = "123";
+                        long nowTime = System.currentTimeMillis();
+                        if (nowTime - mLastClickTime > TIME_INTERVAL) {
+                            // do something
+                            mLastClickTime = nowTime;
+                            expressno = et_expressno.getText().toString();
+                            if ("".equals(expressno)) {
+                                expressno = "123";
+                            }
+                            mPresenter.AddOrUpdateExpressNo(OrderID, expressno);
+
+                        } else {
+                            Toast.makeText(mActivity, "不要重复点击", Toast.LENGTH_SHORT).show();
                         }
-                        mPresenter.AddOrUpdateExpressNo(OrderID, expressno);
+
                     }
                 });
                 break;
@@ -1029,7 +1042,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
     @Override
     public void GetOrderInfo(BaseResult<WorkOrder.DataBean> baseResult) {
-        mRefreshLayout.finishRefresh();
+//        mRefreshLayout.finishRefresh();
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
@@ -1097,14 +1110,14 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 //                            mTvOrderMoney.setText("¥" + data.getOrderMoney() + "");
 //                        }
 //                    }
-                    if ("待接单".equals(data.getState())||"已接单待联系客户".equals(data.getState())){
+                    if ("待接单".equals(data.getState())||"已接单待联系客户".equals(data.getState())||"远程费审核".equals(data.getState())){
                         mLlContactCustomerService.setVisibility(View.VISIBLE);
                     }else {
                         mLlContactCustomerService.setVisibility(View.GONE);
                     }
 
                     if ("待接单".equals(data.getState()) || "已接单待联系客户".equals(data.getState()) || "已联系客户待服务".equals(data.getState()) || "远程费审核".equals(data.getState())) {
-                        Double Free = freezingMoney + Double.parseDouble(data.getBeyondMoney()) + Double.parseDouble(data.getExtraFee());
+                        Double Free = freezingMoney + Double.parseDouble(data.getBeyondMoney());
                         mTvOrderMoney.setText("¥" + Free);
                         mTvOrderName.setText("维修单预冻结费：");
                         mLlServiceMoney.setVisibility(View.GONE);
@@ -2095,7 +2108,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
             case 200:
                 if (baseResult.getData().isItem1()) {
                     if (baseResult.getData().getItem2() != null) {
-                        freezingMoney = baseResult.getData().getItem2().get(0).getMoney();
+                        freezingMoney = baseResult.getData().getItem2().get(0).getPayMoney();
                         mPresenter.GetOrderInfo(OrderID);
                     } else {
                         mPresenter.GetOrderInfo(OrderID);

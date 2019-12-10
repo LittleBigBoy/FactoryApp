@@ -78,8 +78,8 @@ public class AddBrandModel implements AddBrandContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<List<Category>>>> GetBrandCategory(String UserID) {
-        return ApiRetrofit.getDefault().GetBrandCategory(UserID)
+    public Observable<BaseResult<Data<Category>>> GetBrandCategory(String UserID) {
+        return ApiRetrofit.getDefault().GetBrandCategory(UserID,"1","999")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

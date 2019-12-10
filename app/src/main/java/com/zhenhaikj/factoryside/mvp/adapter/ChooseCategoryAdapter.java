@@ -10,7 +10,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Category;
 
 import java.util.List;
 
-public class ChooseCategoryAdapter extends BaseMultiItemQuickAdapter<Category, BaseViewHolder> {
+public class ChooseCategoryAdapter extends BaseMultiItemQuickAdapter<Category.DataBean, BaseViewHolder> {
 
     private TextView tv;
 
@@ -20,7 +20,7 @@ public class ChooseCategoryAdapter extends BaseMultiItemQuickAdapter<Category, B
      *
      * @param data A new list is created out of this one to avoid mutable list
      */
-    public ChooseCategoryAdapter(List<Category> data) {
+    public ChooseCategoryAdapter(List<Category.DataBean> data) {
         super(data);
         addItemType(0, R.layout.classify_item);
 //        addItemType(1, R.layout.second_category_item);
@@ -28,7 +28,7 @@ public class ChooseCategoryAdapter extends BaseMultiItemQuickAdapter<Category, B
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Category item) {
+    protected void convert(BaseViewHolder helper, Category.DataBean item) {
         switch(helper.getItemViewType()){
             case 0:
                 tv = helper.getView(R.id.tv);

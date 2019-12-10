@@ -83,14 +83,14 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     LinearLayout mLlChooseModel;
     private SPUtils spUtils;
     private String userID;
-    private List<Category> popularList;
+    private List<Category.DataBean> popularList;
     private RecyclerView lv_popular;
     private RecyclerView rv_choose;
     private ImageView iv_close;
     private String FCategoryID;
     private String CategoryName;
     private PopupWindow popupWindow;
-    private List<Category> chooseList;
+    private List<Category.DataBean> chooseList;
     private CategoryAdapter chooseAdapter;
     private String SubCategoryName;
     private String SubCategoryID;
@@ -365,7 +365,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
     }
 
     @Override
-    public void GetBrandCategory(BaseResult<Data<List<Category>>> baseResult) {
+    public void GetBrandCategory(BaseResult<Data<Category>> baseResult) {
 
     }
 
@@ -379,7 +379,7 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
 
     }
 
-    public void showPopWindowGetCategory(final TextView tv, List<Category> list) {
+    public void showPopWindowGetCategory(final TextView tv, List<Category.DataBean> list) {
 
         View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
         lv_popular = contentView.findViewById(R.id.lv_popular);
@@ -471,9 +471,9 @@ public class AddModelActivity extends BaseActivity<AddBrandPresenter, AddBrandMo
                     SubCategoryID = null;
                     SubCategoryName = null;
                 }
-                if (list.get(position) instanceof Category) {
-                    FProductTypeID= ((Category) list.get(position)).getFCategoryID();
-                    ProductTypeName = ((Category) list.get(position)).getFCategoryName();
+                if (list.get(position) instanceof Category.DataBean) {
+                    FProductTypeID= ((Category.DataBean) list.get(position)).getFCategoryID();
+                    ProductTypeName = ((Category.DataBean) list.get(position)).getFCategoryName();
                     tv.setText(ProductTypeName);
                 }
             }

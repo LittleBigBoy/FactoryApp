@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,6 +12,7 @@ import android.provider.ContactsContract;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -491,6 +493,10 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     public void showPopWindowGetAddress(final TextView tv) {
 
         View contentView = LayoutInflater.from(mActivity).inflate(R.layout.address_pop, null);
+        InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEtCellphoneNumber.getWindowToken() , 0);
+        imm.hideSoftInputFromWindow(mEtReceiver.getWindowToken() , 0);
+        imm.hideSoftInputFromWindow(mEtAddress.getWindowToken() , 0);
         tv_province = contentView.findViewById(R.id.tv_province);
         tv_city = contentView.findViewById(R.id.tv_city);
         tv_area = contentView.findViewById(R.id.tv_area);

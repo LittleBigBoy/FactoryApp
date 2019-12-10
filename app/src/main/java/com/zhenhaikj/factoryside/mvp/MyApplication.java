@@ -113,9 +113,10 @@ public class MyApplication extends MultiDexApplication {
         CrashReport.initCrashReport(context, "e1a0d72980", true, strategy);*/
 
 
-//        initUpgradeDialog();
+        initUpgradeDialog();
         Beta.canShowUpgradeActs.add(MainActivity.class);
-
+//        Beta.autoCheckUpgrade = true;
+//        Beta.enableNotification =true;
 
         // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
         // 调试时，将第三个参数改为true
@@ -241,7 +242,7 @@ public class MyApplication extends MultiDexApplication {
 
                 } else {
 //                    Log.e("bugly", "不需要更新,没有更新策略");
-                    ToastUtils.showShort("已经是最新版本");
+//                    ToastUtils.showShort("已经是最新版本");
                 }
             }
         };
@@ -274,78 +275,6 @@ public class MyApplication extends MultiDexApplication {
             }
         };
 
-//        Beta.upgradeDialogLayoutId = R.layout.dialog_update;
-////        Beta.tipsDialogLayoutId = R.layout.dialog_update;
-//        /*
-//         * 已经确认过的弹窗在APP下次启动自动检查更新时会再次显示;
-//         */
-//        Beta.showInterruptedStrategy = true;
-//
-//        Beta.enableNotification = false;
-//
-//        /*
-//         * 用于去除弹出的tips这里不是很需要 看你们具体的需求了啊
-//         */
-//        Beta.strToastYourAreTheLatestVersion = "";
-//        Beta.strToastCheckingUpgrade = "";
-//
-//        /*
-//         * 只允许在MainActivity上显示更新弹窗，其他activity上不显示弹窗; 不设置会默认所有activity都可以显示弹窗;
-//         */
-////        Beta.canShowUpgradeActs.add(MainActivity.class);
-//
-//        Beta.upgradeDialogLifecycleListener = new UILifecycleListener<UpgradeInfo>() {
-//            private String TAG;
-//
-//            @Override
-//            public void onCreate(Context context, View view, UpgradeInfo upgradeInfo) {
-//                Log.d(TAG, "onCreate");
-//                // 注：可通过这个回调方式获取布局的控件，如果设置了id，可通过findViewById方式获取，如果设置了tag，可以通过findViewWithTag，具体参考下面例子:
-//
-//                // 通过id方式获取控件，并更改imageview图片
-////                ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
-////                imageView.setImageResource(R.mipmap.ic_launcher);
-//
-//                // 通过tag方式获取控件，并更改布局内容
-////                TextView textView = (TextView) view.findViewWithTag("textview");
-////                textView.setText("my custom text");
-//
-//                // 更多的操作：比如设置控件的点击事件
-////                imageView.setOnClickListener(new View.OnClickListener() {
-////                    @Override
-////                    public void onClick(View v) {
-////                        Intent intent = new Intent(getApplicationContext(), OtherActivity.class);
-////                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-////                        startActivity(intent);
-////                    }
-////                });
-//            }
-//
-//            @Override
-//            public void onStart(Context context, View view, UpgradeInfo upgradeInfo) {
-//                Log.d(TAG, "onStart");
-//            }
-//
-//            @Override
-//            public void onResume(Context context, View view, UpgradeInfo upgradeInfo) {
-//                Log.d(TAG, "onResume");
-//            }
-//
-//            @Override
-//            public void onPause(Context context, View view, UpgradeInfo upgradeInfo) {
-//                Log.d(TAG, "onPause");
-//            }
-//
-//            @Override
-//            public void onStop(Context context, View view, UpgradeInfo upgradeInfo) {
-//                Log.d(TAG, "onStop");
-//            }
-//
-//            @Override
-//            public void onDestroy(Context context, View view, UpgradeInfo upgradeInfo) {
-//                Log.d(TAG, "onDestory");
-//            }
-//        };
 
     }
 }

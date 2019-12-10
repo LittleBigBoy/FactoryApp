@@ -169,7 +169,7 @@
         <activity android:name=".mvp.activity.AddAddressActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.RegisterNewActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.SubAccountManagementActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
-        <activity android:name=".mvp.activity.UpgradeActivity" android:screenOrientation="portrait"  android:launchMode="singleTask" android:windowSoftInputMode="stateHidden|adjustResize"
+        <activity android:name=".mvp.activity.UpgradeActivity"  android:launchMode="singleTask" android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/dialogstyle"></activity>
         <activity android:name=".mvp.activity.DetailRecordActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.AddCardActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>

@@ -15,7 +15,7 @@ public class CategoryData {
     private String code;
     private String msg;
     private String count;
-    private List<Category> data;
+    private List<Category.DataBean> data;
 
     public String getCode() {
         return code;
@@ -41,11 +41,11 @@ public class CategoryData {
         this.count = count;
     }
 
-    public List<Category> getData() {
-        return data==null?new ArrayList<Category>():data;
+    public List<Category.DataBean> getData() {
+        return data==null?new ArrayList<Category.DataBean>():data;
     }
 
-    public void setData(List<Category> data) {
+    public void setData(List<Category.DataBean> data) {
         this.data = data;
     }
 

@@ -9,13 +9,13 @@ import com.zhenhaikj.factoryside.mvp.bean.Category;
 
 import java.util.List;
 
-public class ChooseParentCategoryAdapter extends BaseQuickAdapter<Category, BaseViewHolder> {
-    public ChooseParentCategoryAdapter(int layoutResId, @Nullable List<Category> data) {
+public class ChooseParentCategoryAdapter extends BaseQuickAdapter<Category.DataBean, BaseViewHolder> {
+    public ChooseParentCategoryAdapter(int layoutResId, @Nullable List<Category.DataBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Category item) {
+    protected void convert(BaseViewHolder helper, Category.DataBean item) {
         helper.setText(R.id.tv_category,item.getFCategoryName());
     }
 }
