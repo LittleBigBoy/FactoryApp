@@ -251,33 +251,33 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
             public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
                 switch (view.getId()) {
                     case R.id.tv_complaint:
-                        complaint_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_complaint, null);
-                        title = complaint_view.findViewById(R.id.title);
-                        btn_negtive = complaint_view.findViewById(R.id.negtive);
-                        btn_positive = complaint_view.findViewById(R.id.positive);
-                        et_content = complaint_view.findViewById(R.id.et_content);
-                        title.setText("投诉");
-                        complaint_dialog = new AlertDialog.Builder(mActivity)
-                                .setView(complaint_view)
-                                .create();
-                        complaint_dialog.show();
-                        btn_negtive.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                complaint_dialog.dismiss();
-                            }
-                        });
-                        btn_positive.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                content = et_content.getText().toString().trim();
-                                if ("".equals(content)) {
-                                    MyUtils.showToast(mActivity, "请输入投诉原因");
-                                } else {
-                                    mPresenter.FactoryComplaint(workOrderList.get(position).getOrderID(), content);
-                                }
-                            }
-                        });
+//                        complaint_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_complaint, null);
+//                        title = complaint_view.findViewById(R.id.title);
+//                        btn_negtive = complaint_view.findViewById(R.id.negtive);
+//                        btn_positive = complaint_view.findViewById(R.id.positive);
+//                        et_content = complaint_view.findViewById(R.id.et_content);
+//                        title.setText("投诉");
+//                        complaint_dialog = new AlertDialog.Builder(mActivity)
+//                                .setView(complaint_view)
+//                                .create();
+//                        complaint_dialog.show();
+//                        btn_negtive.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                complaint_dialog.dismiss();
+//                            }
+//                        });
+//                        btn_positive.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                content = et_content.getText().toString().trim();
+//                                if ("".equals(content)) {
+//                                    MyUtils.showToast(mActivity, "请输入投诉原因");
+//                                } else {
+//                                    mPresenter.FactoryComplaint(workOrderList.get(position).getOrderID(), content);
+//                                }
+//                            }
+//                        });
                         break;
                     case R.id.tv_leave_message:
 

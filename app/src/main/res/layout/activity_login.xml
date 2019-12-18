@@ -139,6 +139,15 @@
                     android:layout_height="1dp"
                     android:background="@color/gray_three"/>
             </LinearLayout>
+            <TextView
+                android:id="@+id/tv_forgetpassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="忘记密码"
+                android:textSize="15sp"
+                android:layout_gravity="right"
+                android:layout_marginRight="20dp" />
             <Button
                 android:id="@+id/login"
                 android:layout_width="match_parent"

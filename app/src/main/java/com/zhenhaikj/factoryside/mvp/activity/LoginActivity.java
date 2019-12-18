@@ -1,6 +1,5 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,7 +16,6 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.tencent.android.tpush.XGPushConfig;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.MainActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
@@ -63,12 +61,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     TextView mTvChange;
     @BindView(R.id.ll_code)
     LinearLayout mLlCode;
+    @BindView(R.id.tv_forgetpassword)
+    TextView mTvForgetpassword;
     private String userName;
     private String passWord;
     private String code;
     private SPUtils spUtils;
     private boolean isLogin;
-    private int login_state=0;//默认为账号密码登陆
+    private int login_state = 0;//默认为账号密码登陆
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_login;
@@ -84,9 +85,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 //        mEtUsername.setText("admin");
 //        mEtPassword.setText("123");
         spUtils = SPUtils.getInstance("token");
-        userName=spUtils.getString("userName");
-        passWord=spUtils.getString("passWord");
-        isLogin =spUtils.getBoolean("isLogin");
+        userName = spUtils.getString("userName");
+        passWord = spUtils.getString("passWord");
+        isLogin = spUtils.getBoolean("isLogin");
         mEtUsername.setText(userName);
         mEtPassword.setText(passWord);
 //        if (userName!=null&&passWord!=null&&isLogin){
@@ -114,6 +115,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         mIvWeibo.setOnClickListener(this);
         mTvAgreement.setOnClickListener(this);
         mTvGetVerificationCode.setOnClickListener(this);
+        mTvForgetpassword.setOnClickListener(this);
         mCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -134,8 +136,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             case R.id.login:
                 userName = mEtUsername.getText().toString();
                 passWord = mEtPassword.getText().toString();
-                code=mEtVerificationCode.getText().toString();
-                if (login_state==0){
+                code = mEtVerificationCode.getText().toString();
+                if (login_state == 0) {
 
                     if ("".equals(userName)) {
                         ToastUtils.showShort("请输入手机号！");
@@ -150,7 +152,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                         return;
                     }
                     mPresenter.Login(userName, passWord);
-                }else {
+                } else {
                     if ("".equals(userName)) {
                         ToastUtils.showShort("请输入手机号！");
                         return;
@@ -160,35 +162,35 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                         ToastUtils.showShort("请输入验证码！");
                         return;
                     }
-                    mPresenter.LoginOnMessage(userName,code);
+                    mPresenter.LoginOnMessage(userName, code);
 
                 }
 //
                 break;
             case R.id.tv_agreement:
-                Intent intent=new Intent(mActivity,WebActivity.class);
-                intent.putExtra("Url","https://admin.xigyu.com/message/FactoryAgreement");
-                intent.putExtra("title","用户协议");
+                Intent intent = new Intent(mActivity, WebActivity.class);
+                intent.putExtra("Url", "https://admin.xigyu.com/message/FactoryAgreement");
+                intent.putExtra("title", "用户协议");
                 startActivity(intent);
                 break;
             case R.id.tv_register:
                 startActivity(new Intent(mActivity, RegisterNewActivity.class));
                 break;
             case R.id.tv_change:
-                if (mLlCode.getVisibility()==View.GONE){
+                if (mLlCode.getVisibility() == View.GONE) {
                     mLlCode.setVisibility(View.VISIBLE);
                     mLlPassword.setVisibility(View.GONE);
                     mTvChange.setText("密码登录>");
                     //状态为验证码登陆
-                    login_state=1;
+                    login_state = 1;
 
-                }else{
+                } else {
                     mLlCode.setVisibility(View.GONE);
                     mLlPassword.setVisibility(View.VISIBLE);
                     mTvChange.setText("短信验证码登录>");
-                    login_state=0;
+                    login_state = 0;
                 }
-                    break;
+                break;
             case R.id.iv_qq:
                 break;
             case R.id.iv_weixin:
@@ -197,16 +199,21 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 break;
             case R.id.tv_get_verification_code:
 
-                userName=mEtUsername.getText().toString();
-                if (userName.isEmpty()){
+                userName = mEtUsername.getText().toString();
+                if (userName.isEmpty()) {
                     ToastUtils.showShort("请输入手机号");
                     return;
                 }
-                if (!RegexUtils.isMobileExact(userName)){
+                if (!RegexUtils.isMobileExact(userName)) {
                     ToastUtils.showShort("手机格式不正确！");
                     return;
                 }
                 mPresenter.ValidateUserName(userName);
+                break;
+            case R.id.tv_forgetpassword:
+
+                startActivity(new Intent(mActivity, ForgetPasswordActivity.class));
+
                 break;
 
         }
@@ -216,16 +223,16 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     public void Login(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data<String> data=baseResult.getData();
-                if (data.isItem1()){
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
                     spUtils.put("adminToken", data.getItem2());
                     spUtils.put("userName", userName);
                     spUtils.put("passWord", passWord);
                     spUtils.put("isLogin", true);
-                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"6",userName);
+                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this), "6", userName);
                     startActivity(new Intent(mActivity, MainActivity.class));
                     finish();
-                }else{
+                } else {
                     ToastUtils.showShort(data.getItem2());
                 }
                 break;
@@ -249,10 +256,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     public void AddAndUpdatePushAccount(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data<String> data=baseResult.getData();
-                if (data.isItem1()){
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
 
-                }else{
+                } else {
                     ToastUtils.showShort(data.getItem2());
                 }
                 break;
@@ -261,14 +268,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void ValidateUserName(BaseResult<String> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if ("true".equals(baseResult.getData())){
+                if ("true".equals(baseResult.getData())) {
                     ToastUtils.showShort("手机号还未注册！");
-                }else {
-                    TimeCount timeCount=new TimeCount(60000,1000);
+                } else {
+                    TimeCount timeCount = new TimeCount(60000, 1000);
                     timeCount.start();
-                    mPresenter.GetCode(userName,"Login");
+                    mPresenter.GetCode(userName, "Login");
                 }
                 break;
             case 401:
@@ -286,16 +293,16 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     public void LoginOnMessage(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data<String> data=baseResult.getData();
-                if (data.isItem1()){
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
                     spUtils.put("adminToken", data.getItem2());
                     spUtils.put("userName", userName);
-                   // spUtils.put("passWord", passWord);
+                    // spUtils.put("passWord", passWord);
                     spUtils.put("isLogin", true);
-                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"6",userName);
+                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this), "6", userName);
                     startActivity(new Intent(mActivity, MainActivity.class));
                     finish();
-                }else{
+                } else {
                     ToastUtils.showShort(data.getItem2());
                 }
                 break;
@@ -321,16 +328,16 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
         @Override
         public void onTick(long millisUntilFinished) {
-            if (mTvGetVerificationCode==null){
+            if (mTvGetVerificationCode == null) {
                 return;
             }
             mTvGetVerificationCode.setClickable(false);
-            mTvGetVerificationCode.setText(millisUntilFinished/1000+"秒后重新获取");
+            mTvGetVerificationCode.setText(millisUntilFinished / 1000 + "秒后重新获取");
         }
 
         @Override
         public void onFinish() {
-            if (mTvGetVerificationCode==null){
+            if (mTvGetVerificationCode == null) {
                 return;
             }
             mTvGetVerificationCode.setText("重新获取验证码");

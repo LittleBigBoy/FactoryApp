@@ -14,6 +14,7 @@ import com.zhenhaikj.factoryside.mvp.bean.Category;
 import com.zhenhaikj.factoryside.mvp.bean.CategoryData;
 import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
+import com.zhenhaikj.factoryside.mvp.bean.ComplaintList;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.Data2;
 import com.zhenhaikj.factoryside.mvp.bean.DepositRecharge;
@@ -76,6 +77,7 @@ public interface ApiService {
     @POST("Account/LoginOnMessage")
     Observable<BaseResult<Data<String>>> LoginOnMessage(@Field("mobile") String mobile,
                                                         @Field("code") String code,
+                                                        @Field("type") String type,
                                                         @Field("roleType") String roleType);
 
     /**
@@ -97,6 +99,17 @@ public interface ApiService {
     Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(@Field("token") String token,
                                                                  @Field("type") String type,
                                                                  @Field("UserID") String UserID);
+
+
+    /*
+     * 忘记密码
+     * */
+    @FormUrlEncoded
+    @POST("Account/ForgetPassword")
+    Observable<BaseResult<Data<String>>> ForgetPassword(@Field("mobile") String mobile,
+                                                        @Field("type") String type,
+                                                        @Field("code") String code,
+                                                        @Field("password") String password);
 
     /**
      * app用户登录
@@ -209,8 +222,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("FactoryConfig/GetBrandCategory")
     Observable<BaseResult<Data<Category>>> GetBrandCategory(@Field("UserID") String UserID,
-                                                                  @Field("page") String page,
-                                                                  @Field("limit") String limit);
+                                                            @Field("page") String page,
+                                                            @Field("limit") String limit);
 
 
     @POST("FactoryConfig/GetFactoryProducttype")
@@ -497,13 +510,39 @@ public interface ApiService {
      *
      * @param OrderID 订单id
      * @param Content 投诉原因
-     * @return
+     * @return ComplaintType  w 师傅  p 用户 t 平台
      */
     @FormUrlEncoded
     @POST("Order/FactoryComplaint")
     Observable<BaseResult<Data<String>>> FactoryComplaint(
             @Field("OrderID") String OrderID,
-            @Field("Content") String Content
+            @Field("Content") String Content,
+            @Field("ComplaintType") String ComplaintType
+    );
+
+    @FormUrlEncoded
+    @POST("Order/FactoryComplaint")
+    Observable<BaseResult<Data<String>>> FactoryComplaint2(
+            @Field("OrderID") String OrderID,
+            @Field("Content") String Content,
+            @Field("ComplaintType") String ComplaintType,
+            @Field("Photo") String photo
+    );
+
+    /*
+     * 投诉图片
+     * */
+    @POST("Upload/ComPlaintImg")
+    Observable<BaseResult<Data<String>>> ComPlaintImg(@Body RequestBody json);
+
+    /*
+     *投诉详情
+     * */
+    @FormUrlEncoded
+    @POST("Order/GetComplaintListByOrderId")
+    Observable<BaseResult<List<ComplaintList>>> GetComplaintListByOrderId(
+            @Field("OrderId") String OrderId,
+            @Field("UserID") String UserID
     );
 
     /**
@@ -527,8 +566,8 @@ public interface ApiService {
     );
 
     /*
-    * 用户确认订单 结算
-    * */
+     * 用户确认订单 结算
+     * */
     @FormUrlEncoded
     @POST("Order/NowPayEnSureOrder")
     Observable<BaseResult<Data<String>>> NowPayEnSureOrder(
@@ -767,7 +806,8 @@ public interface ApiService {
     /*获取个人消息  1.交易消息类型  2.订单消息类型*/
     @FormUrlEncoded
 //    @POST("Cms/GetListmessageByType")//分页无效
-    @POST("Cms/GetmessageListByType")//分页有效
+    @POST("Cms/GetmessageListByType")
+//分页有效
     Observable<BaseResult<MessageData<List<Message>>>> GetMessageList(@Field("UserID") String UserID,
                                                                       @Field("Type") String Type,
                                                                       @Field("SubType") String SubType,
@@ -778,10 +818,11 @@ public interface ApiService {
     /*标记个人消息全部已读  1.交易消息类型  2.订单消息类型*/
     @FormUrlEncoded
 //    @POST("Cms/GetListmessageByType")//分页无效
-    @POST("Cms/AllRead")//分页有效
+    @POST("Cms/AllRead")
+//分页有效
     Observable<BaseResult<MessageData<List<Message>>>> AllRead(@Field("UserID") String UserID,
-                                                                      @Field("Type") String Type,
-                                                                      @Field("SubType") String SubType);
+                                                               @Field("Type") String Type,
+                                                               @Field("SubType") String SubType);
 
 
     /*更新消息状态点击后*/
@@ -1068,12 +1109,12 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/RechargeRecord")
     Observable<BaseResult<Data2<Recharge>>> RechargeRecord(@Field("UserID") String UserID,
-                                                                 @Field("CreateTimeStart") String CreateTimeStart,
-                                                                 @Field("CreateTimeEnd") String CreateTimeEnd,
-                                                                 @Field("StateName") String StateName,
-                                                                 @Field("State") String State,
-                                                                 @Field("page") String page,
-                                                                 @Field("limit") String limit);
+                                                           @Field("CreateTimeStart") String CreateTimeStart,
+                                                           @Field("CreateTimeEnd") String CreateTimeEnd,
+                                                           @Field("StateName") String StateName,
+                                                           @Field("State") String State,
+                                                           @Field("page") String page,
+                                                           @Field("limit") String limit);
 
 
     /*
@@ -1082,10 +1123,10 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/FreezingAmount")
     Observable<BaseResult<Data<Freezing>>> FreezingAmount(@Field("UserID") String UserID,
-                                                    @Field("CreateTimeStart") String CreateTimeStart,
-                                                    @Field("CreateTimeEnd") String CreateTimeEnd,
-                                                    @Field("page") String page,
-                                                    @Field("limit") String limit);
+                                                          @Field("CreateTimeStart") String CreateTimeStart,
+                                                          @Field("CreateTimeEnd") String CreateTimeEnd,
+                                                          @Field("page") String page,
+                                                          @Field("limit") String limit);
 
     /*
      * 冻结金额
@@ -1094,11 +1135,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Account/WorkOrderTime")
     Observable<BaseResult<Data<SingleQuantity>>> WorkOrderTime(@Field("UserID") String UserID,
-                                                         @Field("CreateTimeStart") String CreateTimeStart,
-                                                         @Field("CreateTimeEnd") String CreateTimeEnd,
-                                                         @Field("TypeID") String TypeID,
-                                                         @Field("page") String page,
-                                                         @Field("limit") String limit);
+                                                               @Field("CreateTimeStart") String CreateTimeStart,
+                                                               @Field("CreateTimeEnd") String CreateTimeEnd,
+                                                               @Field("TypeID") String TypeID,
+                                                               @Field("page") String page,
+                                                               @Field("limit") String limit);
 
 
     /*
@@ -1125,9 +1166,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("LeaveMessage/LeaveMessageWhetherLook")
     Observable<BaseResult<Data>> LeaveMessageWhetherLook(@Field("OrderID") String OrderID,
-                                                                            @Field("factoryIslook") String factoryIslook,
-                                                                            @Field("workerIslook") String workerIslook,
-                                                                            @Field("platformIslook") String platformIslook
+                                                         @Field("factoryIslook") String factoryIslook,
+                                                         @Field("workerIslook") String workerIslook,
+                                                         @Field("platformIslook") String platformIslook
 
     );
 

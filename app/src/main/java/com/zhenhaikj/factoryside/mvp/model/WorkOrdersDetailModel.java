@@ -122,8 +122,8 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> FactoryComplaint(String OrderID, String Content) {
-        return ApiRetrofit.getDefault().FactoryComplaint(OrderID, Content)
+    public Observable<BaseResult<Data<String>>> FactoryComplaint(String OrderID, String Content,String ComplaintType) {
+        return ApiRetrofit.getDefault().FactoryComplaint(OrderID, Content,ComplaintType)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

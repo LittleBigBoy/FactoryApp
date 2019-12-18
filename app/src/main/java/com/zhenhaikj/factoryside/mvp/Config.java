@@ -31,6 +31,7 @@ public class Config {
 //    public static final String URL = "http://47.96.126.145:8001/api/";//正式服
     public static final String URL_test = "http://42.51.69.35:8810/api/";//测试服
     public static final String HEAD_URL="https://img.xigyu.com/Pics/Avator/";//头像地址
+    public static final String ComPlaint_URL="https://img.xigyu.com/Pics/ComPlaint/";//投诉地址
     public static final String Leave_Message_URL="https://img.xigyu.com/Pics/LeaveMessageImg/";//留言地址
 
 

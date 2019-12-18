@@ -57,7 +57,7 @@ public class LoginModel implements LoginContract.Model {
 
     @Override
     public Observable<BaseResult<Data<String>>> LoginOnMessage(String mobile, String code) {
-        return ApiRetrofit.getDefault().LoginOnMessage(mobile,code,"6")
+        return ApiRetrofit.getDefault().LoginOnMessage(mobile,code,"3","6")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

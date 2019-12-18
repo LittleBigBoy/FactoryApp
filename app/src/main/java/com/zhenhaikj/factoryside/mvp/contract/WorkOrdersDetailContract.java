@@ -38,7 +38,7 @@ public interface WorkOrdersDetailContract {
                                                                                 String OrderAccessoryID);
         Observable<BaseResult<Data<String>>> NowEnSureOrder(String OrderID);
 
-        Observable<BaseResult<Data<String>>> FactoryComplaint(String OrderID, String Content);
+        Observable<BaseResult<Data<String>>> FactoryComplaint(String OrderID, String Content,String ComplaintType);
         Observable<BaseResult<Data<String>>> NowPayEnSureOrder(String OrderID, String PayPassword);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String UserId, String limit);
         Observable<BaseResult<Data<List<OrderFreezing>>>> getOrderFreezing(String OrderID);
@@ -109,7 +109,7 @@ public interface WorkOrdersDetailContract {
                                                                 String NewMoney,
                                                                 String OrderAccessoryID);
         public abstract void NowEnSureOrder(String OrderID);
-        public abstract void FactoryComplaint(String OrderID,String Content);
+        public abstract void FactoryComplaint(String OrderID,String Content,String ComplaintType);
         public abstract void NowPayEnSureOrder(String OrderID, String PayPassword);
         public abstract void GetUserInfoList(String UserId,String limit);
         public abstract void getOrderFreezing(String OrderID);

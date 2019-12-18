@@ -178,8 +178,8 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
     }
 
     @Override
-    public void FactoryComplaint(String OrderID, String Content) {
-        mModel.FactoryComplaint(OrderID, Content)
+    public void FactoryComplaint(String OrderID, String Content,String ComplaintType) {
+        mModel.FactoryComplaint(OrderID, Content,ComplaintType)
                 .subscribe(new BaseObserver<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {

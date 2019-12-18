@@ -18,6 +18,7 @@
         <item>送修单</item>
     </string-array>
     <string-array name="object">
+        <item>请选择</item>
         <item>师傅</item>
         <item>平台</item>
         <item>消费者</item>

@@ -361,33 +361,36 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
                 tabSelected(mReturnLogisticsTv);
                 break;
             case R.id.tv_save:
-                complaint_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_complaint, null);
-                title = complaint_view.findViewById(R.id.title);
-                btn_negtive = complaint_view.findViewById(R.id.negtive);
-                btn_positive = complaint_view.findViewById(R.id.positive);
-                et_content = complaint_view.findViewById(R.id.et_content);
-                title.setText("投诉");
-                complaint_dialog = new AlertDialog.Builder(mActivity)
-                        .setView(complaint_view)
-                        .create();
-                complaint_dialog.show();
-                btn_negtive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        complaint_dialog.dismiss();
-                    }
-                });
-                btn_positive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String content = et_content.getText().toString().trim();
-                        if ("".equals(content)) {
-                            MyUtils.showToast(mActivity, "请输入投诉原因");
-                        } else {
-                            mPresenter.FactoryComplaint(OrderId, content);
-                        }
-                    }
-                });
+                Intent intent=new Intent(mActivity,ComplaintActivity.class);
+                intent.putExtra("orderId",OrderId);
+                startActivity(intent);
+//                complaint_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_complaint, null);
+//                title = complaint_view.findViewById(R.id.title);
+//                btn_negtive = complaint_view.findViewById(R.id.negtive);
+//                btn_positive = complaint_view.findViewById(R.id.positive);
+//                et_content = complaint_view.findViewById(R.id.et_content);
+//                title.setText("投诉");
+//                complaint_dialog = new AlertDialog.Builder(mActivity)
+//                        .setView(complaint_view)
+//                        .create();
+//                complaint_dialog.show();
+//                btn_negtive.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        complaint_dialog.dismiss();
+//                    }
+//                });
+//                btn_positive.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        String content = et_content.getText().toString().trim();
+//                        if ("".equals(content)) {
+//                            MyUtils.showToast(mActivity, "请输入投诉原因");
+//                        } else {
+//                            mPresenter.FactoryComplaint(OrderId, content);
+//                        }
+//                    }
+//                });
 //                Intent intent=new Intent(mActivity,ComplaintActivity.class);
 //                intent.putExtra("orderId",OrderId);
 //                startActivity(intent);
