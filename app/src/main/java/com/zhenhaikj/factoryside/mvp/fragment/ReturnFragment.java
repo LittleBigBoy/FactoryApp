@@ -54,7 +54,7 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
     private ClipData myClip;
 
     private WorkOrder.DataBean data;
-    private List<Logistics> list = new ArrayList<>();
+    private List<Logistics.ExpressDetailListBean.DataBean> list = new ArrayList<>();
     private String mParam1;
     private String mParam2;
     private String orderId;
@@ -113,11 +113,11 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
     }
 
     @Override
-    public void GetExpressInfo(BaseResult<Data<List<Logistics>>> baseResult) {
+    public void GetExpressInfo(BaseResult<Data<Logistics>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().getItem2() != null) {
-                    list.addAll(baseResult.getData().getItem2());
+                if (baseResult.getData().getItem2().getExpressDetailList() != null) {
+                    list.addAll(baseResult.getData().getItem2().getExpressDetailList().getData());
                     adapter.setNewData(list);
                     cancleLoading();
                 }

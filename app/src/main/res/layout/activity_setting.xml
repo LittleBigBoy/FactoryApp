@@ -274,6 +274,40 @@
                 android:layout_marginTop="12dp"
                 android:background="#E4E4E4" />
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:orientation="horizontal"
+                android:paddingLeft="14dp"
+                android:paddingRight="28dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="工单条形码"
+                    android:textColor="#858585"
+                    android:textSize="14sp" />
+
+                <Switch
+                    android:id="@+id/switcher_work_order_barcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:switchMinWidth="2dp"
+                    android:thumb="@drawable/thumb"
+                    android:track="@drawable/track" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="15dp"
+                android:background="#E4E4E4" />
+
+            <LinearLayout
                 android:id="@+id/ll_clean"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

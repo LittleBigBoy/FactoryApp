@@ -219,6 +219,33 @@ public class WorkOrder implements Serializable {
         private String PartyNo;
         private String ExamineMoney;
         private String isOnLookMessage;
+        private String AgainMoney;
+        private String barCode;
+        private String barCodeIsNo;
+
+        public String getBarCode() {
+            return barCode;
+        }
+
+        public void setBarCode(String barCode) {
+            this.barCode = barCode;
+        }
+
+        public String getBarCodeIsNo() {
+            return barCodeIsNo;
+        }
+
+        public void setBarCodeIsNo(String barCodeIsNo) {
+            this.barCodeIsNo = barCodeIsNo;
+        }
+
+        public String getAgainMoney() {
+            return AgainMoney;
+        }
+
+        public void setAgainMoney(String againMoney) {
+            AgainMoney = againMoney;
+        }
 
         public String getIsOnLookMessage() {
             return isOnLookMessage;
@@ -694,6 +721,9 @@ public class WorkOrder implements Serializable {
                     break;
                 case "9":
                     status="远程费审核";
+                    break;
+                case "20":
+                    status="已接单待处理";
                     break;
             }
             return status;

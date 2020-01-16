@@ -1,8 +1,10 @@
 package com.zhenhaikj.factoryside.mvp.model;
 
+import com.huawei.hms.api.Api;
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.LoginContract;
 
 import io.reactivex.Observable;
@@ -67,4 +69,19 @@ public class LoginModel implements LoginContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> barCode(String UserID, String barCode) {
+        return ApiRetrofit.getDefault().barCode(UserID, barCode)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<UserInfo>> GetUserInfoList(String UserId, String limit) {
+        return ApiRetrofit.getDefault().GetUserInfoList(UserId,limit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
 }

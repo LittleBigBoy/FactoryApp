@@ -14,13 +14,13 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public class LogisticsAdapter extends BaseQuickAdapter<Logistics, LayoutParamsViewHolder> {
-    public LogisticsAdapter(int layoutResId, @Nullable List<Logistics> data) {
+public class LogisticsAdapter extends BaseQuickAdapter<Logistics.ExpressDetailListBean.DataBean, LayoutParamsViewHolder> {
+    public LogisticsAdapter(int layoutResId, @Nullable List<Logistics.ExpressDetailListBean.DataBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(LayoutParamsViewHolder helper, Logistics item) {
+    protected void convert(LayoutParamsViewHolder helper, Logistics.ExpressDetailListBean.DataBean item) {
         StringBuilder stringBuilder = new StringBuilder(item.getTime());
         String time = "" + stringBuilder.replace(10, 11, " "); //去掉T
         helper.setText(R.id.tv_status,item.getContent())

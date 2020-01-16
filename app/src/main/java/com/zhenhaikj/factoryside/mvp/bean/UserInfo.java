@@ -127,6 +127,15 @@ public class UserInfo implements Serializable {
         private int Version;
         private String Con;
         private String ServiceComplaintNum;
+        private String barCode;
+
+        public String getBarCode() {
+            return barCode;
+        }
+
+        public void setBarCode(String barCode) {
+            this.barCode = barCode;
+        }
 
         public String getServiceComplaintNum() {
             return ServiceComplaintNum;

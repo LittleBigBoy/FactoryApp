@@ -659,8 +659,8 @@ public interface ApiService {
      * @return
      */
     @FormUrlEncoded
-    @POST("Order/GetExpressInfo")
-    Observable<BaseResult<Data<List<Logistics>>>> GetExpressInfo(@Field("ExpressNo") String ExpressNo);
+    @POST("Mall/GetExpressInfo")
+    Observable<BaseResult<Data<Logistics>>> GetExpressInfo(@Field("ExpressNo") String ExpressNo);
 
     /*
      * 取消订单
@@ -1186,4 +1186,13 @@ public interface ApiService {
                                                                    @Field("page") String page
 
     );
+
+
+    /*
+     * 是否开启条形码
+     * */
+    @FormUrlEncoded
+    @POST("Account/barCode")
+    Observable<BaseResult<Data<String>>> barCode(@Field("UserID") String UserID,
+                                                 @Field("barCode") String barCode);
 }

@@ -18,6 +18,7 @@ import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.download.DownloadListener;
 import com.tencent.bugly.beta.download.DownloadTask;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.widget.MyProgress;
 import com.zhenhaikj.factoryside.mvp.widget.SaleProgressView;
 
 public class UpgradeActivity  extends Activity {
@@ -32,7 +33,7 @@ public class UpgradeActivity  extends Activity {
     int upgradeType = Beta.getUpgradeInfo().upgradeType;
     private SaleProgressView spv;
     private int fileSize;
-    private ProgressBar progress;
+    private MyProgress progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

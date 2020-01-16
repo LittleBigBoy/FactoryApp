@@ -14,12 +14,12 @@ import io.reactivex.Observable;
 
 public interface ExpressInfoContract {
     interface Model extends BaseModel{
-        Observable<BaseResult<Data<List<Logistics>>>> GetExpressInfo(String ExpressNo);
+        Observable<BaseResult<Data<Logistics>>> GetExpressInfo(String ExpressNo);
         Observable<BaseResult<WorkOrder.DataBean>> GetOrderInfo(String OrderID);
     }
 
     interface View extends BaseView{
-        void GetExpressInfo(BaseResult<Data<List<Logistics>>> baseResult);
+        void GetExpressInfo(BaseResult<Data<Logistics>> baseResult);
         void GetOrderInfo(BaseResult<WorkOrder.DataBean> baseResult);
     }
 

@@ -91,8 +91,8 @@ public class ArticleActivity extends BaseActivity<ArticlePresenter, ArticleModel
                 articleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        Intent intent=new Intent(mActivity,WebActivity.class);
-                        intent.putExtra("Url",list.get(position).getUrl());
+                        Intent intent=new Intent(mActivity,WebActivity2.class);
+                        intent.putExtra("Url",list.get(position).getContent());
                         intent.putExtra("title",list.get(position).getTitle());
                         startActivity(intent);
                     }

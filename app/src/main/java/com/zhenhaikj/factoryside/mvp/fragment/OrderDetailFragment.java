@@ -152,6 +152,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     TextView mTvAbolition;
     @BindView(R.id.tv_close)
     TextView mTvClose;
+    @BindView(R.id.tv_bar)
+    TextView mTvBar;
+    @BindView(R.id.ll_bar)
+    LinearLayout mLlBar;
 
     private String mParam1;
     private String mParam2;
@@ -342,7 +346,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private BottomSheetDialog bottomSheetDialog;
     private int state;//-1拒绝，1厂家寄件，2师傅寄件同意
     private Double freezingMoney;
-    private ZLoadingDialog dialog ;
+    private ZLoadingDialog dialog;
 
     private long mLastClickTime = 0;
     public static final long TIME_INTERVAL = 1000L;
@@ -1110,9 +1114,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 //                            mTvOrderMoney.setText("¥" + data.getOrderMoney() + "");
 //                        }
 //                    }
-                    if ("待接单".equals(data.getState())||"已接单待联系客户".equals(data.getState())||"远程费审核".equals(data.getState())){
+                    if ("待接单".equals(data.getState()) || "已接单待联系客户".equals(data.getState()) || "远程费审核".equals(data.getState())) {
                         mLlContactCustomerService.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         mLlContactCustomerService.setVisibility(View.GONE);
                     }
 
@@ -1127,9 +1131,18 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         Double servicemoney = Double.parseDouble(data.getExamineMoney()) - Double.parseDouble(data.getBeyondMoney()) - Double.parseDouble(data.getExtraFee()) - Double.parseDouble(data.getPostMoney());
                         mTvServiceMoney.setText("¥" + servicemoney);
                     } else {
-                        mTvOrderMoney.setText("¥" + data.getOrderMoney() + "");
-                        mLlServiceMoney.setVisibility(View.VISIBLE);
-                        mTvServiceMoney.setText("¥" + money);
+                        if ("已完成".equals(data.getState())) {
+                            mTvOrderMoney.setText("¥" + data.getOrderMoney() + "");
+                            mLlServiceMoney.setVisibility(View.VISIBLE);
+                            mTvServiceMoney.setText("¥" + money);
+                        } else {
+                            Double orderMoney = Double.parseDouble(data.getOrderMoney()) - Double.parseDouble(data.getAgainMoney());
+                            Double serviceMoney = money - Double.parseDouble(data.getAgainMoney());
+                            mTvOrderMoney.setText("¥" + orderMoney + "");
+                            mLlServiceMoney.setVisibility(View.VISIBLE);
+                            mTvServiceMoney.setText("¥" + serviceMoney);
+                        }
+
                     }
                 }
 
@@ -1645,6 +1658,12 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                         mLlMessage.setVisibility(View.VISIBLE);
                         mTvMessage.setText(data.getEndRemark());
                     }
+                    if ("1".equals(data.getBarCodeIsNo())) {
+                        mLlBar.setVisibility(View.VISIBLE);
+                        mTvBar.setText(data.getBarCode());
+                    }else {
+                        mLlBar.setVisibility(View.GONE);
+                    }
                     if ("1".equals(data.getTypeID()) || "3".equals(data.getTypeID())) {//维修
                         List<String> list = new ArrayList<>();
                         for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
@@ -1722,6 +1741,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     mLlApplyCustomService.setVisibility(View.GONE);
                     mLlConfirm.setVisibility(View.GONE);
                     mLlMessage.setVisibility(View.GONE);
+                    mLlBar.setVisibility(View.GONE);
                 }
                 if (data.getSendOrderList().size() != 0) {
                     if ("".equals(data.getSendOrderList().get(0).getServiceDate())) {
@@ -1796,13 +1816,13 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     public void ApplyCustomService(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().isItem1()){
+                if (baseResult.getData().isItem1()) {
                     ToastUtils.showShort("发起质保成功！");
                     EventBus.getDefault().post("质保单");
                     EventBus.getDefault().post("已完成");
                     EventBus.getDefault().post(9);
                     mActivity.finish();
-                }else {
+                } else {
                     ToastUtils.showShort(baseResult.getData().getItem2());
                 }
 
@@ -2193,7 +2213,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         }
     }
 
-    public void showLoading(){
+    public void showLoading() {
         dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
                 .setLoadingColor(Color.BLACK)//颜色
                 .setHintText("请稍后...")
@@ -2204,7 +2224,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 .show();
     }
 
-    public void cancleLoading(){
+    public void cancleLoading() {
         dialog.dismiss();
     }
 }

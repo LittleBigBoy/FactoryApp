@@ -64,8 +64,11 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
                helper.setText(R.id.tv_cost,"上门检测");
            }else if ("待审核".equals(item.getState())){
                helper.setText(R.id.tv_cost,"¥" + item.getExamineMoney());
-           }else {
+           }else if ("已完成".equals(item.getState())){
                helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney());
+           } else {
+                Double money=Double.parseDouble(item.getOrderMoney())-Double.parseDouble(item.getAgainMoney());
+               helper.setText(R.id.tv_cost,"¥" + String.format("%.2f",money));
            }
         }
 

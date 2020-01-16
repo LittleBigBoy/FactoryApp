@@ -27,6 +27,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.LoginContract;
 import com.zhenhaikj.factoryside.mvp.model.LoginModel;
 import com.zhenhaikj.factoryside.mvp.presenter.LoginPresenter;
@@ -78,6 +79,8 @@ public class SettingActivity extends BaseActivity<LoginPresenter, LoginModel> im
     Switch mSwitcherAllowOrder;
     @BindView(R.id.ll_safety)
     LinearLayout mLlSafety;
+    @BindView(R.id.switcher_work_order_barcode)
+    Switch mSwitcherWorkOrderBarcode;
     private List<Address> billList = new ArrayList<>();
     private List<Address> rechargeRecordList = new ArrayList<>();
     private BillAdapter billAdapter;
@@ -121,6 +124,7 @@ public class SettingActivity extends BaseActivity<LoginPresenter, LoginModel> im
         mTvTitle.setText("设置");
         spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
+        mPresenter.GetUserInfoList(userId,"1");
     }
 
     @Override
@@ -130,6 +134,7 @@ public class SettingActivity extends BaseActivity<LoginPresenter, LoginModel> im
         mBtnSignOutOfYourAccount.setOnClickListener(this);
         mLlUpdate.setOnClickListener(this);
         mLlSafety.setOnClickListener(this);
+        mSwitcherWorkOrderBarcode.setOnClickListener(this);
     }
 
 
@@ -177,7 +182,14 @@ public class SettingActivity extends BaseActivity<LoginPresenter, LoginModel> im
                 Beta.checkUpgrade();
                 break;
             case R.id.ll_safety:
-                startActivity(new Intent(mActivity,AccountAndSecurityActivity.class));
+                startActivity(new Intent(mActivity, AccountAndSecurityActivity.class));
+                break;
+            case R.id.switcher_work_order_barcode:
+                if (mSwitcherWorkOrderBarcode.isChecked()){
+                    mPresenter.barCode(userId,"1");
+                }else {
+                    mPresenter.barCode(userId,"0");
+                }
                 break;
         }
     }
@@ -267,6 +279,24 @@ public class SettingActivity extends BaseActivity<LoginPresenter, LoginModel> im
                 break;
 
             default:
+                break;
+        }
+    }
+
+    @Override
+    public void barCode(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if ("1".equals(baseResult.getData().getData().get(0).getBarCode())){
+                    mSwitcherWorkOrderBarcode.setChecked(true);
+                }else{
+                    mSwitcherWorkOrderBarcode.setChecked(false);
+                }
                 break;
         }
     }

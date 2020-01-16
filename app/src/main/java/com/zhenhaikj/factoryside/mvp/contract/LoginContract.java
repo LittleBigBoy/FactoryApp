@@ -7,6 +7,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.base.BaseView;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
+import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -22,7 +23,8 @@ public interface LoginContract {
         Observable<BaseResult<Data<String>>> GetCode(String mobile,String type);
         Observable<BaseResult<Data<String>>> LoginOnMessage(String mobile,String code);
         Observable<BaseResult<Data<String>>> LoginOut(String UserID);
-
+        Observable<BaseResult<Data<String>>> barCode(String UserID,String barCode);
+        Observable<BaseResult<UserInfo>> GetUserInfoList(String UserId, String limit);
     }
 
     interface View extends BaseView {
@@ -33,6 +35,8 @@ public interface LoginContract {
         void GetCode(BaseResult<Data<String>> baseResult);
         void LoginOnMessage(BaseResult<Data<String>> baseResult);
         void LoginOut(BaseResult<Data<String>> baseResult);
+        void barCode(BaseResult<Data<String>> baseResult);
+        void GetUserInfoList(BaseResult<UserInfo> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -44,5 +48,7 @@ public interface LoginContract {
         public abstract void GetCode(String mobile,String type);
         public abstract void LoginOnMessage(String mobile,String code);
         public abstract void LoginOut(String UserID);
+        public abstract void barCode(String UserID,String barCode);
+        public abstract void GetUserInfoList(String UserId,String limit);
     }
 }

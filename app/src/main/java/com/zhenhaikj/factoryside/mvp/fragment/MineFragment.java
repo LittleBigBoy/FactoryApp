@@ -154,6 +154,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     LinearLayout mLlAbout;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.ll_upload_video)
+    LinearLayout mLlUploadVideo;
 
 
     private String mParam1;
