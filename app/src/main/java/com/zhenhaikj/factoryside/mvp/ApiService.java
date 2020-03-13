@@ -645,7 +645,7 @@ public interface ApiService {
      * @return
      */
     @FormUrlEncoded
-    @POST("Order/AddOrUpdateExpressNo")
+    @POST("Order/NewAddOrUpdateExpressNo")
     Observable<BaseResult<Data<String>>> AddOrUpdateExpressNo(
             @Field("OrderID") String OrderID,
             @Field("ExpressNo") String ExpressNo

@@ -7,10 +7,10 @@ android {
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.zhenhaikj.factoryside"
-        minSdkVersion 17
+        minSdkVersion 16
         targetSdkVersion 29
-        versionCode 48
-        versionName "2.1.0"
+        versionCode 49
+        versionName "2.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -27,7 +27,11 @@ android {
                 XG_ACCESS_ID:"2100325416",
                 XG_ACCESS_KEY : "A4353PG3XBDA",
                 HW_APPID: "100606023",
-                PACKAGE_NAME:"com.zhenhaikj.factoryside"
+                PACKAGE_NAME:"com.zhenhaikj.factoryside",
+
+                JPUSH_PKGNAME : "com.zhenhaikj.factoryside",
+                JPUSH_APPKEY : "8d0ccf1152ef5e9851aa9d3d", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
         ]
     }
 
@@ -229,4 +233,7 @@ dependencies {
 
     //Zloading加载动画
     implementation 'com.zyao89:zloading:1.2.0'
+
+    implementation 'cn.jiguang.sdk:jpush:3.5.6'  // 此处以JPush 3.5.6 版本为例。
+    implementation 'cn.jiguang.sdk:jcore:2.2.8'  // 此处以JCore 2.2.8 版本为例。
 }

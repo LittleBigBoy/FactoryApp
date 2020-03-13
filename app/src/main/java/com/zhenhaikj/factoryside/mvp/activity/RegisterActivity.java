@@ -27,6 +27,7 @@ import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 import com.zhenhaikj.factoryside.mvp.widget.CommonDialog_Home;
 
 import butterknife.BindView;
+import cn.jpush.android.api.JPushInterface;
 
 public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterModel> implements View.OnClickListener, RegisterContract.View {
 
@@ -204,7 +205,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                     spUtils.put("userName", userName);
                     spUtils.put("passWord", passWord);
                     spUtils.put("isLogin", true);
-                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"6",userName);
+                    mPresenter.AddAndUpdatePushAccount(JPushInterface.getRegistrationID(this),"6",userName);
                     startActivity(new Intent(mActivity, MainActivity.class));
                     finish();
                 }else{

@@ -30,6 +30,7 @@ import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.jpush.android.api.JPushInterface;
 
 public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> implements View.OnClickListener, LoginContract.View {
 
@@ -230,7 +231,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                     spUtils.put("userName", userName);
                     spUtils.put("passWord", passWord);
                     spUtils.put("isLogin", true);
-                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this), "6", userName);
+                    mPresenter.AddAndUpdatePushAccount(JPushInterface.getRegistrationID(this), "6", userName);
                     startActivity(new Intent(mActivity, MainActivity.class));
                     finish();
                 } else {
@@ -276,7 +277,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 } else {
                     TimeCount timeCount = new TimeCount(60000, 1000);
                     timeCount.start();
-                    mPresenter.GetCode(userName, "Login");
+                    mPresenter.GetCode(userName, "3");
                 }
                 break;
             case 401:
@@ -300,7 +301,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                     spUtils.put("userName", userName);
                     // spUtils.put("passWord", passWord);
                     spUtils.put("isLogin", true);
-                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this), "6", userName);
+                    mPresenter.AddAndUpdatePushAccount(JPushInterface.getRegistrationID(this), "6", userName);
                     startActivity(new Intent(mActivity, MainActivity.class));
                     finish();
                 } else {

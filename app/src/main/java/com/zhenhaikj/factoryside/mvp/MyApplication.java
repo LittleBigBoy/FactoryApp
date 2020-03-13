@@ -45,6 +45,8 @@ import java.io.IOException;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * 描述：
  * 作者：HMY
@@ -100,6 +102,8 @@ public class MyApplication extends MultiDexApplication {
         XGPushManager.bindAccount(getApplicationContext(), "XINGE");
         XGPushManager.setTag(this,"XINGE");
 
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
 
         /*Context context = getApplicationContext();
 // 获取当前包名

@@ -65,6 +65,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.jpush.android.api.JPushInterface;
 
 
 public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, WorkOrdersDetailModel> implements View.OnClickListener, ViewPager.OnPageChangeListener, WorkOrdersDetailContract.View {
@@ -221,24 +222,51 @@ public class WarrantyActivity extends BaseActivity<WorkOrdersDetailPresenter, Wo
         mTvSave.setVisibility(View.VISIBLE);
         mTvSave.setText("投诉");
         //this必须为点击消息要跳转到页面的上下文。
-        clickedResult = XGPushManager.onActivityStarted(this);
-        if (clickedResult != null) {
-            //获取消息附近参数
-            String ster = clickedResult.getCustomContent();
-            try {
-                JSONObject jsonObject = new JSONObject(ster);
-                OrderId = jsonObject.getString("OrderID");
-            } catch (JSONException e) {
-                e.printStackTrace();
+//        clickedResult = XGPushManager.onActivityStarted(this);
+//        if (clickedResult != null) {
+//            //获取消息附近参数
+//            String ster = clickedResult.getCustomContent();
+//            try {
+//                JSONObject jsonObject = new JSONObject(ster);
+//                OrderId = jsonObject.getString("OrderID");
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+////获取消息标题
+////            String set = clickedResult.getTitle();
+////获取消息内容
+////            String s = clickedResult.getContent();
+//        } else {
+//            OrderId = getIntent().getStringExtra("OrderID");
+//        }
+        Intent intent = getIntent();
+        if (null != intent) {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                String title = null;
+                String content = null;
+                if (bundle != null) {
+                    title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
+                    if (title != null) {
+                        content = bundle.getString(JPushInterface.EXTRA_ALERT);
+                        content = bundle.getString(JPushInterface.EXTRA_EXTRA);
+                        try {
+                            JSONObject jsonObject = new JSONObject(content);
+                            OrderId = jsonObject.getString("OrderId");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        OrderId = getIntent().getStringExtra("OrderID");
+                    }
+                }
+            } else {
+                OrderId = getIntent().getStringExtra("OrderID");
             }
-//获取消息标题
-//            String set = clickedResult.getTitle();
-//获取消息内容
-//            String s = clickedResult.getContent();
+
         } else {
             OrderId = getIntent().getStringExtra("OrderID");
         }
-
         mPresenter.GetOrderInfo(OrderId);
 //        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
 //            @Override
