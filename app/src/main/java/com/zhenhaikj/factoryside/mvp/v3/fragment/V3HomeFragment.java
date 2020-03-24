@@ -2,10 +2,12 @@ package com.zhenhaikj.factoryside.mvp.v3.fragment;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,10 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
+import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
 import com.zhenhaikj.factoryside.mvp.activity.CustomerServiceActivity;
 import com.zhenhaikj.factoryside.mvp.activity.ExcelOrderActivity;
@@ -29,11 +34,13 @@ import com.zhenhaikj.factoryside.mvp.activity.WebActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
+import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
-import com.zhenhaikj.factoryside.mvp.fragment.HomeFragment;
 import com.zhenhaikj.factoryside.mvp.v3.mvp.contract.HomeContract;
 import com.zhenhaikj.factoryside.mvp.v3.mvp.model.HomeModel;
 import com.zhenhaikj.factoryside.mvp.v3.mvp.presenter.HomePresenter;
+import com.zhenhaikj.factoryside.mvp.widget.GlideCircleWithBorder;
 import com.zhenhaikj.factoryside.mvp.widget.SwitchView;
 import com.zhenhaikj.factoryside.mvp.widget.VerifiedDialog;
 
@@ -42,7 +49,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> implements HomeContract.View {
+public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> implements HomeContract.View, View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.iv_red)
@@ -59,10 +66,60 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
     ImageView mIvMore;
     @BindView(R.id.rv_common_menu)
     RecyclerView mRvCommonMenu;
+    @BindView(R.id.iv_avatar)
+    ImageView mIvAvatar;
+    @BindView(R.id.tv_name)
+    TextView mTvName;
+    @BindView(R.id.tv_phone)
+    TextView mTvPhone;
+    @BindView(R.id.tv_pending_review)
+    TextView mTvPendingReview;
+    @BindView(R.id.ll_pending_review)
+    LinearLayout mLlPendingReview;
+    @BindView(R.id.tv_pending)
+    TextView mTvPending;
+    @BindView(R.id.ll_pending)
+    LinearLayout mLlPending;
+    @BindView(R.id.tv_paid)
+    TextView mTvPaid;
+    @BindView(R.id.ll_paid)
+    LinearLayout mLlPaid;
+    @BindView(R.id.tv_completed)
+    TextView mTvCompleted;
+    @BindView(R.id.ll_completed)
+    LinearLayout mLlCompleted;
+    @BindView(R.id.tv_pending_orders)
+    TextView mTvPendingOrders;
+    @BindView(R.id.ll_pending_orders)
+    LinearLayout mLlPendingOrders;
+    @BindView(R.id.tv_received_work_order)
+    TextView mTvReceivedWorkOrder;
+    @BindView(R.id.ll_received_work_order)
+    LinearLayout mLlReceivedWorkOrder;
+    @BindView(R.id.tv_star_ticket)
+    TextView mTvStarTicket;
+    @BindView(R.id.ll_star_ticket)
+    LinearLayout mLlStarTicket;
+    @BindView(R.id.tv_returned)
+    TextView mTvReturned;
+    @BindView(R.id.ll_returned)
+    LinearLayout mLlReturned;
+    @BindView(R.id.tv_warranty_work_order)
+    TextView mTvWarrantyWorkOrder;
+    @BindView(R.id.ll_warranty_work_order)
+    LinearLayout mLlWarrantyWorkOrder;
+    @BindView(R.id.tv_returned_work_order)
+    TextView mTvReturnedWorkOrder;
+    @BindView(R.id.ll_returned_work_order)
+    LinearLayout mLlReturnedWorkOrder;
+    @BindView(R.id.tv_close)
+    TextView mTvClose;
+    @BindView(R.id.ll_close)
+    LinearLayout mLlClose;
     private String mParam1;
     private String mParam2;
     private List<MenuItem2> mMainMenus = new ArrayList<>();
-    private ArrayList<MenuItem> mCommonMenus=new ArrayList<>();
+    private ArrayList<MenuItem> mCommonMenus = new ArrayList<>();
     private Integer[] icons = new Integer[]{
             R.mipmap.one_bg, R.mipmap.two_bg, R.mipmap.three_bg, R.mipmap.four_bg, R.drawable.yuanchengfei, R.drawable.suoyou1,
             R.drawable.daijiedan, R.drawable.yijiedan, R.drawable.daishenhe, R.drawable.daijijian, R.drawable.daizhifu, R.drawable.yiwanjie, R.drawable.zhibao
@@ -70,12 +127,12 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
 
     private Integer[] icons_content = new Integer[]{
             R.mipmap.one, R.mipmap.two, R.mipmap.three, R.mipmap.four,
-             R.drawable.waiting_order, R.drawable.finished, R.drawable.accessory_list, R.drawable.to_be_paid,
+            R.drawable.waiting_order, R.drawable.finished, R.drawable.accessory_list, R.drawable.to_be_paid,
             R.drawable.yuanchengfei, R.drawable.undone, R.drawable.leave_a_message
     };
     private String[] names = new String[]{
             "发布安装", "发布维修", "发布送修", "批量发单",
-            "待接单",  "待审核", "待寄件", "待支付", "质保单", "退单处理"
+            "待接单", "待审核", "待寄件", "待支付", "质保单", "退单处理"
     };
     private MenuAdapter2 mMainAdapter;
     private Intent intent;
@@ -89,6 +146,7 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
     private int i = 0;
     private MenuAdapter mCommonAdapter;
     private Bundle bundle;
+    private CompanyInfo companyDean;
 
     public static V3HomeFragment newInstance(String param1, String param2) {
         V3HomeFragment fragment = new V3HomeFragment();
@@ -258,7 +316,16 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
 
     @Override
     protected void setListener() {
+        mLlPending.setOnClickListener(this);
+    }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.ll_pending:
+
+                break;
+        }
     }
 
     @Override
@@ -266,6 +333,20 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
         switch (baseResult.getStatusCode()) {
             case 200:
                 userInfoDean = baseResult.getData().getData().get(0);
+                RequestOptions myOptions = new RequestOptions().transform(new GlideCircleWithBorder(mActivity, 2, Color.parseColor("#DCDCDC")));
+                Glide.with(mActivity)
+                        .load(Config.HEAD_URL + userInfoDean.getAvator())
+                        .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                        .apply(myOptions)
+                        .into(mIvAvatar);
+//                mTvName.setText(userInfoDean.getNickName());
+                String maskNumber = userInfoDean.getUserID().substring(0,3)+"****"+userInfoDean.getUserID().substring(7,userInfoDean.getUserID().length());
+                mTvPhone.setText(maskNumber);
+                if ("1".equals(userInfoDean.getIfAuth())) {
+                    mPresenter.GetmessageBytype(userId);
+                }else {
+                    mTvName.setText("未实名");
+                }
                 break;
         }
     }
@@ -306,6 +387,27 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
                 break;
         }
     }
+
+    @Override
+    public void GetmessageBytype(BaseResult<Data<CompanyInfo>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().isItem1()) {
+                    companyDean = baseResult.getData().getItem2();
+                    if ("1".equals(companyDean.getIfAuth())) {
+                        mTvName.setText(companyDean.getCompanyName());
+                    } else {
+                        mTvName.setText("未实名");
+                    }
+                } else {
+                    mTvName.setText("未实名");
+                }
+
+                break;
+        }
+    }
+
+
 
     public class MenuItem2 {
         Integer icon;

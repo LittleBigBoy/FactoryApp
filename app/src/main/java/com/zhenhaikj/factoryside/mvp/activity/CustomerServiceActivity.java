@@ -21,6 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.baidu.aip.asrwakeup3.core.recog.MyRecognizer;
 import com.baidu.aip.asrwakeup3.core.recog.listener.ChainRecogListener;
 import com.baidu.aip.asrwakeup3.core.recog.listener.IRecogListener;
@@ -33,7 +38,6 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.donkingliang.labels.LabelsView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.AreaAdapter;
@@ -60,6 +64,7 @@ import com.zhenhaikj.factoryside.mvp.model.CustomerServiceModel;
 import com.zhenhaikj.factoryside.mvp.presenter.CustomerServicePresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.utils.SingleClick;
+import com.zhenhaikj.factoryside.mvp.widget.AdderView;
 import com.zhenhaikj.factoryside.mvp.widget.RecyclerViewDivider;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
@@ -68,10 +73,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -136,8 +137,16 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
     EditText mEtRecoveryTime;
     @BindView(R.id.et_fault_description)
     EditText mEtFaultDescription;
-    @BindView(R.id.btn_add)
-    Button mBtnAdd;
+    @BindView(R.id.addview)
+    AdderView mAddview;
+    @BindView(R.id.iv_microphone_one)
+    ImageView mIvMicrophoneOne;
+    @BindView(R.id.ll_microphone_one)
+    LinearLayout mLlMicrophoneOne;
+    @BindView(R.id.btn_sure)
+    Button mBtnSure;
+
+
     private PopupWindow popupWindow;
     private List<Brand> brandList;
     private List<Category.DataBean> popularList;
@@ -210,7 +219,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
-//        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
         mImmersionBar.statusBarView(mView);
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
@@ -252,7 +261,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
         mTvChooseCategory.setOnClickListener(this);
         mTvChooseType.setOnClickListener(this);
         mTvAddress.setOnClickListener(this);
-        mBtnAdd.setOnClickListener(this);
+        mBtnSure.setOnClickListener(this);
         mLlUnderWarranty.setOnClickListener(this);
         mLlOutsideTheWarranty.setOnClickListener(this);
         mLlMicrophone.setOnClickListener(this);
@@ -312,7 +321,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
                 break;
             case R.id.ll_choose_brand:
             case R.id.tv_choose_brand:
-                if (SubCategoryID==null){
+                if (SubCategoryID == null) {
                     ToastUtils.showShort("请先选择分类");
                     return;
                 }
@@ -346,7 +355,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
             case R.id.tv_area:
                 mPresenter.GetArea(CityCode);
                 break;
-            case R.id.btn_add:
+            case R.id.btn_sure:
                 showLoading();
                 if (FBrandID == null) {
                     MyUtils.showToast(mActivity, "请选择品牌！");
@@ -643,7 +652,6 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
     }
 
 
-
     public void showPopWindow(final TextView tv, BaseQuickAdapter adapter, final List list) {
 
         View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop, null);
@@ -703,7 +711,7 @@ public class CustomerServiceActivity extends BaseActivity<CustomerServicePresent
 //        if (list.size() > 5) {
 //            popupWindow.setHeight(600);
 //        } else {
-            popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
 //        }
 //        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());

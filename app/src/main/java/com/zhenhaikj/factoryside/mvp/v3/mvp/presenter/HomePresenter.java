@@ -4,6 +4,8 @@ import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BasePresenter;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
+import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
+import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.v3.mvp.contract.HomeContract;
 
@@ -26,6 +28,17 @@ public class HomePresenter extends HomeContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<Article> value) {
                         mView.GetListCategoryContentByCategoryID(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetmessageBytype(String UserId) {
+        mModel.GetmessageBytype(UserId)
+                .subscribe(new BaseObserver<Data<CompanyInfo>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<CompanyInfo>> value) {
+                        mView.GetmessageBytype(value);
                     }
                 });
     }

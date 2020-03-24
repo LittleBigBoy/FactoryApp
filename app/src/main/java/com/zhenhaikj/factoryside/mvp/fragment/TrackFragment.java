@@ -3,6 +3,7 @@ package com.zhenhaikj.factoryside.mvp.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.TrackAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
@@ -59,6 +60,16 @@ public class TrackFragment extends BaseLazyFragment<TrackPresenter, TrackModel> 
 
 
         }
+    }
+
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarColor(R.color.white);
+        mImmersionBar.fitsSystemWindows(true);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
     }
 
     @Override

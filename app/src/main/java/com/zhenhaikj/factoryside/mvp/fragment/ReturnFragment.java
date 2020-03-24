@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.gyf.barlibrary.ImmersionBar;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.LogisticsAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
@@ -60,6 +61,16 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
     private String orderId;
     private LogisticsAdapter adapter;
     private ZLoadingDialog dialog;
+
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarColor(R.color.white);
+        mImmersionBar.fitsSystemWindows(true);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
+    }
 
     public static ReturnFragment newInstance(String param1, String param2) {
         ReturnFragment fragment = new ReturnFragment();

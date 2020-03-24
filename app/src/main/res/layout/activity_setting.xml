@@ -337,7 +337,8 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/clean" />
+                    android:src="@drawable/clean"
+                    android:padding="5dp"/>
             </LinearLayout>
 
             <View
@@ -367,9 +368,10 @@
                     android:textSize="14sp" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/update" />
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/youjiantou"
+                    android:layout_gravity="center"/>
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
@@ -381,11 +383,11 @@
     <Button
         android:id="@+id/btn_sign_out_of_your_account"
         android:layout_width="match_parent"
-        android:layout_height="43dp"
+        android:layout_height="53dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="40dp"
-        android:background="#F25037"
+        android:background="@drawable/btn_shape"
         android:text="退出帐号"
         android:textColor="@color/white"
         android:textSize="16sp" />
