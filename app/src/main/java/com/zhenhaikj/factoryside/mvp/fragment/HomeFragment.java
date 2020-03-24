@@ -96,7 +96,7 @@ import java.util.Map;
 import butterknife.BindView;
 
 public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> implements HomeContract.View, View.OnClickListener {
-    private static final String TAG = "HomeFragment";
+    private static final String TAG = "V3HomeFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.iv_service)
@@ -216,7 +216,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @return A new instance of fragment V3HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {

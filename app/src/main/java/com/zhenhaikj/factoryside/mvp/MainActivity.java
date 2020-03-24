@@ -28,12 +28,11 @@ import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.contract.MainContract;
 import com.zhenhaikj.factoryside.mvp.fragment.AllWorkOrdersFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.DiscoveryFragment;
-import com.zhenhaikj.factoryside.mvp.fragment.HomeFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.MineFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.NewsFragment;
 import com.zhenhaikj.factoryside.mvp.model.MainModel;
 import com.zhenhaikj.factoryside.mvp.presenter.MainPresenter;
-import com.zhenhaikj.factoryside.mvp.widget.CustomDialog;
+import com.zhenhaikj.factoryside.mvp.v3.fragment.V3HomeFragment;
 import com.zhenhaikj.factoryside.mvp.widget.CustomViewPager;
 import com.zhenhaikj.factoryside.mvp.widget.VerifiedDialog;
 
@@ -114,7 +113,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         mPresenter.GetUserInfoList(userID, "1");
         setSwipeBackEnable(false);
         mFragments = new ArrayList<>();
-        mFragments.add(HomeFragment.newInstance("", ""));
+        mFragments.add(V3HomeFragment.newInstance("", ""));
         mFragments.add(AllWorkOrdersFragment.newInstance("", ""));
         mFragments.add(NewsFragment.newInstance("", ""));
         mFragments.add(DiscoveryFragment.newInstance("", ""));
@@ -143,7 +142,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         //在BaseActivity里初始化
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
-        mImmersionBar.statusBarColor(R.color.transparent);
+        mImmersionBar.statusBarColor(R.color.white);
         mImmersionBar.fitsSystemWindows(false);
         mImmersionBar.init();
     }

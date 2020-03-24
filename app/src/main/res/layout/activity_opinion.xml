@@ -97,8 +97,8 @@
         <Button
             android:id="@+id/btn_opinion"
             android:layout_width="match_parent"
-            android:layout_height="43dp"
-            android:background="@drawable/red_round_shape"
+            android:layout_height="53dp"
+            android:background="@drawable/btn_shape"
             android:layout_marginLeft="18dp"
             android:layout_marginRight="18dp"
             android:text="提交反馈"

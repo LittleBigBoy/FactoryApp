@@ -42,7 +42,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
         android:background="@color/white">
 
         <TextView
@@ -229,11 +228,11 @@
 
         android:id="@+id/tv_register"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="53dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/red_shape"
+        android:background="@drawable/btn_shape"
         android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -246,7 +245,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="10dp"
         android:gravity="center">
 

@@ -73,7 +73,7 @@ public class NewsFragment extends BaseLazyFragment implements View.OnClickListen
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @return A new instance of fragment V3HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static NewsFragment newInstance(String param1, String param2) {
@@ -181,10 +181,10 @@ public class NewsFragment extends BaseLazyFragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.normal_dfk_ll:
-                break;
-            case R.id.normal_dfh_ll:
-                break;
+//            case R.id.normal_dfk_ll:
+//                break;
+//            case R.id.normal_dfh_ll:
+//                break;
             case R.id.tv_open:
                 toSelfSetting(mActivity);
                 break;

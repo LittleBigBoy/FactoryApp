@@ -45,7 +45,7 @@ public class DiscoveryFragment extends BaseLazyFragment implements View.OnClickL
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @return A new instance of fragment V3HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static DiscoveryFragment newInstance(String param1, String param2) {
@@ -101,12 +101,12 @@ public class DiscoveryFragment extends BaseLazyFragment implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.normal_dfk_ll:
-                break;
-            case R.id.normal_dfh_ll:
-                break;
-        }
+//        switch (view.getId()) {
+//            case R.id.normal_dfk_ll:
+//                break;
+//            case R.id.normal_dfh_ll:
+//                break;
+//        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

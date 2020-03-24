@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,13 +37,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
 
     @BindView(R.id.et_username)
-    ClearEditText mEtUsername;
+    EditText mEtUsername;
     @BindView(R.id.et_password)
-    ClearEditText mEtPassword;
+    EditText mEtPassword;
     @BindView(R.id.ll_password)
     LinearLayout mLlPassword;
     @BindView(R.id.et_verification_code)
-    ClearEditText mEtVerificationCode; //验证码框
+    EditText mEtVerificationCode; //验证码框
     @BindView(R.id.tv_get_verification_code)
     TextView mTvGetVerificationCode;//获取验证码
     @BindView(R.id.login)

@@ -1109,7 +1109,7 @@
                     android:paddingLeft="@dimen/dp_10"
                     android:paddingRight="@dimen/dp_10"
                     android:text="加急费用¥0.00"
-                    android:textColor="#FF6565"
+                    android:textColor="@color/red"
                     android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
@@ -1126,7 +1126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="注：指定时间内完成扣除加急费，超时工单不会被扣除加急费"
-                    android:textColor="#FF6565"
+                    android:textColor="@color/red"
                     android:textSize="12sp" />
             </LinearLayout>
 

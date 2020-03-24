@@ -61,8 +61,8 @@
                     android:layout_height="wrap_content">
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="180dp"
-                        android:background="#F25037"/>
+                        android:layout_height="140dp"
+                        android:background="@color/white"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -106,7 +106,7 @@
                                         android:text="未设置昵称"
                                         android:layout_marginTop="5dp"
                                         android:layout_marginBottom="5dp"
-                                        android:textColor="@color/white"
+                                        android:textColor="#010101"
                                         android:textSize="16sp" />
 
                                 </LinearLayout>
@@ -133,6 +133,28 @@
                                         android:textColor="@color/white"
                                         android:layout_marginLeft="@dimen/dp_10"
                                         android:textSize="13sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/ll_setting"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="42dp"
+                                    android:layout_gravity="right"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginRight="20dp"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:layout_width="22dp"
+                                        android:layout_height="20dp"
+                                        android:src="@mipmap/v3_setting" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="设置"
+                                        android:textColor="@color/black"
+                                        android:textSize="12sp" />
                                 </LinearLayout>
                                 <ImageView
                                     android:id="@+id/iv_service"
@@ -164,7 +186,7 @@
                                 android:layout_weight="1"
                                 android:textSize="15sp"
                                 android:layout_marginRight="10dp"
-                                android:textColor="@color/white" />
+                                android:textColor="#010101" />
 
                             <TextView
                                 android:id="@+id/tv_recharge"
@@ -178,7 +200,7 @@
                                 android:paddingBottom="@dimen/dp_4"
                                 android:layout_marginRight="10dp"
                                 android:background="@drawable/top_up_shape"
-                                android:textColor="@color/white" />
+                                android:textColor="#010101" />
                         </LinearLayout>
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
@@ -188,7 +210,8 @@
                             android:layout_marginBottom="10dp"
                             android:layout_marginTop="10dp"
                             app:cardElevation="@dimen/dp_4"
-                            app:cardCornerRadius="@dimen/dp_4">
+                            app:cardCornerRadius="@dimen/dp_4"
+                            android:visibility="gone">
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -454,11 +477,10 @@
                     android:id="@+id/ll_my_wallet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:background="@drawable/white_edit_shape"
                     android:orientation="horizontal"
-                    android:padding="20dp">
+                    android:padding="20dp"
+                    android:layout_marginTop="6dp">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -490,8 +512,6 @@
                     android:id="@+id/ll_personal_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:background="@drawable/white_edit_shape"
                     android:orientation="horizontal"
                     android:padding="20dp">
@@ -521,9 +541,7 @@
                     android:id="@+id/ll_add_brand"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
                     android:background="@drawable/white_edit_shape"
                     android:orientation="horizontal"
                     android:padding="20dp">
@@ -558,8 +576,6 @@
                     android:id="@+id/ll_model_addition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:background="@drawable/white_edit_shape"
                     android:orientation="horizontal"
                     android:padding="20dp">
@@ -627,12 +643,11 @@
                     android:id="@+id/ll_sub_account_management"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
                     android:background="@drawable/white_edit_shape"
                     android:orientation="horizontal"
-                    android:padding="20dp">
+                    android:padding="20dp"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -712,8 +727,6 @@
                     android:id="@+id/ll_consume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/white_edit_shape"
                     android:orientation="horizontal"
@@ -745,8 +758,6 @@
                     android:id="@+id/ll_service_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:background="@drawable/white_edit_shape"
                     android:orientation="horizontal"
                     android:padding="20dp">
@@ -790,8 +801,6 @@
                     android:id="@+id/ll_feedback"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:background="@drawable/white_edit_shape"
                     android:orientation="horizontal"
                     android:padding="20dp">
@@ -820,17 +829,17 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#F7F7F7" />
+                    android:background="#F7F7F7"
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:id="@+id/ll_share"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:background="@drawable/white_edit_shape"
                     android:orientation="horizontal"
-                    android:padding="20dp">
+                    android:padding="20dp"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -854,49 +863,48 @@
                 </LinearLayout>
 
 
-                <LinearLayout
-                    android:id="@+id/ll_setting"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/white_edit_shape"
-                    android:orientation="horizontal"
-                    android:padding="20dp">
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/ll_setting"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:layout_marginRight="10dp"-->
+                    <!--android:background="@drawable/white_edit_shape"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:padding="20dp"-->
+                    <!--android:visibility="gone">-->
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/shezhi" />
+                    <!--<ImageView-->
+                        <!--android:layout_width="20dp"-->
+                        <!--android:layout_height="20dp"-->
+                        <!--android:src="@drawable/shezhi" />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:text="设置"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:text="设置"-->
+                        <!--android:textColor="@color/black"-->
+                        <!--android:textSize="15sp" />-->
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/into" />
-                </LinearLayout>
+                    <!--<ImageView-->
+                        <!--android:layout_width="20dp"-->
+                        <!--android:layout_height="20dp"-->
+                        <!--android:src="@drawable/into" />-->
+                <!--</LinearLayout>-->
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#F7F7F7" />
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="#F7F7F7" />-->
 
                 <LinearLayout
                     android:id="@+id/ll_about"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/white_edit_shape"
                     android:orientation="horizontal"
