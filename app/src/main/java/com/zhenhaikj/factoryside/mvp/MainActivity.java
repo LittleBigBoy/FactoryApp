@@ -170,26 +170,26 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 tabSelected(ll_message);
                 break;
             case R.id.ll_category:
-                if (userInfo.getIfAuth() != null) {
-                    if (userInfo.getIfAuth().equals("1")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("title", "所有工单");
-                        bundle.putInt("position", 1);
-                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
-                        intent.putExtras(bundle);
-                        ActivityUtils.startActivity(intent);
-                    } else if (userInfo.getIfAuth().equals("0")) {
-                        showUnderDialog();
-                    } else if (userInfo.getIfAuth().equals("-1")) {
-                        showRejectDialog();
-                    } else {
-                        showVerifiedDialog();
-                    }
-                } else {
-                    showVerifiedDialog();
-                }
-//                viewPager.setCurrentItem(2);
-//                tabSelected(ll_category);
+//                if (userInfo.getIfAuth() != null) {
+//                    if (userInfo.getIfAuth().equals("1")) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("title", "所有工单");
+//                        bundle.putInt("position", 1);
+//                        intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+//                        intent.putExtras(bundle);
+//                        ActivityUtils.startActivity(intent);
+//                    } else if (userInfo.getIfAuth().equals("0")) {
+//                        showUnderDialog();
+//                    } else if (userInfo.getIfAuth().equals("-1")) {
+//                        showRejectDialog();
+//                    } else {
+//                        showVerifiedDialog();
+//                    }
+//                } else {
+//                    showVerifiedDialog();
+//                }
+                viewPager.setCurrentItem(1);
+                tabSelected(ll_category);
                 break;
 
             case R.id.ll_car:

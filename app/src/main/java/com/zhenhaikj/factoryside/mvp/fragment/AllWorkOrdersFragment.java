@@ -187,17 +187,29 @@ public class AllWorkOrdersFragment extends BaseLazyFragment<RedPointPresenter, R
 //                break;
 //        }
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(Integer num) {
-//        switch (num){
-//            case Config.ORDER_READ:
-//               userid=spUtils.getString("userName");
-//               mPresenter.FactoryGetOrderRed(userid);
-//                break;
-//        }
+        switch (num) {
+            case Config.ORDER_READ:
+                mPresenter.FactoryGetOrderRed(userid);
+                break;
+            case 8:
+                mViewPager.setCurrentItem(num);
+                break;
+            case 6:
+                mViewPager.setCurrentItem(num);
+                break;
+            case 3:
+                mViewPager.setCurrentItem(num);
+                break;
+            case 1:
+                mViewPager.setCurrentItem(num);
+                break;
+            case 9:
+                mViewPager.setCurrentItem(num);
+                break;
+        }
     }
-
 
     @Override
     public void FactoryGetOrderRed(BaseResult<RedPointData> baseResult) {
@@ -245,4 +257,6 @@ public class AllWorkOrdersFragment extends BaseLazyFragment<RedPointPresenter, R
             return mWorkOrderFragmentList.get(position);
         }
     }
+
+
 }
