@@ -22,14 +22,14 @@
                 <com.zhenhaikj.factoryside.mvp.widget.CircleImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="80dp"
                     android:layout_marginBottom="50dp"
                     android:background="@drawable/red_circle_shape"
                     android:layout_gravity="center"/>
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="80dp"
                     android:layout_marginBottom="50dp"
                     android:src="@drawable/icon1"
                     android:layout_gravity="center"/>

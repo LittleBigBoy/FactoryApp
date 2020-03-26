@@ -74,7 +74,7 @@ android {
     aspectjx { exclude 'com.alipay' }
 }
 repositories {
-    maven { url 'http://repo1.maven.org/maven2' }
+    maven { url 'https://repo1.maven.org/maven2' }
 }
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')

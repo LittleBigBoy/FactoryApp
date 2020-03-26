@@ -240,16 +240,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_marginTop="1dp"
+            android:background="#f4f4f4"
             android:orientation="vertical">
             <LinearLayout
                 android:id="@+id/ll_safety"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="14dp"
-                android:paddingTop="25dp"
-                android:paddingRight="28dp">
+                android:background="@color/white"
+                android:paddingLeft="15dp"
+                android:paddingTop="17dp"
+                android:paddingBottom="17dp"
+                android:paddingRight="15dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -258,7 +261,7 @@
                     android:layout_weight="1"
                     android:text="安全设置"
                     android:textColor="#858585"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:layout_width="15dp"
@@ -267,54 +270,50 @@
                     android:layout_gravity="center"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="14dp"
-                android:layout_marginTop="12dp"
-                android:background="#E4E4E4" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
+                android:paddingBottom="17dp"
+                android:layout_marginTop="1dp"
                 android:orientation="horizontal"
-                android:paddingLeft="14dp"
-                android:paddingRight="28dp">
+                android:paddingLeft="17dp"
+                android:paddingRight="15dp"
+                android:background="@color/white">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="工单条形码"
+                    android:layout_marginTop="15dp"
                     android:textColor="#858585"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
                 <Switch
                     android:id="@+id/switcher_work_order_barcode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
                     android:background="@null"
                     android:switchMinWidth="2dp"
                     android:thumb="@drawable/thumb"
                     android:track="@drawable/track" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="14dp"
-                android:layout_marginTop="15dp"
-                android:background="#E4E4E4" />
+
 
             <LinearLayout
                 android:id="@+id/ll_clean"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="14dp"
-                android:paddingTop="25dp"
-                android:paddingRight="28dp">
+                android:layout_marginTop="1dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="17dp"
+                android:paddingBottom="17dp"
+                android:paddingRight="15dp"
+                android:background="@color/white">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -323,12 +322,12 @@
                     android:layout_weight="1"
                     android:text="清除缓存"
                     android:textColor="#858585"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
                 <TextView
                     android:id="@+id/tv_cache"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3.17M"
+                    android:text="0.00M"
                     android:layout_gravity="center"
                     android:layout_marginRight="5dp"
                     android:textSize="12sp"
@@ -336,36 +335,31 @@
 
                 <ImageView
                     android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_height="23dp"
                     android:src="@drawable/clean"
-                    android:padding="5dp"/>
+                    android:padding="1dp"/>
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="14dp"
-                android:layout_marginTop="12dp"
-                android:background="#E4E4E4" />
 
             <LinearLayout
                 android:id="@+id/ll_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
                 android:orientation="horizontal"
-                android:paddingLeft="14dp"
-                android:paddingTop="20dp"
-                android:paddingRight="28dp">
+                android:layout_marginTop="1dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="17dp"
+                android:paddingBottom="17dp"
+                android:paddingRight="15dp"
+                android:background="@color/white">
 
                 <TextView
-                    android:layout_width="317dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="检查更新"
                     android:textColor="#858585"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:layout_width="15dp"
@@ -375,6 +369,7 @@
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
