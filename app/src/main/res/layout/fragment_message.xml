@@ -18,9 +18,7 @@
                 android:id="@+id/ll_message_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginTop="6dp"
                 android:background="@color/white">
 
                 <RelativeLayout
@@ -41,9 +39,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginTop="6dp"
                 android:background="@color/white"
                 android:paddingTop="16dp">
 
@@ -61,8 +57,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:background="@color/white"
                 android:orientation="vertical">
 

@@ -6,8 +6,11 @@ import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
 import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.FactoryNavigationBarNumber;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
 import com.zhenhaikj.factoryside.mvp.v3.mvp.contract.HomeContract;
+
+import java.util.List;
 
 public class HomePresenter extends HomeContract.Presenter {
     @Override
@@ -39,6 +42,17 @@ public class HomePresenter extends HomeContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<CompanyInfo>> value) {
                         mView.GetmessageBytype(value);
+                    }
+                });
+    }
+
+    @Override
+    public void FactoryNavigationBarNumber(String UserID, String state, String page, String limit) {
+        mModel.FactoryNavigationBarNumber(UserID, state, page, limit)
+                .subscribe(new BaseObserver<Data<FactoryNavigationBarNumber>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<FactoryNavigationBarNumber>> value) {
+                        mView.FactoryNavigationBarNumber(value);
                     }
                 });
     }

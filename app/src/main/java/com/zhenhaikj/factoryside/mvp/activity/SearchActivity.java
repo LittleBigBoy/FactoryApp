@@ -41,6 +41,7 @@ import com.zhenhaikj.factoryside.mvp.presenter.SearchPresenter;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -133,13 +134,21 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchModel> i
                 if (searchname == null || "".equals(searchname)) {
                     ToastUtils.showShort("请输入用户手机号或者工单号");
                 } else {
-                    StringBuilder stringBuilder = new StringBuilder(searchname);
-                    String name = stringBuilder.substring(0, 1);
-                    if ("1".equals(name)) {
-                        mPresenter.GetOrderInfoList(searchname, "", userId, "999", "1");
-                    } else {
-                        mPresenter.GetOrderInfoList("", searchname, userId, "999", "1");
+
+                    Pattern pattern = Pattern.compile("[0-9]*");
+                    boolean number=pattern.matcher(searchname).matches();
+                    if (number){
+                        StringBuilder stringBuilder = new StringBuilder(searchname);
+                        String name = stringBuilder.substring(0, 1);
+                        if ("1".equals(name)) {
+                            mPresenter.GetOrderInfoList(searchname, "", userId, "","999", "1");
+                        } else {
+                            mPresenter.GetOrderInfoList("", searchname, userId, "","999", "1");
+                        }
+                    }else {
+                        mPresenter.GetOrderInfoList("", "", userId, searchname,"999", "1");
                     }
+
                 }
 
                 break;
@@ -236,12 +245,18 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchModel> i
             }
             mEtSearch.setText(message);
             if (!message.isEmpty()){
-                StringBuilder stringBuilder = new StringBuilder(message);
-                String name = stringBuilder.substring(0, 1);
-                if ("1".equals(name)) {
-                    mPresenter.GetOrderInfoList(message, "", userId, "999", "1");
-                } else {
-                    mPresenter.GetOrderInfoList("", message, userId, "999", "1");
+                Pattern pattern = Pattern.compile("[0-9]*");
+                boolean number=pattern.matcher(message).matches();
+                if (number){
+                    StringBuilder stringBuilder = new StringBuilder(message);
+                    String name = stringBuilder.substring(0, 1);
+                    if ("1".equals(name)) {
+                        mPresenter.GetOrderInfoList(message, "", userId, "","999", "1");
+                    } else {
+                        mPresenter.GetOrderInfoList("", message, userId, "","999", "1");
+                    }
+                }else {
+                    mPresenter.GetOrderInfoList("", "", userId, message,"999", "1");
                 }
             }else {
                 return;

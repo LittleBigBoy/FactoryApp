@@ -7,7 +7,10 @@ import com.zhenhaikj.factoryside.mvp.base.BaseView;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
 import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.FactoryNavigationBarNumber;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -16,17 +19,20 @@ public interface HomeContract {
         Observable<BaseResult<UserInfo>> GetUserInfoList(String UserId, String limit);
         Observable<BaseResult<Article>> GetListCategoryContentByCategoryID(String CategoryID, String page, String limit);
         Observable<BaseResult<Data<CompanyInfo>>> GetmessageBytype(String UserId);
+        Observable<BaseResult<Data<FactoryNavigationBarNumber>>> FactoryNavigationBarNumber(String UserID,  String state,  String page,String limit);
     }
 
     interface View extends BaseView{
         void GetUserInfoList(BaseResult<UserInfo> baseResult);
         void GetListCategoryContentByCategoryID(BaseResult<Article> baseResult);
         void GetmessageBytype(BaseResult<Data<CompanyInfo>> baseResult);
+        void FactoryNavigationBarNumber(BaseResult<Data<FactoryNavigationBarNumber>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void GetUserInfoList(String UserId,String limit);
         public abstract void GetListCategoryContentByCategoryID(String CategoryID,String page, String limit);
         public abstract void GetmessageBytype(String UserId);
+        public abstract void FactoryNavigationBarNumber(String UserID,  String state,  String page,String limit);
     }
 }

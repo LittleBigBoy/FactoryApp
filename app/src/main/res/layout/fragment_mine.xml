@@ -145,16 +145,17 @@
                                     android:orientation="vertical">
 
                                     <ImageView
-                                        android:layout_width="22dp"
-                                        android:layout_height="20dp"
-                                        android:src="@mipmap/v3_setting" />
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:src="@mipmap/v3_setting"
+                                        android:layout_gravity="center"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="设置"
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="14sp" />
                                 </LinearLayout>
                                 <ImageView
                                     android:id="@+id/iv_service"
@@ -472,7 +473,39 @@
                             <!--android:src="@drawable/avatar_logo" />-->
                     <!--</FrameLayout>-->
                 <!--</FrameLayout>-->
+                <LinearLayout
+                    android:id="@+id/ll_personal_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/white_edit_shape"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:layout_marginTop="6dp">
 
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/personal_info" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:text="个人资料"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/into" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F7F7F7" />
                 <LinearLayout
                     android:id="@+id/ll_my_wallet"
                     android:layout_width="match_parent"
@@ -480,7 +513,7 @@
                     android:background="@drawable/white_edit_shape"
                     android:orientation="horizontal"
                     android:padding="20dp"
-                    android:layout_marginTop="6dp">
+                    >
 
                     <ImageView
                         android:layout_width="20dp"
@@ -503,39 +536,9 @@
                         android:src="@drawable/into" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#F7F7F7" />
 
-                <LinearLayout
-                    android:id="@+id/ll_personal_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/white_edit_shape"
-                    android:orientation="horizontal"
-                    android:padding="20dp">
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/personal_info" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:text="个人资料"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/into" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_add_brand"

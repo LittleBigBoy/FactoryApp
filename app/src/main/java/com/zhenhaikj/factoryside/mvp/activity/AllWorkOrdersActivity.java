@@ -19,6 +19,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.RedPointData;
 import com.zhenhaikj.factoryside.mvp.contract.RedPointContract;
+import com.zhenhaikj.factoryside.mvp.fragment.PendingReviewFragment;
 import com.zhenhaikj.factoryside.mvp.fragment.WorkOrderFragment;
 import com.zhenhaikj.factoryside.mvp.model.RedPointModel;
 import com.zhenhaikj.factoryside.mvp.presenter.RedPointPresenter;
@@ -73,7 +74,7 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
 
 
     private String[] mTitleDataList = new String[]{
-            "远程费审核", "所有工单", "待接单", "已接单", "星标工单", "待审核", "待寄件", "待支付", "已完成", "质保单", "退单处理","关闭工单"
+            "待审核", "待接单", "已接单", "星标工单", "待寄件", "待支付", "已完成", "质保单", "退单处理","关闭工单"
     };
 
     //private CommonNavigator commonNavigator;
@@ -106,8 +107,12 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
     @Override
     protected void initView() {
 
-        for (int i = 0; i < 12; i++) {
-            mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i], ""));
+        for (int i = 0; i < mTitleDataList.length; i++) {
+            if (i==0){
+                mWorkOrderFragmentList.add(PendingReviewFragment.newInstance(mTitleDataList[0],""));
+            }else {
+                mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i],""));
+            }
         }
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
@@ -204,19 +209,19 @@ public class AllWorkOrdersActivity extends BaseActivity<RedPointPresenter, RedPo
             case Config.ORDER_READ:
                 mPresenter.FactoryGetOrderRed(userid);
                 break;
-            case 8:
-                mViewPager.setCurrentItem(num);
-                break;
             case 6:
                 mViewPager.setCurrentItem(num);
                 break;
-            case 3:
+            case 4:
+                mViewPager.setCurrentItem(num);
+                break;
+            case 2:
                 mViewPager.setCurrentItem(num);
                 break;
             case 1:
                 mViewPager.setCurrentItem(num);
                 break;
-            case 9:
+            case 7:
                 mViewPager.setCurrentItem(num);
                 break;
         }

@@ -130,18 +130,22 @@ public class SingleQuantityActivity extends BaseActivity<RecordPresenter, Record
                 if ("安装单".equals(cars.get(pos).getName())){
                     state="2";
                     list.clear();
+                    showProgress();
                     mPresenter.WorkOrderTime(userId,startTime,date,state,String.valueOf(page),"10");
                 }else if ("维修单".equals(cars.get(pos).getName())){
                     state="1";
                     list.clear();
+                    showProgress();
                     mPresenter.WorkOrderTime(userId,startTime,date,state,String.valueOf(page),"10");
                 }else if ("送修单".equals(cars.get(pos).getName())){
                     state="4";
                     list.clear();
+                    showProgress();
                     mPresenter.WorkOrderTime(userId,startTime,date,state,String.valueOf(page),"10");
                 }else if ("筛选".equals(cars.get(pos).getName())){
                     state="0";
                     list.clear();
+                    showProgress();
                     mPresenter.WorkOrderTime(userId,startTime,date,state,String.valueOf(page),"10");
                 }
             }
@@ -236,24 +240,28 @@ public class SingleQuantityActivity extends BaseActivity<RecordPresenter, Record
                 tabSelected(mTvDay);
                 startTime = getStringByFormat(getTimesmorning());
                 list.clear();
+                showProgress();
                 mPresenter.WorkOrderTime(userId,startTime,date,state,String.valueOf(page),"10");
                 break;
             case R.id.tv_week:
                 tabSelected(mTvWeek);
                 startTime = getStringByFormat(getTimesWeekmorning());
                 list.clear();
+                showProgress();
                 mPresenter.WorkOrderTime(userId,startTime,date,state,String.valueOf(page),"10");
                 break;
             case R.id.tv_month:
                 tabSelected(mTvMonth);
                 startTime = getStringByFormat(getTimesMonthmorning());
                 list.clear();
+                showProgress();
                 mPresenter.WorkOrderTime(userId,startTime,date,state,String.valueOf(page),"10");
                 break;
             case R.id.tv_year:
                 tabSelected(mTvYear);
                 startTime = getStringByFormat(getTimesYearmorning());
                 list.clear();
+                showProgress();
                 mPresenter.WorkOrderTime(userId,startTime,date,state,String.valueOf(page),"10");
                 break;
         }
@@ -334,10 +342,11 @@ public class SingleQuantityActivity extends BaseActivity<RecordPresenter, Record
     public void WorkOrderTime(BaseResult<Data<SingleQuantity>> result) {
         switch (result.getStatusCode()) {
             case 200:
+                mTvSingle.setText(result.getData().getItem2().getCount()+ "");
                 list.addAll(result.getData().getItem2().getData());
                 adapter.setNewData(list);
                 adapter.notifyDataSetChanged();
-                mTvSingle.setText(result.getData().getItem2().getCount()+ "");
+                hideProgress();
                 break;
         }
     }

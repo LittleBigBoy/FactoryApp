@@ -76,7 +76,7 @@
             android:gravity="center"
             android:paddingLeft="21dp"
             android:paddingRight="21dp"
-            android:text="今日新工单"
+            android:text="最新公告"
             android:textColor="@color/white"
             android:textSize="14sp" />
         <!--<View-->
@@ -134,7 +134,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="20dp">
 
                     <ImageView
                         android:id="@+id/iv_avatar"
@@ -405,7 +406,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="待接工单"
+                        android:text="所有工单"
                         android:textColor="#737373"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -433,7 +434,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="已接工单"
+                        android:text="急需处理"
                         android:textColor="#737373"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -461,7 +462,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="星标工单"
+                        android:text="待完成"
                         android:textColor="#737373"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -489,7 +490,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="待返件"
+                        android:text="星标工单"
                         android:textColor="#737373"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -524,7 +525,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="质保工单"
+                        android:text="已完成"
                         android:textColor="#737373"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -552,7 +553,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="已退工单"
+                        android:text="质保单"
                         android:textColor="#737373"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -580,7 +581,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="关闭工单"
+                        android:text="退单处理"
                         android:textColor="#737373"
                         android:textSize="14sp" />
                 </LinearLayout>

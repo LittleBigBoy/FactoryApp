@@ -15,7 +15,7 @@ public class AllWorkOrdersModel implements AllWorkOrdersContract.Model {
 
     @Override
     public Observable<BaseResult<WorkOrder>> GetOrderInfoList(String UserID,String state, String page, String limit) {
-        return ApiRetrofit.getDefault().FactoryGetOrderList(UserID,state, page, limit)
+        return ApiRetrofit.getDefault().NewFactoryGetOrderList(UserID,state, page, limit)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

@@ -16,7 +16,8 @@
             android:layout_height="30dp"
             android:background="@drawable/gray_circle"
             android:gravity="center"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:visibility="gone">
             <TextView
                 android:id="@+id/tv_name_first"
                 android:layout_width="wrap_content"
@@ -42,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="啊啊啊啊"
-                    android:textSize="14sp"
+                    android:textSize="15sp"
                     android:textColor="#333"/>
 
                 <TextView
@@ -50,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="15896322589"
-                    android:textSize="10sp"
+                    android:textSize="15sp"
                     android:layout_marginLeft="10dp"/>
             </LinearLayout>
 
@@ -75,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="浙江省宁波市江北区同济路啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textColor="#333"/>
             </LinearLayout>
         </LinearLayout>
@@ -91,9 +92,13 @@
             android:layout_height="match_parent"
             android:text="编辑"
             android:textColor="#808080"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="@dimen/dp_10"/>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#eee"/>
 </LinearLayout>

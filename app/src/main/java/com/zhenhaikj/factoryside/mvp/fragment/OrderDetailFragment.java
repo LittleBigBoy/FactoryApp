@@ -1097,6 +1097,12 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     mTvOrderMoney.setText("¥" + data.getQuaMoney() + "");
                 } else if ("2".equals(data.getTypeID())) {
                     mTvOrderMoney.setText("¥" + data.getOrderMoney() + "");
+                    if ("待接单".equals(data.getState()) || "已接单待联系客户".equals(data.getState()) || "远程费审核".equals(data.getState())) {
+                        mLlContactCustomerService.setVisibility(View.VISIBLE);
+                    } else {
+                        mLlContactCustomerService.setVisibility(View.GONE);
+                    }
+
                 } else {
 //                    if (data.getAccessoryMoney() != null && !"0.00".equals(data.getAccessoryMoney())) {
 //                    if ("1".equals(data.getAccessoryApplyState())) {
@@ -1820,9 +1826,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
             case 200:
                 if (baseResult.getData().isItem1()) {
                     ToastUtils.showShort("发起质保成功！");
-                    EventBus.getDefault().post("质保单");
-                    EventBus.getDefault().post("已完成");
-                    EventBus.getDefault().post(9);
+//                    EventBus.getDefault().post("质保单");
+//                    EventBus.getDefault().post("已完成");
+                    EventBus.getDefault().post(4);
                     mActivity.finish();
                 } else {
                     ToastUtils.showShort(baseResult.getData().getItem2());
@@ -1878,13 +1884,13 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     ToastUtils.showShort("审核成功！");
                     mPresenter.GetOrderInfo(OrderID);
                     if (state == -1) {
-                        EventBus.getDefault().post(3);
+                        EventBus.getDefault().post(6);
                         EventBus.getDefault().post("已接单");
                     } else if (state == 1) {
-                        EventBus.getDefault().post(6);
+                        EventBus.getDefault().post(0);
                         EventBus.getDefault().post("待寄件");
                     } else {
-                        EventBus.getDefault().post(3);
+                        EventBus.getDefault().post(6);
                         EventBus.getDefault().post("已接单");
                     }
                     EventBus.getDefault().post("待审核");
@@ -1906,7 +1912,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 if (result.isItem1()) {
                     ToastUtils.showShort("审核成功！");
 //                    mPresenter.GetOrderInfo(OrderID);
-                    EventBus.getDefault().post(1);
+                    EventBus.getDefault().post(6);
                     EventBus.getDefault().post("所有工单");
                     EventBus.getDefault().post("远程费审核");
                     mActivity.finish();
@@ -1932,7 +1938,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     EventBus.getDefault().post("post");
                     EventBus.getDefault().post("已接单");
                     EventBus.getDefault().post("待寄件");
-                    EventBus.getDefault().post(3);
+                    EventBus.getDefault().post(6);
                     mActivity.finish();
                 } else {
                     ToastUtils.showShort("添加失败！" + result.getItem2());
@@ -2093,9 +2099,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         switch (baseResult.getStatusCode()) {
             case 200:
                 ToastUtils.showShort(baseResult.getData().getItem2());
-                EventBus.getDefault().post(8);
+                EventBus.getDefault().post(3);
                 EventBus.getDefault().post("已完成");
-                EventBus.getDefault().post("待支付");
+//                EventBus.getDefault().post("待支付");
                 mActivity.finish();
                 break;
         }

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -51,6 +52,8 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
     TextView mTvNoLogistics;
     @BindView(R.id.sv_logistics)
     ScrollView mSvLogistics;
+    @BindView(R.id.ll_empty)
+    LinearLayout mLlEmpty;
     private ClipboardManager myClipboard;
     private ClipData myClip;
 
@@ -144,11 +147,13 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
                 data = baseResult.getData();
                 if ("".equals(data.getReturnAccessoryMsg()) || data.getReturnAccessoryMsg() == null) {
                     mTvNoLogistics.setVisibility(View.VISIBLE);
+                    mLlEmpty.setVisibility(View.VISIBLE);
                     mSvLogistics.setVisibility(View.GONE);
                     return;
 
                 } else {
                     mTvNoLogistics.setVisibility(View.GONE);
+                    mLlEmpty.setVisibility(View.GONE);
                     mSvLogistics.setVisibility(View.VISIBLE);
                     mPresenter.GetExpressInfo(data.getReturnAccessoryMsg());
                     mTvNumber.setText(data.getReturnAccessoryMsg());
@@ -170,7 +175,7 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
         }
     }
 
-    public void showLoading(){
+    public void showLoading() {
         dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
                 .setLoadingColor(Color.BLACK)//颜色
                 .setHintText("请稍后...")
@@ -181,7 +186,7 @@ public class ReturnFragment extends BaseLazyFragment<ExpressInfoPresenter, Expre
                 .show();
     }
 
-    public void cancleLoading(){
+    public void cancleLoading() {
         dialog.dismiss();
     }
 }

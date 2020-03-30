@@ -36,13 +36,17 @@ import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
 import com.zhenhaikj.factoryside.mvp.bean.CompanyInfo;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
+import com.zhenhaikj.factoryside.mvp.bean.FactoryNavigationBarNumber;
 import com.zhenhaikj.factoryside.mvp.bean.UserInfo;
+import com.zhenhaikj.factoryside.mvp.v3.activity.MessageActivity;
 import com.zhenhaikj.factoryside.mvp.v3.mvp.contract.HomeContract;
 import com.zhenhaikj.factoryside.mvp.v3.mvp.model.HomeModel;
 import com.zhenhaikj.factoryside.mvp.v3.mvp.presenter.HomePresenter;
 import com.zhenhaikj.factoryside.mvp.widget.GlideCircleWithBorder;
 import com.zhenhaikj.factoryside.mvp.widget.SwitchView;
 import com.zhenhaikj.factoryside.mvp.widget.VerifiedDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,6 +151,7 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
     private MenuAdapter mCommonAdapter;
     private Bundle bundle;
     private CompanyInfo companyDean;
+    private FactoryNavigationBarNumber barNumber;
 
     public static V3HomeFragment newInstance(String param1, String param2) {
         V3HomeFragment fragment = new V3HomeFragment();
@@ -186,7 +191,7 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
         userId = spUtils.getString("userName");
         mPresenter.GetUserInfoList(userId, "1");
         mPresenter.GetListCategoryContentByCategoryID("7", "1", "999");
-
+        mPresenter.FactoryNavigationBarNumber(userId,"5","1","999");
         for (int i = 0; i < 4; i++) {
             mMainMenus.add(new MenuItem2(icons_content[i], icons[i], names[i]));
         }
@@ -317,13 +322,71 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
     @Override
     protected void setListener() {
         mLlPending.setOnClickListener(this);
+        mLlMessage.setOnClickListener(this);
+        mLlPendingReview.setOnClickListener(this);
+        mLlClose.setOnClickListener(this);
+        mLlCompleted.setOnClickListener(this);
+        mLlPaid.setOnClickListener(this);
+        mLlPendingOrders.setOnClickListener(this);
+        mLlReceivedWorkOrder.setOnClickListener(this);
+        mLlReturned.setOnClickListener(this);
+        mLlReturnedWorkOrder.setOnClickListener(this);
+        mLlStarTicket.setOnClickListener(this);
+        mLlWarrantyWorkOrder.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.ll_pending_review:
+                EventBus.getDefault().post(11);
+                EventBus.getDefault().post(0);
+                break;
             case R.id.ll_pending:
-
+                EventBus.getDefault().post(11);
+                EventBus.getDefault().post(0);
+                EventBus.getDefault().post("待寄件");
+                break;
+            case R.id.ll_paid:
+                EventBus.getDefault().post(11);
+                EventBus.getDefault().post(3);
+                EventBus.getDefault().post("待支付");
+                break;
+            case R.id.ll_completed:
+                EventBus.getDefault().post(11);
+                EventBus.getDefault().post(3);
+                EventBus.getDefault().post("已完成");
+                break;
+            case R.id.ll_message:
+                startActivity(new Intent(mActivity, MessageActivity.class));
+                break;
+            case R.id.ll_pending_orders:
+                EventBus.getDefault().post(11);
+                EventBus.getDefault().post(6);
+                break;
+            case R.id.ll_received_work_order:
+                EventBus.getDefault().post(11);
+                EventBus.getDefault().post(0);
+                break;
+            case R.id.ll_star_ticket:
+                EventBus.getDefault().post(11);
+                EventBus.getDefault().post(1);
+                break;
+            case R.id.ll_returned:
+                EventBus.getDefault().post(11);
+                EventBus.getDefault().post(2);
+                break;
+            case R.id.ll_warranty_work_order:
+                EventBus.getDefault().post(11);
+                EventBus.getDefault().post(3);
+                break;
+            case R.id.ll_returned_work_order:
+                EventBus.getDefault().post(11);
+                EventBus.getDefault().post(4);
+                break;
+            case R.id.ll_close:
+                EventBus.getDefault().post(11);
+                EventBus.getDefault().post(5);
                 break;
         }
     }
@@ -407,6 +470,27 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
         }
     }
 
+    @Override
+    public void FactoryNavigationBarNumber(BaseResult<Data<FactoryNavigationBarNumber>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+                    barNumber = baseResult.getData().getItem2();
+                    mTvPendingOrders.setText("("+barNumber.getCount1()+")");
+                    mTvReceivedWorkOrder.setText("("+barNumber.getCount2()+")");
+                    mTvStarTicket.setText("("+barNumber.getCount3()+")");
+                    mTvWarrantyWorkOrder.setText("("+barNumber.getCount4()+")");
+                    mTvReturnedWorkOrder.setText("("+barNumber.getCount5()+")");
+                    mTvClose.setText("("+barNumber.getCount6()+")");
+                    mTvReturned.setText("("+barNumber.getCount7()+")");
+                    mTvPendingReview.setText(""+barNumber.getCount8()+"");
+                    mTvPending.setText(""+barNumber.getCount9()+"");
+                    mTvPaid.setText(""+barNumber.getCount10()+"");
+                    mTvCompleted.setText(""+barNumber.getCount11()+"");
+                }
+                break;
+        }
+    }
 
 
     public class MenuItem2 {

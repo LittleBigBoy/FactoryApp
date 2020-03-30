@@ -106,8 +106,8 @@ public class ShippingAddressActivity extends BaseActivity<AddressPresenter, Addr
 
     @Override
     protected void initView() {
-        mTvTitle.setText("我的收货地址");
-        mTvSave.setText("添加新地址");
+        mTvTitle.setText("收货地址");
+        mTvSave.setText("添加地址");
         mTvSave.setVisibility(View.VISIBLE);
         mTvTitle.setVisibility(View.VISIBLE);
     }

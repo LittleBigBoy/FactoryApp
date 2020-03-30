@@ -39,7 +39,7 @@
         android:layout_height="33dp"
         android:textSize="16sp"
         android:layout_marginTop="46dp"
-        android:text="用户协议"
+        android:text="服务协议"
         android:gravity="center"
         android:layout_gravity="center"
         android:textColor="#AFAFAF"
@@ -62,7 +62,7 @@
         android:layout_height="33dp"
         android:textSize="16sp"
         android:layout_marginTop="17dp"
-        android:text="意见反馈"
+        android:text="隐私政策"
         android:gravity="center"
         android:layout_gravity="center"
         android:textColor="#AFAFAF"
@@ -100,7 +100,14 @@
             android:textSize="16sp"/>
     </LinearLayout>
 
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="www.xigyu.com"
+        android:gravity="center"
+        android:textColor="#B1B1B1"
+        android:textSize="10sp"
+        android:layout_marginTop="12dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -108,7 +115,7 @@
         android:gravity="center"
         android:textColor="#B1B1B1"
         android:textSize="10sp"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="8dp"/>
 
     <TextView
         android:id="@+id/tv_company_english"

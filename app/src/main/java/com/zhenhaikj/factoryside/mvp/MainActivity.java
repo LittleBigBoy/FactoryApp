@@ -452,5 +452,15 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         });
     }
 
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(Integer num) {
+        switch (num) {
+            case 11:
+                viewPager.setCurrentItem(1);
+                break;
+            case 12:
+                viewPager.setCurrentItem(2);
+                break;
+        }
+    }
 }

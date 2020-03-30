@@ -185,56 +185,103 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
     8、质保单
     9、未完成单
     10、费用变更
-    11、留言工单*/
+    11、留言工单
+
+    "急需处理", "待完成", "星标工单"11, "已完成", "质保单"4, "退单处理","所有工单"5
+    "远程费审核"9,"配件审核"1,"待寄件"10,"留言"15
+    "30日内"16,"30日以上"17
+    "待支付"2,"已支付"3
+    "取消工单"13,"关闭工单"12
+    */
     public void getData() {
         switch (mParam1) {
-            case "待接单":
-                mPresenter.GetOrderInfoList(UserID, "0", Integer.toString(pageIndex), "3");
-                mLlSearch.setVisibility(View.GONE);
-                break;
-            case "待审核":
-                mPresenter.GetOrderInfoList(UserID, "1", Integer.toString(pageIndex), "3");
-                mLlSearch.setVisibility(View.GONE);
-                break;
-            case "已接单":
-                mPresenter.GetOrderInfoList(UserID, "7", Integer.toString(pageIndex), "3");
-                mLlSearch.setVisibility(View.GONE);
-                break;
-            case "待支付":
-                mPresenter.GetOrderInfoList(UserID, "2", Integer.toString(pageIndex), "3");
-                mLlSearch.setVisibility(View.GONE);
-                break;
-            case "已完成":
-                mPresenter.GetOrderInfoList(UserID, "3", Integer.toString(pageIndex), "3");
-                break;
-            case "质保单":
-                mPresenter.GetOrderInfoList(UserID, "4", Integer.toString(pageIndex), "3");
-                mLlSearch.setVisibility(View.GONE);
-                break;
             case "所有工单":
-                mPresenter.GetOrderInfoList(UserID, "5", Integer.toString(pageIndex), "3");
-                mLlSearch.setVisibility(View.VISIBLE);
-                break;
-            case "退单处理":
-                mPresenter.GetOrderInfoList(UserID, "6", Integer.toString(pageIndex), "3");
-                mLlSearch.setVisibility(View.GONE);
+                mPresenter.GetOrderInfoList(UserID, "5", Integer.toString(pageIndex), "5");
                 break;
             case "远程费审核":
-                mPresenter.GetOrderInfoList(UserID, "9", Integer.toString(pageIndex), "3");
-                mLlSearch.setVisibility(View.GONE);
+                mPresenter.GetOrderInfoList(UserID, "9", Integer.toString(pageIndex), "5");
+                break;
+            case "配件审核":
+                mPresenter.GetOrderInfoList(UserID, "1", Integer.toString(pageIndex), "5");
                 break;
             case "待寄件":
-                mPresenter.GetOrderInfoList(UserID, "10", Integer.toString(pageIndex), "3");
-                mLlSearch.setVisibility(View.GONE);
+                mPresenter.GetOrderInfoList(UserID, "10", Integer.toString(pageIndex), "5");
+                break;
+            case "留言":
+                mPresenter.GetOrderInfoList(UserID, "15", Integer.toString(pageIndex), "5");
+                break;
+            case "30日内":
+                mPresenter.GetOrderInfoList(UserID, "16", Integer.toString(pageIndex), "5");
+                break;
+            case "30日以上":
+                mPresenter.GetOrderInfoList(UserID, "17", Integer.toString(pageIndex), "5");
                 break;
             case "星标工单":
-                mPresenter.GetOrderInfoList(UserID, "11", Integer.toString(pageIndex), "3");
-                mLlSearch.setVisibility(View.GONE);
+                mPresenter.GetOrderInfoList(UserID, "11", Integer.toString(pageIndex), "5");
+                break;
+            case "待支付":
+                mPresenter.GetOrderInfoList(UserID, "2", Integer.toString(pageIndex), "5");
+                break;
+            case "已支付":
+                mPresenter.GetOrderInfoList(UserID, "3", Integer.toString(pageIndex), "5");
+                break;
+            case "质保单":
+                mPresenter.GetOrderInfoList(UserID, "4", Integer.toString(pageIndex), "5");
+                break;
+            case "取消工单":
+                mPresenter.GetOrderInfoList(UserID, "13", Integer.toString(pageIndex), "5");
                 break;
             case "关闭工单":
-                mPresenter.GetOrderInfoList(UserID, "12", Integer.toString(pageIndex), "3");
-                mLlSearch.setVisibility(View.GONE);
+                mPresenter.GetOrderInfoList(UserID, "12", Integer.toString(pageIndex), "5");
                 break;
+//            case "待接单":
+//                mPresenter.GetOrderInfoList(UserID, "0", Integer.toString(pageIndex), "3");
+////                mLlSearch.setVisibility(View.VISIBLE);
+//                break;
+//            case "待审核":
+//                mPresenter.GetOrderInfoList(UserID, "1", Integer.toString(pageIndex), "3");
+////                mLlSearch.setVisibility(View.VISIBLE);
+//                break;
+//            case "已接单":
+//                mPresenter.GetOrderInfoList(UserID, "7", Integer.toString(pageIndex), "3");
+////                mLlSearch.setVisibility(View.VISIBLE);
+//                break;
+//            case "待支付":
+//                mPresenter.GetOrderInfoList(UserID, "2", Integer.toString(pageIndex), "3");
+////                mLlSearch.setVisibility(View.VISIBLE);
+//                break;
+//            case "已完成":
+//                mPresenter.GetOrderInfoList(UserID, "3", Integer.toString(pageIndex), "3");
+////                mLlSearch.setVisibility(View.VISIBLE);
+//                break;
+//            case "质保单":
+//                mPresenter.GetOrderInfoList(UserID, "4", Integer.toString(pageIndex), "3");
+////                mLlSearch.setVisibility(View.VISIBLE);
+//                break;
+//            case "所有工单":
+//                mPresenter.GetOrderInfoList(UserID, "5", Integer.toString(pageIndex), "3");
+////                mLlSearch.setVisibility(View.VISIBLE);
+//                break;
+//            case "退单处理":
+//                mPresenter.GetOrderInfoList(UserID, "6", Integer.toString(pageIndex), "3");
+////                mLlSearch.setVisibility(View.VISIBLE);
+//                break;
+//            case "远程费审核":
+//                mPresenter.GetOrderInfoList(UserID, "9", Integer.toString(pageIndex), "3");
+////                mLlSearch.setVisibility(View.VISIBLE);
+//                break;
+//            case "待寄件":
+//                mPresenter.GetOrderInfoList(UserID, "10", Integer.toString(pageIndex), "3");
+////                mLlSearch.setVisibility(View.VISIBLE);
+//                break;
+//            case "星标工单":
+//                mPresenter.GetOrderInfoList(UserID, "11", Integer.toString(pageIndex), "3");
+////                mLlSearch.setVisibility(View.VISIBLE);
+//                break;
+//            case "关闭工单":
+//                mPresenter.GetOrderInfoList(UserID, "12", Integer.toString(pageIndex), "3");
+////                mLlSearch.setVisibility(View.VISIBLE);
+//                break;
         }
     }
 
@@ -357,11 +404,15 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        if (mParam1.equals(name)){
-            pageIndex=1;
-            workOrderList.clear();
-            getData();
-        }
+//        if (mParam1.equals(name)){
+//            pageIndex=1;
+//            workOrderList.clear();
+//            getData();
+//        }
+        pageIndex=1;
+        workOrderList.clear();
+        getData();
+
     }
     @Override
     public void FactoryComplaint(BaseResult<Data<String>> baseResult) {

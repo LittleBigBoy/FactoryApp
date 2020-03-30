@@ -91,6 +91,8 @@ import com.zhenhaikj.factoryside.mvp.widget.RecyclerViewDivider;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -1814,13 +1816,16 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 Data<String> data = baseResult.getData();
                 if (data.isItem1()) {
                     ToastUtils.showShort(data.getItem2());
-                    Bundle bundle = new Bundle();
-                    bundle.putString("title", "待接单");
-                    bundle.putInt("position", 2);
-                    Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("title", "待接单");
+//                    bundle.putInt("position", 2);
+//                    Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
                     cancleLoading();
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+//                    intent.putExtras(bundle);
+//                    startActivity(intent);
+                    EventBus.getDefault().post(11);
+                    EventBus.getDefault().post(6);
+                    finish();
                 } else {
                     if ("该用户已有工单".equals(data.getItem2())) {
                         final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);

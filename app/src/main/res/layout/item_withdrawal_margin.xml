@@ -21,11 +21,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:text="500.00"
-            android:textSize="12sp"
-            android:textColor="#FF4850"
-            android:layout_marginLeft="15dp"/>
+            android:textSize="14sp"
+            android:textColor="#FF4850" />
         <TextView
             android:id="@+id/time_tv"
             android:layout_width="wrap_content"
@@ -33,7 +31,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="2019-01-01 17:00"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textColor="#6A6969"
             android:layout_marginLeft="15dp"/>
         <TextView
@@ -43,7 +41,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="保证金"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textColor="#6A6969"
             android:layout_marginLeft="15dp"/>
 
@@ -54,7 +52,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="成功"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textColor="#6A6969"
             android:layout_marginLeft="15dp"/>
     </LinearLayout>

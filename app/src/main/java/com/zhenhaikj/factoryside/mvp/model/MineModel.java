@@ -37,7 +37,7 @@ public class MineModel implements MineContract.Model {
 
     @Override
     public Observable<BaseResult<Search>> GetOrderInfoList(String Phone, String OrderID, String UserID, String limit, String page) {
-        return ApiRetrofit.getDefault().GetOrderInfoList(Phone, OrderID, UserID,limit, page)
+        return ApiRetrofit.getDefault().GetOrderInfoList(Phone, OrderID, UserID,"",limit, page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

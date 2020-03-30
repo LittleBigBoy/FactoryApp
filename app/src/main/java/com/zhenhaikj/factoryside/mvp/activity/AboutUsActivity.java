@@ -58,6 +58,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     private List<Address> rechargeRecordList = new ArrayList<>();
     private BillAdapter billAdapter;
     private RechargeRecordAdapter rechargeRecordAdapter;
+    private Intent intent;
 
     @Override
     protected int setLayoutId() {
@@ -126,12 +127,20 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.tv_opinion:
-                startActivity(new Intent(mActivity,OpinionActivity.class));
+//                startActivity(new Intent(mActivity,OpinionActivity.class));
+                intent = new Intent(mActivity, WebActivity2.class);
+                intent.putExtra("Url","https://admin.xigyu.com/Message/yinsi");
+                intent.putExtra("Title","隐私政策");
+                startActivity(intent);
                 break;
             case R.id.tv_user_Agreement:
-                Intent intent=new Intent(mActivity,WebActivity.class);
-                intent.putExtra("Url","http://admin.xigyu.com/Agreement");
-                intent.putExtra("title","用户协议");
+//                Intent intent=new Intent(mActivity,WebActivity.class);
+//                intent.putExtra("Url","http://admin.xigyu.com/Agreement");
+//                intent.putExtra("title","用户协议");
+//                startActivity(intent);
+                intent = new Intent(mActivity, WebActivity.class);
+                intent.putExtra("Url","https://admin.xigyu.com/Message/service");
+                intent.putExtra("Title","服务协议");
                 startActivity(intent);
                 break;
         }

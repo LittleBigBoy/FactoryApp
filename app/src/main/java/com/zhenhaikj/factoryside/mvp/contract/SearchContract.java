@@ -12,7 +12,7 @@ import io.reactivex.Observable;
 
 public interface SearchContract  {
     interface Model extends BaseModel{
-        Observable<BaseResult<Search>> GetOrderInfoList(String Phone, String OrderID,String UserID, String limit, String page);
+        Observable<BaseResult<Search>> GetOrderInfoList(String Phone, String OrderID,String UserID,String UserName, String limit, String page);
         Observable<BaseResult<Data<String>>> GetFStarOrder(String OrderID, String FStarOrder);
     }
 
@@ -23,7 +23,7 @@ public interface SearchContract  {
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
-        public abstract void GetOrderInfoList(String Phone, String OrderID, String UserID,String limit, String page);
+        public abstract void GetOrderInfoList(String Phone, String OrderID, String UserID,String UserName,String limit, String page);
         public abstract void GetFStarOrder(String OrderID, String FStarOrder);
 
     }

@@ -21,29 +21,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="@color/red" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="1dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@drawable/white_half_shape"
+                    android:background="@color/white"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@+id/ll_avatar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="17dp"
                         android:orientation="horizontal"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="17dp"
                         android:paddingLeft="14dp"
-                        android:paddingRight="14dp">
+                        android:paddingRight="29dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -51,13 +46,13 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:text="头像"
-                            android:textColor="#858585"
-                            android:textSize="14sp" />
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
                         <ImageView
                             android:id="@+id/iv_avatar"
-                            android:layout_width="54dp"
-                            android:layout_height="54dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:src="@drawable/avatar_logo" />
 
                         <ImageView
@@ -65,25 +60,24 @@
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:layout_marginLeft="13dp"
-                            android:src="@drawable/right" />
+                            android:src="@drawable/right"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginLeft="14dp"
-                        android:layout_marginTop="11dp"
                         android:background="#E4E4E4" />
 
                     <LinearLayout
                         android:id="@+id/ll_nickname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="17dp"
-                        android:layout_marginBottom="21dp"
                         android:orientation="horizontal"
+                        android:paddingTop="22dp"
+                        android:paddingBottom="22dp"
                         android:paddingLeft="14dp"
-                        android:paddingRight="14dp">
+                        android:paddingRight="29dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -91,16 +85,16 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:text="昵称"
-                            android:textColor="#858585"
-                            android:textSize="14sp" />
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tv_nickname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="西瓜鱼"
-                            android:textColor="#858585"
-                            android:textSize="14sp" />
+                            android:textColor="#808080"
+                            android:textSize="16sp" />
 
                         <ImageView
                             android:layout_width="15dp"
@@ -112,16 +106,17 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_10"
+                        android:layout_height="1dp"
                         android:background="#f5f2f5" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="17dp"
                         android:orientation="horizontal"
+                        android:paddingTop="22dp"
+                        android:paddingBottom="22dp"
                         android:paddingLeft="14dp"
-                        android:paddingRight="14dp">
+                        android:paddingRight="29dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -129,8 +124,8 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:text="公司名"
-                            android:textColor="#858585"
-                            android:textSize="14sp" />
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tv_name"
@@ -138,8 +133,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text=""
-                            android:textColor="#858585"
-                            android:textSize="14sp" />
+                            android:textColor="#808080"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tv_certification"
@@ -158,18 +153,16 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginLeft="14dp"
-                        android:layout_marginTop="14dp"
                         android:background="#E4E4E4" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="17dp"
                         android:orientation="horizontal"
+                        android:paddingTop="22dp"
+                        android:paddingBottom="22dp"
                         android:paddingLeft="14dp"
-                        android:paddingRight="14dp"
-                        android:paddingBottom="14dp">
+                        android:paddingRight="29dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -177,8 +170,8 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:text="手机号"
-                            android:textColor="#858585"
-                            android:textSize="14sp" />
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tv_phone"
@@ -186,8 +179,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="155*****123"
-                            android:textColor="#858585"
-                            android:textSize="14sp" />
+                            android:textColor="#808080"
+                            android:textSize="16sp" />
 
                     </LinearLayout>
 
@@ -229,17 +222,17 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_10"
+                        android:layout_height="1dp"
                         android:background="#f5f2f5" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="17dp"
                         android:orientation="horizontal"
+                        android:paddingTop="22dp"
+                        android:paddingBottom="22dp"
                         android:paddingLeft="14dp"
-                        android:paddingRight="14dp"
-                        android:paddingBottom="14dp">
+                        android:paddingRight="29dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -247,8 +240,8 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:text="营业执照号"
-                            android:textColor="#858585"
-                            android:textSize="14sp" />
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tv_id_card"
@@ -256,8 +249,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text=""
-                            android:textColor="#858585"
-                            android:textSize="14sp" />
+                            android:textColor="#808080"
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <View
@@ -304,17 +297,18 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_10"
+                        android:layout_height="1dp"
                         android:background="#f5f2f5" />
 
                     <LinearLayout
                         android:id="@+id/ll_shop_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="17dp"
                         android:orientation="horizontal"
+                        android:paddingTop="22dp"
+                        android:paddingBottom="22dp"
                         android:paddingLeft="14dp"
-                        android:paddingRight="14dp">
+                        android:paddingRight="29dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -322,16 +316,16 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:text="公司地址"
-                            android:textColor="#858585"
-                            android:textSize="14sp" />
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tv_shop_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
-                            android:textColor="#858585"
-                            android:textSize="14sp" />
+                            android:textColor="#808080"
+                            android:textSize="16sp" />
 
                         <ImageView
                             android:layout_width="15dp"
@@ -420,8 +414,6 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginLeft="14dp"
-                        android:layout_marginTop="14dp"
                         android:background="#E4E4E4" />
 
                     <LinearLayout
@@ -463,19 +455,17 @@
                         android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginLeft="14dp"
-                        android:layout_marginTop="14dp"
                         android:background="#E4E4E4" />
 
                     <LinearLayout
                         android:id="@+id/ll_recipient_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="17dp"
-                        android:layout_marginBottom="20dp"
                         android:orientation="horizontal"
+                        android:paddingTop="22dp"
+                        android:paddingBottom="22dp"
                         android:paddingLeft="14dp"
-                        android:paddingRight="14dp">
+                        android:paddingRight="29dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -483,8 +473,8 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:text="我的收货地址"
-                            android:textColor="#858585"
-                            android:textSize="14sp" />
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tv_recipient_address"
@@ -492,8 +482,8 @@
                             android:layout_height="wrap_content"
                             android:text="未填写"
                             android:visibility="gone"
-                            android:textColor="#858585"
-                            android:textSize="14sp" />
+                            android:textColor="#808080"
+                            android:textSize="16sp" />
 
                         <ImageView
                             android:layout_width="15dp"

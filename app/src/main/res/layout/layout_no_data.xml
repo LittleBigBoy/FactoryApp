@@ -8,9 +8,9 @@
     android:id="@+id/ll_empty"
     android:layout_marginTop="2.5dp">
     <ImageView
-        android:layout_width="186dp"
-        android:layout_height="140dp"
-        android:src="@drawable/icon_order_empty"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/v3_nodata"
         />
     <TextView
         android:gravity="center"

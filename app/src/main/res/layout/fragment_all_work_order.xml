@@ -21,6 +21,54 @@
             android:gravity="center"
             android:layout_gravity="center" />
     </androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+        android:id="@+id/ll_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/category_edit_shape"
+            android:paddingLeft="10dp"
+            >
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/search" />
+
+            <TextView
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:hint="请输入用户手机号或者工单号"
+                android:imeOptions="actionSearch"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:paddingLeft="5dp"
+                android:singleLine="true"
+                android:textColor="#333333"
+                android:textColorHint="#808080"
+                android:textSize="13sp"
+                android:layout_gravity="center"/>
+
+            <ImageView
+                android:id="@+id/iv_microphone"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/huatong"
+                android:padding="7dp"/>
+        </LinearLayout>
+    </LinearLayout>
 
 
     <com.flyco.tablayout.SlidingTabLayout
@@ -36,9 +84,7 @@
         tl:tl_tab_padding="15dp"
         tl:tl_textSelectColor="#e51837"
         tl:tl_textUnselectColor="@color/black"
-        tl:tl_underline_color="#1A000000"
-        tl:tl_underline_height="1dp"/>
-
+       />
 
     <!--<net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/magic_indicator"

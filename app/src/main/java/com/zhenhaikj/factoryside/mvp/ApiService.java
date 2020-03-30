@@ -20,10 +20,12 @@ import com.zhenhaikj.factoryside.mvp.bean.Data2;
 import com.zhenhaikj.factoryside.mvp.bean.DepositRecharge;
 import com.zhenhaikj.factoryside.mvp.bean.DepositWithDraw;
 import com.zhenhaikj.factoryside.mvp.bean.District;
+import com.zhenhaikj.factoryside.mvp.bean.FactoryNavigationBarNumber;
 import com.zhenhaikj.factoryside.mvp.bean.Freezing;
 import com.zhenhaikj.factoryside.mvp.bean.FrozenMoney;
 import com.zhenhaikj.factoryside.mvp.bean.GetCategory;
 import com.zhenhaikj.factoryside.mvp.bean.GetFactoryData;
+import com.zhenhaikj.factoryside.mvp.bean.GetMessagePag;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
 import com.zhenhaikj.factoryside.mvp.bean.LeaveMessage;
 import com.zhenhaikj.factoryside.mvp.bean.Logistics;
@@ -138,6 +140,10 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Order/FactoryGetOrderList")
     Observable<BaseResult<WorkOrder>> FactoryGetOrderList(@Field("UserID") String UserID, @Field("State") String state, @Field("page") String page, @Field("limit") String limit);
+
+    @FormUrlEncoded
+    @POST("Order/NewFactoryGetOrderList")
+    Observable<BaseResult<WorkOrder>> NewFactoryGetOrderList(@Field("UserID") String UserID, @Field("State") String state, @Field("page") String page, @Field("limit") String limit);
 
     /**
      * 获取工单详情
@@ -1093,6 +1099,7 @@ public interface ApiService {
     Observable<BaseResult<Search>> GetOrderInfoList(@Field("Phone") String Phone,
                                                     @Field("OrderID") String OrderID,
                                                     @Field("UserID") String UserID,
+                                                    @Field("UserName") String UserName,
                                                     @Field("limit") String limit,
                                                     @Field("page") String page);
 
@@ -1195,4 +1202,15 @@ public interface ApiService {
     @POST("Account/barCode")
     Observable<BaseResult<Data<String>>> barCode(@Field("UserID") String UserID,
                                                  @Field("barCode") String barCode);
+
+    /*消息页*/
+    @FormUrlEncoded
+    @POST("Cms/GetmessagePag")
+    Observable<BaseResult<Data<GetMessagePag>>> GetmessagePag(@Field("UserId") String UserId);
+
+
+    /*首页数据总量*/
+    @FormUrlEncoded
+    @POST("Order/FactoryNavigationBarNumber")
+    Observable<BaseResult<Data<FactoryNavigationBarNumber>>> FactoryNavigationBarNumber(@Field("UserID") String UserID, @Field("State") String state, @Field("page") String page, @Field("limit") String limit);
 }

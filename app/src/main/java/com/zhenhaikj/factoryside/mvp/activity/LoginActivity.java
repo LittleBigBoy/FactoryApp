@@ -10,13 +10,13 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
-import com.tencent.android.tpush.XGPushConfig;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.MainActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
@@ -27,7 +27,6 @@ import com.zhenhaikj.factoryside.mvp.contract.LoginContract;
 import com.zhenhaikj.factoryside.mvp.model.LoginModel;
 import com.zhenhaikj.factoryside.mvp.presenter.LoginPresenter;
 import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
-import com.zhenhaikj.factoryside.mvp.widget.ClearEditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,12 +65,22 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     LinearLayout mLlCode;
     @BindView(R.id.tv_forgetpassword)
     TextView mTvForgetpassword;
+    @BindView(R.id.img_login_username)
+    ImageView mImgLoginUsername;
+    @BindView(R.id.img_login_password)
+    ImageView mImgLoginPassword;
+    @BindView(R.id.rl_input_password)
+    RelativeLayout mRlInputPassword;
+    @BindView(R.id.img_login_password1)
+    ImageView mImgLoginPassword1;
+
     private String userName;
     private String passWord;
     private String code;
     private SPUtils spUtils;
     private boolean isLogin;
     private int login_state = 0;//默认为账号密码登陆
+    private Intent intent;
 
     @Override
     protected int setLayoutId() {
@@ -218,6 +227,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 startActivity(new Intent(mActivity, ForgetPasswordActivity.class));
 
                 break;
+//            case R.id.tv_privacy_policy:
+//                intent = new Intent(mActivity, WebActivity.class);
+//                intent.putExtra("Url", "https://admin.xigyu.com/Message/yinsi");
+//                intent.putExtra("title", "用户协议");
+//                startActivity(intent);
+//                break;
 
         }
     }

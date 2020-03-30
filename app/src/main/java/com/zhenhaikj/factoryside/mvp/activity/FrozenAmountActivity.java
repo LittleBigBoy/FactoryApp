@@ -186,6 +186,7 @@ public class FrozenAmountActivity extends BaseActivity<RecordPresenter, RecordMo
         mTvDay.setSelected(true);
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
+        showProgress();
         mPresenter.FreezingAmount(userId, startTime,date,String.valueOf(page), "10");
     }
 
@@ -208,24 +209,28 @@ public class FrozenAmountActivity extends BaseActivity<RecordPresenter, RecordMo
                 tabSelected(mTvDay);
                 startTime = getStringByFormat(getTimesmorning());
                 list.clear();
+                showProgress();
                 mPresenter.FreezingAmount(userId, startTime,date,String.valueOf(page), "10");
                 break;
             case R.id.tv_week:
                 tabSelected(mTvWeek);
                 startTime = getStringByFormat(getTimesWeekmorning());
                 list.clear();
+                showProgress();
                 mPresenter.FreezingAmount(userId, startTime,date,String.valueOf(page), "10");
                 break;
             case R.id.tv_month:
                 tabSelected(mTvMonth);
                 startTime = getStringByFormat(getTimesMonthmorning());
                 list.clear();
+                showProgress();
                 mPresenter.FreezingAmount(userId, startTime,date,String.valueOf(page), "10");
                 break;
             case R.id.tv_year:
                 tabSelected(mTvYear);
                 startTime = getStringByFormat(getTimesYearmorning());
                 list.clear();
+                showProgress();
                 mPresenter.FreezingAmount(userId, startTime,date,String.valueOf(page), "10");
                 break;
         }
@@ -301,10 +306,11 @@ public class FrozenAmountActivity extends BaseActivity<RecordPresenter, RecordMo
     public void FreezingAmount(BaseResult<Data<Freezing>> result) {
         switch (result.getStatusCode()){
             case 200:
+                mTvMoney.setText(result.getData().getItem2().getMoney()+"");
                 list.clear();
                 list.addAll(result.getData().getItem2().getData());
                 amountAdapter.setNewData(list);
-                mTvMoney.setText(result.getData().getItem2().getMoney()+"");
+                hideProgress();
                 break;
         }
     }

@@ -8,8 +8,8 @@ import com.zhenhaikj.factoryside.mvp.contract.SearchContract;
 
 public class SearchPresenter extends SearchContract.Presenter {
     @Override
-    public void GetOrderInfoList(String Phone, String OrderID,String UserID ,String limit, String page) {
-        mModel.GetOrderInfoList(Phone, OrderID, UserID,limit, page)
+    public void GetOrderInfoList(String Phone, String OrderID,String UserID ,String UserName,String limit, String page) {
+        mModel.GetOrderInfoList(Phone, OrderID, UserID,UserName,limit, page)
                 .subscribe(new BaseObserver<Search>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Search> value) {

@@ -60,6 +60,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
     private int pos;
     private int type = 1;//1.工单消息  2.交易信息
     private ZLoadingDialog dialog = new ZLoadingDialog(this); //loading
+    private int subType;
 
     @Override
     protected int setLayoutId() {
@@ -85,11 +86,11 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
         messageAdapter = new MessageAdapter(R.layout.item_message, list);
         mRvOrdermessage.setAdapter(messageAdapter);
         type = getIntent().getIntExtra("type", 1);
-
+        subType = getIntent().getIntExtra("subType", 1);
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
-        showLoading();
-        mPresenter.GetMessageList(userId, Integer.toString(type), "0", "10", Integer.toString(pageIndex));
+        showProgress();
+        mPresenter.GetMessageList(userId, Integer.toString(type), Integer.toString(subType), "10", Integer.toString(pageIndex));
     }
 
     @Override
@@ -107,7 +108,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
             public void onRefresh(RefreshLayout refreshlayout) {
                 pageIndex = 1;
                 list.clear();
-                mPresenter.GetMessageList(userId, Integer.toString(type), "0", "10", Integer.toString(pageIndex));
+                mPresenter.GetMessageList(userId, Integer.toString(type), Integer.toString(subType), "10", Integer.toString(pageIndex));
                 refreshlayout.finishRefresh();
                 refreshlayout.resetNoMoreData();
             }
@@ -117,7 +118,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
                 pageIndex++; //页数加1
-                mPresenter.GetMessageList(userId, Integer.toString(type), "0", "10", Integer.toString(pageIndex));
+                mPresenter.GetMessageList(userId, Integer.toString(type), Integer.toString(subType), "10", Integer.toString(pageIndex));
                 refreshlayout.finishLoadMore();
             }
         });
@@ -149,7 +150,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
                 }
                 list.addAll(baseResult.getData().getData());
                 messageAdapter.setNewData(list);
-                cancleLoading();
+                hideProgress();
                 break;
             default:
                 break;
@@ -167,7 +168,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
                         EventBus.getDefault().post("order_num");
                         EventBus.getDefault().post("transaction_num");
 //                    }
-                    cancleLoading();
+                    hideProgress();
                     break;
             }
     }
@@ -212,24 +213,24 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
                 OrderMessageActivity2.this.finish();
                 break;
             case R.id.tv_all_read:
-                showLoading();
-                mPresenter.AllRead(userId,Integer.toString(type),"0");
+                showProgress();
+                mPresenter.AllRead(userId,Integer.toString(type),Integer.toString(subType));
                 break;
         }
     }
 
-    public void showLoading() {
-        dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
-                .setLoadingColor(Color.BLACK)//颜色
-                .setHintText("请稍后...")
-                .setHintTextSize(14) // 设置字体大小 dp
-                .setHintTextColor(Color.BLACK)  // 设置字体颜色
-                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
-                .setCanceledOnTouchOutside(false)//点击外部无法取消
-                .show();
-    }
-
-    public void cancleLoading() {
-        dialog.dismiss();
-    }
+//    public void showLoading() {
+//        dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
+//                .setLoadingColor(Color.BLACK)//颜色
+//                .setHintText("请稍后...")
+//                .setHintTextSize(14) // 设置字体大小 dp
+//                .setHintTextColor(Color.BLACK)  // 设置字体颜色
+//                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+//                .setCanceledOnTouchOutside(false)//点击外部无法取消
+//                .show();
+//    }
+//
+//    public void cancleLoading() {
+//        dialog.dismiss();
+//    }
 }

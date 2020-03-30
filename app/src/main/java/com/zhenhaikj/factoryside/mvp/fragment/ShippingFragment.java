@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -51,6 +52,8 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
     TextView mTvNoLogistics;
     @BindView(R.id.sv_logistics)
     ScrollView mSvLogistics;
+    @BindView(R.id.ll_empty)
+    LinearLayout mLlEmpty;
 
     private String mParam1;
     private String mParam2;
@@ -147,20 +150,25 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
-                if (data.getOrderAccessroyDetail().size()>0){
+                if (data.getOrderAccessroyDetail().size() > 0) {
                     if ("".equals(data.getOrderAccessroyDetail().get(0).getExpressNo())) {
                         mTvNoLogistics.setVisibility(View.VISIBLE);
+                        mLlEmpty.setVisibility(View.VISIBLE);
                         mSvLogistics.setVisibility(View.GONE);
                         return;
                     } else {
                         mTvNoLogistics.setVisibility(View.GONE);
+                        mLlEmpty.setVisibility(View.GONE);
                         mSvLogistics.setVisibility(View.VISIBLE);
                         if (!"".equals(data.getOrderAccessroyDetail().get(0).getExpressNo())) {
                             mPresenter.GetExpressInfo(data.getOrderAccessroyDetail().get(0).getExpressNo());
                         }
                         mTvNumber.setText(data.getOrderAccessroyDetail().get(0).getExpressNo());
                     }
-                }else {
+                } else {
+                    mTvNoLogistics.setVisibility(View.VISIBLE);
+                    mLlEmpty.setVisibility(View.VISIBLE);
+                    mSvLogistics.setVisibility(View.GONE);
                     return;
                 }
 
@@ -181,7 +189,7 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
         }
     }
 
-    public void showLoading(){
+    public void showLoading() {
         dialog.setLoadingBuilder(Z_TYPE.SINGLE_CIRCLE)//设置类型
                 .setLoadingColor(Color.BLACK)//颜色
                 .setHintText("请稍后...")
@@ -192,7 +200,7 @@ public class ShippingFragment extends BaseLazyFragment<ExpressInfoPresenter, Exp
                 .show();
     }
 
-    public void cancleLoading(){
+    public void cancleLoading() {
         dialog.dismiss();
     }
 }

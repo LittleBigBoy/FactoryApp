@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/ll_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/category_edit_shape"
+            android:paddingLeft="10dp"
+            >
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/search" />
+
+            <TextView
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:hint="请输入用户手机号或者工单号"
+                android:imeOptions="actionSearch"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:paddingLeft="5dp"
+                android:singleLine="true"
+                android:textColor="#333333"
+                android:textColorHint="#808080"
+                android:textSize="13sp"
+                android:layout_gravity="center"/>
+
+            <ImageView
+                android:id="@+id/iv_microphone"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/huatong"
+                android:padding="7dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/v3_blue_shape">
+            <TextView
+                android:id="@+id/tv_remote_fee_review"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="远程费审核"
+                android:textSize="14sp"
+                android:textColor="@drawable/v3_order_selector"
+                android:background="@drawable/v3_order_left_selector"/>
+            <TextView
+                android:id="@+id/tv_timed_out"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="配件审核"
+                android:textSize="14sp"
+                android:textColor="@drawable/v3_order_selector"
+                android:background="@drawable/v3_order_right_selector"/>
+        </LinearLayout>
+    </LinearLayout>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/refreshLayout"
+        android:layout_marginTop="2.5dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rv_pending"/>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>

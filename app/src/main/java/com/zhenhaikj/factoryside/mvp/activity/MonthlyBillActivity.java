@@ -144,6 +144,7 @@ public class MonthlyBillActivity extends BaseActivity<RecordPresenter, RecordMod
         mTvDay.setSelected(true);
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
+        showProgress();
         mPresenter.RechargeRecord(userId, startTime, date, "全部", "2",String.valueOf(pageIndex),"10");
     }
 
@@ -166,24 +167,28 @@ public class MonthlyBillActivity extends BaseActivity<RecordPresenter, RecordMod
                 tabSelected(mTvDay);
                 startTime = getStringByFormat(getTimesmorning());
                 recharge_list.clear();
+                showProgress();
                 mPresenter.RechargeRecord(userId, startTime, date, "全部", "2",String.valueOf(pageIndex),"10");
                 break;
             case R.id.tv_week:
                 tabSelected(mTvWeek);
                 startTime = getStringByFormat(getTimesWeekmorning());
                 recharge_list.clear();
+                showProgress();
                 mPresenter.RechargeRecord(userId, startTime, date, "全部", "2",String.valueOf(pageIndex),"10");
                 break;
             case R.id.tv_month:
                 tabSelected(mTvMonth);
                 startTime = getStringByFormat(getTimesMonthmorning());
                 recharge_list.clear();
+                showProgress();
                 mPresenter.RechargeRecord(userId, startTime, date, "全部", "2",String.valueOf(pageIndex),"10");
                 break;
             case R.id.tv_year:
                 tabSelected(mTvYear);
                 startTime = getStringByFormat(getTimesYearmorning());
                 recharge_list.clear();
+                showProgress();
                 mPresenter.RechargeRecord(userId, startTime, date, "全部", "2",String.valueOf(pageIndex),"10");
                 break;
         }
@@ -264,10 +269,11 @@ public class MonthlyBillActivity extends BaseActivity<RecordPresenter, RecordMod
     public void RechargeRecord(BaseResult<Data2<Recharge>> result) {
         switch (result.getStatusCode()) {
             case 200:
+                mTvMoney.setText(result.getData().getItem3() + "");
                 recharge_list.addAll(result.getData().getItem2().getData1());
                 adapter2.setNewData(recharge_list);
                 adapter2.notifyDataSetChanged();
-                mTvMoney.setText(result.getData().getItem3() + "");
+                hideProgress();
                 break;
         }
     }

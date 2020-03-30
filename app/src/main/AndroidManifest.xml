@@ -191,6 +191,8 @@
         <activity android:name=".mvp.activity.LeaveMessageActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.ForgetPasswordActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name=".mvp.activity.ComplaintDetailActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.v3.activity.MessageActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
+        <activity android:name=".mvp.v3.activity.SystemNotificationActivity" android:screenOrientation="portrait"  android:launchMode="singleTask"></activity>
         <activity android:name="com.amap.searchdemo.MainActivity"
             android:launchMode="singleTask"/>
 

@@ -12,8 +12,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SearchModel implements SearchContract.Model {
     @Override
-    public Observable<BaseResult<Search>> GetOrderInfoList(String Phone, String OrderID, String UserID,String limit, String page) {
-        return ApiRetrofit.getDefault().GetOrderInfoList(Phone, OrderID, UserID,limit, page)
+    public Observable<BaseResult<Search>> GetOrderInfoList(String Phone, String OrderID, String UserID,String UserName,String limit, String page) {
+        return ApiRetrofit.getDefault().GetOrderInfoList(Phone, OrderID, UserID,UserName,limit, page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

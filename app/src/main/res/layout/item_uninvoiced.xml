@@ -22,11 +22,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:text="2019-01-01 17:00"
-            android:textSize="12sp"
-            android:textColor="#6A6969"
-            android:layout_marginLeft="15dp"/>
+            android:textSize="14sp"
+            android:textColor="#6A6969" />
         <TextView
         android:id="@+id/money_tv"
         android:layout_width="wrap_content"
@@ -34,7 +32,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="500.00"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textColor="#FF4850"
         android:layout_marginLeft="15dp"/>
         <TextView
@@ -44,7 +42,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="可开"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textColor="#6A6969"
             android:layout_marginLeft="15dp"/>
 
