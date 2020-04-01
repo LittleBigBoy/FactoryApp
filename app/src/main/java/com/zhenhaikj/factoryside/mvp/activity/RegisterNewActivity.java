@@ -18,6 +18,7 @@ import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.MainActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Article;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.contract.RegisterContract;
 import com.zhenhaikj.factoryside.mvp.model.RegisterModel;
@@ -54,6 +55,8 @@ public class RegisterNewActivity extends BaseActivity<RegisterPresenter, Registe
     private String password;
     private String passwordAgain;
     private String verificationCode;
+    private String title;
+    private String url;
 
     @Override
     protected void initImmersionBar() {
@@ -77,6 +80,7 @@ public class RegisterNewActivity extends BaseActivity<RegisterPresenter, Registe
     @Override
     protected void initView() {
         mImgAgreement.setSelected(true);
+        mPresenter.GetListCategoryContentByCategoryID("12","1","10");
     }
 
     @Override
@@ -133,9 +137,9 @@ public class RegisterNewActivity extends BaseActivity<RegisterPresenter, Registe
                 }
                 break;
             case R.id.tv_agreement:
-                Intent intent = new Intent(mActivity, WebActivity.class);
-                intent.putExtra("title", "用户协议");
-                intent.putExtra("Url", "http://admin.xigyu.com/Agreement");
+                Intent intent = new Intent(mActivity, WebActivity2.class);
+                intent.putExtra("Url",url );
+                intent.putExtra("title", title);
                 startActivity(intent);
                 break;
         }
@@ -210,6 +214,18 @@ public class RegisterNewActivity extends BaseActivity<RegisterPresenter, Registe
     public void AddAndUpdatePushAccount(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()){
             case 200:
+                break;
+        }
+    }
+
+    @Override
+    public void GetListCategoryContentByCategoryID(BaseResult<Article> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().getCount()>0){
+                    title = baseResult.getData().getData().get(0).getTitle();
+                    url = baseResult.getData().getData().get(0).getContent();
+                }
                 break;
         }
     }

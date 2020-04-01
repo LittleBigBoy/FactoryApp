@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +23,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.Config;
 import com.zhenhaikj.factoryside.mvp.activity.AllWorkOrdersActivity;
@@ -30,7 +33,7 @@ import com.zhenhaikj.factoryside.mvp.activity.CustomerServiceActivity;
 import com.zhenhaikj.factoryside.mvp.activity.ExcelOrderActivity;
 import com.zhenhaikj.factoryside.mvp.activity.HomeMaintenanceActivity2;
 import com.zhenhaikj.factoryside.mvp.activity.VerifiedActivity;
-import com.zhenhaikj.factoryside.mvp.activity.WebActivity;
+import com.zhenhaikj.factoryside.mvp.activity.WebActivity2;
 import com.zhenhaikj.factoryside.mvp.base.BaseLazyFragment;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
@@ -47,6 +50,8 @@ import com.zhenhaikj.factoryside.mvp.widget.SwitchView;
 import com.zhenhaikj.factoryside.mvp.widget.VerifiedDialog;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +125,8 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
     TextView mTvClose;
     @BindView(R.id.ll_close)
     LinearLayout mLlClose;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     private String mParam1;
     private String mParam2;
     private List<MenuItem2> mMainMenus = new ArrayList<>();
@@ -190,8 +197,9 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
         spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
         mPresenter.GetUserInfoList(userId, "1");
-        mPresenter.GetListCategoryContentByCategoryID("7", "1", "999");
-        mPresenter.FactoryNavigationBarNumber(userId,"5","1","999");
+        mPresenter.GetListCategoryContentByCategoryID("3", "1", "999");
+        mPresenter.FactoryNavigationBarNumber(userId, "5", "1", "999");
+        mPresenter.messgIsOrNo(userId, "1", "1");
         for (int i = 0; i < 4; i++) {
             mMainMenus.add(new MenuItem2(icons_content[i], icons[i], names[i]));
         }
@@ -315,7 +323,17 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
 
     @Override
     protected void initView() {
-
+        mRefreshLayout.setEnableLoadMore(false);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mPresenter.GetUserInfoList(userId, "1");
+                mPresenter.GetListCategoryContentByCategoryID("3", "1", "999");
+                mPresenter.FactoryNavigationBarNumber(userId, "5", "1", "999");
+                mPresenter.messgIsOrNo(userId, "1", "1");
+                mRefreshLayout.finishRefresh(1000);
+            }
+        });
 
     }
 
@@ -337,7 +355,7 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ll_pending_review:
                 EventBus.getDefault().post(11);
                 EventBus.getDefault().post(0);
@@ -403,11 +421,11 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
                         .apply(myOptions)
                         .into(mIvAvatar);
 //                mTvName.setText(userInfoDean.getNickName());
-                String maskNumber = userInfoDean.getUserID().substring(0,3)+"****"+userInfoDean.getUserID().substring(7,userInfoDean.getUserID().length());
+                String maskNumber = userInfoDean.getUserID().substring(0, 3) + "****" + userInfoDean.getUserID().substring(7, userInfoDean.getUserID().length());
                 mTvPhone.setText(maskNumber);
                 if ("1".equals(userInfoDean.getIfAuth())) {
                     mPresenter.GetmessageBytype(userId);
-                }else {
+                } else {
                     mTvName.setText("未实名");
                 }
                 break;
@@ -439,9 +457,9 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
                             public void onClick(View v) {
                                 String title = tv_name.getText().toString();
                                 String content = tv_url.getText().toString();
-                                Intent intent = new Intent(mActivity, WebActivity.class);
+                                Intent intent = new Intent(mActivity, WebActivity2.class);
                                 intent.putExtra("Url", content);
-                                intent.putExtra("Title", title);
+                                intent.putExtra("title", title);
                                 startActivity(intent);
                             }
                         });
@@ -472,21 +490,34 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
 
     @Override
     public void FactoryNavigationBarNumber(BaseResult<Data<FactoryNavigationBarNumber>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().isItem1()) {
+                    barNumber = baseResult.getData().getItem2();
+                    mTvPendingOrders.setText("(" + barNumber.getCount1() + ")");
+                    mTvReceivedWorkOrder.setText("(" + barNumber.getCount2() + ")");
+                    mTvStarTicket.setText("(" + barNumber.getCount3() + ")");
+                    mTvWarrantyWorkOrder.setText("(" + barNumber.getCount4() + ")");
+                    mTvReturnedWorkOrder.setText("(" + barNumber.getCount5() + ")");
+                    mTvClose.setText("(" + barNumber.getCount6() + ")");
+                    mTvReturned.setText("(" + barNumber.getCount7() + ")");
+                    mTvPendingReview.setText("" + barNumber.getCount8() + "");
+                    mTvPending.setText("" + barNumber.getCount9() + "");
+                    mTvPaid.setText("" + barNumber.getCount10() + "");
+                    mTvCompleted.setText("" + barNumber.getCount11() + "");
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void messgIsOrNo(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()){
             case 200:
                 if (baseResult.getData().isItem1()){
-                    barNumber = baseResult.getData().getItem2();
-                    mTvPendingOrders.setText("("+barNumber.getCount1()+")");
-                    mTvReceivedWorkOrder.setText("("+barNumber.getCount2()+")");
-                    mTvStarTicket.setText("("+barNumber.getCount3()+")");
-                    mTvWarrantyWorkOrder.setText("("+barNumber.getCount4()+")");
-                    mTvReturnedWorkOrder.setText("("+barNumber.getCount5()+")");
-                    mTvClose.setText("("+barNumber.getCount6()+")");
-                    mTvReturned.setText("("+barNumber.getCount7()+")");
-                    mTvPendingReview.setText(""+barNumber.getCount8()+"");
-                    mTvPending.setText(""+barNumber.getCount9()+"");
-                    mTvPaid.setText(""+barNumber.getCount10()+"");
-                    mTvCompleted.setText(""+barNumber.getCount11()+"");
+                    mIvRed.setVisibility(View.VISIBLE);
+                }else {
+                    mIvRed.setVisibility(View.GONE);
                 }
                 break;
         }
@@ -642,4 +673,10 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String name) {
+        if ("transaction_num".equals(name)) {
+            mPresenter.messgIsOrNo(userId, "1", "1");
+        }
+    }
 }

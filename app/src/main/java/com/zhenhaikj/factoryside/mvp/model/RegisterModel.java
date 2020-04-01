@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp.model;
 
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Article;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.contract.RegisterContract;
 
@@ -43,6 +44,13 @@ public class RegisterModel implements RegisterContract.Model {
     @Override
     public Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(String token, String type, String UserID) {
         return ApiRetrofit.getDefault().AddAndUpdatePushAccount(token, type, UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Article>> GetListCategoryContentByCategoryID(String CategoryID, String page, String limit) {
+        return ApiRetrofit.getDefault().GetListCategoryContentByCategoryID(CategoryID, page, limit)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

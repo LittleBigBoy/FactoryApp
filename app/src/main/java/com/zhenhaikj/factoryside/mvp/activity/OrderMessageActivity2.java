@@ -85,6 +85,7 @@ public class OrderMessageActivity2 extends BaseActivity<MessagePresenter, Messag
         mRvOrdermessage.setNestedScrollingEnabled(false);
         messageAdapter = new MessageAdapter(R.layout.item_message, list);
         mRvOrdermessage.setAdapter(messageAdapter);
+        messageAdapter.setEmptyView(getMessageEmptyView());
         type = getIntent().getIntExtra("type", 1);
         subType = getIntent().getIntExtra("subType", 1);
         SPUtils spUtils = SPUtils.getInstance("token");

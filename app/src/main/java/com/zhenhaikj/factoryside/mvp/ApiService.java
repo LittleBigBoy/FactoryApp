@@ -1213,4 +1213,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Order/FactoryNavigationBarNumber")
     Observable<BaseResult<Data<FactoryNavigationBarNumber>>> FactoryNavigationBarNumber(@Field("UserID") String UserID, @Field("State") String state, @Field("page") String page, @Field("limit") String limit);
+
+    /*是否消息已读*/
+    @FormUrlEncoded
+    @POST("Cms/messgIsOrNo")
+    Observable<BaseResult<Data<String>>> messgIsOrNo(
+            @Field("UserID") String UserID,
+            @Field("limit") String limit,
+            @Field("page") String page
+
+    );
 }

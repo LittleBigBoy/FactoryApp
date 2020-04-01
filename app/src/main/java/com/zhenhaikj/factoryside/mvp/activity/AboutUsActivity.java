@@ -14,7 +14,12 @@ import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.BillAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.RechargeRecordAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
+import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
+import com.zhenhaikj.factoryside.mvp.bean.Article;
+import com.zhenhaikj.factoryside.mvp.contract.AboutUsContract;
+import com.zhenhaikj.factoryside.mvp.model.AboutUsModel;
+import com.zhenhaikj.factoryside.mvp.presenter.AboutUsPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class AboutUsActivity extends BaseActivity implements View.OnClickListener {
+public class AboutUsActivity extends BaseActivity<AboutUsPresenter, AboutUsModel> implements View.OnClickListener, AboutUsContract.View {
 
 
     @BindView(R.id.view)
@@ -59,6 +64,8 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     private BillAdapter billAdapter;
     private RechargeRecordAdapter rechargeRecordAdapter;
     private Intent intent;
+    private String title;
+    private String content;
 
     @Override
     protected int setLayoutId() {
@@ -102,6 +109,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
         }
 
         mTvVersionNumber.setText("V "+name);
+        mPresenter.GetListCategoryContentByCategoryID("12","1","10");
     }
 
     @Override
@@ -128,7 +136,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.tv_opinion:
 //                startActivity(new Intent(mActivity,OpinionActivity.class));
-                intent = new Intent(mActivity, WebActivity2.class);
+                intent = new Intent(mActivity, WebActivity.class);
                 intent.putExtra("Url","https://admin.xigyu.com/Message/yinsi");
                 intent.putExtra("Title","隐私政策");
                 startActivity(intent);
@@ -138,9 +146,9 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
 //                intent.putExtra("Url","http://admin.xigyu.com/Agreement");
 //                intent.putExtra("title","用户协议");
 //                startActivity(intent);
-                intent = new Intent(mActivity, WebActivity.class);
-                intent.putExtra("Url","https://admin.xigyu.com/Message/service");
-                intent.putExtra("Title","服务协议");
+                intent = new Intent(mActivity, WebActivity2.class);
+                intent.putExtra("Url",content);
+                intent.putExtra("title","服务协议");
                 startActivity(intent);
                 break;
         }
@@ -151,5 +159,17 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void GetListCategoryContentByCategoryID(BaseResult<Article> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().getCount()>0){
+                    title = baseResult.getData().getData().get(0).getTitle();
+                    content = baseResult.getData().getData().get(0).getContent();
+                }
+                break;
+        }
     }
 }

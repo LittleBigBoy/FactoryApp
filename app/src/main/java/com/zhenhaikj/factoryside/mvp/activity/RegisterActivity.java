@@ -18,6 +18,7 @@ import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.MainActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Article;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.contract.RegisterContract;
 import com.zhenhaikj.factoryside.mvp.model.RegisterModel;
@@ -249,6 +250,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 }
                 break;
         }
+    }
+
+    @Override
+    public void GetListCategoryContentByCategoryID(BaseResult<Article> baseResult) {
+
     }
 
     class TimeCount extends CountDownTimer {

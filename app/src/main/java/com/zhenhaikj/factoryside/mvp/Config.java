@@ -56,7 +56,7 @@ public class Config {
             loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 @Override
                 public void log(String message) {
-//                    MyUtils.e("okhttp", message );
+                    MyUtils.e("okhttp", message );
                 }
             });
         }

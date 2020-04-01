@@ -25,6 +25,9 @@ import com.zhenhaikj.factoryside.mvp.v3.mvp.contract.MessageContract;
 import com.zhenhaikj.factoryside.mvp.v3.mvp.model.MessageModel;
 import com.zhenhaikj.factoryside.mvp.v3.mvp.presenter.MessagePresenter;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -113,6 +116,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter, MessageModel
     @Override
     protected void initView() {
         mTvTitle.setText("消息通知");
+        mTvTitle.setVisibility(View.VISIBLE);
         mTvSave.setVisibility(View.GONE);
         mTvSave.setText("全部已读");
         spUtils = SPUtils.getInstance("token");
@@ -342,6 +346,17 @@ public class MessageActivity extends BaseActivity<MessagePresenter, MessageModel
 
             default:
                 break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String num) {
+        switch (num) {
+            case "orderempty":
+                mPresenter.GetNewsLeaveMessage(userId, "1", "1");
+                mPresenter.GetmessagePag(userId);
+                break;
+
         }
     }
 }

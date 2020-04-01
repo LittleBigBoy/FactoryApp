@@ -216,6 +216,14 @@ public class SearchActivity extends BaseActivity<SearchPresenter, SearchModel> i
                         }
                     }
                 });
+                searchAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                        Intent intent1 = new Intent(mActivity, WarrantyActivity.class);
+                        intent1.putExtra("OrderID", baseResult.getData().getData().get(i).getOrderID());
+                        startActivity(intent1);
+                    }
+                });
                 break;
         }
     }

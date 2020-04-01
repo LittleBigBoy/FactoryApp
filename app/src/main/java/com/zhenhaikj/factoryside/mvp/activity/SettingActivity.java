@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.tencent.bugly.beta.Beta;
+import com.tencent.bugly.beta.UpgradeInfo;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.adapter.BillAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.RechargeRecordAdapter;
@@ -91,6 +93,8 @@ public class SettingActivity extends BaseActivity<LoginPresenter, LoginModel> im
     private SPUtils spUtils;
     private String userId;
     private CustomDialog serviceDialog;
+    private View puchsh_view;
+    private AlertDialog push_dialog;
 
     @Override
     protected int setLayoutId() {
@@ -179,6 +183,30 @@ public class SettingActivity extends BaseActivity<LoginPresenter, LoginModel> im
 ////                lp.width = (int) (display.getWidth() * 0.6);
 //                window.setAttributes(lp);
 //                window.setBackgroundDrawable(new ColorDrawable());
+                showProgress();
+                UpgradeInfo upgradeInfo=Beta.getUpgradeInfo();
+                if (upgradeInfo==null){
+                    puchsh_view = LayoutInflater.from(mActivity).inflate(R.layout.v3_dialog_prompt, null);
+                    TextView title = puchsh_view.findViewById(R.id.title);
+                    TextView message = puchsh_view.findViewById(R.id.message);
+                    Button negtive = puchsh_view.findViewById(R.id.negtive);
+                    title.setText("提示");
+                    message.setText("您已经是最新版本了");
+                    negtive.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            push_dialog.dismiss();
+                        }
+                    });
+                    push_dialog = new AlertDialog.Builder(mActivity)
+                            .setView(puchsh_view)
+                            .create();
+                    push_dialog.show();
+                    hideProgress();
+//                    ToastUtils.showShort("暂无更新");
+                }else {
+                    return;
+                }
                 Beta.checkUpgrade();
                 break;
             case R.id.ll_safety:

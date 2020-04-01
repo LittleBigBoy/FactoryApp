@@ -20,6 +20,7 @@ public interface HomeContract {
         Observable<BaseResult<Article>> GetListCategoryContentByCategoryID(String CategoryID, String page, String limit);
         Observable<BaseResult<Data<CompanyInfo>>> GetmessageBytype(String UserId);
         Observable<BaseResult<Data<FactoryNavigationBarNumber>>> FactoryNavigationBarNumber(String UserID,  String state,  String page,String limit);
+        Observable<BaseResult<Data<String>>> messgIsOrNo(String UserID, String limit, String page);
     }
 
     interface View extends BaseView{
@@ -27,6 +28,7 @@ public interface HomeContract {
         void GetListCategoryContentByCategoryID(BaseResult<Article> baseResult);
         void GetmessageBytype(BaseResult<Data<CompanyInfo>> baseResult);
         void FactoryNavigationBarNumber(BaseResult<Data<FactoryNavigationBarNumber>> baseResult);
+        void messgIsOrNo(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -34,5 +36,6 @@ public interface HomeContract {
         public abstract void GetListCategoryContentByCategoryID(String CategoryID,String page, String limit);
         public abstract void GetmessageBytype(String UserId);
         public abstract void FactoryNavigationBarNumber(String UserID,  String state,  String page,String limit);
+        public abstract void messgIsOrNo(String UserID, String limit, String page);
     }
 }

@@ -152,7 +152,9 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
     public View getEmptyView() {
         return  LayoutInflater.from(mActivity).inflate(R.layout.layout_no_data,null);
     }
-
+    public View getMessageEmptyView() {
+        return  LayoutInflater.from(mActivity).inflate(R.layout.layout_no_message2,null);
+    }
     public View getEmptyRecord() {
         return LayoutInflater.from(mActivity).inflate(R.layout.layout_no_record, null);
     }

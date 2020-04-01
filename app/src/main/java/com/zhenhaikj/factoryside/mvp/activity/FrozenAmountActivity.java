@@ -306,8 +306,10 @@ public class FrozenAmountActivity extends BaseActivity<RecordPresenter, RecordMo
     public void FreezingAmount(BaseResult<Data<Freezing>> result) {
         switch (result.getStatusCode()){
             case 200:
+                if (page==1){
+                    list.clear();
+                }
                 mTvMoney.setText(result.getData().getItem2().getMoney()+"");
-                list.clear();
                 list.addAll(result.getData().getItem2().getData());
                 amountAdapter.setNewData(list);
                 hideProgress();

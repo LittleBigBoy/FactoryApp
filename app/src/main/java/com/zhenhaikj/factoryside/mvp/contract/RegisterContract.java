@@ -5,6 +5,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseModel;
 import com.zhenhaikj.factoryside.mvp.base.BasePresenter;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.base.BaseView;
+import com.zhenhaikj.factoryside.mvp.bean.Article;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 
 import io.reactivex.Observable;
@@ -18,6 +19,7 @@ public interface RegisterContract {
         Observable<BaseResult<Data<String>>> Login(String userName,String passWord);
         Observable<BaseResult<String>> ValidateUserName(String userName);
         Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(String token, String type, String UserID);
+        Observable<BaseResult<Article>> GetListCategoryContentByCategoryID(String CategoryID, String page, String limit);
     }
 
     interface View extends BaseView {
@@ -26,6 +28,7 @@ public interface RegisterContract {
         void Login(BaseResult<Data<String>> baseResult);
         void ValidateUserName(BaseResult<String> baseResult);
         void AddAndUpdatePushAccount(BaseResult<Data<String>> baseResult);
+        void GetListCategoryContentByCategoryID(BaseResult<Article> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -34,5 +37,6 @@ public interface RegisterContract {
         public abstract void  Login(String userName,String passWord);
         public abstract void  ValidateUserName(String userName);
         public abstract void  AddAndUpdatePushAccount(String token, String type, String UserID);
+        public abstract void GetListCategoryContentByCategoryID(String CategoryID,String page, String limit);
     }
 }

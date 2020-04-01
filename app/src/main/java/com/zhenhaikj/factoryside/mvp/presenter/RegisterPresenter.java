@@ -3,6 +3,7 @@ package com.zhenhaikj.factoryside.mvp.presenter;
 
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.Article;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.contract.RegisterContract;
 
@@ -59,6 +60,17 @@ public class RegisterPresenter extends RegisterContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
                         mView.AddAndUpdatePushAccount(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetListCategoryContentByCategoryID(String CategoryID, String page, String limit) {
+        mModel.GetListCategoryContentByCategoryID(CategoryID, page, limit)
+                .subscribe(new BaseObserver<Article>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Article> value) {
+                        mView.GetListCategoryContentByCategoryID(value);
                     }
                 });
     }

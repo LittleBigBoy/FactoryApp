@@ -9,14 +9,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white"
-        android:layout_marginTop="10dp"
-        android:padding="@dimen/dp_10">
+        android:layout_marginTop="10dp">
         <LinearLayout
             android:id="@+id/ll_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="14dp">
+            android:paddingTop="22dp"
+            android:paddingBottom="22dp"
+            android:paddingLeft="14dp"
+            android:paddingRight="29dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +39,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="14dp"
-            android:layout_marginTop="14dp"
             android:background="#E4E4E4" />
 
 
@@ -46,8 +47,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingTop="22dp"
+            android:paddingBottom="22dp"
             android:paddingLeft="14dp"
-            android:layout_marginTop="@dimen/dp_10">
+            android:paddingRight="29dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
