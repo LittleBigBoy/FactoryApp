@@ -18,14 +18,14 @@ public class RechargeModel implements RechargeContract.Model {
 
 
     @Override
-    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String TotalAmount) {
-        return ApiRetrofit.getDefault().GetOrderStr(userid, "","",TotalAmount,"1",new JSONArray())
+    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String type,String TotalAmount) {
+        return ApiRetrofit.getDefault().GetOrderStr(userid, "","",TotalAmount,type,new JSONArray())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
     @Override
-    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String TotalAmount) {
-        return ApiRetrofit.getDefault().GetWXOrderStr(userid, "","",TotalAmount,"1","factory",new JSONArray())
+    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String type,String TotalAmount) {
+        return ApiRetrofit.getDefault().GetWXOrderStr(userid, "","",TotalAmount,type,"factory",new JSONArray())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

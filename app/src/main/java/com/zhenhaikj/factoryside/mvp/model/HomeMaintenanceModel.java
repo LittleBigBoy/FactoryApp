@@ -3,6 +3,9 @@ package com.zhenhaikj.factoryside.mvp.model;
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
+import com.zhenhaikj.factoryside.mvp.bean.AddBrandResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddOrderResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddProdModelResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
@@ -12,6 +15,11 @@ import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.GetCategory;
+import com.zhenhaikj.factoryside.mvp.bean.GetFactoryProdResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdCategoryResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdModelResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdSpecificationsResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetSingleProdResult;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.contract.HomeMaintenanceContract;
@@ -95,7 +103,7 @@ public class HomeMaintenanceModel implements HomeMaintenanceContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> AddOrder( RequestBody json){
+    public Observable<AddOrderResult> AddOrder(RequestBody json){
         return ApiRetrofit.getDefault().AddOrder(json)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
@@ -125,6 +133,55 @@ public class HomeMaintenanceModel implements HomeMaintenanceContract.Model {
     @Override
     public Observable<BaseResult<String>> GetUniqId() {
         return ApiRetrofit.getDefault().GetUniqId()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<GetFactoryProdResult> GetFactoryProd() {
+        return ApiRetrofit.getDefault().GetFactoryProd("")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<GetProdCategoryResult> GetProdCategory(String serviceType, String guaranteeType) {
+        return ApiRetrofit.getDefault().GetProdCategory(serviceType, guaranteeType)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<GetSingleProdResult> GetSingleProd(String prodId) {
+        return ApiRetrofit.getDefault().GetSingleProd(prodId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<GetProdSpecificationsResult> GetProdSpecifications(String subCategoryID) {
+        return ApiRetrofit.getDefault().GetProdSpecifications(subCategoryID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<GetProdModelResult> GetProdModel(String specificationsID) {
+        return ApiRetrofit.getDefault().GetProdModel(specificationsID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<AddBrandResult> AddBrand(String brandName) {
+        return ApiRetrofit.getDefault().AddBrand(brandName)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<AddProdModelResult> AddProdModel(String specificationsID, String prodModel) {
+        return ApiRetrofit.getDefault().AddProdModel(specificationsID, prodModel)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

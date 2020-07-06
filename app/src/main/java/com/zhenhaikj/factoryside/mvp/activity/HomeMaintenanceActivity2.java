@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +12,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,16 +57,23 @@ import com.zhenhaikj.factoryside.mvp.adapter.BrandChooseAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CategoryAdapter2;
 import com.zhenhaikj.factoryside.mvp.adapter.ChooseCategoryAdapter;
-import com.zhenhaikj.factoryside.mvp.adapter.ChooseParentCategoryAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.CityAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.DistrictAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.Pre_order_Add_Ac_Adapter;
+import com.zhenhaikj.factoryside.mvp.adapter.ProdCategoryAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.ProdModelAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.ProdModelCommonAdapter;
+import com.zhenhaikj.factoryside.mvp.adapter.ProdSpecificationsAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ProductTypeAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ProvinceAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory2;
+import com.zhenhaikj.factoryside.mvp.bean.AddBrandResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddOrderParams;
+import com.zhenhaikj.factoryside.mvp.bean.AddOrderResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddProdModelResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
@@ -77,6 +84,11 @@ import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.FAccessory;
 import com.zhenhaikj.factoryside.mvp.bean.GetCategory;
+import com.zhenhaikj.factoryside.mvp.bean.GetFactoryProdResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdCategoryResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdModelResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdSpecificationsResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetSingleProdResult;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.bean.Service;
@@ -270,6 +282,18 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     LinearLayout mLlMicrophoneOne;
     @BindView(R.id.tv_description)
     TextView mTvDescription;
+    @BindView(R.id.tv_choose_common_type)
+    TextView mTvChooseCommonType;
+    @BindView(R.id.ll_choose_common_type)
+    LinearLayout mLlChooseCommonType;
+    @BindView(R.id.tv_choose_gg)
+    TextView mTvChooseGg;
+    @BindView(R.id.ll_choose_gg)
+    LinearLayout mLlChooseGg;
+    @BindView(R.id.btn_addbrand)
+    Button mBtnAddbrand;
+    @BindView(R.id.add_prodmodel)
+    Button mAddProdmodel;
 
 
     private PopupWindow popupWindow;
@@ -369,8 +393,24 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     private Service service;
     private String s;
     private RequestBody body;
-    private List<Category.DataBean> categoryNewList = new ArrayList<>();
+    private List<GetProdCategoryResult.DataBean> categoryNewList = new ArrayList<>();
     private CategoryAdapter2 chooseAdapter2;
+    private String specificationsID;
+    private List<GetProdSpecificationsResult.DataBean> prodSpecificationsResultList;
+    private List<GetProdModelResult.DataBean> GetProdModelResultList;
+    private List<GetFactoryProdResult.DataBean> GetFactoryProdResultList;
+    private AddOrderParams params;
+    private String ProdModel;
+    private String cityStr;
+    private String addStr;
+    private String ProdModelID;
+    private String backAddrID;
+    private View addview;
+    private EditText et_brandName;
+    private Button btn_next;
+    private String brandName;
+    private AlertDialog alertDialog;
+    private TextView tv_title;
 
     @Override
     protected int setLayoutId() {
@@ -436,7 +476,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         switch (type) {
             case 0:
                 mLlAccessories.setVisibility(View.GONE);
-                mLlSigning.setVisibility(View.VISIBLE);
+                mLlSigning.setVisibility(View.GONE);
                 break;
             case 1:
                 mLlAccessories.setVisibility(View.VISIBLE);
@@ -482,6 +522,9 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 
     @Override
     protected void setListener() {
+        mBtnAddbrand.setOnClickListener(this);
+        mAddProdmodel.setOnClickListener(this);
+        mLlMicrophone.setOnClickListener(this);
         mLlMicrophone.setOnClickListener(this);
 
         mIconBack.setOnClickListener(this);
@@ -490,8 +533,9 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         mLlChooseCategory.setOnClickListener(this);
         mLlChooseBrand.setOnClickListener(this);
         mLlChooseType.setOnClickListener(this);
-//        mLlChooseProperty.setVisibility(View.GONE);
-//        mLlChooseProperty.setOnClickListener(this);
+
+        mLlChooseCommonType.setOnClickListener(this);
+        mLlChooseGg.setOnClickListener(this);
 
         mTvAddress.setOnClickListener(this);
 
@@ -579,35 +623,134 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         super.onBackPressed();
     }
 
+    @Override
+    public void GetProdModel(GetProdModelResult baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                GetProdModelResultList = baseResult.getData();
+                if (GetProdModelResultList.size() == 0) {
+                    ToastUtils.showShort("无型号，请联系管理员！");
+                } else {
+                    showPopWindowGetProdModelResult(mTvChooseType, GetProdModelResultList);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void AddBrand(AddBrandResult baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().isStatus()){
+                    ToastUtils.showShort("添加成功");
+                    alertDialog.dismiss();
+                }else{
+                    ToastUtils.showShort("添加失败");
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void AddProdModel(AddProdModelResult baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().isStatus()){
+                    ToastUtils.showShort("添加成功");
+                    alertDialog.dismiss();
+                }else{
+                    ToastUtils.showShort("添加失败");
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
     @SingleClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
+            case R.id.btn_addbrand:
+                addview = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand_name, null);
+                et_brandName = addview.findViewById(R.id.et_enter);
+                tv_title = addview.findViewById(R.id.tv_title);
+                tv_title.setText("添加品牌");
+                et_brandName.setHint("请输入品牌名称");
+                btn_next = addview.findViewById(R.id.btn_next);
+                btn_next.setText("添加");
+                btn_next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        brandName = et_brandName.getText().toString();
+                        if ("".equals(brandName) || brandName == null) {
+                            MyUtils.showToast(mActivity, "请输入品牌名称！");
+                            return;
+                        }
+                        mPresenter.AddBrand(brandName);
+                    }
+                });
+                alertDialog = new AlertDialog.Builder(mActivity).setView(addview).create();
+                alertDialog.show();
+                break;
+            case R.id.add_prodmodel:
+                if (specificationsID == null) {
+                    MyUtils.showToast(mActivity, "请先选择规格！");
+                    return;
+                }
+                addview = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand_name, null);
+                et_brandName = addview.findViewById(R.id.et_enter);
+                tv_title = addview.findViewById(R.id.tv_title);
+                tv_title.setText("添加型号");
+                et_brandName.setHint("请输入型号名称");
+                btn_next = addview.findViewById(R.id.btn_next);
+                btn_next.setText("添加");
+                btn_next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        brandName = et_brandName.getText().toString();
+                        if ("".equals(brandName) || brandName == null) {
+                            MyUtils.showToast(mActivity, "请输入型号名称！");
+                            return;
+                        }
+                        mPresenter.AddProdModel(specificationsID, brandName);
+                    }
+                });
+                alertDialog = new AlertDialog.Builder(mActivity).setView(addview).create();
+                alertDialog.show();
+                break;
             case R.id.icon_back:
                 finish();
                 break;
             case R.id.tv_add_product:
                 startActivity(new Intent(mActivity, ModelActivity.class));
                 break;
-            case R.id.ll_choose_brand:
-//                if (SubCategoryID == null) {
-//                    ToastUtils.showShort("请先选择分类");
-//                    return;
-//                }
-                mPresenter.GetFactoryBrand(userID);
-                break;
-            case R.id.ll_choose_category:
-//                mPresenter.GetFactoryCategory("999");
-//                mPresenter.GetBrandCategory(userID);
-                break;
-            case R.id.ll_choose_type:
-                if (FBrandID == null) {
-                    ToastUtils.showShort("请先选择品牌");
+            case R.id.ll_choose_gg://选择规格
+                if (SubCategoryID == null) {
+                    ToastUtils.showShort("请先选择分类");
                     return;
                 }
-//                mPresenter.GetChildFactoryCategory2(SubCategoryID);
-                mPresenter.GetBrandWithCategory(userID, FBrandID);
+                mPresenter.GetProdSpecifications(SubCategoryID);
+                break;
+            case R.id.ll_choose_brand://选择品牌
+                mPresenter.GetFactoryBrand(userID);
+                break;
+            case R.id.ll_choose_common_type://选择常用型号
+                mPresenter.GetFactoryProd();
+                break;
+            case R.id.ll_choose_category://选择分类
+                mPresenter.GetProdCategory("", "");
+                break;
+            case R.id.ll_choose_type://选择型号
+                if (specificationsID == null) {
+                    ToastUtils.showShort("请先选择规格");
+                    return;
+                }
+                mPresenter.GetProdModel(specificationsID);
                 break;
             case R.id.tv_address:
                 mPresenter.GetProvince();
@@ -624,12 +767,12 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
             case R.id.ll_under_warranty:
                 mCbUnderWarranty.setChecked(true);
                 mCbOutsideTheWarranty.setChecked(false);
-                Guarantee = "Y";
+                Guarantee = "1";
                 break;
             case R.id.ll_outside_the_warranty:
                 mCbUnderWarranty.setChecked(false);
                 mCbOutsideTheWarranty.setChecked(true);
-                Guarantee = "N";
+                Guarantee = "2";
                 break;
             case R.id.ll_yes:
                 mCbYes.setChecked(true);
@@ -707,13 +850,13 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 startActivityForResult(intent1, 1000);
                 break;
             case R.id.tv_add_accessories:
-                if (TypeID == null) {
-                    ToastUtils.showShort("请先选择型号");
-                }else if ("".equals(mEtLogistics.getText().toString())){
+                if (specificationsID == null) {
+                    ToastUtils.showShort("请先选择规格");
+                } else if ("".equals(mEtLogistics.getText().toString())) {
                     ToastUtils.showShort("请填写物流信息");
-                }else {
+                } else {
                     Intent intent2 = new Intent(mActivity, NewAddAccessoriesActivity.class);
-                    intent2.putExtra("SubCategoryID", TypeID);
+                    intent2.putExtra("SubCategoryID", specificationsID);
                     startActivityForResult(intent2, Config.APPLY_REQUEST);
                 }
 
@@ -755,59 +898,36 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 break;
         }
     }
-    public void addorder(String ContinueIssuing){
+
+    public void addorder(String ContinueIssuing) {
         showLoading();
-//                if (SubCategoryID == null) {
-//                    ToastUtils.showShort("请选择分类！");
-//                    cancleLoading();
-//                    return;
-//                }
+        if (SubCategoryID == null) {
+            ToastUtils.showShort("请选择分类！");
+            cancleLoading();
+            return;
+        }
+        if (specificationsID == null) {
+            ToastUtils.showShort("请选择规格！");
+            cancleLoading();
+            return;
+        }
         if (FBrandID == null) {
             ToastUtils.showShort("请选择品牌！");
             cancleLoading();
             return;
         }
-        if (TypeID == null) {
+        if (ProdModelID == null) {
             ToastUtils.showShort("请选择型号！");
             cancleLoading();
             return;
         }
-//
-
-                /*if (FAccessoryID == null) {
-                    MyUtils.showToast(mActivity, "请选择属性！");
-                    return;
-                }*/
-        if (ProvinceCode == null) {
-            MyUtils.showToast(mActivity, "请选择省！");
-            cancleLoading();
-            return;
-        }
-        if (CityCode == null) {
-            MyUtils.showToast(mActivity, "请选择市！");
-            cancleLoading();
-            return;
-        }
-        if (AreaCode == null) {
-            MyUtils.showToast(mActivity, "请选择区！");
-            cancleLoading();
-            return;
-        }
-        if (DistrictCode == null) {
-            MyUtils.showToast(mActivity, "请选择街道、乡、镇");
-            cancleLoading();
-        }
-        DetailAddress = mEtDetail.getText().toString();
-        Address = mTvPca.getText().toString() + DetailAddress;
+        addStr = mEtDetail.getText().toString();
+        cityStr = mTvPca.getText().toString();
         Name = mEtName.getText().toString();
         Phone = mEtPhone.getText().toString();
         RecycleOrderHour = mEtRecoveryTime.getText().toString();
         FaultDescription = mEtFaultDescription.getText().toString();
-        if (DetailAddress == null || "".equals(DetailAddress)) {
-            MyUtils.showToast(mActivity, "请输入详细地址！");
-            cancleLoading();
-            return;
-        }
+
         if (Name == null || "".equals(Name)) {
             MyUtils.showToast(mActivity, "请输入客户姓名！");
             cancleLoading();
@@ -823,28 +943,21 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
             cancleLoading();
             return;
         }
+        if (cityStr == null || "".equals(cityStr)) {
+            MyUtils.showToast(mActivity, "请选择所在地区！");
+            cancleLoading();
+            return;
+        }
+        if (addStr == null || "".equals(addStr)) {
+            MyUtils.showToast(mActivity, "请输入详细地址！");
+            cancleLoading();
+            return;
+        }
         if (Guarantee == null || "".equals(Guarantee)) {
             MyUtils.showToast(mActivity, "请选择保修期内或保修期外！");
             cancleLoading();
             return;
         }
-        if (RecycleOrderHour == null || "".equals(RecycleOrderHour)) {
-            MyUtils.showToast(mActivity, "请输入回收时间！");
-            cancleLoading();
-            return;
-        }
-        if (!(Integer.parseInt(RecycleOrderHour) >= 12 || Integer.parseInt(RecycleOrderHour) <= 48)) {
-            MyUtils.showToast(mActivity, "回收时间需大于等于12小于等于48！");
-            cancleLoading();
-            return;
-        }
-//                if (AccessorySendState == null || "".equals(AccessorySendState)) {
-//                    MyUtils.showToast(mActivity, "请选择是否为已发配件！");
-//                    cancleLoading();
-//                    return;
-//                }
-
-
         if (FaultDescription == null || "".equals(FaultDescription)) {
             switch (type) {
                 case 0:
@@ -862,21 +975,19 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         }
         switch (type) {
             case 0:
-//                        OrderMoney = Double.parseDouble(category.getInstallPrice()) * Double.parseDouble(Num) + "";
-                if (SigningState == null || "".equals(SigningState)) {
-                    MyUtils.showToast(mActivity, "请选择客户是否为已签收产品");
-                    cancleLoading();
-                    return;
-                }
-                number = mEtExpressno.getText().toString();
-                if (mCbNoSigning.isChecked()) {
-                    if ("".equals(number)) {
-                        MyUtils.showToast(mActivity, "请填写快递单号");
-                        cancleLoading();
-                        return;
-                    }
-                }
-//                        Num = mEtNum.getText().toString();
+//                if (SigningState == null || "".equals(SigningState)) {
+//                    MyUtils.showToast(mActivity, "请选择客户是否为已签收产品");
+//                    cancleLoading();
+//                    return;
+//                }
+//                number = mEtExpressno.getText().toString();
+//                if (mCbNoSigning.isChecked()) {
+//                    if ("".equals(number)) {
+//                        MyUtils.showToast(mActivity, "请填写快递单号");
+//                        cancleLoading();
+//                        return;
+//                    }
+//                }
                 Num = String.valueOf(mAddview.getValue());
                 if (Num == null) {
                     MyUtils.showToast(mActivity, "请输入数量！");
@@ -888,42 +999,31 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     cancleLoading();
                     return;
                 }
-                service = new Service();
-                service.setTypeID("2");
-                service.setTypeName("安装");
-                service.setUserID(userID);
-                service.setBrandID(FBrandID);
-                service.setBrandName(BrandName);
-                service.setCategoryID(FCategoryID);
-                service.setCategoryName(FCategoryName);
-                service.setSubCategoryID(SubCategoryID);
-                service.setSubCategoryName(SubCategoryName);
-                service.setProductTypeID(TypeID);
-                service.setProductType(TypeName);
-                service.setProvinceCode(ProvinceCode);
-                service.setCityCode(CityCode);
-                service.setAreaCode(AreaCode);
-                service.setDistrictCode(DistrictCode);
-                service.setAddress(Address);
-                service.setUserName(Name);
-                service.setPhone(Phone);
-                service.setMemo(FaultDescription);
-                service.setOrderMoney(OrderMoney);
-                service.setRecycleOrderHour(RecycleOrderHour);
-                service.setGuarantee(Guarantee);
-                service.setExtra(Extra);
-                service.setExtraTime(ExtraTime);
-                service.setExtraFee(ExtraFee);
-                service.setNum(Num);
-                service.setIsRecevieGoods(SigningState);
-                service.setExpressNo(number);
-                service.setIsReturn("");
-                service.setPostPayType("");
-                service.setAddressBack("");
-                service.setAccessoryState("");
-                service.setPartyNo("");
-                service.setContinueIssuing(ContinueIssuing);
-                s = gson.toJson(service);
+                params = new AddOrderParams();
+
+                params.setSubCategoryID(SubCategoryID);//分类
+                params.setSpecifications(specificationsID);//规格
+                params.setFactoryBrandName(FBrandID);//品牌名
+                params.setProdModel(ProdModelID);//型号
+                params.setPhone(Phone);//手机号
+                params.setName(Name);//用户姓名
+                params.setCity(cityStr);//省市区街道
+                params.setAddstr(addStr);//详细地址
+
+                params.setServicetype("2");//2安装单 1维修单
+                params.setGuaranteetype(Guarantee);//1保内 2保外
+
+                params.setNum(Num);//安装单数量
+                params.setExpressNo(number);//快递单号
+                params.setPartsVal(null);
+                params.setParts("N");
+                params.setPostpaytype("");
+                params.setBak(FaultDescription);//服务要求
+                params.setBackAddress("");//返件地址
+                params.setBackParts("");//是否返件
+                params.setContinueIssuing(ContinueIssuing);
+
+                s = gson.toJson(params);
                 body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
                 mPresenter.AddOrder(body);
                 break;
@@ -964,93 +1064,68 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                         return;
                     }
 
-                    orderAccessoryStrBean = new FAccessory.OrderAccessoryStrBean();
-                    orderAccessoryStrBean.setOrderAccessory(mPre_order_add_ac_adapter.getData());
-                    String s1 = gson.toJson(orderAccessoryStrBean);
-                    service = new Service();
-                    service.setTypeID("1");
-                    service.setTypeName("维修");
-                    service.setUserID(userID);
-                    service.setBrandID(FBrandID);
-                    service.setBrandName(BrandName);
-                    service.setCategoryID(FCategoryID);
-                    service.setCategoryName(FCategoryName);
-                    service.setSubCategoryID(SubCategoryID);
-                    service.setSubCategoryName(SubCategoryName);
-                    service.setProductTypeID(TypeID);
-                    service.setProductType(TypeName);
-                    service.setProvinceCode(ProvinceCode);
-                    service.setCityCode(CityCode);
-                    service.setAreaCode(AreaCode);
-                    service.setDistrictCode(DistrictCode);
-                    service.setAddress(Address);
-                    service.setUserName(Name);
-                    service.setPhone(Phone);
-                    service.setMemo(FaultDescription);
-                    service.setOrderMoney(OrderMoney);
-                    service.setRecycleOrderHour(RecycleOrderHour);
-                    service.setGuarantee(Guarantee);
-                    service.setExtra(Extra);
-                    service.setExtraTime(ExtraTime);
-                    service.setExtraFee(ExtraFee);
-                    service.setNum("1");
-                    service.setIsRecevieGoods(AccessorySendState);
-                    service.setExpressNo(null);
-                    service.setIsReturn(IsReturn);
-                    service.setPostPayType(PostPayType);
-                    service.setAddressBack(mTvAddressback.getText().toString());
-                    service.setOrderAccessoryStr(s1);
-                    service.setAccessoryState("0");
-                    service.setPartyNo("");
-                    service.setContinueIssuing(ContinueIssuing);
-                    String s2 = gson.toJson(service);
-//                            s = gson.toJson(s2);
-                    Log.d("添加的配件有", s1);
-                    body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s2);
-                    mPresenter.AddOrder(body);
+                    params = new AddOrderParams();
 
-                } else {
-                    service = new Service();
-                    service.setTypeID("1");
-                    service.setTypeName("维修");
-                    service.setUserID(userID);
-                    service.setBrandID(FBrandID);
-                    service.setBrandName(BrandName);
-                    service.setCategoryID(FCategoryID);
-                    service.setCategoryName(FCategoryName);
-                    service.setSubCategoryID(SubCategoryID);
-                    service.setSubCategoryName(SubCategoryName);
-                    service.setProductTypeID(TypeID);
-                    service.setProductType(TypeName);
-                    service.setProvinceCode(ProvinceCode);
-                    service.setCityCode(CityCode);
-                    service.setAreaCode(AreaCode);
-                    service.setDistrictCode(DistrictCode);
-                    service.setAddress(Address);
-                    service.setUserName(Name);
-                    service.setPhone(Phone);
-                    service.setMemo(FaultDescription);
-                    service.setOrderMoney(OrderMoney);
-                    service.setRecycleOrderHour(RecycleOrderHour);
-                    service.setGuarantee(Guarantee);
-                    service.setExtra(Extra);
-                    service.setExtraTime(ExtraTime);
-                    service.setExtraFee(ExtraFee);
-                    service.setNum("1");
-                    service.setIsRecevieGoods(AccessorySendState);
-                    service.setExpressNo(null);
-                    service.setIsReturn("");
-                    service.setPostPayType("");
-                    service.setAddressBack("");
-                    service.setAccessoryState("");
-                    service.setPartyNo("");
-                    service.setContinueIssuing(ContinueIssuing);
-                    s = gson.toJson(service);
+                    params.setSubCategoryID(SubCategoryID);//分类
+                    params.setSpecifications(specificationsID);//规格
+                    params.setFactoryBrandName(FBrandID);//品牌名
+                    params.setProdModel(ProdModelID);//型号
+                    params.setPhone(Phone);//手机号
+                    params.setName(Name);//用户姓名
+                    params.setCity(cityStr);//省市区街道
+                    params.setAddstr(addStr);//详细地址
+
+                    params.setServicetype("1");//2安装单 1维修单
+                    params.setGuaranteetype(Guarantee);//1保内 2保外
+
+                    params.setNum(Num);//安装单数量
+                    params.setExpressNo(number);//快递单号
+                    List<Acc> list = new ArrayList<>();
+                    for (int i = 0; i < fAcList.size(); i++) {
+                        list.add(new Acc(fAcList.get(i).getFAccessoryName(), fAcList.get(i).getFAccessoryID()));
+                    }
+
+                    params.setPartsVal(list);
+                    params.setParts("Y");
+                    params.setPostpaytype(PostPayType);
+                    params.setBak(FaultDescription);//服务要求
+                    params.setBackAddress(backAddrID);//返件地址
+                    params.setBackParts(IsReturn);//是否返件
+                    params.setContinueIssuing(ContinueIssuing);
+
+                    s = gson.toJson(params);
                     body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
                     mPresenter.AddOrder(body);
 
+                } else {
+                    params = new AddOrderParams();
+
+                    params.setSubCategoryID(SubCategoryID);//分类
+                    params.setSpecifications(specificationsID);//规格
+                    params.setFactoryBrandName(FBrandID);//品牌名
+                    params.setProdModel(ProdModelID);//型号
+                    params.setPhone(Phone);//手机号
+                    params.setName(Name);//用户姓名
+                    params.setCity(cityStr);//省市区街道
+                    params.setAddstr(addStr);//详细地址
+
+                    params.setServicetype("1");//2安装单 1维修单
+                    params.setGuaranteetype(Guarantee);//1保内 2保外
+
+                    params.setNum(Num);//安装单数量
+                    params.setExpressNo(number);//快递单号
+                    params.setPartsVal(null);
+                    params.setParts("N");
+                    params.setPostpaytype("");
+                    params.setBak(FaultDescription);//服务要求
+                    params.setBackAddress("");//返件地址
+                    params.setBackParts("");//是否返件
+                    params.setContinueIssuing(ContinueIssuing);
+
+                    s = gson.toJson(params);
+                    body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), s);
+                    mPresenter.AddOrder(body);
                 }
-//                        OrderMoney = Double.parseDouble(category.getInitPrice()) * Double.parseDouble(Num) + "";
                 break;
             default:
                 break;
@@ -1184,14 +1259,15 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 
     public void showPopWindowGetAddress(final TextView tv) {
 
-        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.address_pop, null); InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mEtFaultDescription.getWindowToken() , 0);
-        imm.hideSoftInputFromWindow(mEtLogistics.getWindowToken() , 0);
-        imm.hideSoftInputFromWindow(mEtName.getWindowToken() , 0);
-        imm.hideSoftInputFromWindow(mEtPhone.getWindowToken() , 0);
-        imm.hideSoftInputFromWindow(mEtExpressno.getWindowToken() , 0);
-        imm.hideSoftInputFromWindow(mEtDetail.getWindowToken() , 0);
-        imm.hideSoftInputFromWindow(mEtRecoveryTime.getWindowToken() , 0);
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.address_pop, null);
+        InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEtFaultDescription.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mEtLogistics.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mEtName.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mEtPhone.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mEtExpressno.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mEtDetail.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mEtRecoveryTime.getWindowToken(), 0);
         tv_province = contentView.findViewById(R.id.tv_province);
         tv_city = contentView.findViewById(R.id.tv_city);
         tv_area = contentView.findViewById(R.id.tv_area);
@@ -1220,13 +1296,6 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 tv_province.setText(ProvinceName);
                 tv_province.setVisibility(View.VISIBLE);
                 tv_city.setVisibility(View.VISIBLE);
-//                try {
-//                    JSONObject json=new JSONObject("");
-//                    json.g
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-
             }
         });
         popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenHeight() - 700);
@@ -1250,34 +1319,8 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         MyUtils.setWindowAlpa(mActivity, true);
     }
 
-    public void showPopWindowGetCategory(final TextView tv, List<Category.DataBean> categoryNewList) {
-
-//        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
-//        lv_popular = contentView.findViewById(R.id.lv_popular);
-//        rv_choose = contentView.findViewById(R.id.rv_choose);
-//        iv_close = contentView.findViewById(R.id.iv_close);
-//        iv_close.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                popupWindow.dismiss();
-//            }
-//        });
-//        firstAdapter = new ChooseCategoryAdapter(popularList);
-//        linearLayoutManager = new LinearLayoutManager(mActivity);
-//        lv_popular.setLayoutManager(linearLayoutManager);
-//        lv_popular.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
-//        lv_popular.setAdapter(firstAdapter);
-//        FCategoryID = popularList.get(0).getId();
-//        CategoryName = popularList.get(0).getFCategoryName();
-//        mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
-//        popularList.get(0).setSelected(true);
-//        firstAdapter.setOnItemClickListener((adapter, view, position) -> {
-//            scrollToMiddleH(view, position);
-//            setSelect(position);
-//            mPresenter.GetChildFactoryCategory(popularList.get(position).getFCategoryID());
-//
-//        });
-
+    //分类弹框
+    public void showPopWindowGetCategory(final TextView tv, List<GetProdCategoryResult.DataBean> categoryNewList) {
         View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop2, null);
         final RecyclerView rv = contentView.findViewById(R.id.rv);
         TextView tv_add = contentView.findViewById(R.id.tv_add);
@@ -1287,7 +1330,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 startActivity(new Intent(mActivity, ModelActivity.class));
             }
         });
-        ChooseParentCategoryAdapter firstAdapter = new ChooseParentCategoryAdapter(R.layout.item_category, categoryNewList);
+        ProdCategoryAdapter firstAdapter = new ProdCategoryAdapter(R.layout.item_category, categoryNewList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
         rv.setLayoutManager(linearLayoutManager);
         rv.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
@@ -1296,12 +1339,165 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
         firstAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                SubCategoryID = categoryNewList.get(position).getFCategoryID();
-                SubCategoryName = categoryNewList.get(position).getFCategoryName();
+                SubCategoryID = categoryNewList.get(position).getSpecificationsID() + "";
+                specificationsID=null;
+                ProdModelID=null;
+                mTvChooseGg.setText("");
+                mTvChooseType.setText("");
                 tv.setText(categoryNewList.get(position).getFCategoryName());
-//                ToastUtils.showShort(SubCategoryID);
+                popupWindow.dismiss();
+                mPresenter.GetProdSpecifications(SubCategoryID);
+            }
+        });
+
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        popupWindow.setWidth(tv.getWidth());
+        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (popupWindow != null && !popupWindow.isShowing()) {
+//            popupWindow.showAsDropDown(tv, 0, 10);
+            popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
+    }
+
+    //规格弹框
+    public void showPopWindowGetProdSpecificationsResult(final TextView tv, List<GetProdSpecificationsResult.DataBean> categoryNewList) {
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop2, null);
+        final RecyclerView rv = contentView.findViewById(R.id.rv);
+        TextView tv_add = contentView.findViewById(R.id.tv_add);
+        tv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mActivity, ModelActivity.class));
+            }
+        });
+        ProdSpecificationsAdapter firstAdapter = new ProdSpecificationsAdapter(R.layout.item_category, categoryNewList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+        rv.setLayoutManager(linearLayoutManager);
+        rv.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
+        rv.setAdapter(firstAdapter);
+
+        firstAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                specificationsID = categoryNewList.get(position).getSpecificationsID() + "";
+                ProdModelID=null;
+                mTvChooseType.setText("");
+                tv.setText(categoryNewList.get(position).getFCategoryName());
                 popupWindow.dismiss();
                 mPresenter.GetFactoryBrand(userID);
+
+            }
+        });
+
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        popupWindow.setWidth(tv.getWidth());
+        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (popupWindow != null && !popupWindow.isShowing()) {
+//            popupWindow.showAsDropDown(tv, 0, 10);
+            popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
+    }
+
+    //型号弹框
+    public void showPopWindowGetProdModelResult(final TextView tv, List<GetProdModelResult.DataBean> categoryNewList) {
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop2, null);
+        final RecyclerView rv = contentView.findViewById(R.id.rv);
+        TextView tv_add = contentView.findViewById(R.id.tv_add);
+        tv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mActivity, ModelActivity.class));
+            }
+        });
+        ProdModelAdapter firstAdapter = new ProdModelAdapter(R.layout.item_category, categoryNewList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+        rv.setLayoutManager(linearLayoutManager);
+        rv.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
+        rv.setAdapter(firstAdapter);
+
+        firstAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ProdModelID = categoryNewList.get(position).getID() + "";
+                ProdModel = categoryNewList.get(position).getModelName();
+                tv.setText(ProdModel);
+                popupWindow.dismiss();
+            }
+        });
+
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        popupWindow.setWidth(tv.getWidth());
+        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (popupWindow != null && !popupWindow.isShowing()) {
+//            popupWindow.showAsDropDown(tv, 0, 10);
+            popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
+    }
+
+    //常用型号弹框
+    public void showPopWindowGetFactoryProdResult(final TextView tv, List<GetFactoryProdResult.DataBean> categoryNewList) {
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop2, null);
+        final RecyclerView rv = contentView.findViewById(R.id.rv);
+        TextView tv_add = contentView.findViewById(R.id.tv_add);
+        tv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mActivity, ModelActivity.class));
+            }
+        });
+        ProdModelCommonAdapter firstAdapter = new ProdModelCommonAdapter(R.layout.item_category, categoryNewList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+        rv.setLayoutManager(linearLayoutManager);
+        rv.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
+        rv.setAdapter(firstAdapter);
+
+        firstAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                SubCategoryID = categoryNewList.get(position).getSubCategoryID() + "";
+                SubCategoryName = categoryNewList.get(position).getSubCategoryName();
+                specificationsID = categoryNewList.get(position).getProductTypeID() + "";
+                ProductTypeName = categoryNewList.get(position).getProductTypeName();
+                FBrandID = categoryNewList.get(position).getBrandID() + "";
+                BrandName = categoryNewList.get(position).getBrandName();
+                ProdModelID = categoryNewList.get(position).getProdModelID() + "";
+                ProdModel = categoryNewList.get(position).getProdModel();
+                mTvChooseCategory.setText(SubCategoryName);
+                mTvChooseGg.setText(ProductTypeName);
+                mTvChooseBrand.setText(BrandName);
+                mTvChooseType.setText(ProdModel);
+                tv.setText(BrandName + "--" + ProdModel);
+                popupWindow.dismiss();
             }
         });
 
@@ -1399,17 +1595,6 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     DistrictCode = ((District) list.get(position)).getCode();
                     mTvPca.setText(ProvinceName + CityName + AreaName + DistrictName);
                 }
-//                if (list.get(position) instanceof Brand) {
-//                    FBrandID = ((Brand) list.get(position)).getFBrandID();
-//                    BrandName = ((Brand) list.get(position)).getFBrandName();
-//                    tv.setText(BrandName);
-//                    mPresenter.GetChildFactoryCategory2(SubCategoryID);
-//                }
-//                if (list.get(position) instanceof Category) {
-//                    TypeID = ((Category) list.get(position)).getFCategoryID();
-//                    TypeName = ((Category) list.get(position)).getFCategoryName();
-//                    tv.setText(TypeName);
-//                }
             }
         });
         popupWindow = new PopupWindow(contentView);
@@ -1498,29 +1683,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 
     @Override
     public void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult) {
-        switch (baseResult.getStatusCode()) {
-            case 200:
-                CategoryData data = baseResult.getData();
-                if ("0".equals(data.getCode())) {
-                    chooseList = data.getData();
-                    if (chooseList.size() == 0) {
-                        ToastUtils.showShort("无型号，请联系管理员添加！");
-                    } else {
 
-//                        rv_choose.setLayoutManager(new LinearLayoutManager(mActivity));
-                        chooseAdapter = new CategoryAdapter(R.layout.item_category, chooseList);
-//                        rv_choose.setAdapter(chooseAdapter);
-//                        showPopWindow(mTvChooseType, chooseAdapter, chooseList);
-                        showBrand(mTvChooseType, chooseAdapter, chooseList, "category");
-                    }
-                } else {
-                    ToastUtils.showShort("获取型号失败！");
-                }
-                break;
-            default:
-//                ToastUtils.showShort(baseResult.getData());
-                break;
-        }
     }
 
     @Override
@@ -1598,15 +1761,14 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                     FBrandID = ((Brand) list.get(position)).getFBrandID();
                     BrandName = ((Brand) list.get(position)).getFBrandName();
                     tv.setText(BrandName);
-//                    mPresenter.GetChildFactoryCategory2(SubCategoryID);
-                    mPresenter.GetBrandWithCategory(userID,FBrandID);
+                    mPresenter.GetProdModel(specificationsID);
                     popupWindow.dismiss();
                 }
                 if (list.get(position) instanceof GetCategory) {
-                    FCategoryID=((GetCategory) list.get(position)).getCategoryID();
-                    FCategoryName=((GetCategory) list.get(position)).getCategoryName();
-                    SubCategoryID=((GetCategory) list.get(position)).getSubCategoryID();
-                    SubCategoryName=((GetCategory) list.get(position)).getSubCategoryName();
+                    FCategoryID = ((GetCategory) list.get(position)).getCategoryID();
+                    FCategoryName = ((GetCategory) list.get(position)).getCategoryName();
+                    SubCategoryID = ((GetCategory) list.get(position)).getSubCategoryID();
+                    SubCategoryName = ((GetCategory) list.get(position)).getSubCategoryName();
                     TypeID = ((GetCategory) list.get(position)).getProductTypeID();
                     TypeName = ((GetCategory) list.get(position)).getProductTypeName();
                     tv.setText(TypeName);
@@ -1797,7 +1959,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                             tv_district.setVisibility(View.VISIBLE);
                             popupWindow.dismiss();
                             mTvAddress.setText(ProvinceName + " " + CityName + " " + AreaName + " " + DistrictName);
-                            mTvPca.setText(ProvinceName + CityName + AreaName + DistrictName);
+                            mTvPca.setText(ProvinceName + "/" + CityName + "/" + AreaName + "/" + DistrictName);
                         }
                     });
                 } else {
@@ -1810,92 +1972,19 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
     }
 
     @Override
-    public void AddOrder(BaseResult<Data<String>> baseResult) {
+    public void AddOrder(AddOrderResult baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data<String> data = baseResult.getData();
-                if (data.isItem1()) {
-                    ToastUtils.showShort(data.getItem2());
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("title", "待接单");
-//                    bundle.putInt("position", 2);
-//                    Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+                AddOrderResult.DataBean data = baseResult.getData();
+                if (data.isStatus()) {
+                    ToastUtils.showShort(data.getMsg());
                     cancleLoading();
-//                    intent.putExtras(bundle);
-//                    startActivity(intent);
                     EventBus.getDefault().post(11);
                     EventBus.getDefault().post(6);
                     finish();
                 } else {
-                    if ("该用户已有工单".equals(data.getItem2())) {
-                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
-                        dialog.setMessage(data.getItem2()+"，是否继续发单")
-                                //.setImageResId(R.mipmap.ic_launcher)
-                                .setTitle("提示")
-                                .setPositive("是")
-                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
-                            @Override
-                            public void onPositiveClick() {//拨打电话
-                                dialog.dismiss();
-                                addorder("");
-                            }
-
-                            @Override
-                            public void onNegtiveClick() {//取消
-                                dialog.dismiss();
-                            }
-                        }).show();
-                        cancleLoading();
-                        return;
-                    }
-                    if ("保证金低于最低需缴纳金额".equals(data.getItem2())) {
-                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
-                        dialog.setMessage(data.getItem2())
-                                //.setImageResId(R.mipmap.ic_launcher)
-                                .setTitle("提示")
-                                .setPositive("去缴纳保证金")
-                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
-                            @Override
-                            public void onPositiveClick() {//拨打电话
-                                dialog.dismiss();
-                                startActivity(new Intent(mActivity, MarginActivity.class));
-                            }
-
-                            @Override
-                            public void onNegtiveClick() {//取消
-                                dialog.dismiss();
-                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
-                            }
-                        }).show();
-                        cancleLoading();
-                    } else {
-                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
-                        dialog.setMessage(data.getItem2())
-                                //.setImageResId(R.mipmap.ic_launcher)
-                                .setTitle("提示")
-                                .setPositive("去充值")
-                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
-                            @Override
-                            public void onPositiveClick() {//拨打电话
-                                dialog.dismiss();
-                                startActivity(new Intent(mActivity, RechargeActivity.class));
-                            }
-
-                            @Override
-                            public void onNegtiveClick() {//取消
-                                dialog.dismiss();
-                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
-                            }
-                        }).show();
-                        cancleLoading();
-                    }
-
-//                    ToastUtils.showShort(data.getItem2());
-
+                    ToastUtils.showShort(data.getMsg());
                 }
-                break;
-            case 401:
-//                ToastUtils.showShort(baseResult.getData());
                 break;
         }
 
@@ -1909,11 +1998,13 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
                 if (addressList.size() != 0) {
                     for (int i = 0; i < addressList.size(); i++) {
                         if ("1".equals(addressList.get(i).getIsDefault())) {
-                            AddressBack =addressList.get(i).getProvince() + addressList.get(i).getCity() + addressList.get(i).getArea() + addressList.get(i).getDistrict()+ addressList.get(i).getAddress() + "(" + addressList.get(i).getUserName() + "收)" + addressList.get(i).getPhone();
+                            AddressBack = addressList.get(i).getProvince() + addressList.get(i).getCity() + addressList.get(i).getArea() + addressList.get(i).getDistrict() + addressList.get(i).getAddress() + "(" + addressList.get(i).getUserName() + "收)" + addressList.get(i).getPhone();
+                            backAddrID = addressList.get(i).getId();
                             mTvAddressback.setText(AddressBack);
                             mTvModify.setText("修改地址");
                         } else {
                             AddressBack = addressList.get(0).getProvince() + addressList.get(0).getCity() + addressList.get(0).getArea() + addressList.get(0).getDistrict() + addressList.get(0).getAddress() + "(" + addressList.get(0).getUserName() + "收)" + addressList.get(0).getPhone();
+                            backAddrID = addressList.get(i).getId();
                             mTvAddressback.setText(AddressBack);
                             mTvModify.setText("修改地址");
                         }
@@ -1932,22 +2023,7 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 
     @Override
     public void GetBrandCategory(BaseResult<Data<Category>> baseResult) {
-        switch (baseResult.getStatusCode()) {
-            case 200:
-                categoryNewList = baseResult.getData().getItem2().getData();
-                if (categoryNewList.size() == 0) {
-                    ToastUtils.showShort("无分类，请添加分类！");
-                    startActivity(new Intent(mActivity, ModelActivity.class));
-                } else {
-                    showPopWindowGetCategory(mTvChooseCategory, categoryNewList);
 
-                }
-
-                break;
-            default:
-//                ToastUtils.showShort(baseResult.getData());
-                break;
-        }
     }
 
     @Override
@@ -1994,9 +2070,68 @@ public class HomeMaintenanceActivity2 extends BaseActivity<HomeMaintenancePresen
 
     @Override
     public void GetUniqId(BaseResult<String> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                String key=baseResult.getData();
+                String key = baseResult.getData();
+                break;
+        }
+    }
+
+    @Override
+    public void GetFactoryProd(GetFactoryProdResult baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                GetFactoryProdResultList = baseResult.getData();
+                if (GetFactoryProdResultList.size() == 0) {
+                    ToastUtils.showShort("无常用型号！");
+                } else {
+                    showPopWindowGetFactoryProdResult(mTvChooseCommonType, GetFactoryProdResultList);
+
+                }
+
+                break;
+            default:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetProdCategory(GetProdCategoryResult baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                categoryNewList = baseResult.getData();
+                if (categoryNewList.size() == 0) {
+                    ToastUtils.showShort("无分类，请添加分类！");
+                } else {
+                    showPopWindowGetCategory(mTvChooseCategory, categoryNewList);
+
+                }
+
+                break;
+            default:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetSingleProd(GetSingleProdResult baseResult) {
+
+    }
+
+    @Override
+    public void GetProdSpecifications(GetProdSpecificationsResult baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                prodSpecificationsResultList = baseResult.getData();
+                if (prodSpecificationsResultList.size() == 0) {
+                    ToastUtils.showShort("无规格，请联系管理员！");
+                } else {
+                    showPopWindowGetProdSpecificationsResult(mTvChooseGg, prodSpecificationsResultList);
+                }
+                break;
+            default:
                 break;
         }
     }

@@ -6,6 +6,9 @@ import com.zhenhaikj.factoryside.mvp.base.BasePresenter;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.base.BaseView;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
+import com.zhenhaikj.factoryside.mvp.bean.AddBrandResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddOrderResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddProdModelResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
@@ -15,6 +18,11 @@ import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.GetCategory;
+import com.zhenhaikj.factoryside.mvp.bean.GetFactoryProdResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdCategoryResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdModelResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdSpecificationsResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetSingleProdResult;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 
@@ -44,7 +52,7 @@ public interface HomeMaintenanceContract {
 
         Observable<BaseResult<Data<List<District>>>> GetDistrict(String parentcode);
 
-        Observable<BaseResult<Data<String>>> AddOrder(
+        Observable<AddOrderResult> AddOrder(
 //                String TypeID,
 //                String TypeName,
 //                String UserID,
@@ -83,6 +91,15 @@ public interface HomeMaintenanceContract {
 
         Observable<BaseResult<String>> GetUniqId();
 
+        Observable<GetFactoryProdResult> GetFactoryProd();
+        Observable<GetProdCategoryResult> GetProdCategory(String serviceType,String guaranteeType);
+        Observable<GetSingleProdResult> GetSingleProd(String prodId);
+        Observable<GetProdSpecificationsResult> GetProdSpecifications(String subCategoryID);
+        Observable<GetProdModelResult> GetProdModel(String specificationsID);
+
+        Observable<AddBrandResult> AddBrand(String brandName);
+        Observable<AddProdModelResult> AddProdModel(String specificationsID, String prodModel);
+
     }
 
     interface View extends BaseView {
@@ -106,7 +123,7 @@ public interface HomeMaintenanceContract {
 
         void GetDistrict(BaseResult<Data<List<District>>> baseResult);
 
-        void AddOrder(BaseResult<Data<String>> baseResult);
+        void AddOrder(AddOrderResult baseResult);
 
         void GetAccountAddress(BaseResult<List<Address>> baseResult);
 
@@ -115,6 +132,15 @@ public interface HomeMaintenanceContract {
         void GetBrandWithCategory(BaseResult<Data<List<GetCategory>>> baseResult);
 
         void GetUniqId(BaseResult<String> baseResult);
+
+        void GetFactoryProd(GetFactoryProdResult baseResult);
+        void GetProdCategory(GetProdCategoryResult baseResult);
+        void GetSingleProd(GetSingleProdResult baseResult);
+        void GetProdSpecifications(GetProdSpecificationsResult baseResult);
+        void GetProdModel(GetProdModelResult baseResult);
+
+        void AddBrand(AddBrandResult baseResult);
+        void AddProdModel(AddProdModelResult baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -174,5 +200,13 @@ public interface HomeMaintenanceContract {
         public abstract void GetBrandWithCategory(String UserID, String BrandID);
 
         public abstract void GetUniqId();
+        public abstract void GetFactoryProd();
+        public abstract void GetProdCategory(String serviceType,String guaranteeType);
+        public abstract void GetSingleProd(String prodId);
+        public abstract void GetProdSpecifications(String subCategoryID);
+        public abstract void GetProdModel(String specificationsID);
+
+        public abstract void AddBrand(String brandName);
+        public abstract void AddProdModel(String specificationsID, String prodModel);
     }
 }

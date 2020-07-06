@@ -46,6 +46,7 @@ import com.zhenhaikj.factoryside.mvp.adapter.ProductTypeAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.ProvinceAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddOrderResult;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
@@ -1010,12 +1011,12 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
     }
 
     @Override
-    public void AddOrder(BaseResult<Data<String>> baseResult) {
+    public void AddOrder(AddOrderResult baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data<String> data = baseResult.getData();
-                if (data.isItem1()) {
-                    ToastUtils.showShort(data.getItem2());
+                AddOrderResult.DataBean data = baseResult.getData();
+                if (data.isStatus()) {
+                    ToastUtils.showShort(data.getMsg());
                     Bundle bundle = new Bundle();
                     bundle.putString("title", "待接单");
                     bundle.putInt("position",0);
@@ -1023,7 +1024,7 @@ public class HomeInstallationActivity extends BaseActivity<HomeInstallationPrese
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
-                    ToastUtils.showShort(data.getItem2());
+                    ToastUtils.showShort(data.getMsg());
                 }
                 break;
             case 401:

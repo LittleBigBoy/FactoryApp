@@ -205,9 +205,9 @@ public class SettingActivity extends BaseActivity<LoginPresenter, LoginModel> im
                     hideProgress();
 //                    ToastUtils.showShort("暂无更新");
                 }else {
-                    return;
+                    Beta.checkUpgrade();
                 }
-                Beta.checkUpgrade();
+
                 break;
             case R.id.ll_safety:
                 startActivity(new Intent(mActivity, AccountAndSecurityActivity.class));

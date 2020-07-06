@@ -2,6 +2,7 @@ package com.zhenhaikj.factoryside.mvp.model;
 
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddOrderResult;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
@@ -77,7 +78,7 @@ public class HomeInstallationModel implements HomeInstallationContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> AddOrder(RequestBody json) {
+    public Observable<AddOrderResult> AddOrder(RequestBody json) {
         return ApiRetrofit.getDefault().AddOrder(json)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());

@@ -1623,6 +1623,7 @@
                     android:id="@+id/ll_confirm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <Button

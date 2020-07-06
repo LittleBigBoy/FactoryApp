@@ -4,8 +4,12 @@ package com.zhenhaikj.factoryside.mvp.presenter;
 import com.zhenhaikj.factoryside.mvp.ApiRetrofit;
 import com.zhenhaikj.factoryside.mvp.ApiService;
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
+import com.zhenhaikj.factoryside.mvp.base.BaseObserver2;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
+import com.zhenhaikj.factoryside.mvp.bean.AddBrandResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddOrderResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddProdModelResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
@@ -15,6 +19,11 @@ import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.GetCategory;
+import com.zhenhaikj.factoryside.mvp.bean.GetFactoryProdResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdCategoryResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdModelResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdSpecificationsResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetSingleProdResult;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.contract.HomeMaintenanceContract;
@@ -157,9 +166,9 @@ public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter 
     @Override
     public void AddOrder(RequestBody json){
         mModel.AddOrder(json)
-                .subscribe(new BaseObserver<Data<String>>() {
+                .subscribe(new BaseObserver2<AddOrderResult>() {
                     @Override
-                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                    protected void onHandleSuccess(AddOrderResult value) {
                         mView.AddOrder(value);
                     }
                 });
@@ -210,4 +219,80 @@ public class HomeMaintenancePresenter extends HomeMaintenanceContract.Presenter 
                 });
     }
 
+    @Override
+    public void GetFactoryProd() {
+        mModel.GetFactoryProd()
+                .subscribe(new BaseObserver2<GetFactoryProdResult>() {
+                    @Override
+                    protected void onHandleSuccess(GetFactoryProdResult value) {
+                        mView.GetFactoryProd(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetProdCategory(String serviceType, String guaranteeType) {
+        mModel.GetProdCategory(serviceType, guaranteeType)
+                .subscribe(new BaseObserver2<GetProdCategoryResult>() {
+                    @Override
+                    protected void onHandleSuccess(GetProdCategoryResult value) {
+                        mView.GetProdCategory(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetSingleProd(String prodId) {
+        mModel.GetSingleProd(prodId)
+                .subscribe(new BaseObserver2<GetSingleProdResult>() {
+                    @Override
+                    protected void onHandleSuccess(GetSingleProdResult value) {
+                        mView.GetSingleProd(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetProdSpecifications(String subCategoryID) {
+        mModel.GetProdSpecifications(subCategoryID)
+                .subscribe(new BaseObserver2<GetProdSpecificationsResult>() {
+                    @Override
+                    protected void onHandleSuccess(GetProdSpecificationsResult value) {
+                        mView.GetProdSpecifications(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetProdModel(String specificationsID) {
+        mModel.GetProdModel(specificationsID)
+                .subscribe(new BaseObserver2<GetProdModelResult>() {
+                    @Override
+                    protected void onHandleSuccess(GetProdModelResult value) {
+                        mView.GetProdModel(value);
+                    }
+                });
+    }
+
+    @Override
+    public void AddBrand(String brandName) {
+        mModel.AddBrand(brandName)
+                .subscribe(new BaseObserver2<AddBrandResult>() {
+                    @Override
+                    protected void onHandleSuccess(AddBrandResult value) {
+                        mView.AddBrand(value);
+                    }
+                });
+    }
+
+    @Override
+    public void AddProdModel(String specificationsID, String prodModel) {
+        mModel.AddProdModel(specificationsID, prodModel)
+                .subscribe(new BaseObserver2<AddProdModelResult>() {
+                    @Override
+                    protected void onHandleSuccess(AddProdModelResult value) {
+                        mView.AddProdModel(value);
+                    }
+                });
+    }
 }

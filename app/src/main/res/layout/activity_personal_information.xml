@@ -332,7 +332,8 @@
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:layout_marginLeft="6dp"
-                            android:src="@drawable/right" />
+                            android:src="@drawable/right"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                     <View

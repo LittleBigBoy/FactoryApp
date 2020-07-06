@@ -132,18 +132,17 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
     private List<MenuItem2> mMainMenus = new ArrayList<>();
     private ArrayList<MenuItem> mCommonMenus = new ArrayList<>();
     private Integer[] icons = new Integer[]{
-            R.mipmap.one_bg, R.mipmap.two_bg, R.mipmap.three_bg, R.mipmap.four_bg, R.drawable.yuanchengfei, R.drawable.suoyou1,
+            R.mipmap.one_bg, R.mipmap.two_bg, R.drawable.yuanchengfei, R.drawable.suoyou1,
             R.drawable.daijiedan, R.drawable.yijiedan, R.drawable.daishenhe, R.drawable.daijijian, R.drawable.daizhifu, R.drawable.yiwanjie, R.drawable.zhibao
     };
 
     private Integer[] icons_content = new Integer[]{
-            R.mipmap.one, R.mipmap.two, R.mipmap.three, R.mipmap.four,
+            R.mipmap.one, R.mipmap.two,
             R.drawable.waiting_order, R.drawable.finished, R.drawable.accessory_list, R.drawable.to_be_paid,
             R.drawable.yuanchengfei, R.drawable.undone, R.drawable.leave_a_message
     };
     private String[] names = new String[]{
-            "发布安装", "发布维修", "发布送修", "批量发单",
-            "待接单", "待审核", "待寄件", "待支付", "质保单", "退单处理"
+            "发布安装", "发布维修", "待接单", "待审核", "待寄件", "待支付", "质保单", "退单处理"
     };
     private MenuAdapter2 mMainAdapter;
     private Intent intent;
@@ -200,7 +199,7 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
         mPresenter.GetListCategoryContentByCategoryID("3", "1", "999");
         mPresenter.FactoryNavigationBarNumber(userId, "5", "1", "999");
         mPresenter.messgIsOrNo(userId, "1", "1");
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 2; i++) {
             mMainMenus.add(new MenuItem2(icons_content[i], icons[i], names[i]));
         }
         mMainAdapter = new MenuAdapter2(R.layout.menu_item2, mMainMenus);
@@ -283,7 +282,7 @@ public class V3HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> i
             }
         });
 
-        for (int i = 4; i < 8; i++) {
+        for (int i = 2; i < 6; i++) {
             mCommonMenus.add(new MenuItem(icons[i], names[i]));
         }
         mCommonAdapter = new MenuAdapter(R.layout.menu_item, mCommonMenus);

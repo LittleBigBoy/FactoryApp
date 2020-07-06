@@ -4,6 +4,7 @@ import com.zhenhaikj.factoryside.mvp.base.BaseModel;
 import com.zhenhaikj.factoryside.mvp.base.BasePresenter;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.base.BaseView;
+import com.zhenhaikj.factoryside.mvp.bean.AddOrderResult;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
@@ -37,7 +38,7 @@ public interface HomeInstallationContract {
 
         Observable<BaseResult<Data<List<District>>>> GetDistrict(String parentcode);
 
-        Observable<BaseResult<Data<String>>> AddOrder(
+        Observable<AddOrderResult> AddOrder(
 //                String TypeID,
 //                String TypeName,
 //                String UserID,
@@ -84,7 +85,7 @@ public interface HomeInstallationContract {
 
         void GetDistrict(BaseResult<Data<List<District>>> baseResult);
 
-        void AddOrder(BaseResult<Data<String>> baseResult);
+        void AddOrder(AddOrderResult baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {

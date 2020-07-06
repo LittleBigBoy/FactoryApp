@@ -13,8 +13,8 @@ import io.reactivex.Observable;
 
 public interface RechargeContract {
     interface Model extends BaseModel {
-        Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String TotalAmount);
-        Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String TotalAmount);
+        Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String type,String TotalAmount);
+        Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String type,String TotalAmount);
         Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String UserId, String limit);
     }
@@ -27,8 +27,8 @@ public interface RechargeContract {
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
-        public abstract void GetOrderStr(String userid,String TotalAmount);
-        public abstract void GetWXOrderStr(String userid,String TotalAmount);
+        public abstract void GetOrderStr(String userid,String type,String TotalAmount);
+        public abstract void GetWXOrderStr(String userid,String type,String TotalAmount);
         public abstract void WXNotifyManual(String OutTradeNo);
         public abstract void GetUserInfoList(String UserId,String limit);
     }

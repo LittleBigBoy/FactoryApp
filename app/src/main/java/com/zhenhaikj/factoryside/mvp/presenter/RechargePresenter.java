@@ -12,8 +12,8 @@ public class RechargePresenter extends RechargeContract.Presenter {
 
 
     @Override
-    public void GetOrderStr(String userid, String TotalAmount) {
-        mModel.GetOrderStr(userid, TotalAmount)
+    public void GetOrderStr(String userid,String type, String TotalAmount) {
+        mModel.GetOrderStr(userid,type, TotalAmount)
                 .subscribe(new BaseObserver<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
@@ -22,8 +22,8 @@ public class RechargePresenter extends RechargeContract.Presenter {
                 });
     }
     @Override
-    public void GetWXOrderStr(String userid, String TotalAmount) {
-        mModel.GetWXOrderStr(userid, TotalAmount)
+    public void GetWXOrderStr(String userid,String type, String TotalAmount) {
+        mModel.GetWXOrderStr(userid,type, TotalAmount)
                 .subscribe(new BaseObserver<Data<WXpayInfo>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<WXpayInfo>> value) {

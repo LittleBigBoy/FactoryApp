@@ -48,6 +48,9 @@ import com.zhenhaikj.factoryside.mvp.adapter.ProvinceAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
+import com.zhenhaikj.factoryside.mvp.bean.AddBrandResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddOrderResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddProdModelResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
@@ -57,6 +60,11 @@ import com.zhenhaikj.factoryside.mvp.bean.City;
 import com.zhenhaikj.factoryside.mvp.bean.Data;
 import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.GetCategory;
+import com.zhenhaikj.factoryside.mvp.bean.GetFactoryProdResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdCategoryResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdModelResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdSpecificationsResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetSingleProdResult;
 import com.zhenhaikj.factoryside.mvp.bean.ProductType;
 import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.contract.HomeMaintenanceContract;
@@ -798,6 +806,16 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     }
 
     @Override
+    public void AddBrand(AddBrandResult baseResult) {
+
+    }
+
+    @Override
+    public void AddProdModel(AddProdModelResult baseResult) {
+
+    }
+
+    @Override
     public void GetFactoryBrand(BaseResult<List<Brand>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
@@ -1056,12 +1074,12 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     }
 
     @Override
-    public void AddOrder(BaseResult<Data<String>> baseResult) {
+    public void AddOrder(AddOrderResult baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data<String> data = baseResult.getData();
-                if (data.isItem1()) {
-                    ToastUtils.showShort(data.getItem2());
+                AddOrderResult.DataBean data = baseResult.getData();
+                if (data.isStatus()) {
+                    ToastUtils.showShort(data.getMsg());
                     Bundle bundle = new Bundle();
                     bundle.putString("title", "待接单");
                     bundle.putInt("position", 0);
@@ -1069,7 +1087,7 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
-                    ToastUtils.showShort(data.getItem2());
+                    ToastUtils.showShort(data.getMsg());
                 }
                 break;
             case 401:
@@ -1096,7 +1114,32 @@ public class HomeMaintenanceActivity extends BaseActivity<HomeMaintenancePresent
     }
 
     @Override
+    public void GetProdModel(GetProdModelResult baseResult) {
+
+    }
+
+    @Override
     public void GetUniqId(BaseResult<String> baseResult) {
+
+    }
+
+    @Override
+    public void GetFactoryProd(GetFactoryProdResult baseResult) {
+
+    }
+
+    @Override
+    public void GetProdCategory(GetProdCategoryResult baseResult) {
+
+    }
+
+    @Override
+    public void GetSingleProd(GetSingleProdResult baseResult) {
+
+    }
+
+    @Override
+    public void GetProdSpecifications(GetProdSpecificationsResult baseResult) {
 
     }
 

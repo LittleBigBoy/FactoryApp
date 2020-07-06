@@ -3,6 +3,9 @@ package com.zhenhaikj.factoryside.mvp;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory2;
+import com.zhenhaikj.factoryside.mvp.bean.AddBrandResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddOrderResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddProdModelResult;
 import com.zhenhaikj.factoryside.mvp.bean.Address;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Article;
@@ -25,7 +28,12 @@ import com.zhenhaikj.factoryside.mvp.bean.Freezing;
 import com.zhenhaikj.factoryside.mvp.bean.FrozenMoney;
 import com.zhenhaikj.factoryside.mvp.bean.GetCategory;
 import com.zhenhaikj.factoryside.mvp.bean.GetFactoryData;
+import com.zhenhaikj.factoryside.mvp.bean.GetFactoryProdResult;
 import com.zhenhaikj.factoryside.mvp.bean.GetMessagePag;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdCategoryResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdModelResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetProdSpecificationsResult;
+import com.zhenhaikj.factoryside.mvp.bean.GetSingleProdResult;
 import com.zhenhaikj.factoryside.mvp.bean.HomeData;
 import com.zhenhaikj.factoryside.mvp.bean.LeaveMessage;
 import com.zhenhaikj.factoryside.mvp.bean.Logistics;
@@ -335,8 +343,8 @@ public interface ApiService {
      * IsRecevieGoods:是否发配件
      */
 //    @FormUrlEncoded
-    @POST("Order/AddOrder")
-    Observable<BaseResult<Data<String>>> AddOrder(
+    @POST("OrderNew/AddOrder")
+    Observable<AddOrderResult> AddOrder(
 //            @Field("TypeID") String TypeID,
 //            @Field("TypeName") String TypeName,
 //            @Field("UserID") String UserID,
@@ -1223,4 +1231,55 @@ public interface ApiService {
             @Field("page") String page
 
     );
+
+    /**
+     * 获取当前工厂的5个地址
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("OrderNew/GetFactoryProd")
+    Observable<GetFactoryProdResult> GetFactoryProd(@Field("searchName") String searchName);
+    /**
+     * 加载产品类别
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("OrderNew/GetProdCategory")
+    Observable<GetProdCategoryResult> GetProdCategory(@Field("serviceType") String serviceType,@Field("guaranteeType") String guaranteeType);
+    /**
+     * 加载单个产品信息
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("OrderNew/GetSingleProd")
+    Observable<GetSingleProdResult> GetSingleProd(@Field("prodId") String prodId);
+    /**
+     * 加载产品规格
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("OrderNew/GetProdSpecifications")
+    Observable<GetProdSpecificationsResult> GetProdSpecifications(@Field("subCategoryID") String subCategoryID);
+    /**
+     * 加载产品型号
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("OrderNew/GetProdModel")
+    Observable<GetProdModelResult> GetProdModel(@Field("specificationsID") String specificationsID);
+    /**
+     * 添加品牌
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("OrderNew/AddBrand")
+    Observable<AddBrandResult> AddBrand(@Field("brandName") String brandName);
+    /**
+     * 添加型号
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("OrderNew/AddProdModel")
+    Observable<AddProdModelResult> AddProdModel(@Field("specificationsID") String specificationsID,@Field("prodModel") String prodModel);
+
 }

@@ -1,6 +1,7 @@
 package com.zhenhaikj.factoryside.mvp.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -106,6 +108,12 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
     private String orderinfo;
     private WXpayInfo wXpayInfo;
     private UserInfo.UserInfoDean userInfo = new UserInfo.UserInfoDean();
+    private View customdialog_home_view;
+    private AlertDialog customdialog_home_dialog;
+    private TextView title;
+    private TextView message;
+    private Button negtive;
+    private Button positive;
 
     @Override
     protected int setLayoutId() {
@@ -247,16 +255,52 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
                     ToastUtils.showShort("请选择或输入充值金额");
                     return;
                 }
-                switch (payway) {
-                    case 1:
-                        mPresenter.GetOrderStr(userID, value);
+                customdialog_home_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_home, null);
+                customdialog_home_dialog = new AlertDialog.Builder(mActivity)
+                        .setView(customdialog_home_view)
+                        .create();
+                customdialog_home_dialog.show();
+                title = customdialog_home_view.findViewById(R.id.title);
+                message = customdialog_home_view.findViewById(R.id.message);
+                negtive = customdialog_home_view.findViewById(R.id.negtive);
+                positive = customdialog_home_view.findViewById(R.id.positive);
+                title.setText("提示");
+                message.setText("尊敬的用户您好！您是否需要充值保证金，保证金最低500起充（例：充值保证金成功后，全自动洗衣机发单将按照75元/单冻结，如果不充值保证金，全自动洗衣机发单将按照110元/单冻结）");
+                negtive.setText("否");
+                positive.setText("是");
+                negtive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        customdialog_home_dialog.dismiss();
+                        switch (payway) {
+                            case 1:
+                                mPresenter.GetOrderStr(userID, "1",value);
 //                        alipay();
-                        break;
-                    case 2:
-                        mPresenter.GetWXOrderStr(userID, value);
+                                break;
+                            case 2:
+                                mPresenter.GetWXOrderStr(userID, "1", value);
 //                        WXpay();
-                        break;
-                }
+                                break;
+                        }
+                    }
+                });
+                positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        customdialog_home_dialog.dismiss();
+                        switch (payway) {
+                            case 1:
+                                mPresenter.GetOrderStr(userID,"2", value);
+//                        alipay();
+                                break;
+                            case 2:
+                                mPresenter.GetWXOrderStr(userID,"2" ,value);
+//                        WXpay();
+                                break;
+                        }
+                    }
+                });
                 break;
         }
     }

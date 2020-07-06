@@ -1651,10 +1651,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                             if ("".equals(data.getReturnAccessoryMsg()) || data.getReturnAccessoryMsg() == null) {
                                 mLlConfirm.setVisibility(View.GONE);
                             } else {
-                                mLlConfirm.setVisibility(View.VISIBLE);
+//                                mLlConfirm.setVisibility(View.VISIBLE);
                             }
                         } else {
-                            mLlConfirm.setVisibility(View.VISIBLE);
+//                            mLlConfirm.setVisibility(View.VISIBLE);
                         }
                     } else {
                         mLlConfirm.setVisibility(View.GONE);

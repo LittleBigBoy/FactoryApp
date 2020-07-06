@@ -4,12 +4,14 @@ package com.zhenhaikj.factoryside.mvp.activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,20 +35,27 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lxj.xpopup.XPopup;
 import com.zhenhaikj.factoryside.R;
 import com.zhenhaikj.factoryside.mvp.Config;
+import com.zhenhaikj.factoryside.mvp.adapter.AccAdapter;
 import com.zhenhaikj.factoryside.mvp.adapter.NewAddAccessoriesAdapter;
 import com.zhenhaikj.factoryside.mvp.base.BaseActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory;
 import com.zhenhaikj.factoryside.mvp.bean.Accessory2;
+import com.zhenhaikj.factoryside.mvp.bean.Area;
+import com.zhenhaikj.factoryside.mvp.bean.City;
+import com.zhenhaikj.factoryside.mvp.bean.District;
 import com.zhenhaikj.factoryside.mvp.bean.FAccessory;
 import com.zhenhaikj.factoryside.mvp.bean.GetFactoryData;
+import com.zhenhaikj.factoryside.mvp.bean.Province;
 import com.zhenhaikj.factoryside.mvp.contract.NewAddAccessoriesContract;
 import com.zhenhaikj.factoryside.mvp.model.NewAddAccessoriesModel;
 import com.zhenhaikj.factoryside.mvp.presenter.NewAddAccessoriesPresenter;
+import com.zhenhaikj.factoryside.mvp.utils.MyUtils;
 import com.zhenhaikj.factoryside.mvp.widget.MyPackagePopup;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
@@ -139,6 +149,7 @@ public class NewAddAccessoriesActivity extends BaseActivity<NewAddAccessoriesPre
 
     private ZLoadingDialog dialog = new ZLoadingDialog(this); //loading
     private AlertDialog underReviewDialog;
+    private PopupWindow popupWindow;
 
     @Override
     protected int setLayoutId() {
@@ -252,7 +263,30 @@ public class NewAddAccessoriesActivity extends BaseActivity<NewAddAccessoriesPre
         }
 
     }
+    public void showPopWindow(BaseQuickAdapter adapter, final List list) {
 
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop, null);
+        final RecyclerView rv = contentView.findViewById(R.id.rv);
+        rv.setLayoutManager(new LinearLayoutManager(mActivity));
+        rv.setAdapter(adapter);
+        popupWindow = new PopupWindow(contentView);
+        popupWindow.setWidth(1000);
+        popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (popupWindow != null && !popupWindow.isShowing()) {
+//            popupWindow.showAsDropDown(tv, 0, 10);
+            popupWindow.showAtLocation(contentView, Gravity.CENTER, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
+    }
     public List searchAccessory(String name, List list) {
         List results = new ArrayList();
         Pattern pattern = Pattern.compile(name, Pattern.CASE_INSENSITIVE);
@@ -390,11 +424,12 @@ public class NewAddAccessoriesActivity extends BaseActivity<NewAddAccessoriesPre
 
         switch (v.getId()) {
             case R.id.ll_my_package:
-                new XPopup.Builder(mActivity)
-                        .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
-                        .asCustom(new MyPackagePopup(mActivity, list_collect, mActivity))/*.enableDrag(false)*/
-                        .show();
-
+                if (list_collect.size()>0){
+                    AccAdapter adapter=new AccAdapter(R.layout.item_category,list_collect);
+                    showPopWindow(adapter,list_collect);
+                }else{
+                    ToastUtils.showShort("未添加配件");
+                }
                 break;
             case R.id.tv_next://下一步
                 if (list_collect.isEmpty()) {

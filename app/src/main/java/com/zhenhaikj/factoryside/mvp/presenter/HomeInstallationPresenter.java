@@ -2,7 +2,9 @@ package com.zhenhaikj.factoryside.mvp.presenter;
 
 import com.zhenhaikj.factoryside.mvp.activity.HomeInstallationActivity;
 import com.zhenhaikj.factoryside.mvp.base.BaseObserver;
+import com.zhenhaikj.factoryside.mvp.base.BaseObserver2;
 import com.zhenhaikj.factoryside.mvp.base.BaseResult;
+import com.zhenhaikj.factoryside.mvp.bean.AddOrderResult;
 import com.zhenhaikj.factoryside.mvp.bean.Area;
 import com.zhenhaikj.factoryside.mvp.bean.Brand;
 import com.zhenhaikj.factoryside.mvp.bean.Category;
@@ -109,9 +111,9 @@ public class HomeInstallationPresenter extends HomeInstallationContract.Presente
     @Override
     public void AddOrder( RequestBody json) {
         mModel.AddOrder(json)
-                .subscribe(new BaseObserver<Data<String>>() {
+                .subscribe(new BaseObserver2<AddOrderResult>() {
                     @Override
-                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                    protected void onHandleSuccess(AddOrderResult value) {
                         mView.AddOrder(value);
                     }
                 });

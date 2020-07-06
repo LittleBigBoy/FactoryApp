@@ -191,4 +191,9 @@ public class UpgradeActivity  extends Activity {
     public <T extends View> T getView(int id) {
         return (T) findViewById(id);
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }
